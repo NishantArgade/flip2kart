@@ -53,7 +53,7 @@ const Profile = () => {
         {/* Left sidebar Section */}
 
         <div className="col-span-2 min-h-[25rem] ">
-          <div className="mb-3 rounded-sm bg-white text-start text-gray-800 border-b-2 border-gray-200 p-2 flex  justify-start items-center gap-x-2 ">
+          <div className="mb-3 rounded-sm bg-white  shadow-md text-start text-gray-800  p-2 flex  justify-start items-center gap-x-2 ">
             <Avatar src="avatar.png" alt="it's me" size={38} />
             <div>
               <p className="text-xs">Hello,</p>
@@ -61,7 +61,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <Accordion className="bg-white py-2" multiple={true}>
+          <Accordion className="bg-white  shadow-md py-2" multiple={true}>
             <NavLink
               to="/profile/orders"
               end
@@ -69,15 +69,15 @@ const Profile = () => {
                 isPending
                   ? "pending"
                   : isActive
-                  ? "p-2 bg-[#F5FAFF] text-blue-600 text-sm flex justify-between items-start   font-extralight mx-2 my-0    "
-                  : "p-2  text-sm flex justify-between items-start  text-gray-800 font-extralight hover:bg-[#F5FAFF] hover:text-blue-600 mx-2"
+                  ? "p-2 bg-[#F5FAFF] text-blue-500 text-sm flex justify-between items-start   font-extralight mx-2 my-0    "
+                  : "p-2  text-sm flex justify-between items-start  text-gray-800 font-extralight hover:bg-[#F5FAFF] hover:text-blue-500 mx-2"
               }
             >
               <span className="flex items-center justify-center">
                 <span>
-                  <BiSolidArchive className="text-blue-600 text-lg mr-1" />
+                  <BiSolidArchive className="text-blue-500 text-lg mr-1" />
                 </span>
-                <span className="ml-2 text-[0.77rem]">MY ORDERS</span>
+                <span className="ml-2 text-xs">MY ORDERS</span>
               </span>
               <span>
                 {" "}
@@ -92,8 +92,8 @@ const Profile = () => {
               className="border-t-[1px] mt-2"
             >
               <Accordion.Control
-                icon={<MdManageAccounts className="text-blue-600 text-lg" />}
-                className="text-xs text-gray-800 font-bold"
+                icon={<MdManageAccounts className="text-blue-500 text-lg" />}
+                className=" text-gray-800 font-bold text-xs"
               >
                 ACCOUNT SETTINGS
               </Accordion.Control>
@@ -105,8 +105,8 @@ const Profile = () => {
                     isPending
                       ? "pending"
                       : isActive
-                      ? "bg-[#F5FAFF] text-blue-600 p-3 w-full block"
-                      : "hover:bg-[#F5FAFF] hover:text-blue-600  p-3 w-full block"
+                      ? "bg-[#F5FAFF] text-blue-500 p-3 w-full block"
+                      : "hover:bg-[#F5FAFF] hover:text-blue-500  p-3 w-full block"
                   }
                 >
                   Profile Information
@@ -118,8 +118,8 @@ const Profile = () => {
                     isPending
                       ? "pending"
                       : isActive
-                      ? "bg-[#F5FAFF] text-blue-600 mt-1 p-3 w-full block"
-                      : "hover:bg-[#F5FAFF] hover:text-blue-600 mt-1 p-3 w-full block"
+                      ? "bg-[#F5FAFF] text-blue-500 mt-1 p-3 w-full block"
+                      : "hover:bg-[#F5FAFF] hover:text-blue-500 mt-1 p-3 w-full block"
                   }
                 >
                   Manages Address
@@ -129,7 +129,7 @@ const Profile = () => {
             <Accordion.Item value={"MY STUFF"}>
               <Accordion.Control
                 icon={
-                  <ImProfile className="text-blue-600 text-[0.96rem] mr-1" />
+                  <ImProfile className="text-blue-500 text-[0.96rem] mr-1" />
                 }
                 className="text-xs text-gray-800 font-bold"
               >
@@ -143,8 +143,8 @@ const Profile = () => {
                     isPending
                       ? "pending"
                       : isActive
-                      ? "bg-[#F5FAFF] text-blue-600 p-3 w-full block"
-                      : "hover:bg-[#F5FAFF] hover:text-blue-600 p-3 w-full block"
+                      ? "bg-[#F5FAFF] text-blue-500 p-3 w-full block"
+                      : "hover:bg-[#F5FAFF] hover:text-blue-500 p-3 w-full block"
                   }
                 >
                   My Reviews & Ratings
@@ -156,8 +156,8 @@ const Profile = () => {
                     isPending
                       ? "pending"
                       : isActive
-                      ? "bg-[#F5FAFF] text-blue-600 mt-1 p-3 w-full block"
-                      : "hover:bg-[#F5FAFF] hover:text-blue-600 mt-1 p-3 w-full block"
+                      ? "bg-[#F5FAFF] text-blue-500 mt-1 p-3 w-full block"
+                      : "hover:bg-[#F5FAFF] hover:text-blue-500 mt-1 p-3 w-full block"
                   }
                 >
                   My Wishlist
@@ -167,17 +167,17 @@ const Profile = () => {
 
             <Link
               to="/"
-              className="p-2 my-2 hover:text-blue-600 text-sm flex justify-start items-start gap-x-2 mx-2 text-gray-800 font-extralight hover:bg-[#F5FAFF]"
+              className="p-2 my-2 hover:text-blue-500  flex justify-start items-start gap-x-2 mx-2 text-gray-800 font-extralight hover:bg-[#F5FAFF]"
             >
               <span className="flex justify-center items-center gap-x-2">
-                <RiLogoutCircleRLine className="-rotate-90 text-blue-600 text-lg mr-1" />
-                <span className="text-[0.77rem]">LOGOUT</span>
+                <RiLogoutCircleRLine className="-rotate-90 text-blue-500 text-lg mr-1" />
+                <span className="text-xs">LOGOUT</span>
               </span>
             </Link>
           </Accordion>
         </div>
         {/* Right Section */}
-        <div className="col-span-10  bg-white">
+        <div className="col-span-10  bg-white  shadow-md">
           <Outlet />
         </div>
       </div>

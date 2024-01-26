@@ -18,7 +18,7 @@ const Login = () => {
 
   return (
     <div className=" grid py-4  place-items-center">
-      <div className="w-[44rem] h-[30rem] bg-white flex ">
+      <div className="w-[44rem] h-[30rem] bg-white  shadow-md flex ">
         {/* info */}
         <div className="flex flex-col justify-between items-start w-[36rem] bg-[#2874F0] py-8 px-6">
           <div>
@@ -76,7 +76,7 @@ const Login = () => {
                 </button>
                 <p className="text-xs text-gray-400 mt-3 text-center">
                   Not received your code?{" "}
-                  <span className="text-[#2874F0] cursor-pointer">
+                  <span className="text-blue-500 cursor-pointer">
                     Resend code
                   </span>
                 </p>
@@ -86,7 +86,7 @@ const Login = () => {
 
           <Link
             to="/register"
-            className="self-center text-xs text-[#2874F0] font-bold"
+            className="self-center text-xs text-blue-500 font-bold"
           >
             New to Flipkart? Create an account
           </Link>

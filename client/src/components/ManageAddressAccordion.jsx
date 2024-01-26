@@ -146,7 +146,7 @@ export default function ManageAddressAccordion() {
                   Save
                 </button>
                 <button
-                  className="py-2 mr-2 px-6  text-blue-700  text-sm font-semibold mt-4"
+                  className="py-2 mr-2 px-6  text-blue-500  text-sm font-semibold mt-4"
                   type="submit"
                 >
                   Cancel

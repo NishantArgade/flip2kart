@@ -1,5 +1,49 @@
-import React from "react";
+import { Popover, Text } from "@mantine/core";
+import React, { useState } from "react";
 import { IoMdTrash } from "react-icons/io";
+import { Link } from "react-router-dom";
+
+function handleRemoveProduct() {
+  console.log("Product deleted");
+}
+
+const DeleteProductButton = () => {
+  const [opened, setOpened] = useState(false);
+
+  return (
+    // <button onBlur={() => setOpened(false)}>
+    <Popover
+      opened={opened}
+      width={290}
+      position="bottom-end"
+      withArrow
+      shadow="md"
+      closeOnClickOutside
+      onChange={() => setOpened(false)}
+    >
+      <Popover.Target>
+        <button>
+          <IoMdTrash
+            onClick={() => setOpened((state) => !state)}
+            className="text-gray-400 cursor-pointer"
+          />
+        </button>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Text size="xs">Are you sure you want to remove this product?</Text>
+        <div className="flex items-center justify-center text-xs mt-3 gap-x-2">
+          <button className="text-gray-500" onClick={() => setOpened(false)}>
+            CANCEL
+          </button>
+          <button className="text-red-600" onClick={handleRemoveProduct}>
+            YES, REMOVE
+          </button>
+        </div>
+      </Popover.Dropdown>
+    </Popover>
+    // </button>
+  );
+};
 
 const Wishlist = () => {
   return (
@@ -9,17 +53,18 @@ const Wishlist = () => {
       </p>
       <div>
         {[1, 2].map((i) => (
-          <div
+          <Link
+            to={"/product-detail/1"}
             key={i}
-            className="flex justify-between items-start px-4 w-full  py-5 border-b-[1.5px]"
+            className="flex justify-between items-start px-4 w-full  py-5 border-b-[1.5px] cursor-pointer"
           >
             <div className="flex justify-start items-start gap-x-3">
-              <div className="px-3 pt-1 w-20 cursor-pointer">
+              <div className="px-3 pt-1 w-20 ">
                 <img src="/shirt.png" alt="" />
               </div>
 
               <div className="text-sm">
-                <p className="cursor-pointer text-gray-800">
+                <p className=" text-gray-800 hover:text-blue-500">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 </p>
                 <div className="text-xs text-gray-700 mt-2">
@@ -41,9 +86,9 @@ const Wishlist = () => {
               </div>
             </div>
             <div>
-              <IoMdTrash className="text-gray-400 cursor-pointer" />
+              <DeleteProductButton />
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </>

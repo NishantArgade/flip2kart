@@ -4,15 +4,15 @@ import PaymentStepper from "../components/PaymentStepper";
 const Checkout = () => {
   return (
     <>
-      <div className="container mx-auto grid grid-cols-12 gap-x-3 m-2 mb-14">
+      <div className="container mx-auto grid grid-cols-12 gap-x-3 m-2 mb-14 ">
         {/* Payment Step */}
-        <div className="col-span-8 bg-white p-4">
+        <div className="col-span-8 bg-white  shadow-md p-4">
           <PaymentStepper />
         </div>
 
         {/* Amount info */}
         <div className="col-span-4 h-fit text-sm sticky top-[4.7rem] right-0">
-          <div className=" bg-white  flex  flex-col pb-2">
+          <div className=" bg-white  flex  flex-col pb-2  shadow-md">
             <div>
               <p className="text-gray-500  px-4 py-3 border-b-2 ">
                 PRICE DETAILS
@@ -44,7 +44,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-start gap-x-2 mt-4 text-xs text-gray-500">
+          <div className="flex items-center justify-start gap-x-2 mt-6 text-xs text-gray-500">
             <AiFillSafetyCertificate className="text-2xl" />
             <p className="font-semibold ">
               Safe and Secure Payments.Easy returns.100% Authentic products.

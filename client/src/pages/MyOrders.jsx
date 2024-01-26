@@ -63,9 +63,9 @@ const MyOrders = () => {
           Orders
         </Link>
       </div>
-      <div className="grid grid-cols-12  gap-x-2 gap-y-2 p-2 container mx-auto">
+      <div className="grid grid-cols-12 min-h-[30rem] gap-x-2 gap-y-2 p-2 container mx-auto">
         {/* Left sidebar Section */}
-        <div className="col-span-2 h-auto min-h-[25rem] bg-white">
+        <div className="col-span-2  h-fit bg-white  shadow-md">
           <p className="text-start  text-gray-800 border-b-2 border-gray-200 p-2 flex justify-between items-center gap-x-2 ">
             <span>Filters</span>
             <span className="text-blue-500 text-[0.6rem] font-semibold cursor-pointer ">
@@ -114,7 +114,7 @@ const MyOrders = () => {
         </div>
 
         {/* Right Section */}
-        <div className="col-span-10  bg-white">
+        <div className="col-span-10  bg-white  shadow-md">
           <div className="mt-2 mb-4 flex justify-start px-4">
             <div className="w-[45rem] hover:shadow-md flex bg-[#F0F5FF]  rounded-sm items-center  ">
               <input

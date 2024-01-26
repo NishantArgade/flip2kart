@@ -1,18 +1,20 @@
+import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 import { AiFillSafetyCertificate } from "react-icons/ai";
 import { BsFillLightningFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import CartProduct from "../components/CartProduct";
+import ChangeAddressModal from "../components/modals/ChangeAddressModal";
 
 const MyCart = () => {
   return (
-    <div>
+    <>
       <div className="container mx-auto grid grid-cols-12 gap-x-3 m-2">
         {/* Products List */}
         <div className="col-span-8">
           {/* Address */}
-          <div className="flex items-center justify-between bg-white p-2 mb-2 text-xs">
-            <div className="flex flex-col items-start justify-center">
+          <div className="flex items-center justify-between bg-white  shadow-md px-2 py-3 mb-2 text-xs">
+            <div className="flex flex-col items-start justify-center gap-y-1">
               <div className="flex items-center justify-start">
                 <p>Deliver to: </p>
                 <p className="font-semibold ml-1"> Nishnt Vilas Argade</p>
@@ -21,12 +23,14 @@ const MyCart = () => {
                 Office No: 520, Amonora chamber, handapasar mall 411021
               </p>
             </div>
-            <button className="py-2 px-4 border-2  text-blue-500 bg-white rounded-sm shadow-sm hover:shadow-md  font-semibold">
-              Change
-            </button>
+            <ChangeAddressModal>
+              <button className="py-2 px-4 border-2  text-blue-500 bg-white rounded-sm shadow-sm hover:shadow-md  font-semibold">
+                Change
+              </button>
+            </ChangeAddressModal>
           </div>
 
-          <div className="">
+          <div className="shadow-md">
             {/* 1 product */}
             <CartProduct />
             <CartProduct />
@@ -38,7 +42,7 @@ const MyCart = () => {
 
         {/* Amount info */}
         <div className="col-span-4 h-fit text-sm sticky top-[4.7rem] right-0">
-          <div className=" bg-white  flex  flex-col pb-2">
+          <div className="bg-white  shadow-md  flex  flex-col pb-2">
             <div>
               <p className="text-gray-500  px-4 py-3 border-b-2 ">
                 PRICE DETAILS
@@ -87,7 +91,7 @@ const MyCart = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 //

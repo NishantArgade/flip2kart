@@ -9,6 +9,10 @@ import PaymentAccordion from "./PaymentAccordion.jsx";
 
 const PaymentStepper = () => {
   const [active, setActive] = useState(1);
+  const nextStep = () =>
+    setActive((current) => (current < 3 ? current + 1 : current));
+  const prevStep = () =>
+    setActive((current) => (current > 0 ? current - 1 : current));
 
   return (
     <Stepper
@@ -50,10 +54,13 @@ const PaymentStepper = () => {
                   <p className="text-gray-500">Name</p>
                   <p>Nishant Argade</p>
                 </div>
-                <p className="text-blue-700">
+                <p className="text-blue-500">
                   Lorem ipsum dolor sit amet consectetur.
                 </p>
-                <button className="bg-[#FB641B] py-3 px-10 mt-2 w-64 text-white rounded-sm   cursor-pointer shadow-md">
+                <button
+                  onClick={nextStep}
+                  className="bg-[#FB641B] py-3 px-10 mt-2 w-64 text-white rounded-sm   cursor-pointer shadow-md"
+                >
                   Continue Checkout
                 </button>
               </div>
@@ -62,15 +69,15 @@ const PaymentStepper = () => {
                   Lorem ipsum dolor sit amet consectetur.
                 </p>
                 <div className="flex items-center gap-x-3">
-                  <TbTruckDelivery className="text-sm text-blue-700" />
+                  <TbTruckDelivery className="text-sm text-blue-500" />
                   <p>Lorem ipsum dolor sit amet consectetur.</p>
                 </div>
                 <div className="flex items-center gap-x-3">
-                  <IoMdNotifications className="text-sm text-blue-700" />
+                  <IoMdNotifications className="text-sm text-blue-500" />
                   <p>Lorem ipsum dolor sit amet consectetur.</p>
                 </div>
                 <div className="flex items-center gap-x-3">
-                  <MdStar className="text-sm text-blue-700" />
+                  <MdStar className="text-sm text-blue-500" />
                   <p>Lorem ipsum dolor sit amet consectetur.</p>
                 </div>
               </div>
@@ -83,7 +90,7 @@ const PaymentStepper = () => {
         </div>
       </Stepper.Step>
       <Stepper.Step label="DELIVERY ADDRESS">
-        <AddressAccordion />
+        <AddressAccordion prevStep={prevStep} nextStep={nextStep} />
       </Stepper.Step>
       <Stepper.Step label="ORDER SUMMARY">
         <div className="border-t-[1px]">
@@ -92,12 +99,13 @@ const PaymentStepper = () => {
           <CartProduct />
         </div>
         <div className="flex justify-end">
-          <div
+          <button
             className="bg-[#FB641B] py-3 self-end px-10 mt-2 text-white   w-fit  cursor-pointer shadow-md"
             size="xs"
+            onClick={nextStep}
           >
             CONTINUE
-          </div>
+          </button>
         </div>
       </Stepper.Step>
       <Stepper.Step label="PAYMENT OPTIONS">

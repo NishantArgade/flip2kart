@@ -19,25 +19,31 @@ const OrderDetail = () => {
           <p>8007896396</p>
         </span>
       </div>
-      <Link
+      <div
         // to={`/order-detail/${i}`}
         // key={i}
-        className="bg-white my-4 shadow-md flex justify-between items-start px-4 gap-x-16  py-5 border-b-[1.5px]"
+        className="bg-white my-4 shadow-md flex justify-between items-start px-4 gap-x-16  py-5"
       >
         <div className="flex justify-start items-start gap-x-3 ">
-          <div className="px-3 pt-1 w-20 cursor-pointer">
+          <Link
+            to={"/product-detail/1"}
+            className="px-3 pt-1 w-20 cursor-pointer"
+          >
             <img src="/shirt.png" alt="" />
-          </div>
+          </Link>
 
           <div className="text-sm w-[32rem]">
-            <p className="cursor-pointer text-gray-800">
+            <Link
+              to={"/product-detail/1"}
+              className="cursor-pointer text-gray-800 hover:text-blue-500"
+            >
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </p>
-            <p className="cursor-pointer text-xs text-gray-500 mt-1">
+            </Link>
+            <p className=" text-xs text-gray-500 mt-1">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem
               ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum
             </p>
-            <p className="cursor-pointer text-xs text-gray-500 mt-2">
+            <p className=" text-xs text-gray-500 mt-2">
               <span>Seller: </span>
               <span> Amenora mall</span>
             </p>
@@ -46,12 +52,15 @@ const OrderDetail = () => {
         </div>
         <div className="text-sm  text-center">₹2,000</div>
         <div>
-          <Link to="/chatboat-support" className="flex justify-center  items-center gap-x-2 text-blue-600">
+          <Link
+            to="/chatboat-support"
+            className="flex justify-center  items-center gap-x-2 text-blue-500"
+          >
             <BsQuestionSquareFill size={19} />
             <p className="text-sm"> Need Help?</p>
           </Link>
         </div>
-      </Link>
+      </div>
     </div>
   );
 };

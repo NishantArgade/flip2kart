@@ -47,7 +47,7 @@ const Register = () => {
 
   return (
     <div className=" grid py-4  place-items-center">
-      <div className="w-[44rem] min-h-[30rem] bg-white flex ">
+      <div className="w-[44rem] min-h-[30rem] bg-white  shadow-md flex ">
         {/* info */}
         <div className="flex flex-col justify-between items-start w-[36rem] bg-[#2874F0] py-8 px-6">
           <div>
@@ -153,7 +153,7 @@ const Register = () => {
 
           <Link
             to="/login"
-            className="self-center text-xs text-[#2874F0] font-bold mt-4"
+            className="self-center text-xs  text-blue-500 font-bold mt-4"
           >
             Existing User? Log in
           </Link>

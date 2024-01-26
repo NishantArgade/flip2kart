@@ -1,5 +1,6 @@
 import { Carousel } from "@mantine/carousel";
 import React from "react";
+import { IoMdHeart } from "react-icons/io";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 import { Link } from "react-router-dom";
 
@@ -10,13 +11,15 @@ const ProductsCarousel = ({
   showDiscount = true,
 }) => {
   return (
-    <div className="container mx-auto bg-white p-2 my-2">
-      <p className="pl-2 text-lg pt-3 font-semibold text-gray-700">{title}</p>
+    <div className="container mx-auto bg-white  shadow-md p-2 my-2">
+      <p className="pl-2 text-lg pt-3 pb-4 font-semibold text-gray-700">
+        {title}
+      </p>
       <Carousel
         withIndicators
         height={300}
         slideSize="16.66%"
-        slideGap="md"
+        slideGap="xs"
         loop
         align="start"
         slidesToScroll={6}
@@ -29,21 +32,26 @@ const ProductsCarousel = ({
       >
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
           <Carousel.Slide key={i}>
-            <Link
-              to="/product-detail/4"
-              className="cursor-pointer hover:shadow-lg border-2 border-gray-100 rounded-sm "
-            >
-              <div className="h-44 flex flex-col justify-center items-center overflow-hidden ">
-                <img
-                  src="/shirt.png"
-                  className="w-[10rem]  m-2 hover:scale-105"
-                  alt=""
-                />
+            <div className="border-[1.5px]">
+              <div className="h-44 my-1 flex flex-col justify-center items-center overflow-hidden relative">
+                <Link to="/product-detail/4">
+                  <img
+                    src="/camera.png"
+                    className="w-[10rem]  m-2 hover:scale-105"
+                    alt=""
+                  />
+                </Link>
+                <span className="absolute top-0 right-1 text-gray-300 cursor-pointer">
+                  <IoMdHeart size={21} />
+                </span>
               </div>
               <div className="p-2 flex flex-col justify-between gap-y-1">
-                <p className="text-[0.8rem] text-gray-800">
+                <Link
+                  to="/product-detail/4"
+                  className="text-[0.8rem] text-gray-800 hover:text-blue-500"
+                >
                   Lorem ipsum dolor sif asdf asdft amet.
-                </p>
+                </Link>
                 {showRating && (
                   <div className="text-xs text-gray-700">
                     <span className="bg-green-600 px-1 py-[2px] rounded-sm mr-2 text-white">
@@ -62,7 +70,7 @@ const ProductsCarousel = ({
                   )}
                 </p>
               </div>
-            </Link>
+            </div>
           </Carousel.Slide>
         ))}
       </Carousel>

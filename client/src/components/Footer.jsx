@@ -1,6 +1,50 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Footer = () => {
+  const location = useLocation();
+  console.log(location.pathname);
+
+  const shortFooterPage = ["/cart", "/checkout"];
+
+  if (shortFooterPage.includes(location.pathname))
+    return (
+      <div className="text-gray-600 border-t-2 mt-4">
+        <div className="container mx-auto flex justify-between py-6 text-xs ">
+          <div className="flex  gap-x-4">
+            <div className="flex items-center gap-x-1">
+              <p>Policies: </p>
+              <Link to="/" className="border-gray-400 border-r-[1px] pr-1">
+                Returns Policy
+              </Link>
+              <Link to="/" className="border-gray-400 border-r-[1px] pr-1">
+                Terms of use
+              </Link>
+              <Link to="/" className="border-gray-400 border-r-[1px] pr-1">
+                Security
+              </Link>
+              <Link to="/" className="border-gray-400 border-r-[1px] pr-1">
+                Privacy
+              </Link>
+              <Link to="/">Infringement</Link>
+            </div>
+            <p>© 2007-2024 Flipkart.com</p>
+          </div>
+          <p>
+            Need help? Visit the{" "}
+            <Link to="/chatboat-support" className="text-blue-600">
+              Help Center{" "}
+            </Link>
+            or
+            <Link to="/" className="text-blue-600">
+              {" "}
+              Contact Us
+            </Link>
+          </p>
+        </div>
+      </div>
+    );
+
   return (
     <div className="h-[16rem] w-full bg-[#212121]">
       <div className="flex justify-between px-12 items-start text-white py-8">

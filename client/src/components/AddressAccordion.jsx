@@ -40,7 +40,7 @@ function AccordionLabel({ label, phone, description }) {
   );
 }
 
-export default function AddressAccordion() {
+export default function AddressAccordion({ prevStep, nextStep }) {
   const items = charactersList.map((item) => (
     <Accordion.Item value={item.id} key={item.label}>
       <Accordion.Control>
@@ -50,6 +50,7 @@ export default function AddressAccordion() {
         <Text
           className="bg-[#FB641B] py-3 self-end px-10 mt-2 text-white   w-fit  cursor-pointer shadow-md"
           size="xs"
+          onClick={nextStep}
         >
           DELIVER HERE
         </Text>

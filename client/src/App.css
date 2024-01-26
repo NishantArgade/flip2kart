@@ -7,3 +7,29 @@
   margin: 0;
   padding: 0;
 }
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .thin-scrollbar::-webkit-scrollbar {
+    /* display: none; */
+    width: 6px;
+    height: 6px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-track-piece {
+    background-color: #eeeeeef1;
+    -webkit-border-radius: 3px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-thumb:vertical {
+    height: 50px;
+    background-color: #ccccccf7;
+    -webkit-border-radius: 3px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-thumb:horizontal {
+    width: 50px;
+    background-color: #ccccccf7;
+    -webkit-border-radius: 3px;
+  }
+}

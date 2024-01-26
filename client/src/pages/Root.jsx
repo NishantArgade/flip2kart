@@ -9,12 +9,12 @@ const Root = () => {
   // check user is auth or not using token in server side only
 
   return (
-    <div className="bg-[#F1F2F4] ">
+    <div className="">
       <Navbar />
-      <div className=" py-2">
+      <div className="bg-[#F1F2F4] pt-2   flex flex-col justify-between min-h-screen max-h-fit">
         <Outlet />
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 };

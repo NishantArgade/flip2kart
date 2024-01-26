@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ReviewAndRatings = () => {
   return (
@@ -6,19 +7,19 @@ const ReviewAndRatings = () => {
       <p className="border-b-[1.5px] px-4 py-4">
         My Review <span className="text-gray-500">(2)</span>
       </p>
-      <div >
+      <div>
         {[1, 2].map((i) => (
           <div
             key={i}
             className="flex justify-between items-start px-4 w-full  py-5 border-b-[1.5px]"
           >
             <div className="flex justify-start items-start gap-x-3">
-              <div className="px-3 pt-1 w-20 cursor-pointer">
+              <div className="px-3 pt-1 w-20 ">
                 <img src="/shirt.png" alt="" />
               </div>
 
               <div className="text-sm">
-                <p className="cursor-pointer text-gray-500">
+                <p className="text-gray-500">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 </p>
                 <div className="text-xs text-gray-700 mt-2">
@@ -35,8 +36,12 @@ const ReviewAndRatings = () => {
                 </p>
 
                 <div className="mt-2">
-                  <button className="mr-6 text-blue-700">Edit</button>
-                  <button className="text-blue-700">Delete</button>
+                  <button className="mr-6 text-blue-500 font-semibold text-xs">
+                    Edit
+                  </button>
+                  <button className="text-blue-500 font-semibold text-xs">
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>

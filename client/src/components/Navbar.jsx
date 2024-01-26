@@ -6,7 +6,7 @@ import AvatarDropdown from "./AvatarDropdown.jsx";
 
 const Navbar = () => {
   return (
-    <div className=" z-50 bg-white top-0 left-0 right-0 sticky  ">
+    <div className=" z-50 bg-white  shadow-md top-0 left-0 right-0 sticky  ">
       <div className=" container mx-auto flex justify-between items-center py-3 px-12 ">
         <div className="flex justify-center items-center gap-x-6">
           <Link to="/">

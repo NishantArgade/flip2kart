@@ -92,7 +92,7 @@ const ProfileInfo = () => {
           <div className="mb-5 flex items-center justify-start gap-x-4">
             <span className="text-lg font-semibold ">Personal information</span>
             <button
-              className="pt-1 text-sm text-blue-600 font-medium"
+              className="pt-1 text-sm text-blue-500 font-medium"
               onClick={() => setPersonalInfoEdit((value) => !value)}
             >
               {personalInfoEdit ? "Cancel" : "Edit"}
@@ -156,7 +156,7 @@ const ProfileInfo = () => {
           <div className="mb-5 flex items-center justify-start gap-x-4">
             <span className="text-lg font-semibold ">Email Address</span>
             <button
-              className="pt-1 text-sm text-blue-600 font-medium"
+              className="pt-1 text-sm text-blue-500 font-medium"
               onClick={handleEmailEdit}
             >
               {emailEdit ? "Cancel" : "Edit"}
@@ -192,7 +192,7 @@ const ProfileInfo = () => {
           <div className="mb-5 flex items-center justify-start gap-x-4">
             <span className="text-lg font-semibold ">Mobile Number</span>
             <button
-              className="pt-1 text-sm text-blue-600 font-medium"
+              className="pt-1 text-sm text-blue-500 font-medium"
               onClick={handleMobileEdit}
             >
               {mobileEdit ? "Cancel" : "Edit"}
