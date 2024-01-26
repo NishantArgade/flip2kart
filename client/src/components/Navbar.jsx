@@ -6,8 +6,8 @@ import AvatarDropdown from "./AvatarDropdown.jsx";
 
 const Navbar = () => {
   return (
-    <div className="bg-white">
-      <div className=" container mx-auto flex justify-between items-center py-3 px-12">
+    <div className=" z-50 bg-white top-0 left-0 right-0 sticky  ">
+      <div className=" container mx-auto flex justify-between items-center py-3 px-12 ">
         <div className="flex justify-center items-center gap-x-6">
           <Link to="/">
             <img className="w-24" src="/flipkart-logo.png" alt="brand" />

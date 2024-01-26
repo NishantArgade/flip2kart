@@ -17,10 +17,10 @@ const HomeCarousel = () => {
         onClick={autoplay.current.play}
         onSlideChange={autoplay.current.play}
         nextControlIcon={
-          <MdOutlineNavigateNext className="bg-[#ececec87] h-6 w-6 rounded-full " />
+          <MdOutlineNavigateNext className="bg-[#f8f8f8ec] h-8 w-8 rounded-full border-2 text-gray-600" />
         }
         previousControlIcon={
-          <MdOutlineNavigateBefore className="bg-[#ececec87] h-6 w-6 rounded-full " />
+          <MdOutlineNavigateBefore className="bg-[#f8f8f8ec] h-8 w-8 rounded-full border-2 text-gray-600" />
         }
         withIndicators
       >

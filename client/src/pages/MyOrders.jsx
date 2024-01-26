@@ -8,6 +8,7 @@ import {
 import React, { useState } from "react";
 import { BiSolidArchive } from "react-icons/bi";
 import { ImProfile } from "react-icons/im";
+import { IoSearchOutline } from "react-icons/io5";
 import { MdManageAccounts, MdOutlineNavigateNext } from "react-icons/md";
 import { RiAccountBoxFill, RiLogoutCircleRLine } from "react-icons/ri";
 import { RxAvatar } from "react-icons/rx";
@@ -49,9 +50,21 @@ const MyOrders = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-12  gap-x-2 gap-y-2 p-2">
+      <div className="text-gray-500 flex items-center justify-start container mx-auto px-2 gap-x-2 text-xs">
+        <Link to="/" className="hover:text-blue-600">
+          HomeMy
+        </Link>
+        <MdOutlineNavigateNext />
+        <Link to="/profile" className="hover:text-blue-600">
+          AccountMy
+        </Link>
+        <MdOutlineNavigateNext />
+        <Link to="" className="hover:text-blue-600">
+          Orders
+        </Link>
+      </div>
+      <div className="grid grid-cols-12  gap-x-2 gap-y-2 p-2 container mx-auto">
         {/* Left sidebar Section */}
-
         <div className="col-span-2 h-auto min-h-[25rem] bg-white">
           <p className="text-start  text-gray-800 border-b-2 border-gray-200 p-2 flex justify-between items-center gap-x-2 ">
             <span>Filters</span>
@@ -99,9 +112,61 @@ const MyOrders = () => {
             </Accordion.Item>
           </Accordion>
         </div>
+
         {/* Right Section */}
         <div className="col-span-10  bg-white">
-          <Outlet />
+          <div className="mt-2 mb-4 flex justify-start px-4">
+            <div className="w-[45rem] hover:shadow-md flex bg-[#F0F5FF]  rounded-sm items-center  ">
+              <input
+                className="outline-none bg-[#F0F5FF] w-full h-full px-2"
+                placeholder="Search your order here"
+                type="text"
+                name="search"
+              />
+              <div className="flex w-40  items-center justify-start gap-x-2 bg-blue-600 text-white text-xs px-4 py-2">
+                <IoSearchOutline size={20} />
+                <p>Search Order</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            {[1, 2].map((i) => (
+              <Link
+                to={`/order-detail/${i}`}
+                key={i}
+                className="hover:shadow-md flex justify-between items-start px-4 gap-x-16  py-5 border-b-[1.5px]"
+              >
+                <div className="flex justify-start items-start gap-x-3 ">
+                  <div className="px-3 pt-1 w-20 cursor-pointer">
+                    <img src="/shirt.png" alt="" />
+                  </div>
+
+                  <div className="text-sm w-full">
+                    <p className="cursor-pointer text-gray-800">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                    <p className="cursor-pointer text-xs text-gray-500">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </p>
+                  </div>
+                </div>
+                <div className="text-sm  text-center">₹2,000</div>
+                <div>
+                  <div className="flex justify-  items-center gap-x-2">
+                    <div className="w-2 h-2 rounded-full bg-green-600"> </div>
+                    <p className="text-sm"> Delivered on Dec 08, 2023</p>
+                  </div>
+                  <p className="text-xs text-gray-700">
+                    Lorem ipsum dolor ctetur adipisicin ctetur adipisicinctetur
+                    adipisicincteturg elit. Atque, dicta.
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -35,7 +35,7 @@ const Login = () => {
             <div className="flex flex-col justify-start items-start gap-y-7 w-full">
               <TextInput
                 variant="unstyled"
-                className="w-full outline-none border-b-[1.8px] border-gray-300 px-2 focus:border-blue-500"
+                className="w-full outline-none border-b-[1.5px] border-gray-300 px-2 focus:border-blue-500"
                 type="text"
                 placeholder={"Enter Email/Mobile number"}
               />

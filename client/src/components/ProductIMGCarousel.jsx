@@ -2,7 +2,7 @@ import Carousel, { Dots, autoplayPlugin } from "@brainhubeu/react-carousel";
 import "@brainhubeu/react-carousel/lib/style.css";
 import { useEffect, useRef, useState } from "react";
 
-export default function ProductDetailCarousel() {
+export default function ProductIMGCarousel() {
   const [value, setValue] = useState(0);
 
   const slides = [
@@ -64,6 +64,7 @@ export default function ProductDetailCarousel() {
         slides={slides}
         onChange={onchange}
         draggable={false}
+        className="border-gray-200 bg-white p-1 border-[1px]"
       />
     </div>
   );

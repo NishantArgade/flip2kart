@@ -1,39 +1,13 @@
-import React from "react";
 import { AiFillSafetyCertificate } from "react-icons/ai";
-import { BsFillLightningFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
-import CartProduct from "../components/CartProduct";
+import PaymentStepper from "../components/PaymentStepper";
 
-const MyCart = () => {
+const Checkout = () => {
   return (
-    <div>
-      <div className="container mx-auto grid grid-cols-12 gap-x-3 m-2">
-        {/* Products List */}
-        <div className="col-span-8">
-          {/* Address */}
-          <div className="flex items-center justify-between bg-white p-2 mb-2 text-xs">
-            <div className="flex flex-col items-start justify-center">
-              <div className="flex items-center justify-start">
-                <p>Deliver to: </p>
-                <p className="font-semibold ml-1"> Nishnt Vilas Argade</p>
-              </div>
-              <p className="text-gray-500">
-                Office No: 520, Amonora chamber, handapasar mall 411021
-              </p>
-            </div>
-            <button className="py-2 px-4 border-2  text-blue-500 bg-white rounded-sm shadow-sm hover:shadow-md  font-semibold">
-              Change
-            </button>
-          </div>
-
-          <div className="">
-            {/* 1 product */}
-            <CartProduct />
-            <CartProduct />
-            <CartProduct />
-            <CartProduct />
-            <CartProduct />
-          </div>
+    <>
+      <div className="container mx-auto grid grid-cols-12 gap-x-3 m-2 mb-14">
+        {/* Payment Step */}
+        <div className="col-span-8 bg-white p-4">
+          <PaymentStepper />
         </div>
 
         {/* Amount info */}
@@ -68,15 +42,6 @@ const MyCart = () => {
                 You will save ₹18,256 on this order
               </p>
             </div>
-
-            <Link
-              to="/checkout"
-              className="bg-[#FB641B] py-3 self-end px-10 mx-4 mt-2 text-white   w-fit  cursor-pointer shadow-md"
-            >
-              <button className="text-xs font-semibold uppercase">
-                PLACE ORDER
-              </button>
-            </Link>
           </div>
 
           <div className="flex items-center justify-start gap-x-2 mt-4 text-xs text-gray-500">
@@ -87,9 +52,9 @@ const MyCart = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 //
 
-export default MyCart;
+export default Checkout;

@@ -8,10 +8,13 @@ import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import AllProducts from "./pages/AllProducts";
+import ChatSupport from "./pages/ChatSupport";
+import Checkout from "./pages/Checkout";
 import Home from "./pages/Home";
 import ManagesAddress from "./pages/ManagesAddress";
 import MyCart from "./pages/MyCart";
 import MyOrders from "./pages/MyOrders";
+import OrderDetail from "./pages/OrderDetail";
 import PageNotFound from "./pages/PageNotFound";
 import ProductDetail from "./pages/ProductDetail";
 import Profile from "./pages/Profile";
@@ -34,8 +37,10 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path="profile/orders" element={<MyOrders />} />
-
       <Route path="cart" element={<MyCart />} />
+      <Route path="checkout" element={<Checkout />} />
+      <Route path="order-detail/:orderId" element={<OrderDetail />} />
+      <Route path="chatboat-support" element={<ChatSupport />} />
 
       {/* PUBLIC ROUTES */}
       <Route index element={<Home />} />

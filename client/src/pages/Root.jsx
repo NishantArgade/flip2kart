@@ -7,11 +7,13 @@ const Root = () => {
   console.log("welcome in root");
   // add authentication here
   // check user is auth or not using token in server side only
-  
+
   return (
     <div className="bg-[#F1F2F4] ">
       <Navbar />
-      <Outlet />
+      <div className=" py-2">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

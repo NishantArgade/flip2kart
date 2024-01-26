@@ -2,7 +2,7 @@ import React from "react";
 
 const Categories = () => {
   return (
-    <div className="bg-white mt-[.30rem]">
+    <div className="bg-white">
       <div className="px-40 ">
         <div className="flex justify-between items-center pb-3">
           {[1, 2, 3, 4, 5, 6, 7].map((value, index) => (

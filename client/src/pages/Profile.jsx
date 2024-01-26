@@ -49,7 +49,7 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-12  gap-x-2 gap-y-2 p-2">
+      <div className="grid grid-cols-12  gap-x-2 gap-y-2 p-2 container mx-auto">
         {/* Left sidebar Section */}
 
         <div className="col-span-2 min-h-[25rem] ">
