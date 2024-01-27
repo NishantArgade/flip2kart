@@ -1,5 +1,6 @@
 import { Progress } from "@mantine/core";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const CustomerReview = () => {
   return (
@@ -8,7 +9,9 @@ const CustomerReview = () => {
         <p className="text-xl font-semibold tracking-tight  text-gray-800">
           Ratings & Reviews
         </p>
-        <button className="py-3 text-sm px-5 shadow-md">Rate Product</button>
+        <Link to={"/rate-product"} className="py-3 text-sm px-5 shadow-md border-[1.5px]">
+          Rate Product
+        </Link>
       </div>
 
       {/* Review Info */}

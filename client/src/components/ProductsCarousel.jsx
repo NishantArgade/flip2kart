@@ -32,7 +32,7 @@ const ProductsCarousel = ({
       >
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
           <Carousel.Slide key={i}>
-            <div className="border-[1.5px]">
+            <div className="border-[1.5px] hover:shadow-md">
               <div className="h-44 my-1 flex flex-col justify-center items-center overflow-hidden relative">
                 <Link to="/product-detail/4">
                   <img

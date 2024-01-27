@@ -19,6 +19,7 @@ import PageNotFound from "./pages/PageNotFound";
 import ProductDetail from "./pages/ProductDetail";
 import Profile from "./pages/Profile";
 import ProfileInfo from "./pages/ProfileInfo";
+import RateProduct from "./pages/RateProduct";
 import ReviewAndRatings from "./pages/ReviewAndRatings";
 import Root from "./pages/Root";
 import Sell from "./pages/Sell";
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
       <Route path="checkout" element={<Checkout />} />
       <Route path="order-detail/:orderId" element={<OrderDetail />} />
       <Route path="chatboat-support" element={<ChatSupport />} />
+      <Route path="rate-product" element={<RateProduct />} />
 
       {/* PUBLIC ROUTES */}
       <Route index element={<Home />} />
