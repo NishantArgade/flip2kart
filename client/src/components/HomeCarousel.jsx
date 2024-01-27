@@ -7,44 +7,64 @@ import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 const HomeCarousel = () => {
   const autoplay = useRef(Autoplay({ delay: 3000 }));
   return (
-    <div className="mt-3 h-50 bg-white">
+    <div className="mt-3 mb-3 bg-white">
       {" "}
       <Carousel
-        height={200}
+        // height={100}
+
         plugins={[autoplay.current]}
         onMouseEnter={autoplay.current.play}
         onMouseLeave={autoplay.current.play}
         onClick={autoplay.current.play}
         onSlideChange={autoplay.current.play}
-        nextControlIcon={
-          <MdOutlineNavigateNext className="bg-[#f8f8f8ec] h-8 w-8 rounded-full border-2 text-gray-600" />
-        }
         previousControlIcon={
-          <MdOutlineNavigateBefore className="bg-[#f8f8f8ec] h-8 w-8 rounded-full border-2 text-gray-600" />
+          <MdOutlineNavigateBefore
+            size={20}
+            className="bg-[#f8f8f8ec] w-6  h-10 rounded-full border-2 text-gray-600"
+          />
+        }
+        nextControlIcon={
+          <MdOutlineNavigateNext
+            size={20}
+            className="bg-[#f8f8f8ec] w-6 h-10    rounded-full  border-2 text-gray-600"
+          />
         }
         withIndicators
       >
         <Carousel.Slide>
-          <div className="bg-red-200 h-full w-full">
-            <Image src="carouselImages/1.png" alt="" />
+          <div>
+            <Image
+              src="carouselImages/1.png"
+              className="md:h-full h-36 w-full"
+              alt=""
+            />
           </div>
         </Carousel.Slide>
         <Carousel.Slide>
-          {" "}
-          <div className="bg-green-200 h-full w-full">
-            <Image src="carouselImages/2.png" alt="" />
+          <div>
+            <Image
+              src="carouselImages/2.png"
+              className="md:h-full h-36 w-full"
+              alt=""
+            />
           </div>
         </Carousel.Slide>
         <Carousel.Slide>
-          {" "}
-          <div className="bg-yellow-200 h-full w-full">
-            <Image src="carouselImages/3.png" alt="" />
+          <div>
+            <Image
+              src="carouselImages/3.png"
+              className="md:h-full h-36 w-full"
+              alt=""
+            />
           </div>
         </Carousel.Slide>
         <Carousel.Slide>
-          {" "}
-          <div className="bg-yellow-200 h-full w-full">
-            <Image src="carouselImages/4.png" alt="" />
+          <div>
+            <Image
+              src="carouselImages/4.png"
+              className="md:h-full h-36  w-full"
+              alt=""
+            />
           </div>
         </Carousel.Slide>
       </Carousel>

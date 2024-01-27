@@ -29,8 +29,8 @@ export default function ProductIMGCarousel() {
         src={i}
         className={
           index === value
-            ? "w-16 border-2 border-blue-600 px-[8px] py-[4px] w-10"
-            : "w-16 px-[8px] py-[4px] w-10"
+            ? "md:w-16 md:px-[8px] md:py-[4px] md:h-auto md:bg-white md:rounded-none bg-black p-1 w-2 h-2 rounded-full md:border-blue-600 md:border-2"
+            : "md:w-16 md:px-[8px] md:py-[4px] md:h-auto md:bg-white md:rounded-none bg-black p-1 w-2 h-2 rounded-full"
         }
         onMouseEnter={() => setValue(index)}
       />
@@ -51,17 +51,16 @@ export default function ProductIMGCarousel() {
 
   console.log(value);
   return (
-    <div className="flex justify-start items-start  ">
+    <div className="flex flex-col-reverse md:flex-row justify-start items-start  ">
       <Dots
         number={thumbnails.length}
         thumbnails={thumbnails}
         value={value}
         onChange={(value) => setValue(value)}
         className={
-          "flex flex-col justify-start items-center overflow-auto h-[27rem] thin-scrollbar"
+          "flex  md:flex-col mx-auto md:mx-0 items-center overflow-auto md:h-fit thin-scrollbar md:block"
         }
       />
-      <div></div>
       <Carousel
         value={value}
         slides={slides}

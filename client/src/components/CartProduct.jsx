@@ -7,7 +7,7 @@ const CartProduct = () => {
   return (
     <>
       <div className="bg-white flex flex-col justify-start items-start gap-y-2 py-4 border-b-[1.5px]">
-        <div className="flex justify-between items-start px-2 w-full">
+        <div className="flex md:flex-row flex-col justify-between items-start px-2 w-full">
           <div className="flex justify-start items-start gap-x-2">
             <Link to={"/product-detail/1"} className="p-2 w-32 cursor-pointer ">
               <img src="/camera.png" alt="" />
@@ -21,11 +21,11 @@ const CartProduct = () => {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
               </Link>
               <p className="text-xs text-gray-500">Lorem ipsum dolor adf.</p>
-              <p className="text-xs text-gray-500 my-3 flex items-center justify-start gap-x-2">
+              <p className="text-xs text-gray-500 my-3 flex flex-col md:flex-row justify-start  items-start md:items-center justify-start gap-x-2">
                 <p>
                   <span>Seller: </span>Lorem ipsum dolor adf
                 </p>
-                <img src="/assured.png" className="w-12" alt="" />
+                <img src="/assured.png" className="w-12 mt-1 md:mt-0" alt="" />
               </p>
 
               <p className="text-xs mt-1">
@@ -36,7 +36,7 @@ const CartProduct = () => {
             </div>
           </div>
           {/* Delivery By */}
-          <div className="text-xs">
+          <div className="text-xs self-center md:self-start pl-9 pt-2 ml-4 md:ml-0 md:p-0 ">
             <p>Dilivery by tomorrow, Fri</p>
           </div>
         </div>

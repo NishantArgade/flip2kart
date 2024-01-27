@@ -64,6 +64,9 @@ const RateProduct = () => {
       description: (value) => {
         if (!value.trim()) return "field should not be empty";
       },
+      rateTitle: (value) => {
+        if (!value.trim()) return "field should not be empty";
+      },
     },
   });
 

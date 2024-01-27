@@ -35,7 +35,7 @@ export default function AvatarDropdown() {
             className="flex justify-center items-center gap-x-1 cursor-pointer px-3 py-1 hover:bg-gray-100 rounded-md"
           >
             <Avatar src="avatar.png" alt="it's me" size={26} />
-            <span className="text-sm">Nishant</span>
+            <span className="text-sm md:hidden lg:inline-block">Nishant</span>
           </Link>
         ) : (
           <Link

@@ -46,11 +46,11 @@ const Register = () => {
   });
 
   return (
-    <div className=" grid py-4  place-items-center">
-      <div className="w-[44rem] min-h-[30rem] bg-white  shadow-md flex ">
+    <div className="container mx-auto  grid py-4  place-items-center">
+      <div className="w-full md:w-[37rem] min-h-[33rem] bg-white  shadow-md flex flex-col md:flex-row ">
         {/* info */}
-        <div className="flex flex-col justify-between items-start w-[36rem] bg-[#2874F0] py-8 px-6">
-          <div>
+        <div className="flex flex-col justify-between items-center md:items-start w-full md:w-[36rem] bg-[#2874F0] p-6">
+          <div className="text-center md:text-start">
             <h1 className="text-white font-bold text-2xl">
               Looks like you're new here!
             </h1>
@@ -58,18 +58,18 @@ const Register = () => {
               Sign up with your mobile number to get started
             </p>
           </div>
-          <img src="loginSecure.png" alt="loginImg" />
+          <img src="loginSecure.png" className="w-32 md:w-80" alt="loginImg" />
         </div>
         {/* login */}
-        <div className="flex flex-col justify-between items-start py-8 px-6 w-[64rem] ">
+        <div className="flex flex-col justify-between items-start p-6 md:w-[64rem] ">
           {!showRegistrationForm ? (
-            <div className="flex flex-col justify-start items-start gap-y-7 w-full">
+            <div className="flex flex-col justify-start items-center  md:gap-y-7 w-full mt-5 md:my-auto">
               <input
-                className="w-full outline-none border-b-[1.5px] border-gray-300 px-2 focus:border-blue-500"
+                className="w-full text-sm md:text-base outline-none border-b-[1.5px] border-gray-300 px-2 focus:border-blue-500"
                 type="number"
                 placeholder={"Enter Mobile number"}
               />
-              <div className="w-full">
+              <div className="w-full mt-5 md:mt-0">
                 <p className="text-[0.60rem] text-gray-400 mb-3">
                   By continuing, you agree to Flipkart's Terms of Use and
                   Privacy Policy.
@@ -153,7 +153,7 @@ const Register = () => {
 
           <Link
             to="/login"
-            className="self-center text-xs  text-blue-500 font-bold mt-4"
+            className="self-center text-xs text-blue-500 font-bold mt-8 md:mt-4"
           >
             Existing User? Log in
           </Link>

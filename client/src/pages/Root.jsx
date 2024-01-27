@@ -11,7 +11,7 @@ const Root = () => {
   return (
     <div className="">
       <Navbar />
-      <div className="bg-[#F1F2F4] pt-2   flex flex-col justify-between min-h-screen max-h-fit">
+      <div className="bg-[#F1F2F4] pt-2    flex flex-col justify-between min-h-screen max-h-fit">
         <Outlet />
         <Footer />
       </div>

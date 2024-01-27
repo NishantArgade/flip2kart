@@ -65,7 +65,7 @@ const MyOrders = () => {
       </div>
       <div className="grid grid-cols-12 min-h-[30rem] gap-x-2 gap-y-2 p-2 container mx-auto">
         {/* Left sidebar Section */}
-        <div className="col-span-2  h-fit bg-white  shadow-md">
+        <div className="md:col-span-4 lg:col-span-2 h-fit bg-white  shadow-md hidden md:block">
           <p className="text-start  text-gray-800 border-b-2 border-gray-200 p-2 flex justify-between items-center gap-x-2 ">
             <span>Filters</span>
             <span className="text-blue-500 text-[0.6rem] font-semibold cursor-pointer ">
@@ -114,18 +114,18 @@ const MyOrders = () => {
         </div>
 
         {/* Right Section */}
-        <div className="col-span-10  bg-white  shadow-md">
+        <div className="md:col-span-8 lg:col-span-10 col-span-12   bg-white  shadow-md">
           <div className="mt-2 mb-4 flex justify-start px-4">
-            <div className="w-[45rem] hover:shadow-md flex bg-[#F0F5FF]  rounded-sm items-center  ">
+            <div className="w-[45rem] hover:shadow-md flex bg-[#F0F5FF]  rounded-sm items-center text-sm  ">
               <input
                 className="outline-none bg-[#F0F5FF] w-full h-full px-2"
                 placeholder="Search your order here"
                 type="text"
                 name="search"
               />
-              <div className="flex w-40  items-center justify-start gap-x-2 bg-blue-600 text-white text-xs px-4 py-2">
+              <div className="flex  items-center justify-start gap-x-2 bg-blue-600 text-white text-xs px-4 py-2">
                 <IoSearchOutline size={20} />
-                <p>Search Order</p>
+                <p className="hidden md:block w-20">Search Order</p>
               </div>
             </div>
           </div>
@@ -134,7 +134,7 @@ const MyOrders = () => {
               <Link
                 to={`/order-detail/${i}`}
                 key={i}
-                className="hover:shadow-md flex justify-between items-start px-4 gap-x-16  py-5 border-b-[1.5px]"
+                className="hover:shadow-md flex flex-col md:flex-row justify-between items-start px-4 gap-x-16  py-5 border-b-[1.5px]"
               >
                 <div className="flex justify-start items-start gap-x-3 ">
                   <div className="px-3 pt-1 w-20 cursor-pointer">
@@ -153,7 +153,7 @@ const MyOrders = () => {
                     </p>
                   </div>
                 </div>
-                <div className="text-sm  text-center">₹2,000</div>
+                <div className="text-sm  text-center mb-2 md:mb-0">₹2,000</div>
                 <div>
                   <div className="flex justify-  items-center gap-x-2">
                     <div className="w-2 h-2 rounded-full bg-green-600"> </div>

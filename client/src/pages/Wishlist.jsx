@@ -55,7 +55,7 @@ const Wishlist = () => {
         {[1, 2].map((i) => (
           <span
             key={i}
-            className="flex justify-between items-start px-4 w-full  py-5 border-b-[1.5px] cursor-pointer"
+            className="flex justify-between items-start px-4 w-full  py-5 border-b-[1.5px] cursor-pointer gap-x-1"
           >
             <Link to={"/product-detail/1"}>
               <div className="flex justify-start items-start gap-x-3">

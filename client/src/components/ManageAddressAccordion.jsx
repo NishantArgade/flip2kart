@@ -92,7 +92,7 @@ export default function ManageAddressAccordion() {
         <AccordionLabel {...item} />
       </Accordion.Control>
       <Accordion.Panel>
-        <div className="px-4 ">
+        <div className="md:px-4">
           <form onSubmit={form.onSubmit(console.log)}>
             <div className="grid grid-cols-2 gap-3">
               <TextInput
@@ -128,14 +128,15 @@ export default function ManageAddressAccordion() {
                 placeholder="Pincode"
                 {...form.getInputProps("pincode")}
               />
-              <Textarea
-                label="Area or Street"
-                placeholder="Area or Street"
-                autosize
-                minRows={2}
-                maxRows={4}
-              />
             </div>
+            <Textarea
+              label="Area or Street"
+              placeholder="Area or Street"
+              autosize
+              minRows={2}
+              maxRows={4}
+              mt={12}
+            />
 
             <div className="flex items-center justify-between gap-x-2">
               <div>

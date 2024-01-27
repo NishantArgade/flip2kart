@@ -65,30 +65,30 @@ const ProfileInfo = () => {
     setMobileEdit((state) => !state);
   }
 
-  useEffect(() => {
-    if (!personalInfoEdit) {
-      personalInfoForm.clearErrors();
-    }
-    if (!emailEdit) {
-      emailForm.clearErrors();
-    }
-    if (!mobileEdit) {
-      mobileForm.clearErrors();
-    }
-  }, [
-    personalInfoEdit,
-    personalInfoForm,
-    emailEdit,
-    emailForm,
-    mobileEdit,
-    mobileForm,
-  ]);
+  // useEffect(() => {
+  //   if (!personalInfoEdit) {
+  //     personalInfoForm.clearErrors();
+  //   }
+  //   if (!emailEdit) {
+  //     emailForm.clearErrors();
+  //   }
+  //   if (!mobileEdit) {
+  //     mobileForm.clearErrors();
+  //   }
+  // }, [
+  //   personalInfoEdit,
+  //   personalInfoForm,
+  //   emailEdit,
+  //   emailForm,
+  //   mobileEdit,
+  //   mobileForm,
+  // ]);
 
   return (
     <>
-      <div className="p-6">
+      <div className="px-6">
         {/* Personal Information */}
-        <div className=" py-4">
+        <div className="py-4">
           <div className="mb-5 flex items-center justify-start gap-x-4">
             <span className="text-base font-semibold ">Personal information</span>
             <button
@@ -102,7 +102,7 @@ const ProfileInfo = () => {
             onSubmit={personalInfoForm.onSubmit(console.log)}
             className="flex items-center justify-start gap-x-10"
           >
-            <div className="flex items-start justify-start gap-x-6">
+            <div className="flex items-start flex-col md:flex-row justify-start gap-6">
               <TextInput
                 label="First Name"
                 placeholder="First Name"

@@ -2,16 +2,24 @@ import {
   Accordion,
   Avatar,
   Checkbox,
+  Menu,
   RangeSlider,
   Select,
 } from "@mantine/core";
 import React, { useState } from "react";
 import { BiSolidArchive } from "react-icons/bi";
+import { BsThreeDots, BsThreeDotsVertical } from "react-icons/bs";
 import { ImProfile } from "react-icons/im";
-import { MdManageAccounts, MdOutlineNavigateNext } from "react-icons/md";
+import { IoMdLogIn } from "react-icons/io";
+import {
+  MdManageAccounts,
+  MdOutlineLogout,
+  MdOutlineNavigateNext,
+} from "react-icons/md";
 import { RiAccountBoxFill, RiLogoutCircleRLine } from "react-icons/ri";
 import { RxAvatar } from "react-icons/rx";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import MobileProfileMenuDropdown from "../components/MobileProfileMenuDropdown";
 
 const Profile = () => {
   const [priceRange, setPriceRange] = useState([0, 500]);
@@ -46,13 +54,19 @@ const Profile = () => {
     }
     return options;
   }
+  // phone -> -
+  // table -> md
+  // desktop -> lg
+  const [opened, setOpened] = useState(false);
 
   return (
     <div>
+      <MobileProfileMenuDropdown opened={opened} setOpened={setOpened} />
+
       <div className="grid grid-cols-12  gap-x-2 gap-y-2 p-2 container mx-auto">
         {/* Left sidebar Section */}
 
-        <div className="col-span-2 min-h-[25rem] ">
+        <div className="md:col-span-4 lg:col-span-2 min-h-[25rem] hidden md:block">
           <div className="mb-3 rounded-sm bg-white  shadow-md text-start text-gray-800  p-2 flex  justify-start items-center gap-x-2 ">
             <Avatar src="avatar.png" alt="it's me" size={38} />
             <div>
@@ -176,8 +190,16 @@ const Profile = () => {
             </Link>
           </Accordion>
         </div>
+
         {/* Right Section */}
-        <div className="col-span-10  bg-white  shadow-md">
+        <div className="md:col-span-8 lg:col-span-10 col-span-12  bg-white  shadow-md">
+          <div className="flex justify-end mr-1 md:hidden">
+            <BsThreeDotsVertical
+              size={22}
+              className="text-gray-600 mt-2 cursor-pointer md:hidden"
+              onClick={() => setOpened((state) => !state)}
+            />
+          </div>
           <Outlet />
         </div>
       </div>

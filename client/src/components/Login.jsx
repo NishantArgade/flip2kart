@@ -15,32 +15,50 @@ const Login = () => {
     // 1. check if otp is correct then redirect user to home page (back page where he was using naviagte(-1))
     // 2. else show error message
   };
-
+  // sm-md -> mobile md-lg -> tablet lg-xl -> desktop
   return (
-    <div className=" grid py-4  place-items-center">
-      <div className="w-[44rem] h-[30rem] bg-white  shadow-md flex ">
+    // <div className="lg:grid py-4  lg:place-items-center">
+    //   <div className="lg:w-[44rem] lg:h-[30rem] bg-white  shadow-md flex lg:flex-row flex-col lg:px-2">
+    //     {/* info */}
+    //     <div className="flex flex-col lg:justify-between justify-center items-center lg:items-start lg:w-[36rem] bg-[#2874F0] py-3 mx-4 lg:p-0 px-6">
+    //       <div>
+    //         <h1 className="text-white font-bold text-2xl">Login</h1>
+    //         <p className="text-gray-300 text-sm mt-3 text-center lg:text-start">
+    //           Get access to your Orders, Wishlist and Recommendations
+    //         </p>
+    //       </div>
+    //       <img src="loginSecure.png" className="lg:w-64 w-28 self-center" alt="loginImg" />
+    //     </div>
+    //     {/* login */}
+    //     <div className="flex flex-col lg:justify-between justify-center items-center py-8 px-6 lg:w-[64rem] mx-4 bg-red-200">
+
+    //     </div>
+    //   </div>
+    // </div>
+
+    <div className="container mx-auto  grid py-4  place-items-center">
+      <div className="w-full md:w-[37rem] min-h-[33rem] bg-white  shadow-md flex flex-col md:flex-row ">
         {/* info */}
-        <div className="flex flex-col justify-between items-start w-[36rem] bg-[#2874F0] py-8 px-6">
-          <div>
+        <div className="flex flex-col justify-between items-center md:items-start w-full md:w-[36rem] md:p-6 px-4 py-4 bg-[#2874F0]">
+          <div className="text-center md:text-start">
             <h1 className="text-white font-bold text-2xl">Login</h1>
             <p className="text-gray-300 text-sm mt-3">
               Get access to your Orders, Wishlist and Recommendations
             </p>
           </div>
-          <img src="loginSecure.png" alt="loginImg" />
+          <img src="loginSecure.png" className="w-32 md:w-80" alt="loginImg" />
         </div>
         {/* login */}
-        <div className="flex flex-col justify-between items-start py-8 px-6 w-[64rem] ">
+        <div className="flex flex-col justify-between items-start md:p-6 px-4 py-4 md:w-[64rem] ">
           {!showOtpField ? (
-            <div className="flex flex-col justify-start items-start gap-y-7 w-full">
-              <TextInput
-                variant="unstyled"
-                className="w-full outline-none border-b-[1.5px] border-gray-300 px-2 focus:border-blue-500"
+            <div className="flex flex-col justify-start items-center  md:gap-y-7 w-full mt-5 md:my-auto px-2 pt-2">
+              <input
+                className="w-full text-sm md:text-base outline-none border-b-[1.5px] border-gray-300 mx-2  focus:border-blue-500"
                 type="text"
                 placeholder={"Enter Email/Mobile number"}
               />
 
-              <div className="w-full">
+              <div className="w-full mt-5 md:mt-0">
                 <p className="text-[0.60rem] text-gray-400 mb-3">
                   By continuing, you agree to Flipkart's Terms of Use and
                   Privacy Policy.
@@ -55,8 +73,8 @@ const Login = () => {
               </div>
             </div>
           ) : (
-            <div className="flex flex-col justify-start items-center gap-y-7 w-full">
-              <div className="text-center">
+            <div className="flex flex-col justify-start items-center my-auto gap-y-7 w-full">
+              <div className="text-center text-sm md:text-base">
                 Please enter the OTP sent to <br /> 8007896396{" "}
                 <button
                   className="text-blue-500 font-semibold text-sm"
@@ -65,7 +83,7 @@ const Login = () => {
                   Change
                 </button>
               </div>
-              <PinInput size="sm" length={6} placeholder="-" />
+              <PinInput size="xs" length={6} placeholder="-" />
 
               <div className="w-full">
                 <button
@@ -86,7 +104,7 @@ const Login = () => {
 
           <Link
             to="/register"
-            className="self-center text-xs text-blue-500 font-bold"
+            className="self-center text-xs text-blue-500 font-bold mt-8 md:mt-4"
           >
             New to Flipkart? Create an account
           </Link>

@@ -22,7 +22,7 @@ const OrderDetail = () => {
       <div
         // to={`/order-detail/${i}`}
         // key={i}
-        className="bg-white my-4 shadow-md flex justify-between items-start px-4 gap-x-16  py-5"
+        className="bg-white my-4 shadow-md flex flex-col md:flex-row justify-between items-start px-4 gap-x-16  py-5"
       >
         <div className="flex justify-start items-start gap-x-3 ">
           <Link
@@ -32,7 +32,7 @@ const OrderDetail = () => {
             <img src="/shirt.png" alt="" />
           </Link>
 
-          <div className="text-sm w-[32rem]">
+          <div className="text-sm w-full md:w-[32rem] ">
             <Link
               to={"/product-detail/1"}
               className="cursor-pointer text-gray-800 hover:text-blue-500"
@@ -47,10 +47,10 @@ const OrderDetail = () => {
               <span>Seller: </span>
               <span> Amenora mall</span>
             </p>
-            <p className="font-semibold text-sm text-gray-800 mt-2">₹2,000</p>
+            <p className="font-semibold text-sm text-gray-800 mt-2 mb-6 md:mb-0">₹2,000</p>
           </div>
         </div>
-        <div className="text-sm  text-center">₹2,000</div>
+        {/* <div className="text-sm  text-center mb-2 md:mb-0">₹2,000</div> */}
         <div>
           <Link
             to="/chatboat-support"

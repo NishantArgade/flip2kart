@@ -9,9 +9,9 @@ import ChangeAddressModal from "../components/modals/ChangeAddressModal";
 const MyCart = () => {
   return (
     <>
-      <div className="container mx-auto grid grid-cols-12 gap-x-3 m-2">
+      <div className="container mx-auto grid grid-cols-12  gap-x-3 m-2">
         {/* Products List */}
-        <div className="col-span-8">
+        <div className="md:col-span-8 col-span-12">
           {/* Address */}
           <div className="flex items-center justify-between bg-white  shadow-md px-2 py-3 mb-2 text-xs">
             <div className="flex flex-col items-start justify-center gap-y-1">
@@ -41,7 +41,7 @@ const MyCart = () => {
         </div>
 
         {/* Amount info */}
-        <div className="col-span-4 h-fit text-sm sticky top-[4.7rem] right-0">
+        <div className="md:col-span-4 col-span-12 h-fit text-sm md:sticky md:top-[4.7rem] md:right-0">
           <div className="bg-white  shadow-md  flex  flex-col pb-2">
             <div>
               <p className="text-gray-500  px-4 py-3 border-b-2 ">
@@ -75,7 +75,7 @@ const MyCart = () => {
 
             <Link
               to="/checkout"
-              className="bg-[#FB641B] py-3 self-end px-10 mx-4 mt-2 text-white   w-fit  cursor-pointer shadow-md"
+              className="bg-[#FB641B] py-3 md:text-sm lg:text-base self-end lg:px-12 px-10 md:px-6 mx-4 mt-2 text-white   w-fit  cursor-pointer shadow-md"
             >
               <button className="text-xs font-semibold uppercase">
                 PLACE ORDER
@@ -83,7 +83,7 @@ const MyCart = () => {
             </Link>
           </div>
 
-          <div className="flex items-center justify-start gap-x-2 mt-4 text-xs text-gray-500">
+          <div className="flex items-center justify-start gap-x-2 mt-4 text-xs text-gray-500 px-2">
             <AiFillSafetyCertificate className="text-2xl" />
             <p className="font-semibold ">
               Safe and Secure Payments.Easy returns.100% Authentic products.
