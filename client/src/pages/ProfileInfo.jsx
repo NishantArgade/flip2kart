@@ -90,7 +90,7 @@ const ProfileInfo = () => {
         {/* Personal Information */}
         <div className=" py-4">
           <div className="mb-5 flex items-center justify-start gap-x-4">
-            <span className="text-lg font-semibold ">Personal information</span>
+            <span className="text-base font-semibold ">Personal information</span>
             <button
               className="pt-1 text-sm text-blue-500 font-medium"
               onClick={() => setPersonalInfoEdit((value) => !value)}
@@ -154,7 +154,7 @@ const ProfileInfo = () => {
         {/* Email */}
         <div className=" border-t-[1px] py-4">
           <div className="mb-5 flex items-center justify-start gap-x-4">
-            <span className="text-lg font-semibold ">Email Address</span>
+            <span className="text-base font-semibold ">Email Address</span>
             <button
               className="pt-1 text-sm text-blue-500 font-medium"
               onClick={handleEmailEdit}
@@ -190,7 +190,7 @@ const ProfileInfo = () => {
         {/* Mobile */}
         <div className=" border-t-[1px] py-4">
           <div className="mb-5 flex items-center justify-start gap-x-4">
-            <span className="text-lg font-semibold ">Mobile Number</span>
+            <span className="text-base font-semibold ">Mobile Number</span>
             <button
               className="pt-1 text-sm text-blue-500 font-medium"
               onClick={handleMobileEdit}
@@ -226,7 +226,7 @@ const ProfileInfo = () => {
 
         {/* FAQ's */}
         <div>
-          <p className=" py-4 font-semibold">FAQs</p>
+          <p className=" py-4 text-base font-semibold">FAQs</p>
           <div className="flex flex-col items-start justify-start gap-y-6 text-xs">
             <div>
               <p className="font-semibold mb-2">
