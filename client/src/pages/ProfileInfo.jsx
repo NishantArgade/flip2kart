@@ -90,7 +90,9 @@ const ProfileInfo = () => {
         {/* Personal Information */}
         <div className="py-4">
           <div className="mb-5 flex items-center justify-start gap-x-4">
-            <span className="text-base font-semibold ">Personal information</span>
+            <span className="text-base font-semibold ">
+              Personal information
+            </span>
             <button
               className="pt-1 text-sm text-blue-500 font-medium"
               onClick={() => setPersonalInfoEdit((value) => !value)}
@@ -108,18 +110,21 @@ const ProfileInfo = () => {
                 placeholder="First Name"
                 {...personalInfoForm.getInputProps("firstName")}
                 disabled={!personalInfoEdit}
+                size="xs"
               />
               <TextInput
                 label="Last Name"
                 placeholder="Last Name"
                 {...personalInfoForm.getInputProps("lastName")}
                 disabled={!personalInfoEdit}
+                size="xs"
               />
               <Radio.Group
                 {...personalInfoForm.getInputProps("gender")}
                 name="Gender"
                 label="Your Gender"
                 value={gender}
+                size="xs"
               >
                 <Group
                   pt={6}
@@ -129,11 +134,13 @@ const ProfileInfo = () => {
                     disabled={!personalInfoEdit}
                     value="male"
                     label="Male"
+                    size="xs"
                   />
                   <Radio
                     disabled={!personalInfoEdit}
                     value="female"
                     label="Female"
+                    size="xs"
                   />
                 </Group>
               </Radio.Group>
@@ -142,7 +149,7 @@ const ProfileInfo = () => {
               <div className="flex flex-col self-start">
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white shadow-md rounded-sm text-sm py-2 px-6 mt-6"
+                  className="bg-blue-600 text-white shadow-md rounded-sm text-xs py-2 px-6 mt-6"
                 >
                   SAVE
                 </button>
@@ -172,13 +179,14 @@ const ProfileInfo = () => {
                 placeholder="Email"
                 {...emailForm.getInputProps("email")}
                 disabled={!emailEdit}
+                size="xs"
               />
             </div>
             {emailEdit && (
               <div className="flex flex-col self-start">
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white shadow-md rounded-sm text-sm py-2 px-6 mt-6"
+                  className="bg-blue-600 text-white shadow-md rounded-sm text-xs py-2 px-6 mt-6"
                 >
                   SAVE
                 </button>
@@ -209,13 +217,14 @@ const ProfileInfo = () => {
                 placeholder="Mobile"
                 {...mobileForm.getInputProps("mobile")}
                 disabled={!mobileEdit}
+                size="xs"
               />
             </div>
             {mobileEdit && (
               <div className="flex flex-col self-start">
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white shadow-md rounded-sm text-sm py-2 px-6 mt-6"
+                  className="bg-blue-600 text-white shadow-md rounded-sm text-xs py-2 px-6 mt-6"
                 >
                   SAVE
                 </button>

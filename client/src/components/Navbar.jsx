@@ -19,7 +19,11 @@ const Navbar = () => {
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center py-3 lg:px-12 ">
           <div className=" md:hidden w-full text-2xl flex justify-between items-center px-2 mb-4">
             <div className="flex items-center gap-x-4">
-              <GiHamburgerMenu onClick={open} size={25} />
+              <GiHamburgerMenu
+                onClick={open}
+                size={25}
+                className="text-gray-600"
+              />
               <Link to="/">
                 <img
                   className="w-[6rem] md:w-24"
