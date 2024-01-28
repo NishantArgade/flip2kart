@@ -51,7 +51,7 @@ const ProductsCarousel = ({
                   <IoMdHeart size={21} />
                 </span>
               </div>
-              <div className="p-2 flex flex-col justify-between gap-y-1 w-[6.6rem] md:w-[8.6rem] lg:w-full">
+              <div className="p-2 flex flex-col justify-between gap-y-1 w-[8rem] md:w-[8.6rem] lg:w-full">
                 <Link
                   to="/product-detail/4"
                   className="md:text-[0.8rem] text-[0.78rem] text-gray-800 hover:text-blue-500"
