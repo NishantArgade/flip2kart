@@ -7,6 +7,13 @@ import {
 import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import AdminProfile from "./pages/admin/AdminProfile";
+import Dashboard from "./pages/admin/Dashboard";
+import DashboardLayout from "./pages/admin/DashboardLayout";
+import Orders from "./pages/admin/Orders";
+import Products from "./pages/admin/Products";
+import Reviews from "./pages/admin/Reviews";
+import Users from "./pages/admin/Users";
 import AllProducts from "./pages/AllProducts";
 import ChatSupport from "./pages/ChatSupport";
 import Checkout from "./pages/Checkout";
@@ -29,12 +36,22 @@ import Wishlist from "./pages/Wishlist";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
-      {/* PROTECTED ROUTES */}
+      {/*User PROTECTED ROUTES */}
       <Route path="profile" element={<Profile />}>
         <Route index element={<ProfileInfo />} />
         <Route path="manage-address" element={<ManagesAddress />} />
         <Route path="reviews-and-ratings" element={<ReviewAndRatings />} />
         <Route path="wishlist" element={<Wishlist />} />
+      </Route>
+
+      {/*Admin PROTECTED ROUTES */}
+      <Route path="admin-dashboard" element={<DashboardLayout />}>
+        <Route index element={<Dashboard />} />
+        <Route path="profile" element={<ProfileInfo />} />
+        <Route path="products" element={<Products />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="users" element={<Users />} />
+        <Route path="reviews" element={<Reviews />} />
       </Route>
 
       <Route path="profile/orders" element={<MyOrders />} />

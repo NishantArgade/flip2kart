@@ -4,6 +4,7 @@ import { BsBoxSeam } from "react-icons/bs";
 import { IoMdLogIn } from "react-icons/io";
 import {
   MdFavoriteBorder,
+  MdOutlineDashboard,
   MdOutlineLogout,
   MdOutlineSell,
 } from "react-icons/md";
@@ -13,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function AvatarDropdown() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   function handleLogout() {
     // clear cookies and user data from localstorage
@@ -31,11 +33,11 @@ export default function AvatarDropdown() {
       <Menu.Target>
         {isLoggedIn ? (
           <Link
-            to="/profile"
-            className="flex justify-center items-center gap-x-1 cursor-pointer px-3 py-1 hover:bg-gray-100 rounded-md"
+            to={isAdmin ? "/admin-dashboard" : "/profile"}
+            className="flex justify-center items-center gap-x-1 cursor-pointer  py-1 hover:bg-gray-100 rounded-md px-2"
           >
             <Avatar src="avatar.png" alt="it's me" size={26} />
-            <span className="text-sm md:hidden lg:inline-block">Nishant</span>
+            <span className="text-sm md:hidden lg:inline-block ">Nishant</span>
           </Link>
         ) : (
           <Link
@@ -54,39 +56,76 @@ export default function AvatarDropdown() {
       </Menu.Target>
 
       {isLoggedIn ? (
-        <Menu.Dropdown>
-          <Link to="/profile">
+        isAdmin ? (
+          <Menu.Dropdown>
+            <Link to="/admin-dashboard">
+              <Menu.Item
+                className="hover:bg-gray-50"
+                leftSection={<MdOutlineDashboard />}
+              >
+                Dashboard
+              </Menu.Item>
+            </Link>
+            <Link to="/admin-dashboard/profile">
+              <Menu.Item
+                className="hover:bg-gray-50"
+                leftSection={<RxAvatar size={20} />}
+              >
+                Profile
+              </Menu.Item>
+            </Link>
+            <Link to="/admin-dashboard/orders">
+              <Menu.Item
+                className="hover:bg-gray-50"
+                leftSection={<BsBoxSeam size={16} />}
+              >
+                All Orders
+              </Menu.Item>
+            </Link>
+
             <Menu.Item
               className="hover:bg-gray-50"
-              leftSection={<RxAvatar size={20} />}
+              leftSection={<MdOutlineLogout size={20} />}
+              onClick={handleLogout}
             >
-              My Profile
+              Logout
             </Menu.Item>
-          </Link>
-          <Link to="/profile/orders">
+          </Menu.Dropdown>
+        ) : (
+          <Menu.Dropdown>
+            <Link to="/profile">
+              <Menu.Item
+                className="hover:bg-gray-50"
+                leftSection={<RxAvatar size={20} />}
+              >
+                My Profile
+              </Menu.Item>
+            </Link>
+            <Link to="/profile/orders">
+              <Menu.Item
+                className="hover:bg-gray-50"
+                leftSection={<BsBoxSeam size={16} />}
+              >
+                Orders
+              </Menu.Item>
+            </Link>
+            <Link to="/profile/wishlist">
+              <Menu.Item
+                className="hover:bg-gray-50"
+                leftSection={<MdFavoriteBorder size={20} />}
+              >
+                Wishlist
+              </Menu.Item>
+            </Link>
             <Menu.Item
               className="hover:bg-gray-50"
-              leftSection={<BsBoxSeam size={16} />}
+              leftSection={<MdOutlineLogout size={20} />}
+              onClick={handleLogout}
             >
-              Orders
+              Logout
             </Menu.Item>
-          </Link>
-          <Link to="/profile/wishlist">
-            <Menu.Item
-              className="hover:bg-gray-50"
-              leftSection={<MdFavoriteBorder size={20} />}
-            >
-              Wishlist
-            </Menu.Item>
-          </Link>
-          <Menu.Item
-            className="hover:bg-gray-50"
-            leftSection={<MdOutlineLogout size={20} />}
-            onClick={handleLogout}
-          >
-            Logout
-          </Menu.Item>
-        </Menu.Dropdown>
+          </Menu.Dropdown>
+        )
       ) : (
         <Menu.Dropdown>
           {/* <Menu.Item className="hover:bg-gray-50"> */}

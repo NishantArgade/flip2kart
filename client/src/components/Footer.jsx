@@ -7,6 +7,8 @@ const Footer = () => {
 
   const shortFooterPage = ["/cart", "/checkout"];
 
+  if (location.pathname.includes("/admin-dashboard")) return null;
+
   if (shortFooterPage.includes(location.pathname))
     return (
       <div className="text-gray-600 border-t-2 mt-4">

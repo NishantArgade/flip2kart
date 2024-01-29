@@ -10,6 +10,7 @@ import SideDrawer from "./SideDrawer.jsx";
 
 const Navbar = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  let isAdmin = true;
 
   return (
     <>
@@ -33,7 +34,7 @@ const Navbar = () => {
               </Link>
             </div>
             <div className="flex items-center gap-x-5 text-gray-500">
-              <Link to="/profile">
+              <Link to={isAdmin ? "/admin-dashboard/profile" : "/profile"}>
                 <Avatar src="avatar.png" alt="it's me" size={25} />
               </Link>
               <Link to="/cart" className="pr-1">
