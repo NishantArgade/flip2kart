@@ -7,37 +7,38 @@ import {
 import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import AdminProfile from "./pages/admin/AdminProfile";
-import Dashboard from "./pages/admin/Dashboard";
-import DashboardLayout from "./pages/admin/DashboardLayout";
-import Orders from "./pages/admin/Orders";
-import Products from "./pages/admin/Products";
-import Reviews from "./pages/admin/Reviews";
-import Users from "./pages/admin/Users";
+import AdminDashboardLayout from "./pages/AdminDashboard/AdminDashboardLayout";
+import AdminDashboardRoot from "./pages/AdminDashboard/AdminDashboardRoot";
+import ManageProduct from "./pages/AdminDashboard/ManageProduct";
+import Products from "./pages/AdminDashboard/Products";
+import Reviews from "./pages/AdminDashboard/Reviews";
+import Transactions from "./pages/AdminDashboard/Transactions";
+import Users from "./pages/AdminDashboard/Users";
 import AllProducts from "./pages/AllProducts";
 import ChatSupport from "./pages/ChatSupport";
 import Checkout from "./pages/Checkout";
+import ContactUs from "./pages/ContactUs";
+import RateProduct from "./pages/GiveRatingProduct";
 import Home from "./pages/Home";
-import ManagesAddress from "./pages/ManagesAddress";
 import MyCart from "./pages/MyCart";
 import MyOrders from "./pages/MyOrders";
-import OrderDetail from "./pages/OrderDetail";
 import PageNotFound from "./pages/PageNotFound";
 import ProductDetail from "./pages/ProductDetail";
-import Profile from "./pages/Profile";
-import ProfileInfo from "./pages/ProfileInfo";
-import RateProduct from "./pages/RateProduct";
-import ReviewAndRatings from "./pages/ReviewAndRatings";
 import Root from "./pages/Root";
-import Sell from "./pages/Sell";
-import TrendingProducts from "./pages/TrendingProducts";
-import Wishlist from "./pages/Wishlist";
+import Sell from "./pages/SellPage";
+import TrendingProducts from "./pages/TrendingProductsPage";
+import ManagesAddress from "./pages/UserDashboard/ManagesAddress";
+import ProfileInfo from "./pages/UserDashboard/ProfileInfo";
+import ReviewAndRatings from "./pages/UserDashboard/ReviewAndRatings";
+import UserDashboardLayout from "./pages/UserDashboard/UserDashboardLayout";
+import Wishlist from "./pages/UserDashboard/Wishlist";
+import OrderDetail from "./pages/UserOrderDetail";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
       {/*User PROTECTED ROUTES */}
-      <Route path="profile" element={<Profile />}>
+      <Route path="dashboard" element={<UserDashboardLayout />}>
         <Route index element={<ProfileInfo />} />
         <Route path="manage-address" element={<ManagesAddress />} />
         <Route path="reviews-and-ratings" element={<ReviewAndRatings />} />
@@ -45,16 +46,24 @@ const router = createBrowserRouter(
       </Route>
 
       {/*Admin PROTECTED ROUTES */}
-      <Route path="admin-dashboard" element={<DashboardLayout />}>
-        <Route index element={<Dashboard />} />
+      <Route path="admin-dashboard" element={<AdminDashboardLayout />}>
+        <Route index element={<AdminDashboardRoot />} />
         <Route path="profile" element={<ProfileInfo />} />
         <Route path="products" element={<Products />} />
-        <Route path="orders" element={<Orders />} />
+        <Route path="transactions" element={<Transactions />} />
         <Route path="users" element={<Users />} />
         <Route path="reviews" element={<Reviews />} />
       </Route>
 
-      <Route path="profile/orders" element={<MyOrders />} />
+      <Route path="add-product" element={<ManageProduct />} />
+      <Route
+        path="edit-product"
+        element={<ManageProduct isEditProduct={true} />}
+      />
+
+      {/** Common */}
+      <Route path="my-orders" element={<MyOrders isAdmin={false} />} />
+      <Route path="contact" element={<ContactUs />} />
       <Route path="cart" element={<MyCart />} />
       <Route path="checkout" element={<Checkout />} />
       <Route path="order-detail/:orderId" element={<OrderDetail />} />

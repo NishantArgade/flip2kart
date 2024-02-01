@@ -1,14 +1,20 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Footer = () => {
   const location = useLocation();
   console.log(location.pathname);
 
-  const shortFooterPage = ["/cart", "/checkout"];
+  const shortFooterPage = [
+    "/cart",
+    "/checkout",
+    "/add-product",
+    "/edit-product",
+  ];
 
+  /** Hide footer */
   if (location.pathname.includes("/admin-dashboard")) return null;
 
+  /** Small Footer */
   if (shortFooterPage.includes(location.pathname))
     return (
       <div className="text-gray-600 border-t-2 mt-4">
@@ -47,6 +53,7 @@ const Footer = () => {
       </div>
     );
 
+  /** Big Footer */
   return (
     <div className="md:h-auto w-full bg-[#212121] overflow-hidden">
       <div className="md:flex md:flex-row md:gap-x-2 justify-between md:px-0 lg:px-12 px-4 items-start text-white py-8 ">
@@ -55,9 +62,12 @@ const Footer = () => {
           <div>
             <p className="text-xs text-gray-400 mb-2">ABOUT</p>
             <div className="flex flex-col items-start justify-start">
-              <p className="text-[0.68rem] font-bold text-gray-300">
+              <Link
+                to="/contact"
+                className="text-[0.68rem] font-bold text-gray-300"
+              >
                 Cotact Us
-              </p>
+              </Link>
               <p className="text-[0.68rem] font-bold text-gray-300">About Us</p>
               <p className="text-[0.68rem] font-bold text-gray-300">Careers</p>
               <p className="text-[0.68rem] font-bold text-gray-300">

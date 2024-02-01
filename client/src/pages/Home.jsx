@@ -1,22 +1,19 @@
-import React from "react";
-import { MdOutlineNavigateNext } from "react-icons/md";
-import { Link } from "react-router-dom";
-import Categories from "../components/Categories.jsx";
-import HomeCarousel from "../components/HomeCarousel.jsx";
-import ProductsCarousel from "../components/ProductsCarousel.jsx";
+import AdAutoSlideCarousel from "../components/AdAutoSlideCarousel.jsx";
+import MultiProductHCarousel from "../components/MultiProductHCarousel/index.jsx";
+import ProductCategoryCards from "../components/ProductCategoryCards/index.jsx";
 
 const Home = () => {
   return (
     <div className="container mx-auto">
-      <Categories />
-      <HomeCarousel />
-      <ProductsCarousel
+      <ProductCategoryCards />
+      <AdAutoSlideCarousel />
+      <MultiProductHCarousel
         title="Suggested for you"
         showRating={false}
         showStrikePrice={true}
         showDiscount={false}
       />
-      <ProductsCarousel
+      <MultiProductHCarousel
         title="Recommanded"
         showRating={false}
         showStrikePrice={false}

@@ -5,8 +5,8 @@ const PageNotFound = () => {
   return (
     <div className="h-96 grid place-content-center">
       <div className="flex flex-col justify-center items-center">
-        <img src="/notFound.png" alt="" />
-        <p className="text-gray-900 text-sm my-4">
+        <img src="/notFound.png" className="w-60 md:w-80" alt="" />
+        <p className="text-gray-900 text-sm my-4 text-center px-4">
           Unfortunately the page you are looking for has been moved or deleted
         </p>
         <Link

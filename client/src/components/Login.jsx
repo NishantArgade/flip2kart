@@ -1,4 +1,4 @@
-import { PinInput, TextInput } from "@mantine/core";
+import { PinInput } from "@mantine/core";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -15,27 +15,7 @@ const Login = () => {
     // 1. check if otp is correct then redirect user to home page (back page where he was using naviagte(-1))
     // 2. else show error message
   };
-  // sm-md -> mobile md-lg -> tablet lg-xl -> desktop
   return (
-    // <div className="lg:grid py-4  lg:place-items-center">
-    //   <div className="lg:w-[44rem] lg:h-[30rem] bg-white  shadow-md flex lg:flex-row flex-col lg:px-2">
-    //     {/* info */}
-    //     <div className="flex flex-col lg:justify-between justify-center items-center lg:items-start lg:w-[36rem] bg-[#2874F0] py-3 mx-4 lg:p-0 px-6">
-    //       <div>
-    //         <h1 className="text-white font-bold text-2xl">Login</h1>
-    //         <p className="text-gray-300 text-sm mt-3 text-center lg:text-start">
-    //           Get access to your Orders, Wishlist and Recommendations
-    //         </p>
-    //       </div>
-    //       <img src="loginSecure.png" className="lg:w-64 w-28 self-center" alt="loginImg" />
-    //     </div>
-    //     {/* login */}
-    //     <div className="flex flex-col lg:justify-between justify-center items-center py-8 px-6 lg:w-[64rem] mx-4 bg-red-200">
-
-    //     </div>
-    //   </div>
-    // </div>
-
     <div className="container mx-auto  grid py-4  place-items-center">
       <div className="w-full md:w-[37rem] min-h-[33rem] bg-white  shadow-md flex flex-col md:flex-row ">
         {/* info */}

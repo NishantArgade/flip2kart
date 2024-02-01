@@ -1,23 +1,37 @@
-import { Avatar, Drawer } from "@mantine/core";
+import { Avatar } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React from "react";
 import { BsCart3 } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoSearchOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import AvatarDropdown from "./AvatarDropdown.jsx";
-import SideDrawer from "./SideDrawer.jsx";
+import { Link, useLocation } from "react-router-dom";
+import MobileSidebarDrawer from "./MobileSidebarDrawer";
+import ProfileMenuButton from "./ProfileMenuButton/index.jsx";
 
 const Navbar = () => {
+  const location = useLocation();
   const [opened, { open, close }] = useDisclosure(false);
+
+  const removeNavbarPages = ["/add-product", "/edit-product"];
+  if (removeNavbarPages.includes(location.pathname)) return null;
+
+  const isLoggedIn = true;
   let isAdmin = true;
+
+  const isAdminUser = isLoggedIn && isAdmin;
 
   return (
     <>
-      <SideDrawer opened={opened} close={close} />
+      {/** SidbarBar Drawer menu for small devices */}
+      <MobileSidebarDrawer
+        opened={opened}
+        close={close}
+        isLoggedIn={isLoggedIn}
+        isAdmin={isAdmin}
+      />
 
       <div className=" z-50 bg-white  shadow-md top-0 left-0 right-0 sticky overflow-hidden ">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center py-3 lg:px-12 ">
+          {/** Navbar for Mobile */}
           <div className=" md:hidden w-full text-2xl flex justify-between items-center px-2 mb-4">
             <div className="flex items-center gap-x-4">
               <GiHamburgerMenu
@@ -34,15 +48,28 @@ const Navbar = () => {
               </Link>
             </div>
             <div className="flex items-center gap-x-5 text-gray-500">
-              <Link to={isAdmin ? "/admin-dashboard/profile" : "/profile"}>
-                <Avatar src="avatar.png" alt="it's me" size={25} />
-              </Link>
+              {isLoggedIn ? (
+                <Link
+                  to={isAdminUser ? "/admin-dashboard/profile" : "/dashboard"}
+                >
+                  <Avatar src="avatar.png" alt="it's me" size={25} />
+                </Link>
+              ) : (
+                <Link
+                  to={"/login"}
+                  className="text-xs hover:text-white px-2 py-[0.1rem] shadow-md rounded-sm font-semibold hover:bg-blue-500 bg-gray-100 text-gray-500"
+                >
+                  Login
+                </Link>
+              )}
               <Link to="/cart" className="pr-1">
                 <BsCart3 size={21} />
               </Link>
             </div>
           </div>
-          <div className="flex justify-between items-center   md:gap-x-2 w-full  ">
+
+          {/** Navbar for Large Screens */}
+          <div className="flex justify-between items-center  md:gap-x-2 md:px-2 w-full  ">
             <div className="flex md:gap-x-4  w-full">
               <Link to="/">
                 <img
@@ -63,8 +90,8 @@ const Navbar = () => {
               </div>
             </div>
 
-            <div className="lg:flex lg:justify-between lg:items-center lg:gap-x-8 hidden md:flex">
-              <AvatarDropdown />
+            <div className="lg:flex lg:justify-between lg:items-center lg:gap-x-8 hidden md:flex md:gap-x-2">
+              <ProfileMenuButton isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
 
               <Link
                 to="/cart"
