@@ -18,14 +18,14 @@ const CustomerReview = () => {
       </div>
 
       {/* Review Info */}
-      <div className="grid grid-cols-12 border-b-[1.5px] pb-4 ">
-        <div className="col-span-2 flex flex-col justify-center items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 border-b-[1.5px] pb-4 gap-2">
+        <div className="grid-cols-1 lg:col-span-2 flex flex-col justify-center items-start lg:items-center">
           <p className="text-xl text-center">4.5★</p>
           <p className="text-xs text-gray-500 text-center">
             560 Ratings & 84 Reviews
           </p>
         </div>
-        <div className="col-span-10 text-xs flex flex-col gap-y-1">
+        <div className="grid-cols-1 lg:col-span-10 text-xs flex flex-col gap-y-1">
           <div className="flex items-center justify-start gap-x-2">
             <span className="text-[13px] font-medium">5 ★</span>
             <Progress value={80} className="w-44" size={4} color="green" />

@@ -18,6 +18,7 @@ import {
 import { RiArrowRightDoubleLine } from "react-icons/ri";
 import { TbArrowsSort } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import { getTableHeader } from "../../../Utils/common.jsx";
 import DeletePopover from "../../../components/DeletePopover.jsx";
 import EditUser from "../../../components/modals/EditUserModal.jsx";
 
@@ -263,51 +264,10 @@ const data = [
   },
 ];
 
-const getTableHeader = (header, headerName) => {
-  return (
-    <div className="flex  pb-4 flex-col items-start gap-x-2 text-xs text-start bg-red-40 flex-wrap font-semibold text-gray-500">
-      <div className="flex items-center w-full  gap-x-1 bg-gray-60">
-        <p className="text-xs text-start  bg-red-20 font-semibold text-gray-500 py-1">
-          {headerName}
-        </p>
-        <div
-          onClick={() => {
-            header.column.toggleSorting();
-          }}
-        >
-          <TbArrowsSort className="text-gray-600 cursor-pointer" size={15} />
-        </div>
-      </div>
-      <div className="pl-1">
-        {
-          {
-            asc: (
-              <img
-                src="/caret-square-up.svg "
-                className="opacity-40"
-                alt=""
-                width={13}
-              />
-            ),
-            desc: (
-              <img
-                src="/caret-square-down.svg "
-                className="opacity-40"
-                alt=""
-                width={13}
-              />
-            ),
-          }[header.column.getIsSorted()]
-        }
-      </div>
-    </div>
-  );
-};
-
 const colHelper = createColumnHelper();
 const columns = [
   colHelper.accessor("id", {
-    header: (header) => getTableHeader(header, "Product ID"),
+    header: (header) => getTableHeader(header, "ProductID"),
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
   colHelper.accessor("name", {
@@ -357,14 +317,14 @@ const columns = [
   }),
 
   colHelper.accessor("createdAt", {
-    header: (header) => getTableHeader(header, "Created At"),
+    header: (header) => getTableHeader(header, "CreatedAt"),
     cell: (props) => (
       <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
     ),
   }),
 
   colHelper.accessor("updatedAt", {
-    header: (header) => getTableHeader(header, "Updated At"),
+    header: (header) => getTableHeader(header, "UpdatedAt"),
     cell: (props) => (
       <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
     ),

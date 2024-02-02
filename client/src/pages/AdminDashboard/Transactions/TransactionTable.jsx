@@ -16,7 +16,7 @@ import {
   MdOutlineNavigateNext,
 } from "react-icons/md";
 import { RiArrowRightDoubleLine } from "react-icons/ri";
-import { TbArrowsSort } from "react-icons/tb";
+import { getTableHeader } from "../../../Utils/common.jsx";
 import DeletePopover from "../../../components/DeletePopover.jsx";
 import EditTransactionModal from "../../../components/modals/EditTransactionModal.jsx";
 
@@ -53,56 +53,15 @@ const data = [
   },
 ];
 
-const getTableHeader = (header, headerName) => {
-  return (
-    <div className="flex  pb-4 flex-col items-start gap-x-2 text-xs text-start bg-red-40 flex-wrap font-semibold text-gray-500">
-      <div className="flex items-center w-full  gap-x-1 bg-gray-60">
-        <p className="text-xs text-start  bg-red-20 font-semibold text-gray-500 py-1">
-          {headerName}
-        </p>
-        <div
-          onClick={() => {
-            header.column.toggleSorting();
-          }}
-        >
-          <TbArrowsSort className="text-gray-600 cursor-pointer" size={15} />
-        </div>
-      </div>
-      <div className="pl-1">
-        {
-          {
-            asc: (
-              <img
-                src="/caret-square-up.svg "
-                className="opacity-40"
-                alt=""
-                width={13}
-              />
-            ),
-            desc: (
-              <img
-                src="/caret-square-down.svg "
-                className="opacity-40"
-                alt=""
-                width={13}
-              />
-            ),
-          }[header.column.getIsSorted()]
-        }
-      </div>
-    </div>
-  );
-};
-
 const colHelper = createColumnHelper();
 const columns = [
   colHelper.accessor("id", {
-    header: (header) => getTableHeader(header, "Order ID"),
+    header: (header) => getTableHeader(header, "OrderID"),
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
 
   colHelper.accessor("userId", {
-    header: (header) => getTableHeader(header, "User ID"),
+    header: (header) => getTableHeader(header, "UserID"),
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
 
@@ -143,13 +102,13 @@ const columns = [
         withArrow
         className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
       >
-        <p className="mr-2 w-32 truncate">{props.getValue()}</p>
+        <p className="mr-2 w-28 truncate">{props.getValue()}</p>
       </Tooltip>
     ),
   }),
 
   colHelper.accessor("createdAt", {
-    header: (header) => getTableHeader(header, "Created At"),
+    header: (header) => getTableHeader(header, "CreatedAt"),
     cell: (props) => (
       <Tooltip
         label={moment(props.getValue()).format("YYYY-MM-DD HH:mm:ss")}
@@ -158,7 +117,7 @@ const columns = [
         withArrow
         className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
       >
-        <p className="mr-2 w-32 truncate">
+        <p className="mr-2 w-[4.5rem] truncate">
           {moment(props.getValue()).format("YYYY-MM-DD HH:mm:ss")}
         </p>
       </Tooltip>

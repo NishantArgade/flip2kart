@@ -8,7 +8,7 @@ const ProductCard = ({ showRating, showStrikePrice, showDiscount }) => {
         <Link to="/product-detail/4">
           <img
             src="/camera.png"
-            className="w-[5rem] md:w-[6rem] lg:w-[10rem] m-2 hover:scale-105"
+            className="w-[5rem] md:w-[6rem] lg:w-[9rem] m-2 hover:scale-105"
             alt=""
           />
         </Link>
@@ -31,12 +31,14 @@ const ProductCard = ({ showRating, showStrikePrice, showDiscount }) => {
             <span className="font-medium text-gray-500">(460)</span>
           </div>
         )}
-        <p className="md:text-[0.9rem] text-[0.8rem] mt-1 flex md:flex-row flex-col items-start">
+        <p className="md:text-[0.9rem] text-[0.8rem] mt-1 flex md:flex-row justify-start items-end flex-col">
           <span className=" mr-2 font-bold">₹1,500</span>
           {showStrikePrice && (
-            <strike className="mr-2  text-gray-700">₹2300</strike>
+            <strike className="mr-2  text-gray-700 text-xs">₹2300</strike>
           )}
-          {showDiscount && <span className="text-green-600 ">24% off</span>}
+          {showDiscount && (
+            <span className="text-green-600 text-xs">24% off</span>
+          )}
         </p>
       </div>
     </div>

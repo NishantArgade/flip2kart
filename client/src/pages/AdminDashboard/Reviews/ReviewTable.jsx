@@ -17,6 +17,7 @@ import {
 } from "react-icons/md";
 import { RiArrowRightDoubleLine } from "react-icons/ri";
 import { TbArrowsSort } from "react-icons/tb";
+import { getTableHeader } from "../../../Utils/common.jsx";
 import DeletePopover from "../../../components/DeletePopover.jsx";
 import EditReviewModal from "../../../components/modals/EditReviewModal.jsx";
 
@@ -144,47 +145,6 @@ const data = [
   },
 ];
 
-const getTableHeader = (header, headerName) => {
-  return (
-    <div className="flex  pb-4 flex-col items-start gap-x-2 text-xs text-start bg-red-40 flex-wrap font-semibold text-gray-500">
-      <div className="flex items-center w-full  gap-x-1 bg-gray-60">
-        <p className="text-xs text-start  bg-red-20 font-semibold text-gray-500 py-1">
-          {headerName}
-        </p>
-        <div
-          onClick={() => {
-            header.column.toggleSorting();
-          }}
-        >
-          <TbArrowsSort className="text-gray-600 cursor-pointer" size={15} />
-        </div>
-      </div>
-      <div className="pl-1">
-        {
-          {
-            asc: (
-              <img
-                src="/caret-square-up.svg "
-                className="opacity-40"
-                alt=""
-                width={13}
-              />
-            ),
-            desc: (
-              <img
-                src="/caret-square-down.svg "
-                className="opacity-40"
-                alt=""
-                width={13}
-              />
-            ),
-          }[header.column.getIsSorted()]
-        }
-      </div>
-    </div>
-  );
-};
-
 const getRatingColor = (rating) => {
   if (rating === "1") return "red";
   else if (rating === "2" || rating === "3") return "orange";
@@ -193,12 +153,12 @@ const getRatingColor = (rating) => {
 
 const colHelper = createColumnHelper();
 const columns = [
-  colHelper.accessor("id", {
-    header: (header) => getTableHeader(header, "Review ID"),
+  colHelper.accessor("productId", {
+    header: (header) => getTableHeader(header, "ProductID"),
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
   colHelper.accessor("productName", {
-    header: (header) => getTableHeader(header, "Product Name"),
+    header: (header) => getTableHeader(header, "ProductName"),
     cell: (props) => (
       <Tooltip
         label={props.getValue()}
@@ -211,12 +171,8 @@ const columns = [
       </Tooltip>
     ),
   }),
-  colHelper.accessor("productId", {
-    header: (header) => getTableHeader(header, "Product ID"),
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-  }),
   colHelper.accessor("userName", {
-    header: (header) => getTableHeader(header, "User Name"),
+    header: (header) => getTableHeader(header, "UserName"),
     cell: (props) => (
       <Tooltip
         label={props.getValue()}
@@ -239,7 +195,7 @@ const columns = [
             : getRatingColor(props.getValue()) === "orange"
             ? "bg-orange-500"
             : "bg-red-500"
-        }  text-white font-semibold rounded-md text-[0.70rem] mr-4 px-2  text-center`}
+        }  text-white font-semibold rounded-md text-[0.70rem] mr-4 px-2 w-10  text-center`}
       >
         <span> {props.getValue()}★</span>
       </p>
@@ -255,12 +211,12 @@ const columns = [
         withArrow
         className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
       >
-        <p className="mr-2 w-32 truncate">{props.getValue()}</p>
+        <p className="mr-2 w-28 truncate">{props.getValue()}</p>
       </Tooltip>
     ),
   }),
   colHelper.accessor("createdAt", {
-    header: (header) => getTableHeader(header, "Created At"),
+    header: (header) => getTableHeader(header, "CreatedAt"),
     cell: (props) => (
       <Tooltip
         label={moment(props.getValue()).format("YYYY-MM-DD HH:mm:ss")}
@@ -269,7 +225,7 @@ const columns = [
         withArrow
         className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
       >
-        <p className="mr-2 w-32 truncate">
+        <p className="mr-2 w-full truncate">
           {moment(props.getValue()).format("YYYY-MM-DD HH:mm:ss")}
         </p>
       </Tooltip>

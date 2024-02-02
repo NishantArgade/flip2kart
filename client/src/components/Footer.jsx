@@ -119,7 +119,7 @@ const Footer = () => {
           <div>
             <p className="text-xs text-gray-400 mb-2 ">Mail Us:</p>
             <div className="flex flex-col items-start justify-start">
-              <div className="text-[0.68rem] text-gray-50 md:w-52">
+              <div className="text-[0.68rem] text-gray-50 md:w-48">
                 Flipkart Internet Private Limited, Buildings Alyssa, Begonia &
                 Clove Embassy Tech Village, Outer Ring Road, Devarabeesanahali
                 Village, Bangaluru, 560103, Karnataka, India.
@@ -131,7 +131,7 @@ const Footer = () => {
               Registered Office Address:
             </p>
             <div className="flex flex-col items-start justify-start flex-wrap">
-              <div className="text-[0.68rem]  md:w-52 text-gray-50">
+              <div className="text-[0.68rem]  md:w-48 text-gray-50">
                 Flipkart Internet Private Limited, Buildings Alyssa, Begonia &
                 Clove Embassy Tech Village, Outer Ring Road, Devarabeesanahali
                 Village, Bengaluru, 560103, Karnataka, India CIN:

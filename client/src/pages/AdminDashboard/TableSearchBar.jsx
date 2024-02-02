@@ -3,7 +3,7 @@ import { IoSearchOutline } from "react-icons/io5";
 
 const TableSearchBar = ({ globalFilter, setGlobalFilter }) => {
   return (
-    <div className="w-[45rem] hover:shadow-md flex bg-[#F0F5FF]  rounded-md items-center text-sm  ">
+    <div className="w-[35rem] hover:shadow-md flex bg-[#F0F5FF]  rounded-md items-center text-sm  ">
       <input
         className="outline-none bg-[#F0F5FF]  rounded-md  w-full h-full px-2 "
         placeholder="Search Product"

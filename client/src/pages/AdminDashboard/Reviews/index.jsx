@@ -23,7 +23,7 @@ const Reviews = () => {
 
   return (
     <div className=" w-full p-4 ">
-      <div className="flex justify-start gap-x-6 mb-6">
+      <div className="flex justify-start gap-x-8 mb-6">
         <TableSearchBar
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
@@ -37,7 +37,7 @@ const Reviews = () => {
           value="All"
         >
           <Menu.Target>
-            <button className="text-blue-500 flex items-center text-sm gap-x-2">
+            <button className="text-blue-500 flex items-center text-xs gap-x-2">
               <FiFilter />
               <p>Filter By Rating</p>
             </button>

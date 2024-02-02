@@ -1,3 +1,4 @@
+import { Tooltip } from "@mantine/core";
 import {
   createColumnHelper,
   flexRender,
@@ -6,13 +7,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { TbArrowsSort } from "react-icons/tb";
+import { getTableHeader } from "../../../Utils/common";
 
 const data = [
   {
     id: "adfasdfsdasdassdfdfdfsdffasfasdfsdfsafsd",
-    firstName: "Niasdfasdfst",
-    lastName: "Argadfddffdf",
+    firstName: "Nishant",
+    lastName: "Argade",
     createAt: "2023-02-1 01:03:12",
     quantity: 40000000,
     cost: "150000000",
@@ -103,229 +104,55 @@ const columnHelper = createColumnHelper();
 const columns = [
   columnHelper.accessor((row) => `${row.firstName} ${row.lastName}`, {
     id: "full name",
-    header: (header) => (
-      <div className="py-2 flex items-center gap-2">
-        <div className="flex items-center">
-          <p className="text-xs  mr-2 text-gray-500 font-semibold  border-gray-300 text-left">
-            Full Name
-          </p>
-          <div
-            onClick={() => {
-              header.column.toggleSorting();
-            }}
-          >
-            <TbArrowsSort className="text-gray-600 cursor-pointer" size={15} />
-          </div>
-        </div>
-
-        <div>
-          {
-            {
-              asc: (
-                <img
-                  src="/caret-square-up.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-              desc: (
-                <img
-                  src="/caret-square-down.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-            }[header.column.getIsSorted()]
-          }
-        </div>
-      </div>
-    ),
-
+    header: (header) => getTableHeader(header, "Name"),
     cell: (props) => (
-      <p className="text-[0.7rem] py-2 mr-2">{props.getValue()}</p>
+      <Tooltip
+        label={props.getValue()}
+        arrowOffset={12}
+        arrowSize={6}
+        withArrow
+        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+      >
+        <p className="mr-2  w-16 truncate">{props.getValue()}</p>
+      </Tooltip>
     ),
-    minSize: 200,
+    // minSize: 200,
   }),
-  columnHelper.accessor("id", {
-    header: (header) => (
-      <div className="py-2 flex items-center gap-2">
-        <div className="flex items-center">
-          <p className="text-xs  mr-2 text-gray-500 font-semibold  border-gray-300 text-left">
-            ID{" "}
-          </p>
-          <div
-            onClick={() => {
-              header.column.toggleSorting();
-            }}
-          >
-            <TbArrowsSort className="text-gray-600 cursor-pointer" size={15} />
-          </div>
-        </div>
 
-        <div>
-          {
-            {
-              asc: (
-                <img
-                  src="/caret-square-up.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-              desc: (
-                <img
-                  src="/caret-square-down.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-            }[header.column.getIsSorted()]
-          }
-        </div>
-      </div>
-    ),
+  columnHelper.accessor("id", {
+    header: (header) => getTableHeader(header, "UserID"),
     cell: (props) => (
       <p className="text-[0.7rem] py-2 mr-2">{props.getValue()}</p>
     ),
   }),
 
   columnHelper.accessor("createAt", {
-    header: (header) => (
-      <div className="py-2 flex items-center gap-2">
-        <div className="flex items-center">
-          <p className="text-xs  mr-2 text-gray-500 font-semibold  border-gray-300 text-left">
-            Created At
-          </p>
-          <div
-            onClick={() => {
-              header.column.toggleSorting();
-            }}
-          >
-            <TbArrowsSort className="text-gray-600 cursor-pointer" size={15} />
-          </div>
-        </div>
-
-        <div>
-          {
-            {
-              asc: (
-                <img
-                  src="/caret-square-up.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-              desc: (
-                <img
-                  src="/caret-square-down.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-            }[header.column.getIsSorted()]
-          }
-        </div>
-      </div>
-    ),
+    header: (header) => getTableHeader(header, "CreatedAt"),
     cell: (props) => (
-      <p className="text-[0.7rem] py-2 mr-2">{props.getValue()}</p>
+      <Tooltip
+        label={props.getValue()}
+        arrowOffset={12}
+        arrowSize={6}
+        withArrow
+        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+      >
+        <p className="mr-2  w-16 truncate">{props.getValue()}</p>
+      </Tooltip>
     ),
-    minSize: 180,
+    // minSize: 180,
   }),
 
   columnHelper.accessor("quantity", {
-    header: (header) => (
-      <div className="py-2 flex items-center gap-2">
-        <div className="flex items-center">
-          <p className="text-xs  mr-2 text-gray-500 font-semibold  border-gray-300 text-left">
-            Qty
-          </p>
-          <div
-            onClick={() => {
-              header.column.toggleSorting();
-            }}
-          >
-            <TbArrowsSort className="text-gray-600 cursor-pointer" size={15} />
-          </div>
-        </div>
-
-        <div>
-          {
-            {
-              asc: (
-                <img
-                  src="/caret-square-up.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-              desc: (
-                <img
-                  src="/caret-square-down.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-            }[header.column.getIsSorted()]
-          }
-        </div>
-      </div>
-    ),
+    header: (header) => getTableHeader(header, "Qty"),
     cell: (props) => (
       <p className="text-[0.7rem] py-2 mr-2">{props.getValue()}</p>
     ),
-    size: 120,
+    // size: 120,
   }),
   columnHelper.accessor("cost", {
-    header: (header) => (
-      <div className="py-2 flex items-center gap-2">
-        <div className="flex items-center">
-          <p className="text-xs  mr-2 text-gray-500 font-semibold  border-gray-300 text-left">
-            Cost
-          </p>
-          <div
-            onClick={() => {
-              header.column.toggleSorting();
-            }}
-          >
-            <TbArrowsSort className="text-gray-600 cursor-pointer" size={15} />
-          </div>
-        </div>
-
-        <div>
-          {
-            {
-              asc: (
-                <img
-                  src="/caret-square-up.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-              desc: (
-                <img
-                  src="/caret-square-down.svg "
-                  className="opacity-40"
-                  alt=""
-                  width={15}
-                />
-              ),
-            }[header.column.getIsSorted()]
-          }
-        </div>
-      </div>
-    ),
+    header: (header) => getTableHeader(header, "Cost"),
     cell: (props) => <p className="text-[0.7rem] py-2">{props.getValue()}</p>,
-    size: 120,
+    // size: 120,
   }),
 ];
 
