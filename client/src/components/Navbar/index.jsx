@@ -1,15 +1,17 @@
 import { Avatar } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useState } from "react";
 import { BsCart3 } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { IoSearchOutline } from "react-icons/io5";
 import { Link, useLocation } from "react-router-dom";
-import MobileSidebarDrawer from "./MobileSidebarDrawer";
-import ProfileMenuButton from "./ProfileMenuButton/index.jsx";
+import MobileSidebarDrawer from "../MobileSidebarDrawer/index.jsx";
+import ProfileMenuButton from "../ProfileMenuButton/index.jsx";
+import ProductSearchInput from "./ProductSearchInput.jsx";
 
 const Navbar = () => {
   const location = useLocation();
   const [opened, { open, close }] = useDisclosure(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const removeNavbarPages = ["/add-product", "/edit-product"];
   if (removeNavbarPages.includes(location.pathname)) return null;
@@ -29,7 +31,7 @@ const Navbar = () => {
         isAdmin={isAdmin}
       />
 
-      <div className=" z-50 bg-white  shadow-md top-0 left-0 right-0 sticky overflow-hidden ">
+      <div className=" z-[2000] bg-white  shadow-md top-0 left-0 right-0 sticky overflow-visible ">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center py-3 lg:px-12 ">
           {/** Navbar for Mobile */}
           <div className=" md:hidden w-full text-2xl flex justify-between items-center px-2 mb-4">
@@ -79,14 +81,8 @@ const Navbar = () => {
                 />
               </Link>
 
-              <div className="flex items-center justify-start gap-x-1 mx-4  bg-[#F0F5FF] w-full lg:w-[38rem] px-2 py-1 rounded-md">
-                <IoSearchOutline size={24} color="gray" />
-                <input
-                  className="outline-none w-full bg-[#F0F5FF] text-sm  py-0.5"
-                  placeholder="Search for Products, Brands and More"
-                  type="text"
-                  name="search"
-                />
+              <div className="flex items-center justify-start  w-full lg:w-[38rem]">
+                <ProductSearchInput setSearchValue={setSearchValue} />
               </div>
             </div>
 
