@@ -55,10 +55,10 @@ const Footer = () => {
 
   /** Big Footer */
   return (
-    <div className="md:h-auto w-full bg-[#212121] overflow-hidden">
-      <div className="md:flex md:flex-row md:gap-x-2 justify-between md:px-0 lg:px-12 px-4 items-start text-white py-8 ">
-        {/* md:flex md:flex-row md:gap-y-2 gap-y-5 grid grid-cols-2 gap-x-4 md:gap-x-2 justify-between md:px-12 px-4 items-start text-white py-8 */}
-        <div className="md:flex w-full md:flex-row md:gap-y-2 gap-y-5 grid grid-cols-2 gap-x-4 md:gap-x-2 justify-between md:px-12 px-4 items-start text-white py-8">
+    <div className="md:h-auto w-full bg-[#212121] overflow-hidden p-3 ">
+      <div className="flex flex-col gap-4 py-4">
+        {/** Left Section */}
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4  md:container md:mx-auto">
           <div>
             <p className="text-xs text-gray-400 mb-2">ABOUT</p>
             <div className="flex flex-col items-start justify-start">
@@ -114,12 +114,12 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* right section */}
-        <div className="md:px-12 px-4 w-full text-white  md:flex md:flex-row md:border-l-2 flex flex-wrap   items-start md:justify-between border-l-0 border-gray-700 md:pl-6 gap-4">
+        {/* Right section */}
+        <div className="grid col-span-1 md:grid-cols-2 gap-4  md:container md:mx-auto">
           <div>
             <p className="text-xs text-gray-400 mb-2 ">Mail Us:</p>
             <div className="flex flex-col items-start justify-start">
-              <div className="text-[0.68rem] text-gray-50 md:w-48">
+              <div className="text-[0.68rem] text-gray-50 ">
                 Flipkart Internet Private Limited, Buildings Alyssa, Begonia &
                 Clove Embassy Tech Village, Outer Ring Road, Devarabeesanahali
                 Village, Bangaluru, 560103, Karnataka, India.
@@ -131,7 +131,7 @@ const Footer = () => {
               Registered Office Address:
             </p>
             <div className="flex flex-col items-start justify-start flex-wrap">
-              <div className="text-[0.68rem]  md:w-48 text-gray-50">
+              <div className="text-[0.68rem]  text-gray-50">
                 Flipkart Internet Private Limited, Buildings Alyssa, Begonia &
                 Clove Embassy Tech Village, Outer Ring Road, Devarabeesanahali
                 Village, Bengaluru, 560103, Karnataka, India CIN:
@@ -141,6 +141,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      {/** Sub Foogter */}
       <div className="border-t-2 md:px-12 px-4 border-gray-700 flex py-2 items-center justify-between gap-x-4">
         <span className="text-gray-400 text-xs">2007-2024 Flip2kart.com</span>
         <div className="flex justify-start items-center gap-x-2">
