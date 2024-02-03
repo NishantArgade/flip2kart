@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BsFilterCircleFill } from "react-icons/bs";
+import { LuSettings2 } from "react-icons/lu";
 import { MdOutlineNavigateNext } from "react-icons/md";
-import OutsideClickHandler from "react-outside-click-handler";
 import { Link, NavLink } from "react-router-dom";
 import FilterSection from "./FilterSection";
 import MyOrderSearchBar from "./MyOrderSearchBar";
@@ -61,32 +61,27 @@ const MyOrders = ({ isAdmin }) => {
         </NavLink>
       </div>
 
-      {/** Main Component*/}
-      <div className="grid grid-cols-12 min-h-[30rem] gap-x-2 gap-y-2 p-2 container mx-auto">
-        <BsFilterCircleFill
-          className="text-gray-500 my-2   cursor-pointer md:hidden"
+      <div className="w-full mt-2 flex justify-end gap-2 px-2 items-center">
+        <LuSettings2
+          className="text-gray-500 cursor-pointer md:hidden"
           onClick={() => setIsOpenSidebar(true)}
           size={22}
         />
+        <span>Filters</span>
+      </div>
+      {/** Main Component*/}
+      <div className="grid grid-cols-12 min-h-[30rem] gap-x-2 gap-y-2 p-2 container mx-auto">
         {/* Filter Section */}
-        <div className="md:col-span-4 lg:col-span-2 ">
-          <OutsideClickHandler
-            onOutsideClick={() => {
-              setIsOpenSidebar(false);
-            }}
-            disabled={!isOpenSidebar}
+        <div className="md:col-span-4 lg:col-span-2">
+          <div
+            className={`${
+              isOpenSidebar
+                ? "translate-x-0"
+                : "translate-x-full md:-translate-x-0"
+            } col-span-12 fixed left-0 top-0 md:static bg-gray-100 md:bg-none border-2 rounded-md md:rounded-sm border-gray-200 md:border-0 z-50 w-full md:w-full  duration-500 transition-all ease-in-out md:col-span-4 lg:col-span-2 md:h-full h-screen`}
           >
-            {/* <div className="md:col-span-4 lg:col-span-2 h-fit bg-white  shadow-md hidden md:block"> */}
-            <div
-              className={`${
-                isOpenSidebar
-                  ? "-translate-x-0"
-                  : "-translate-x-96 md:-translate-x-0"
-              } col-span-12 fixed left-0 top-24 md:static bg-gray-100 md:bg-none border-2 rounded-md md:rounded-sm border-gray-200 md:border-0 z-50 w-2/3 md:w-full  h-full   duration-500 transition-all ease-in-out md:col-span-4 lg:col-span-2`}
-            >
-              <FilterSection setIsOpenSidebar={setIsOpenSidebar} />
-            </div>
-          </OutsideClickHandler>
+            <FilterSection setIsOpenSidebar={setIsOpenSidebar} />
+          </div>
         </div>
 
         {/* Order Listing Section */}

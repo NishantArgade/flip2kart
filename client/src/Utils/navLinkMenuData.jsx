@@ -54,19 +54,13 @@ export const getUserNavLinkMenuItems = () => [
 ];
 export const getUnAuthUserNavLinkMenuItems = () => [
   {
-    icon: <FaArrowTrendUp size={24} />,
-    name: "Trending Products",
-    link: "/trending-products",
-  },
-  {
     icon: <BsBoxes size={24} />,
     name: "All Products",
     link: "/all-products",
   },
-
   {
-    icon: <MdOutlineSell size={24} />,
-    name: "Sell",
-    link: "/sell",
+    icon: <FaArrowTrendUp size={24} />,
+    name: "Offer Zone",
+    link: "/offerzone",
   },
 ];

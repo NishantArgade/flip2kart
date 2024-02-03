@@ -1,22 +1,14 @@
 import { Carousel } from "@mantine/carousel";
 import { Image } from "@mantine/core";
-import Autoplay from "embla-carousel-autoplay";
-import { useRef } from "react";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 
 const AdAutoSlideCarousel = () => {
-  const autoplay = useRef(Autoplay({ delay: 3000 }));
   return (
     <div className="mt-3 mb-3 bg-white">
       {" "}
       <Carousel
         // height={100}
 
-        plugins={[autoplay.current]}
-        onMouseEnter={autoplay.current.play}
-        onMouseLeave={autoplay.current.play}
-        onClick={autoplay.current.play}
-        onSlideChange={autoplay.current.play}
         previousControlIcon={
           <MdOutlineNavigateBefore
             size={20}
@@ -30,6 +22,13 @@ const AdAutoSlideCarousel = () => {
           />
         }
         withIndicators
+        loop
+        styles={{
+          indicator: {
+            backgroundColor: "gray",
+            width: "1rem",
+          },
+        }}
       >
         <Carousel.Slide>
           <div>

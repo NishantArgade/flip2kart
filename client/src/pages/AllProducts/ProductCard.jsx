@@ -6,7 +6,7 @@ const ProductCard = ({ product }) => {
   return (
     <Link
       to="/product-detail/1"
-      className="w-full   flex flex-col items-start justify-start px-2 cursor-pointer hover:shadow-lg border-2 border-gray-100 rounded-sm py-2"
+      className="w-full   flex flex-col items-start justify-start px-2 cursor-pointer hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] border-2 border-gray-100 rounded-sm py-2"
     >
       <div className=" w-full ">
         <div className="bg-green-20 w-full h-44 bg-pink-30 my-2 md:h-40 lg:h-56 flex flex-col items-center justify-center">

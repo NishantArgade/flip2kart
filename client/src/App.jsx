@@ -22,11 +22,10 @@ import RateProduct from "./pages/GiveRatingProduct";
 import Home from "./pages/Home";
 import MyCart from "./pages/MyCart";
 import MyOrders from "./pages/MyOrders";
+import { default as OfferZone } from "./pages/OfferZone";
 import PageNotFound from "./pages/PageNotFound";
 import ProductDetail from "./pages/ProductDetail";
 import Root from "./pages/Root";
-import Sell from "./pages/SellPage";
-import TrendingProducts from "./pages/TrendingProductsPage";
 import ManagesAddress from "./pages/UserDashboard/ManagesAddress";
 import ProfileInfo from "./pages/UserDashboard/ProfileInfo";
 import ReviewAndRatings from "./pages/UserDashboard/ReviewAndRatings";
@@ -76,8 +75,7 @@ const router = createBrowserRouter(
       <Route path="product-detail/:productId" element={<ProductDetail />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
-      <Route path="trending-products" element={<TrendingProducts />} />
-      <Route path="sell" element={<Sell />} />
+      <Route path="offerzone" element={<OfferZone />} />
 
       {/* NOT FOUND  ROUTES */}
       <Route path="*" element={<PageNotFound />} />

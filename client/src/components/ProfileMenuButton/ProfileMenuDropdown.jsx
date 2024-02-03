@@ -15,17 +15,19 @@ export default function AdminProfileDropdownBtn({
       width={200}
       withArrow
       arrowSize={10}
+      // classNames={"z-[3000]"}
+      zIndex={3000}
     >
       <Menu.Target>{TargetButton}</Menu.Target>
 
       <Menu.Dropdown>
         {!isLoggedIn && (
           <Menu.Item className="hover:bg-gray-50">
-            <p className="border-b-2 pb-2">
-              New Customer?
+            <p className="border-b-2 pb-2 flex items-center justify-between">
+              <span>New Customer?</span>
               <Link
                 to="/register"
-                className="text-blue-500 ml-1 hover:underline hover:underline-offset-4"
+                className="text-blue-500  hover:underline hover:underline-offset-4"
               >
                 Signup
               </Link>

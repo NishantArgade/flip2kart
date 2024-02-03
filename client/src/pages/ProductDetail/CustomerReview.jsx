@@ -11,14 +11,14 @@ const CustomerReview = () => {
         </p>
         <Link
           to={"/rate-product"}
-          className="py-3 text-sm px-5 shadow-md border-[1.5px]"
+          className="py-2 md:py-3 text-sm px-2 md:px-5 shadow-md border-[1.5px]"
         >
           Rate Product
         </Link>
       </div>
 
       {/* Review Info */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 border-b-[1.5px] pb-4 gap-2">
+      <div className="grid grid-cols-1 lg:grid-cols-12 border-b-[1.5px] pb-4 gap-2 px-2">
         <div className="grid-cols-1 lg:col-span-2 flex flex-col justify-center items-start lg:items-center">
           <p className="text-xl text-center">4.5★</p>
           <p className="text-xs text-gray-500 text-center">

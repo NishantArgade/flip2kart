@@ -18,12 +18,12 @@ const ProductCategoryCard = ({ category }) => {
         <HoverCard.Target>
           <Link
             to="/all-products"
-            className="flex flex-col justify-center items-center "
+            className="flex flex-col justify-center items-center  w-14 h-24"
           >
-            <div className="h-16 flex flex-col justify-center items-center ">
-              <img className="md:w-12 w-8" src={category?.image} alt="" />
+            <div className=" ">
+              <img className="md:w-12" src={category?.image} alt="" />
             </div>
-            <p className="text-xs mt-2">{category?.name} </p>
+            <p className="text-xs mt-2 text-center">{category?.name}</p>
           </Link>
         </HoverCard.Target>
         <HoverCard.Dropdown>

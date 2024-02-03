@@ -1,23 +1,24 @@
 import { Accordion, Checkbox } from "@mantine/core";
 import React from "react";
+import { IoArrowBack } from "react-icons/io5";
 import { RxCrossCircled } from "react-icons/rx";
 
 const FilterSection = ({ setIsOpenSidebar }) => {
   return (
     <div className="bg-white">
-      <p className="text-start  text-gray-800 border-b-2 border-gray-200 p-2 flex justify-between items-center ">
-        <div className="flex items-center gap-x-3">
+      <p className="text-start  text-gray-800 border-b-2 border-gray-200 p-2 flex justify-between items-center">
+        <div className="flex items-center gap-4 text-sm">
+          <button
+            className="md:hidden self-start text-gray-500 "
+            onClick={() => setIsOpenSidebar(false)}
+          >
+            <IoArrowBack size={25} />
+          </button>
           <span>Filters</span>
-          <span className="text-blue-500 text-[0.6rem] font-semibold cursor-pointer ">
-            CLEAR ALL
-          </span>
         </div>
-        <button
-          className="md:hidden self-start text-gray-500 "
-          onClick={() => setIsOpenSidebar(false)}
-        >
-          <RxCrossCircled size={25} />
-        </button>
+        <span className="text-blue-500 text-[0.6rem] font-semibold cursor-pointer ">
+          CLEAR ALL
+        </span>
       </p>
 
       <Accordion multiple>

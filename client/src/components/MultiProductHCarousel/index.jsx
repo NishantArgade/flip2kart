@@ -24,17 +24,17 @@ const MultiProductHCarousel = ({
         previousControlIcon={
           <MdOutlineNavigateBefore
             size={20}
-            className="bg-[#f8f8f8f9] w-8 h-8 rounded-full border-2 text-gray-600"
+            className="bg-[#dededeec] w-6 h-6 border-gray-300 rounded-full border-2 text-gray-700"
           />
         }
         nextControlIcon={
           <MdOutlineNavigateNext
             size={20}
-            className="bg-[#f8f8f8ec] h-8 w-8  rounded-full border-2 text-gray-600"
+            className="bg-[#dededeec] h-6 w-6  border-gray-300 rounded-full border-2 text-gray-700"
           />
         }
       >
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+        {Array.from({ length: 20 }).map((i) => (
           <Carousel.Slide key={i}>
             <ProductCard
               showRating={showRating}
