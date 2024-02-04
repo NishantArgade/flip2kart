@@ -1,4 +1,4 @@
-import ProductCategoryCard from "./ProductCategoryCard";
+import Card from "./Card"
 
 const categoryData = [
   {
@@ -163,20 +163,20 @@ const categoryData = [
     name: "Fans",
     categoryOptions: ["Crompton", "Orient", "Bajaj", "Havells", "Usha"],
   },
-];
+]
 
 const ProductCategoryCards = () => {
   return (
     <div className="bg-white  shadow-md">
-      <div className="md:px-8 lg:px-28 px-2">
-        <div className="flex justify-between items-center py-2 cursor-pointer overflow-x-auto thin-scrollbar">
+      <div className="px-2 md:px-8 lg:px-28">
+        <div className="thin-scrollbar flex cursor-pointer items-center justify-between overflow-x-auto py-2">
           {categoryData.map((category, index) => (
-            <ProductCategoryCard key={index} category={category} />
+            <Card key={index} category={category} />
           ))}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductCategoryCards;
+export default ProductCategoryCards

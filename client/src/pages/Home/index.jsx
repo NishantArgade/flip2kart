@@ -1,6 +1,6 @@
-import AdAutoSlideCarousel from "../components/AdAutoSlideCarousel.jsx";
-import MultiProductHCarousel from "../components/MultiProductHCarousel/index.jsx";
-import ProductCategoryCards from "../components/ProductCategoryCards/index.jsx";
+import MultiProductHCarousel from "../../components/MultiProductHCarousel/index.jsx"
+import AdAutoSlideCarousel from "./components/AdAutoSlideCarousel"
+import ProductCategoryCards from "./components/ProductCategoryCards"
 
 const Home = () => {
   return (
@@ -20,7 +20,7 @@ const Home = () => {
         showDiscount={true}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
