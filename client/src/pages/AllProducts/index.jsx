@@ -1,30 +1,30 @@
-import { Accordion, Checkbox, Drawer, Radio, RangeSlider } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { GoSortDesc } from "react-icons/go";
-import { IoArrowBack } from "react-icons/io5";
-import { LuSettings2 } from "react-icons/lu";
-import { Link } from "react-router-dom";
-import ProductCard from "./ProductCard";
+import { Accordion, Checkbox, Drawer, Radio, RangeSlider } from "@mantine/core"
+import { useEffect, useState } from "react"
+import { GoSortDesc } from "react-icons/go"
+import { IoArrowBack } from "react-icons/io5"
+import { LuSettings2 } from "react-icons/lu"
+import { Link } from "react-router-dom"
+import ProductCard from "./ProductCard"
 
 const AllProducts = () => {
-  const [priceRange, setPriceRange] = useState([0, 500]);
-  const [filterPriceRange, setFilterPriceRange] = useState([0, 500]);
-  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
-  const [sortByActiveLink, setSortByActiveLink] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 500])
+  const [filterPriceRange, setFilterPriceRange] = useState([0, 500])
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false)
+  const [sortByActiveLink, setSortByActiveLink] = useState("")
   const [isAcitveSortByMobileDrawer, setIsAcitveSortByMobileDrawer] =
-    useState(false);
+    useState(false)
 
   function getFilterPriceRange() {
-    let options = [];
+    let options = []
     for (let i = 0; i <= priceRange[1]; i += 100) {
-      options.push(<option value={i}>{i}</option>);
+      options.push(<option value={i}>{i}</option>)
     }
-    return options;
+    return options
   }
 
   useEffect(() => {
-    setSortByActiveLink(window.location.search);
-  }, []);
+    setSortByActiveLink(window.location.search)
+  }, [])
 
   const SortLink = ({ name, link }) => {
     return (
@@ -36,7 +36,7 @@ const AllProducts = () => {
           to={link}
           className={
             sortByActiveLink === link
-              ? "md:border-b-2  pb-1 md:border-blue-500 md:text-blue-600 "
+              ? "pb-1  md:border-b-2 md:border-blue-500 md:text-blue-600 "
               : "pb-1"
           }
         >
@@ -44,8 +44,8 @@ const AllProducts = () => {
         </Link>
         <Radio className="md:hidden" checked={sortByActiveLink === link} />
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <>
@@ -65,19 +65,19 @@ const AllProducts = () => {
         </div>
       </Drawer>
 
-      <div className="flex md:hidden px-2 w-full fixed top-[6.8rem] pb-2 pt-3 left-0 bg-white border-b-4">
-        <div className="flex justify-center  w-full gap-2 items-center border-r-2 ">
+      <div className="fixed left-0 top-[6.2rem] flex w-full border-b-4 bg-white px-2 pb-2 pt-3 md:hidden">
+        <div className="flex w-full  items-center justify-center gap-2 border-r-2 ">
           <GoSortDesc
-            className="text-gray-500 cursor-pointer "
+            className="cursor-pointer text-gray-500 "
             onClick={() => setIsAcitveSortByMobileDrawer(true)}
             size={24}
           />
           <p>Sort</p>
         </div>
 
-        <div className="flex justify-center  gap-2 w-full items-center">
+        <div className="flex w-full  items-center justify-center gap-2">
           <LuSettings2
-            className="text-gray-500 cursor-pointer"
+            className="cursor-pointer text-gray-500"
             onClick={() => setIsOpenSidebar(true)}
             size={24}
           />
@@ -94,26 +94,26 @@ const AllProducts = () => {
                 isOpenSidebar
                   ? "translate-x-0"
                   : "translate-x-full md:-translate-x-0"
-              } col-span-12 fixed left-0 top-0 md:static bg-gray-100 md:bg-none border-2 rounded-md md:rounded-sm border-gray-200 md:border-0 z-50 w-full md:w-full h-screen  md:h-full   duration-500 transition-all ease-in-out md:col-span-4 lg:col-span-2`}
+              } fixed left-0 top-0 z-50 col-span-12 h-screen w-full rounded-md border-2 border-gray-200 bg-gray-100 transition-all duration-500 ease-in-out md:static md:col-span-4  md:h-full   md:w-full md:rounded-sm md:border-0 md:bg-none lg:col-span-2`}
             >
               <div className="col-span-2 h-fit bg-white">
                 <div className="col-span-2 h-auto bg-white">
-                  <p className="text-start  text-gray-800 border-b-2 border-gray-200 p-2 flex justify-between items-center">
+                  <p className="flex  items-center justify-between border-b-2 border-gray-200 p-2 text-start text-gray-800">
                     <div className="flex items-center gap-4 text-sm">
                       <button
-                        className="md:hidden self-start text-gray-500 "
+                        className="self-start text-gray-500 md:hidden "
                         onClick={() => setIsOpenSidebar(false)}
                       >
                         <IoArrowBack size={25} />
                       </button>
                       <span>Filters</span>
                     </div>
-                    <span className="text-blue-500 text-[0.6rem] font-semibold cursor-pointer ">
+                    <span className="cursor-pointer text-[0.6rem] font-semibold text-blue-500 ">
                       CLEAR ALL
                     </span>
                   </p>
 
-                  <div className="p-2 mt-2 pb-4 border-b-2 border-gray-100">
+                  <div className="mt-2 border-b-2 border-gray-100 p-2 pb-4">
                     <RangeSlider
                       size={"sm"}
                       min={priceRange[0]}
@@ -122,28 +122,28 @@ const AllProducts = () => {
                       value={[filterPriceRange[0], filterPriceRange[1]]}
                       onChange={(value) => setFilterPriceRange(value)}
                     />
-                    <div className="flex justify-between items-center mt-2">
+                    <div className="mt-2 flex items-center justify-between">
                       <select
                         value={filterPriceRange[0]}
-                        className="w-[5rem] rounded-sm outline-blue-500 p-1 bg-white border-2 text-xs cursor-pointer"
+                        className="w-[5rem] cursor-pointer rounded-sm border-2 bg-white p-1 text-xs outline-blue-500"
                         onChange={(e) => {
                           setFilterPriceRange([
                             Number(e.target.value),
                             filterPriceRange[1],
-                          ]);
+                          ])
                         }}
                       >
                         {getFilterPriceRange()}
                       </select>
-                      <span className="text-gray-400 px-1 text-xs">to</span>
+                      <span className="px-1 text-xs text-gray-400">to</span>
                       <select
                         value={filterPriceRange[1]}
-                        className="w-[5rem] rounded-sm outline-blue-500 p-1  bg-white border-2 text-xs cursor-pointer"
+                        className="w-[5rem] cursor-pointer rounded-sm border-2  bg-white p-1 text-xs outline-blue-500"
                         onChange={(e) => {
                           setFilterPriceRange([
                             filterPriceRange[0],
                             Number(e.target.value),
-                          ]);
+                          ])
                         }}
                       >
                         {getFilterPriceRange()}
@@ -154,12 +154,12 @@ const AllProducts = () => {
                   <Accordion multiple={true}>
                     {" "}
                     <Accordion.Item value={"BRAND"}>
-                      <Accordion.Control className="text-xs text-gray-800 font-bold">
+                      <Accordion.Control className="text-xs font-bold text-gray-800">
                         BRAND
                       </Accordion.Control>
                       <Accordion.Panel className="text-xs">
-                        <div className="flex justify-start items-center gap-x-2 cursor-pointer ">
-                          <span className="px-1 text-gray-500 bg-gray-100 rounded-sm">
+                        <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                          <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
                             x
                           </span>
                           <span className="text-gray-500">Clear All</span>
@@ -170,12 +170,12 @@ const AllProducts = () => {
                       </Accordion.Panel>
                     </Accordion.Item>
                     <Accordion.Item value={"CUSTOMER RATINGS"}>
-                      <Accordion.Control className="text-xs text-gray-800 font-bold">
+                      <Accordion.Control className="text-xs font-bold text-gray-800">
                         CUSTOMER RATINGS
                       </Accordion.Control>
                       <Accordion.Panel className="text-xs">
-                        <div className="flex justify-start items-center gap-x-2 cursor-pointer ">
-                          <span className="px-1 text-gray-500 bg-gray-100 rounded-sm">
+                        <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                          <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
                             x
                           </span>
                           <span className="text-gray-500">Clear All</span>
@@ -203,12 +203,12 @@ const AllProducts = () => {
                       </Accordion.Panel>
                     </Accordion.Item>
                     <Accordion.Item value={"DISCOUNT"}>
-                      <Accordion.Control className="text-xs text-gray-800 font-bold">
+                      <Accordion.Control className="text-xs font-bold text-gray-800">
                         DISCOUNT
                       </Accordion.Control>
                       <Accordion.Panel className="text-xs">
-                        <div className="flex justify-start items-center gap-x-2 cursor-pointer ">
-                          <span className="px-1 text-gray-500 bg-gray-100 rounded-sm">
+                        <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                          <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
                             x
                           </span>
                           <span className="text-gray-500">Clear All</span>
@@ -242,12 +242,12 @@ const AllProducts = () => {
                       </Accordion.Panel>
                     </Accordion.Item>
                     <Accordion.Item value={"AVAILABILITY"}>
-                      <Accordion.Control className="text-xs text-gray-800 font-bold">
+                      <Accordion.Control className="text-xs font-bold text-gray-800">
                         AVAILABILITY
                       </Accordion.Control>
                       <Accordion.Panel className="text-xs">
-                        <div className="flex justify-start items-center gap-x-2 cursor-pointer ">
-                          <span className="px-1 text-gray-500 bg-gray-100 rounded-sm">
+                        <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                          <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
                             x
                           </span>
                           <span className="text-gray-500">Clear All</span>
@@ -267,8 +267,8 @@ const AllProducts = () => {
 
           {/** Products Listing Section */}
           <div className="col-span-12  bg-white md:col-span-8 lg:col-span-10">
-            <div className="hidden md:flex items-center justify-start gap-4 p-2  text-xs text-gray-600">
-              <p className="font-semibold  pb-1"> Sort By </p>
+            <div className="hidden items-center justify-start gap-4 p-2 text-xs  text-gray-600 md:flex">
+              <p className="pb-1  font-semibold"> Sort By </p>
               <SortLink name={"Popularity"} link={"?sort=popularity"} />
               <SortLink
                 name={"Price -- Low to High"}
@@ -282,7 +282,7 @@ const AllProducts = () => {
             </div>
 
             {/* products grid */}
-            <div className="px-2 grid grid-cols-2 md:grid-cols-3 gap-x-2 lg:gap-x-4 lg:gap-y-6 gap-y-4 lg:grid-cols-4 ">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-4 px-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-6 ">
               {Array.from({ length: 200 }).map((product, index) => (
                 <ProductCard
                   key={index}
@@ -303,7 +303,7 @@ const AllProducts = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AllProducts;
+export default AllProducts

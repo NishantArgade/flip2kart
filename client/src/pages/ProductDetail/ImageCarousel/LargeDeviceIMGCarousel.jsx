@@ -5,20 +5,7 @@ import { useEffect, useState } from "react";
 export default function ProductIMGCarousel() {
   const [value, setValue] = useState(0);
 
-  const productImages = [
-    "/camera.png",
-    "/shirt.png",
-    "/book.png",
-    "/camera.png",
-    "/shirt.png",
-    "/book.png",
-    "/camera.png",
-    "/shirt.png",
-    "/book.png",
-    "/camera.png",
-    "/shirt.png",
-    "/book.png",
-  ];
+  const productImages = ["/camera.png", "/shirt.png", "/book.png"];
 
   const slides = productImages.map((i) => (
     <div

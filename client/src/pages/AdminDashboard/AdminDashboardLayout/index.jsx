@@ -24,7 +24,7 @@ const AdminDashboardLayout = () => {
         </div>
 
         {/* Right Section for Outlet (children)*/}
-        <div className="md:col-span-8 lg:col-span-10 col-span-12  bg-white  shadow-md">
+        <div className="md:col-span-8 lg:col-span-10 col-span-12 bg-white h-fit">
           <Outlet />
         </div>
       </div>

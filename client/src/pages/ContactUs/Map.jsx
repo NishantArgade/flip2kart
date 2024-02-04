@@ -1,7 +1,7 @@
-import { City, Country } from "country-state-city";
-import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer } from "react-leaflet";
-import MapMarker from "./Marker";
+import { City, Country } from "country-state-city"
+import "leaflet/dist/leaflet.css"
+import { MapContainer, TileLayer } from "react-leaflet"
+import MapMarker from "./Marker"
 
 const Map = () => {
   const officeLocations = [
@@ -20,24 +20,25 @@ const Map = () => {
       state: "ENG",
       city: ["London", "Manchester", "Birmingham", "Liverpool"],
     },
-  ];
+  ]
 
   const data = officeLocations.map((location) =>
     City.getCitiesOfCountry(location.country, location.state).filter((city) =>
       location.city.includes(city.name)
     )
-  );
+  )
 
   return (
     <MapContainer
       center={[18.52043, 73.856743]}
       zoom={2}
-      className="w-full h-72"
+      className="h-72 w-full"
       scrollWheelZoom
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        // zIndex={-100}
       />
       {data.map((country) =>
         country.map((city) => (
@@ -48,7 +49,7 @@ const Map = () => {
         ))
       )}
     </MapContainer>
-  );
-};
+  )
+}
 
-export default Map;
+export default Map

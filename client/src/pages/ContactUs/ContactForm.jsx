@@ -1,9 +1,9 @@
-import { TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import React from "react";
+import { TextInput } from "@mantine/core"
+import { useForm } from "@mantine/form"
+import React from "react"
 
 const ContactForm = () => {
-  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
   const form = useForm({
     initialValues: {
@@ -15,23 +15,23 @@ const ContactForm = () => {
 
     validate: {
       name: (value) => {
-        if (!value) return "Name is required";
+        if (!value) return "Name is required"
       },
       email: (value) => {
-        if (!value) return "Email is required";
-        return emailRegex.test(value) ? null : "Invalid email";
+        if (!value) return "Email is required"
+        return emailRegex.test(value) ? null : "Invalid email"
       },
       message: (value) => {
-        if (!value) return "Message is required";
+        if (!value) return "Message is required"
       },
     },
-  });
+  })
 
   return (
-    <div className="w-full pb-6">
-      <div className="flex justify-center items-center py-2">
+    <div className=" w-full pb-6">
+      <div className="flex items-center justify-center py-2">
         <div>
-          <p className="text-xl mt-4 mb-8 text-center text-gray-500 font-semibold">
+          <p className="mb-8 mt-4 text-center text-xl font-semibold text-gray-500">
             Contact Form
           </p>
           <form onSubmit={form.onSubmit(console.log)}>
@@ -57,7 +57,7 @@ const ContactForm = () => {
               <div className="col-span-2">
                 <label
                   htmlFor="message"
-                  className="block mb-1 text-sm font-medium text-gray-900"
+                  className="mb-1 block text-sm font-medium text-gray-900"
                 >
                   Message
                 </label>
@@ -67,17 +67,17 @@ const ContactForm = () => {
                   {...form.getInputProps("message")}
                   className={`${
                     form.errors.message ? " border-red-500" : "border-gray-300"
-                  } focus:border-blue-500 p-2 text-sm outline-none border-[1.5px] rounded-md resize-none w-full h-24`}
+                  } h-24 w-full resize-none rounded-md border-[1.5px] p-2 text-sm outline-none focus:border-blue-500`}
                 />
                 {form.errors.message && (
-                  <p className="text-[0.78rem] text-red-500 font-normal">
+                  <p className="text-[0.78rem] font-normal text-red-500">
                     Message is required
                   </p>
                 )}
               </div>
             </div>
             <button
-              className="bg-[#2874F0] py-2 px-4 rounded-md text-white shadow-md text-sm font-semibold mt-4 w-full float-end"
+              className="float-end mt-4 w-full rounded-md bg-[#2874F0] px-4 py-2 text-sm font-semibold text-white shadow-md"
               type="submit"
             >
               Send
@@ -86,7 +86,7 @@ const ContactForm = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ContactForm;
+export default ContactForm

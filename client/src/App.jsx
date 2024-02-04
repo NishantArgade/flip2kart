@@ -3,35 +3,40 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
-} from "react-router-dom";
-import "./App.css";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import AdminDashboardLayout from "./pages/AdminDashboard/AdminDashboardLayout";
-import AdminDashboardRoot from "./pages/AdminDashboard/AdminDashboardRoot";
-import ManageProduct from "./pages/AdminDashboard/ManageProduct";
-import Products from "./pages/AdminDashboard/Products";
-import Reviews from "./pages/AdminDashboard/Reviews";
-import Transactions from "./pages/AdminDashboard/Transactions";
-import Users from "./pages/AdminDashboard/Users";
-import AllProducts from "./pages/AllProducts";
-import ChatSupport from "./pages/ChatSupport";
-import Checkout from "./pages/Checkout";
-import ContactUs from "./pages/ContactUs";
-import RateProduct from "./pages/GiveRatingProduct";
-import Home from "./pages/Home";
-import MyCart from "./pages/MyCart";
-import MyOrders from "./pages/MyOrders";
-import { default as OfferZone } from "./pages/OfferZone";
-import PageNotFound from "./pages/PageNotFound";
-import ProductDetail from "./pages/ProductDetail";
-import Root from "./pages/Root";
-import ManagesAddress from "./pages/UserDashboard/ManagesAddress";
-import ProfileInfo from "./pages/UserDashboard/ProfileInfo";
-import ReviewAndRatings from "./pages/UserDashboard/ReviewAndRatings";
-import UserDashboardLayout from "./pages/UserDashboard/UserDashboardLayout";
-import Wishlist from "./pages/UserDashboard/Wishlist";
-import OrderDetail from "./pages/UserOrderDetail";
+} from "react-router-dom"
+import "./App.css"
+import Login from "./components/Login"
+import Register from "./components/Register"
+import AdminDashboardLayout from "./pages/AdminDashboard/AdminDashboardLayout"
+import AdminDashboardRoot from "./pages/AdminDashboard/AdminDashboardRoot"
+import DailySales from "./pages/AdminDashboard/DailySales"
+import Geography from "./pages/AdminDashboard/Geography"
+import ManageProduct from "./pages/AdminDashboard/ManageProduct"
+import MonthlySales from "./pages/AdminDashboard/MonthlySales"
+import Products from "./pages/AdminDashboard/Products"
+import Reviews from "./pages/AdminDashboard/Reviews"
+import SalesBreakdown from "./pages/AdminDashboard/SalesBreakdown"
+import SalesOverview from "./pages/AdminDashboard/SalesOverview"
+import Transactions from "./pages/AdminDashboard/Transactions"
+import Users from "./pages/AdminDashboard/Users"
+import AllProducts from "./pages/AllProducts"
+import ChatSupport from "./pages/ChatSupport"
+import Checkout from "./pages/Checkout"
+import ContactUs from "./pages/ContactUs"
+import RateProduct from "./pages/GiveRatingProduct"
+import Home from "./pages/Home"
+import MyCart from "./pages/MyCart"
+import MyOrders from "./pages/MyOrders"
+import { default as OfferZone } from "./pages/OfferZone"
+import PageNotFound from "./pages/PageNotFound"
+import ProductDetail from "./pages/ProductDetail"
+import Root from "./pages/Root"
+import ManagesAddress from "./pages/UserDashboard/ManagesAddress"
+import ProfileInfo from "./pages/UserDashboard/ProfileInfo"
+import ReviewAndRatings from "./pages/UserDashboard/ReviewAndRatings"
+import UserDashboardLayout from "./pages/UserDashboard/UserDashboardLayout"
+import Wishlist from "./pages/UserDashboard/Wishlist"
+import OrderDetail from "./pages/UserOrderDetail"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,6 +57,12 @@ const router = createBrowserRouter(
         <Route path="transactions" element={<Transactions />} />
         <Route path="users" element={<Users />} />
         <Route path="reviews" element={<Reviews />} />
+        <Route path="geography" element={<Geography />} />
+
+        <Route path="sales-overview" element={<SalesOverview />} />
+        <Route path="daily-sales" element={<DailySales />} />
+        <Route path="monthly-sales" element={<MonthlySales />} />
+        <Route path="sales-breakdown" element={<SalesBreakdown />} />
       </Route>
 
       <Route path="add-product" element={<ManageProduct />} />
@@ -81,10 +92,10 @@ const router = createBrowserRouter(
       <Route path="*" element={<PageNotFound />} />
     </Route>
   )
-);
+)
 
 function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />
 }
 
-export default App;
+export default App

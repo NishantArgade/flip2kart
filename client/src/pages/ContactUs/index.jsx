@@ -1,12 +1,12 @@
-import { TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import React from "react";
-import ContactForm from "./ContactForm";
-import Map from "./Map";
+import { TextInput } from "@mantine/core"
+import { useForm } from "@mantine/form"
+import React from "react"
+import ContactForm from "./ContactForm"
+import Map from "./Map"
 
 const ContactUs = () => {
   return (
-    <div className="container mx-auto bg-white mt-2 mb-4 rounded-sm shadow-md ">
+    <div className="container mx-auto mb-4 mt-2 rounded-sm bg-white shadow-md ">
       {/** Office Locations */}
       <div className="flex flex-col items-center justify-center gap-2 p-1">
         {/** Office Locations Map */}
@@ -15,7 +15,7 @@ const ContactUs = () => {
         <ContactForm />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ContactUs;
+export default ContactUs

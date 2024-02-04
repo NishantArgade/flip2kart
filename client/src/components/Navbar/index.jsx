@@ -1,25 +1,25 @@
-import { Avatar } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
-import { BsCart3 } from "react-icons/bs";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { Link, useLocation } from "react-router-dom";
-import MobileSidebarDrawer from "../MobileSidebarDrawer/index.jsx";
-import ProfileMenuButton from "../ProfileMenuButton/index.jsx";
-import ProductSearchInput from "./ProductSearchInput.jsx";
+import { Avatar } from "@mantine/core"
+import { useDisclosure } from "@mantine/hooks"
+import { useState } from "react"
+import { BsCart3 } from "react-icons/bs"
+import { GiHamburgerMenu } from "react-icons/gi"
+import { Link, useLocation } from "react-router-dom"
+import MobileSidebarDrawer from "../MobileSidebarDrawer/index.jsx"
+import ProfileMenuButton from "../ProfileMenuButton/index.jsx"
+import ProductSearchInput from "./ProductSearchInput.jsx"
 
 const Navbar = () => {
-  const location = useLocation();
-  const [opened, { open, close }] = useDisclosure(false);
-  const [searchValue, setSearchValue] = useState("");
+  const location = useLocation()
+  const [opened, { open, close }] = useDisclosure(false)
+  const [searchValue, setSearchValue] = useState("")
 
-  const removeNavbarPages = ["/add-product", "/edit-product"];
-  if (removeNavbarPages.includes(location.pathname)) return null;
+  const removeNavbarPages = ["/add-product", "/edit-product"]
+  if (removeNavbarPages.includes(location.pathname)) return null
 
-  const isLoggedIn = true;
-  let isAdmin = true;
+  const isLoggedIn = true
+  let isAdmin = true
 
-  const isAdminUser = isLoggedIn && isAdmin;
+  const isAdminUser = isLoggedIn && isAdmin
 
   return (
     <>
@@ -31,10 +31,10 @@ const Navbar = () => {
         isAdmin={isAdmin}
       />
 
-      <div className=" z-[1010] bg-white  shadow-md top-0 left-0 right-0 sticky overflow-visible ">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center py-3 lg:px-12 ">
+      <div className="sticky left-0  right-0 top-0 z-[10] overflow-visible bg-white shadow-md ">
+        <div className="container mx-auto flex flex-col items-center justify-between py-3 md:flex-row lg:px-12 ">
           {/** Navbar for Mobile */}
-          <div className=" md:hidden w-full text-2xl flex justify-between items-center px-2 mb-4">
+          <div className=" mb-4 flex w-full items-center justify-between px-2 text-2xl md:hidden">
             <div className="flex items-center gap-x-4">
               <GiHamburgerMenu
                 onClick={open}
@@ -59,7 +59,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   to={"/login"}
-                  className="text-xs hover:text-white px-2 py-[0.1rem] shadow-md rounded-sm font-semibold hover:bg-blue-500 bg-gray-100 text-gray-500"
+                  className="rounded-sm bg-gray-100 px-2 py-[0.1rem] text-xs font-semibold text-gray-500 shadow-md hover:bg-blue-500 hover:text-white"
                 >
                   Login
                 </Link>
@@ -71,27 +71,27 @@ const Navbar = () => {
           </div>
 
           {/** Navbar for Large Screens */}
-          <div className="flex justify-between items-center  md:gap-x-2 md:px-2 w-full  ">
-            <div className="flex md:gap-x-4  w-full">
+          <div className="flex w-full items-center  justify-between md:gap-x-2 md:px-2  ">
+            <div className="flex w-full  md:gap-x-4">
               <Link to="/">
                 <img
-                  className="w-16 md:w-24 hidden md:inline-block"
+                  className="hidden w-16 md:inline-block md:w-24"
                   src="/flipkart-logo.png"
                   alt="brand"
                 />
               </Link>
 
-              <div className="flex items-center justify-start  w-full lg:w-[38rem]">
+              <div className="flex w-full items-center  justify-start lg:w-[38rem]">
                 <ProductSearchInput setSearchValue={setSearchValue} />
               </div>
             </div>
 
-            <div className="lg:flex lg:justify-between lg:items-center lg:gap-x-8 hidden md:flex md:gap-x-2">
+            <div className="hidden md:flex md:gap-x-2 lg:flex lg:items-center lg:justify-between lg:gap-x-8">
               <ProfileMenuButton isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
 
               <Link
                 to="/cart"
-                className="flex justify-center items-center gap-x-1 cursor-pointer"
+                className="flex cursor-pointer items-center justify-center gap-x-1"
               >
                 <span>
                   <BsCart3 />
@@ -103,7 +103,7 @@ const Navbar = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
