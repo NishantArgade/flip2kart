@@ -1,4 +1,4 @@
-import { ResponsivePie } from "@nivo/pie";
+import { ResponsivePie } from "@nivo/pie"
 
 const data = [
   {
@@ -31,7 +31,7 @@ const data = [
     value: 110,
     color: "hsl(40, 70%, 50%)",
   },
-];
+]
 
 const PieChart = () => {
   return (
@@ -46,6 +46,26 @@ const PieChart = () => {
       borderColor={{
         from: "color",
         modifiers: [["darker", 0.2]],
+      }}
+      theme={{
+        labels: {
+          text: {
+            fillOpacity: 1,
+            fontWeight: 700,
+          },
+        },
+        legends: {
+          text: {
+            fillOpacity: 1,
+            fontWeight: 700,
+          },
+        },
+        tooltip: {
+          container: {
+            color: "#4e4e4e",
+            fontSize: "0.70rem",
+          },
+        },
       }}
       arcLinkLabelsSkipAngle={10}
       arcLinkLabelsTextColor="#333333"
@@ -152,13 +172,13 @@ const PieChart = () => {
         },
       ]}
     />
-  );
-};
+  )
+}
 
 const SalesPieChart = () => (
-  <div className="col-span-1 lg:col-span-4 p-3 rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] bg-gray-50 flex flex-col justify-between gap-y-12">
+  <div className="col-span-1 flex flex-col justify-between gap-y-12 rounded-md bg-gray-50 p-3 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-4">
     <div className="h-[22rem]">
-      <p className="text-sm font-semibold text-slate-500 tracking-wide">
+      <p className="text-sm font-semibold tracking-wide text-slate-500">
         Sales By Category
       </p>
       <PieChart />
@@ -169,6 +189,6 @@ const SalesPieChart = () => (
       sapiente tempore pariatur.
     </div>
   </div>
-);
+)
 
-export default SalesPieChart;
+export default SalesPieChart

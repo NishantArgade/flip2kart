@@ -1,35 +1,39 @@
-import { useState } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { Outlet } from "react-router-dom";
-import MenuAccordion from "./MenuAccordion";
+import { useState } from "react"
+import { BsThreeDotsVertical } from "react-icons/bs"
+import { Outlet } from "react-router-dom"
+import MenuAccordion from "./MenuAccordion"
 
 const AdminDashboardLayout = () => {
-  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false)
 
   return (
     <>
+      {/** Menu Drawer For Small Devices */}
       <BsThreeDotsVertical
-        className="text-gray-600 mr-2 mt-2  cursor-pointer md:hidden ml-2"
+        className="ml-2 mr-2 mt-2  cursor-pointer text-gray-600 md:hidden"
         onClick={() => setIsOpenSidebar(true)}
         size={22}
       />
 
-      <div className="grid grid-cols-12  gap-x-2 gap-y-2 p-2 container mx-auto">
-        {/* Admin Dashboard Left Sidebar Section */}
-        <div className="md:col-span-4 lg:col-span-2">
+      <div className="container mx-auto  grid grid-cols-12 gap-x-2 gap-y-2 p-2">
+        {/* Left Menu Sidebar Section */}
+        <section className="md:col-span-4 lg:col-span-2">
           <MenuAccordion
             isOpenSidebar={isOpenSidebar}
             setIsOpenSidebar={setIsOpenSidebar}
           />
-        </div>
+        </section>
 
         {/* Right Section for Outlet (children)*/}
-        <div className="md:col-span-8 lg:col-span-10 col-span-12 bg-white h-fit">
+        <section
+          id={"admin-dashboard-right-section"}
+          className="col-span-12 h-fit bg-white md:col-span-8 lg:col-span-10"
+        >
           <Outlet />
-        </div>
+        </section>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AdminDashboardLayout;
+export default AdminDashboardLayout

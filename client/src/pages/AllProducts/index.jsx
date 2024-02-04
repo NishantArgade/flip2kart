@@ -1,6 +1,6 @@
 import { useState } from "react"
-import FilterSection from "./components/FilterSection"
-import ProductListSection from "./components/ProductListSection"
+import FilterSection from "./FilterSection"
+import ProductListSection from "./ProductListSection"
 
 const AllProducts = () => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)

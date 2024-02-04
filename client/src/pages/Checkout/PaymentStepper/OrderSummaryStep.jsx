@@ -1,4 +1,4 @@
-import AddToCartProductCard from "../AddToCartProductCard";
+import AddToCartProductCard from "../../../components/AddToCartProductCard"
 
 const cartData = [
   {
@@ -27,7 +27,7 @@ const cartData = [
     oldPice: 2300,
     deliveryDay: "Fri",
   },
-];
+]
 
 const OrderSummaryStep = ({ nextStep }) => {
   return (
@@ -40,7 +40,7 @@ const OrderSummaryStep = ({ nextStep }) => {
       </div>
       <div className="flex justify-end">
         <button
-          className="bg-[#FB641B] py-3 self-end px-10 mt-2 text-white   w-fit  cursor-pointer shadow-md"
+          className="mt-2 w-fit cursor-pointer self-end bg-[#FB641B] px-10   py-3  text-white shadow-md"
           size="xs"
           onClick={nextStep}
         >
@@ -48,7 +48,7 @@ const OrderSummaryStep = ({ nextStep }) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OrderSummaryStep;
+export default OrderSummaryStep

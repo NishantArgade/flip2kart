@@ -165,7 +165,7 @@ const categoryData = [
   },
 ]
 
-const ProductCategoryCards = () => {
+const ProductCategoryCardsSection = () => {
   return (
     <div className="bg-white  shadow-md">
       <div className="px-2 md:px-8 lg:px-28">
@@ -179,4 +179,4 @@ const ProductCategoryCards = () => {
   )
 }
 
-export default ProductCategoryCards
+export default ProductCategoryCardsSection

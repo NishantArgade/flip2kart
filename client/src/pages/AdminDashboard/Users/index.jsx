@@ -1,24 +1,27 @@
-import { useState } from "react";
-import TableSearchBar from "../TableSearchBar";
-import UserTable from "./UserTable";
+import { useState } from "react"
+import TableSearchBar from "../TableSearchBar"
+import UserTable from "./UserTable"
 
 const Users = () => {
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState("")
 
   return (
-    <div className=" w-full p-4 ">
-      <div className="flex justify-between gap-x-2 mb-6">
+    <div className="w-full p-4">
+      {/** Header */}
+      <section className="mb-6 flex justify-between gap-x-2">
         <TableSearchBar
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
-      </div>
+      </section>
+
+      {/** Table */}
       <UserTable
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Users;
+export default Users

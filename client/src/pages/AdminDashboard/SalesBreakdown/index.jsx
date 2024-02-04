@@ -265,23 +265,38 @@ const SalesBreakdown = () => {
               from: "color",
               modifiers: [["darker", 0.2]],
             }}
-            // tooltip={(point) => {
-            //   console.log(point)
-            //   return null
-            // }}
             theme={{
               labels: {
                 text: {
                   fillOpacity: 1,
                   fontWeight: 700,
+                  fontSize: isSmallDevice ? "10px" : "14px",
                 },
               },
               legends: {
                 text: {
                   fillOpacity: 1,
                   fontWeight: 700,
+                  fontSize: isSmallDevice ? "10px" : "14px",
                 },
               },
+            }}
+            tooltip={({ datum }) => {
+              return (
+                <div className="flex  w-fit items-center justify-center gap-2 rounded-sm border-[0.8px] border-gray-300  bg-white px-2 py-1 text-[0.70rem]  shadow-sm">
+                  <div
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                      backgroundColor: datum.color,
+                    }}
+                  ></div>
+                  <span className="text-[#4e4e4e]">
+                    <span className="font-normal">{datum.data.label}: </span>
+                    <span className="font-bold">{datum.data.value}</span>
+                  </span>
+                </div>
+              )
             }}
             arcLinkLabelsSkipAngle={10}
             arcLinkLabelsTextColor="#333333"

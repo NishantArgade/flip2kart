@@ -8,7 +8,7 @@ const Root = () => {
   // check user is auth or not using token in server side only
 
   return (
-    <div className="">
+    <div>
       <Navbar />
       <div className="flex max-h-fit min-h-screen flex-col justify-between bg-[#F1F2F4] pt-2">
         <Outlet />

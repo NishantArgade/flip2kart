@@ -26,6 +26,7 @@
     "axios": "^1.6.5",
     "country-state-city": "^3.2.1",
     "dayjs": "^1.11.10",
+    "embla-carousel-autoplay": "^8.0.0-rc22",
     "embla-carousel-react": "^8.0.0-rc22",
     "leaflet": "^1.9.4",
     "moment": "^2.30.1",

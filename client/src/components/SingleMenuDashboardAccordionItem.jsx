@@ -1,18 +1,18 @@
-import { Accordion } from "@mantine/core";
-import { MdOutlineNavigateNext } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Accordion } from "@mantine/core"
+import { MdOutlineNavigateNext } from "react-icons/md"
+import { Link } from "react-router-dom"
 
-const SingleMenuAccordionItem = ({ name, icon, link }) => {
+const SingleMenuDashboardAccordionItem = ({ name, icon, link }) => {
   return (
     <Accordion.Item value={name}>
-      <Link to={link} className="bg-red-500">
+      <Link to={link}>
         <div>
           <Accordion.Control
             icon={icon}
-            className="text-xs text-gray-800 font-semibold"
+            className="text-xs font-semibold text-gray-800"
             chevron={
               <MdOutlineNavigateNext
-                className="text-gray-500 font-extralight "
+                className="font-extralight text-gray-500 "
                 size={26}
               />
             }
@@ -29,7 +29,7 @@ const SingleMenuAccordionItem = ({ name, icon, link }) => {
         </div>
       </Link>
     </Accordion.Item>
-  );
-};
+  )
+}
 
-export default SingleMenuAccordionItem;
+export default SingleMenuDashboardAccordionItem

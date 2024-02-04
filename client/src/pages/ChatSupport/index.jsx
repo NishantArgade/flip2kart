@@ -1,36 +1,39 @@
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import Chatboat from "./Chatboat";
+import { IoMdArrowRoundBack } from "react-icons/io"
+import { useNavigate } from "react-router-dom"
+import Chatboat from "./Chatboat"
 
 const ChatSupport = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
-    <div className="mb-6 container mx-auto">
+    <div className="container mx-auto mb-6">
       {/** Go Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-x-2 py-2 px-1 text-gray-500 "
+        className="flex items-center gap-x-2 px-1 py-2 text-gray-500 "
       >
         <IoMdArrowRoundBack />
         <p className="text-xs">Back</p>
       </button>
+
       <div className="bg-white shadow-md  ">
-        <div className="text-md pb-4 flex items-center justify-start gap-x-4 pt-4 px-2 border border-b-4">
+        {/** Chat Support Heading */}
+        <div className="text-md flex items-center justify-start gap-x-4 border border-b-4 px-2 pb-4 pt-4">
           <img
             src="/flipkart-icon.svg"
-            className="w-8 h-8 rounded-full"
+            className="h-8 w-8 rounded-full"
             alt=""
           />
           <span>Flip2kart Support</span>
         </div>
 
-        <div className="h-96 bg-green-40 p-2 bg-green-200">
+        {/** Chatboat */}
+        <section className="bg-green-40 h-96 bg-green-200 p-2">
           <Chatboat />
-        </div>
+        </section>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChatSupport;
+export default ChatSupport

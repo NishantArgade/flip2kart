@@ -1,29 +1,30 @@
-import { Menu } from "@mantine/core";
-import { useState } from "react";
-import { FiFilter } from "react-icons/fi";
-import TableSearchBar from "../TableSearchBar";
-import ReviewTable from "./ReviewTable";
+import { Menu } from "@mantine/core"
+import { useState } from "react"
+import { FiFilter } from "react-icons/fi"
+import TableSearchBar from "../TableSearchBar"
+import ReviewTable from "./ReviewTable"
 
 const Reviews = () => {
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState("")
   const [columnFilters, setColumnFilters] = useState([
     { id: "rating", value: "" },
-  ]);
+  ])
 
   const onColumnFilterChange = (rating, value) => {
     setColumnFilters((state) =>
       state.filter((f) => f.id !== rating).concat({ id: rating, value })
-    );
-  };
+    )
+  }
 
   const filteredRatingValue =
-    columnFilters.find((f) => f.id === "rating").value || "";
+    columnFilters.find((f) => f.id === "rating").value || ""
 
-  const isSelectedRating = (rating) => filteredRatingValue === rating;
+  const isSelectedRating = (rating) => filteredRatingValue === rating
 
   return (
-    <div className=" w-full p-4 ">
-      <div className="flex justify-start gap-x-8 mb-6">
+    <div className="w-full p-4">
+      {/** Header */}
+      <section className="mb-6 flex justify-start gap-x-8">
         <TableSearchBar
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
@@ -37,7 +38,7 @@ const Reviews = () => {
           value="All"
         >
           <Menu.Target>
-            <button className="text-blue-500 flex items-center text-xs gap-x-2">
+            <button className="flex items-center gap-x-2 text-xs text-blue-500">
               <FiFilter />
               <p>Filter By Rating</p>
             </button>
@@ -96,15 +97,16 @@ const Reviews = () => {
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
-      </div>
+      </section>
 
+      {/** Table */}
       <ReviewTable
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         columnFilters={columnFilters}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Reviews;
+export default Reviews

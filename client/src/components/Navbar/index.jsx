@@ -81,7 +81,7 @@ const Navbar = () => {
                 />
               </Link>
 
-              <div className="flex w-full items-center  justify-start lg:w-[38rem]">
+              <div className="flex w-full items-center  justify-start px-2 lg:w-[38rem]">
                 <ProductSearchInput setSearchValue={setSearchValue} />
               </div>
             </div>

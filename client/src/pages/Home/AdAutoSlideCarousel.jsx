@@ -1,24 +1,29 @@
-import { Carousel } from "@mantine/carousel";
-import { Image } from "@mantine/core";
-import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
+import { Carousel } from "@mantine/carousel"
+import { Image } from "@mantine/core"
+import Autoplay from "embla-carousel-autoplay"
+import { useRef } from "react"
+import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md"
 
 const AdAutoSlideCarousel = () => {
+  const autoplay = useRef(Autoplay({ delay: 3000 }))
+
   return (
-    <div className="mt-3 mb-3 bg-white">
+    <div className="mb-3 mt-3 bg-white">
       {" "}
       <Carousel
-        // height={100}
-
+        plugins={[autoplay.current]}
+        onMouseEnter={autoplay.current.stop}
+        onMouseLeave={autoplay.current.play}
         previousControlIcon={
           <MdOutlineNavigateBefore
             size={20}
-            className="bg-[#f8f8f8ec] w-6  h-10 rounded-full border-2 text-gray-600"
+            className="h-10 w-6  rounded-full border-2 bg-[#f8f8f8ec] text-gray-600"
           />
         }
         nextControlIcon={
           <MdOutlineNavigateNext
             size={20}
-            className="bg-[#f8f8f8ec] w-6 h-10    rounded-full  border-2 text-gray-600"
+            className="h-10 w-6 rounded-full    border-2  bg-[#f8f8f8ec] text-gray-600"
           />
         }
         withIndicators
@@ -34,7 +39,7 @@ const AdAutoSlideCarousel = () => {
           <div>
             <Image
               src="carouselImages/1.png"
-              className="md:h-full h-36 w-full"
+              className="h-36 w-full md:h-full"
               alt=""
             />
           </div>
@@ -43,7 +48,7 @@ const AdAutoSlideCarousel = () => {
           <div>
             <Image
               src="carouselImages/2.png"
-              className="md:h-full h-36 w-full"
+              className="h-36 w-full md:h-full"
               alt=""
             />
           </div>
@@ -52,7 +57,7 @@ const AdAutoSlideCarousel = () => {
           <div>
             <Image
               src="carouselImages/3.png"
-              className="md:h-full h-36 w-full"
+              className="h-36 w-full md:h-full"
               alt=""
             />
           </div>
@@ -61,14 +66,14 @@ const AdAutoSlideCarousel = () => {
           <div>
             <Image
               src="carouselImages/4.png"
-              className="md:h-full h-36  w-full"
+              className="h-36 w-full  md:h-full"
               alt=""
             />
           </div>
         </Carousel.Slide>
       </Carousel>
     </div>
-  );
-};
+  )
+}
 
-export default AdAutoSlideCarousel;
+export default AdAutoSlideCarousel

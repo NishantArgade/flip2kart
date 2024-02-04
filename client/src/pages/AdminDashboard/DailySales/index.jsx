@@ -1,10 +1,10 @@
-import { ResponsiveLine } from "@nivo/line";
-import moment from "moment";
-import React, { useEffect, useMemo, useState } from "react";
-import DatePicker from "react-datepicker";
-import { IoCalendarOutline } from "react-icons/io5";
+import { ResponsiveLine } from "@nivo/line"
+import moment from "moment"
+import React, { useEffect, useMemo, useState } from "react"
+import DatePicker from "react-datepicker"
+import { IoCalendarOutline } from "react-icons/io5"
 
-const dailySalesData = [
+const allSalesData = [
   {
     id: "232424dsfdsffdsfgjdgfsd",
     date: new Date("2023/12/03"),
@@ -101,158 +101,95 @@ const dailySalesData = [
     sales: 1000,
     units: 1200,
   },
-];
-
-const data = [
-  {
-    id: "sales",
-    color: "hsl(236, 70%, 50%)",
-    data: [
-      {
-        x: "12-01",
-        y: 30,
-      },
-      {
-        x: "12-02",
-        y: 40,
-      },
-      {
-        x: "12-03",
-        y: 60,
-      },
-      {
-        x: "12-04",
-        y: 80,
-      },
-      {
-        x: "12-05",
-        y: 100,
-      },
-    ],
-  },
-  {
-    id: "units",
-    color: "hsl(96, 80%,60%)",
-    data: [
-      {
-        x: "12-01",
-        y: 70,
-      },
-      {
-        x: "12-02",
-        y: 90,
-      },
-      {
-        x: "12-03",
-        y: 100,
-      },
-      {
-        x: "12-04",
-        y: 120,
-      },
-      {
-        x: "12-05",
-        y: 150,
-      },
-    ],
-  },
-];
+]
 
 const DailySales = () => {
-  const [isSmallDevice, setIsSmallDevice] = useState(false);
-  const [startDate, setStartDate] = useState(new Date("2023/12/10"));
-  const [endDate, setEndDate] = useState(new Date("2023/12/30"));
-  const [isDataAvailable, setIsDataAvailable] = useState(true);
+  const [isSmallDevice, setIsSmallDevice] = useState(false)
+  const [startDate, setStartDate] = useState(new Date("2023/12/10"))
+  const [endDate, setEndDate] = useState(new Date("2023/12/30"))
+  const [isDataAvailable, setIsDataAvailable] = useState(true)
 
   const salesData = {
     id: "sales",
     color: "hsl(236, 70%, 50%)",
-  };
+  }
   const unitData = {
     id: "units",
     color: "hsl(26, 70%, 50%)",
-  };
+  }
 
   const result = useMemo(() => {
-    let salesFilteredData = [];
-    let unitFilteredData = [];
-    setIsDataAvailable(false);
+    let salesFilteredData = []
+    let unitFilteredData = []
+    setIsDataAvailable(false)
 
-    dailySalesData.map((item) => {
+    allSalesData.map((item) => {
       if (item.date >= startDate && item.date <= endDate) {
         salesFilteredData.push({
           x: moment(item.date).format("MM-DD"),
           y: item.sales,
-        });
+        })
         unitFilteredData.push({
           x: moment(item.date).format("MM-DD"),
           y: item.units,
-        });
-        setIsDataAvailable(true);
+        })
+        setIsDataAvailable(true)
       }
-    });
+    })
     const finalData = [
       { ...salesData, data: salesFilteredData },
       { ...unitData, data: unitFilteredData },
-    ];
+    ]
 
-    return finalData;
+    return finalData
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startDate, endDate]);
+  }, [startDate, endDate])
 
-  // Monitoring screen size changes
+  // Monitoring screen size changes for adjesting the chart
   useEffect(() => {
-    const handleResize = () => {
-      // Check if the width is below a certain threshold (e.g., 600 pixels)
-      setIsSmallDevice(window.innerWidth < 1000);
-    };
+    const handleResize = () => setIsSmallDevice(window.innerWidth < 1000)
 
-    // Initial check on mount
-    handleResize();
+    handleResize()
+    window.addEventListener("resize", handleResize)
 
-    // Add event listener to track screen size changes
-    window.addEventListener("resize", handleResize);
-
-    // Clean up the event listener on component unmount
     return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
 
-  console.log(result);
   return (
     <>
-      <div className="p-2 flex flex-row mx-2  items-center bg-gray-50  justify-between text-sm font-medium text-gray-600 ">
+      <div className="mx-2 flex flex-row items-center  justify-between bg-gray-50  p-2 text-sm font-medium text-gray-600 ">
         <div>
-          <p className="text-lg text-gray-500 uppercase">Daily Sales</p>
+          <p className="text-lg uppercase text-gray-500">Daily Sales</p>
           <p className="text-xs text-gray-400">Chart of daily sales</p>
         </div>
         <div className="flex gap-4">
           <div>
-            <p className="text-xs  ml-1">Start Date</p>
+            <p className="ml-1  text-xs">Start Date</p>
             <DatePicker
               showIcon
               icon={<IoCalendarOutline className="w-auto" />}
               selected={startDate}
               onChange={(date) => setStartDate(date)}
-              className="outline-blue-400 border-2 w-28 ml-1 cursor-pointer"
+              className="ml-1 w-28 cursor-pointer border-2 outline-blue-400"
               placeholderText="Start Date"
             />
           </div>
           <div>
-            <p className="text-xs  ml-1">End Date</p>
+            <p className="ml-1  text-xs">End Date</p>
             <DatePicker
               showIcon
               icon={<IoCalendarOutline className="w-auto" />}
               selected={endDate}
               onChange={(date) => setEndDate(date)}
-              className="outline-blue-400 border-2 w-28 ml-1 cursor-pointer"
+              className="ml-1 w-28 cursor-pointer border-2 outline-blue-400"
               placeholderText="End Date"
             />
           </div>
         </div>
       </div>
-      <div className="container mx-auto bg-green-20 h-[30rem] shadow-md overflow-auto w-full thin-scrollbar bg-gray-50 felx justify-center items-center">
+      <div className="bg-green-20 thin-scrollbar felx container mx-auto h-[30rem] w-full items-center justify-center overflow-auto bg-gray-50 shadow-md">
         {isDataAvailable ? (
           <ResponsiveLine
             data={result}
@@ -269,6 +206,27 @@ const DailySales = () => {
                 },
               },
             }}
+            tooltip={({ point }) => {
+              return (
+                <div className="flex  w-fit items-center justify-center gap-2 rounded-sm border-[0.8px] border-gray-300  bg-white px-2 py-1 text-[0.70rem]  shadow-sm">
+                  <div
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                      backgroundColor: point.borderColor,
+                    }}
+                  ></div>
+                  <span className="text-[#4e4e4e]">
+                    <span className="mr-1 font-normal">
+                      x: <span className="font-bold">{point.data.x},</span>
+                    </span>
+                    <span className="font-normal">
+                      y: <span className="font-bold">{point.data.y}</span>
+                    </span>
+                  </span>
+                </div>
+              )
+            }}
             yScale={{
               type: "linear",
               min: "auto",
@@ -281,8 +239,8 @@ const DailySales = () => {
             axisRight={null}
             axisBottom={{
               format: (v) => {
-                if (isSmallDevice) return v.slice(0, 3);
-                return v;
+                if (isSmallDevice) return v.slice(0, 3)
+                return v
               },
               tickSize: 5,
               tickPadding: 5,
@@ -307,15 +265,6 @@ const DailySales = () => {
             pointBorderColor={{ from: "serieColor" }}
             pointLabelYOffset={-12}
             useMesh={true}
-            tooltip={({ point }) => {
-              return (
-                <div className="bg-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] border-2 py-2 px-4 text-xs w-fit rounded-sm text-gray-700 font-medium">
-                  <span className="font-normal">x: </span> {point.data.x},
-                  <span className="font-normal"> y: </span>
-                  {point.data.y}
-                </div>
-              );
-            }}
             legends={[
               {
                 anchor: "top-right",
@@ -344,13 +293,13 @@ const DailySales = () => {
             ]}
           />
         ) : (
-          <div className="flex justify-center items-center h-full w-full text-2xl font-medium text-gray-300">
+          <div className="flex h-full w-full items-center justify-center text-2xl font-medium text-gray-300">
             No Data Available
           </div>
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default DailySales;
+export default DailySales

@@ -1,12 +1,4 @@
-// install (please try to align the version of installed @nivo packages)
-// yarn add @nivo/line
-import { ResponsiveLine } from "@nivo/line";
-``;
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
+import { ResponsiveLine } from "@nivo/line"
 
 const data = [
   {
@@ -63,12 +55,12 @@ const data = [
       },
     ],
   },
-];
+]
 const RevenueChart = () => {
-  let isDashboard = true;
+  let isDashboard = true
   return (
-    <div className=" col-span-1 lg:col-span-7 h-[15rem] rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] text-sm text-gray-700 p-3 bg-gray-50">
-      <div className="text-sm font-semibold text-slate-500 tracking-wide pb-2">
+    <div className=" col-span-1 h-[15rem] rounded-md bg-gray-50 p-3 text-sm text-gray-700 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-7">
+      <div className="pb-2 text-sm font-semibold tracking-wide text-slate-500">
         Revenue
       </div>
       <ResponsiveLine
@@ -116,8 +108,8 @@ const RevenueChart = () => {
         axisRight={null}
         axisBottom={{
           format: (v) => {
-            if (isDashboard) return v.slice(0, 3);
-            return v;
+            if (isDashboard) return v.slice(0, 3)
+            return v
           },
           orient: "bottom",
           tickSize: 5,
@@ -146,7 +138,7 @@ const RevenueChart = () => {
         useMesh={true}
       />
     </div>
-  );
-};
+  )
+}
 
-export default RevenueChart;
+export default RevenueChart

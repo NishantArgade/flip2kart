@@ -5,8 +5,6 @@ import {
   RouterProvider,
 } from "react-router-dom"
 import "./App.css"
-import Login from "./components/Login"
-import Register from "./components/Register"
 import AdminDashboardLayout from "./pages/AdminDashboard/AdminDashboardLayout"
 import AdminDashboardRoot from "./pages/AdminDashboard/AdminDashboardRoot"
 import DailySales from "./pages/AdminDashboard/DailySales"
@@ -23,20 +21,22 @@ import AllProducts from "./pages/AllProducts"
 import ChatSupport from "./pages/ChatSupport"
 import Checkout from "./pages/Checkout"
 import ContactUs from "./pages/ContactUs"
-import RateProduct from "./pages/GiveRatingProduct"
 import Home from "./pages/Home"
+import Login from "./pages/Login"
 import MyCart from "./pages/MyCart"
 import MyOrders from "./pages/MyOrders"
 import { default as OfferZone } from "./pages/OfferZone"
+import OrderedProductDetail from "./pages/OrderedProductDetail"
 import PageNotFound from "./pages/PageNotFound"
 import ProductDetail from "./pages/ProductDetail"
+import RateProduct from "./pages/RateProduct"
+import Register from "./pages/Register"
 import Root from "./pages/Root"
 import ManagesAddress from "./pages/UserDashboard/ManagesAddress"
+import MyReviewAndRatings from "./pages/UserDashboard/MyReviewAndRatings"
 import ProfileInfo from "./pages/UserDashboard/ProfileInfo"
-import ReviewAndRatings from "./pages/UserDashboard/ReviewAndRatings"
 import UserDashboardLayout from "./pages/UserDashboard/UserDashboardLayout"
 import Wishlist from "./pages/UserDashboard/Wishlist"
-import OrderDetail from "./pages/UserOrderDetail"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,7 +45,7 @@ const router = createBrowserRouter(
       <Route path="dashboard" element={<UserDashboardLayout />}>
         <Route index element={<ProfileInfo />} />
         <Route path="manage-address" element={<ManagesAddress />} />
-        <Route path="reviews-and-ratings" element={<ReviewAndRatings />} />
+        <Route path="reviews-and-ratings" element={<MyReviewAndRatings />} />
         <Route path="wishlist" element={<Wishlist />} />
       </Route>
 
@@ -76,7 +76,7 @@ const router = createBrowserRouter(
       <Route path="contact" element={<ContactUs />} />
       <Route path="cart" element={<MyCart />} />
       <Route path="checkout" element={<Checkout />} />
-      <Route path="order-detail/:orderId" element={<OrderDetail />} />
+      <Route path="order-detail/:orderId" element={<OrderedProductDetail />} />
       <Route path="chatboat-support" element={<ChatSupport />} />
       <Route path="rate-product" element={<RateProduct />} />
 

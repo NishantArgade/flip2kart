@@ -1,91 +1,91 @@
-import { Input, Rating, Textarea } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Input, Rating, Textarea } from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { useMemo, useState } from "react"
+import { Link } from "react-router-dom"
 
-const GiveRatingProduct = () => {
-  const [rateValue, setRateValue] = useState(0);
+const RateProduct = () => {
+  const [rateValue, setRateValue] = useState(0)
 
   const rateValueOptimize = useMemo(() => {
     if (rateValue === 1) {
-      return "Very Bad";
+      return "Very Bad"
     } else if (rateValue === 2) {
-      return "Bad";
+      return "Bad"
     } else if (rateValue === 3) {
-      return "Good";
+      return "Good"
     } else if (rateValue === 4) {
-      return "Very  Good";
+      return "Very  Good"
     } else if (rateValue === 5) {
-      return "Excellent";
+      return "Excellent"
     }
-  }, [rateValue]);
+  }, [rateValue])
 
   const form = useForm({
     initialValues: { description: "", rateTitle: "" },
 
     validate: {
       description: (value) => {
-        if (!value.trim()) return "field should not be empty";
+        if (!value.trim()) return "field should not be empty"
       },
       rateTitle: (value) => {
-        if (!value.trim()) return "field should not be empty";
+        if (!value.trim()) return "field should not be empty"
       },
     },
-  });
+  })
 
   return (
-    <div>
+    <div className="min-h-screen">
       {/** Rating and Review Section */}
-      <div className="p-2 w-full container mx-auto bg-white shadow-md ">
-        <div className="flex justify-between flex-wrap items-center px-2 gap-x-2">
+      <div className="container mx-auto w-full bg-white p-2 shadow-md ">
+        <div className="flex flex-wrap items-center justify-between gap-x-2 px-2">
           <p className="font-semibold text-gray-800">Ratings & Reviews</p>
 
           <Link
             to="/product-detail/2"
-            className="flex items-center gap-x-3 bg-red-20 w-full justify-end text-xs"
+            className="bg-red-20 flex w-full items-center  justify-end gap-x-3 text-xs md:w-fit"
           >
             <div className="flex flex-col items-end  gap-y-1">
-              <p className="truncate w-44 text-gray-800">
+              <p className="w-44 truncate text-gray-800">
                 Iphone Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Architecto, esse!
               </p>
               <div className="text-xs text-gray-700">
-                <span className="bg-green-600 px-1 py-[2px] rounded-sm mr-2 text-white">
+                <span className="mr-2 rounded-sm bg-green-600 px-1 py-[2px] text-white">
                   4.5★
                 </span>
                 <span className="font-medium text-gray-500">(460)</span>
               </div>
             </div>
-            <div className="border-[1.5px] w-10 h-12 flex flex-col justify-center items-center rounded-sm p-1">
+            <div className="flex h-12 w-10 flex-col items-center justify-center rounded-sm border-[1.5px] p-1">
               <img src="/camera.png" alt="" />
             </div>
           </Link>
         </div>
       </div>
 
-      <div className="grid grid-cols-1  md:grid-cols-12 min-h-[30rem] gap-x-2 gap-y-2 py-2 container mx-auto">
+      <div className="container mx-auto  grid min-h-[30rem] grid-cols-1 gap-x-2 gap-y-2 py-2 md:grid-cols-12">
         {/* Left sidebar Section */}
-        <div className="grid-cols-1  md:col-span-5 lg:col-span-3 h-fit bg-white  shadow-md">
+        <div className="h-fit  grid-cols-1 bg-white shadow-md md:col-span-5  lg:col-span-3">
           <div>
             <p className="border-b-2 p-4 text-sm ">What makes a good review</p>
             <div className="flex flex-col gap-y-1 px-4">
               <div className="border-b-2 py-4">
                 <p className="text-sm">Have you used this product?</p>
-                <p className="text-xs mt-2">
+                <p className="mt-2 text-xs">
                   Your review should be about your experience with the product.
                 </p>
               </div>
 
               <div className="border-b-2 py-4">
                 <p className="text-sm">Have you used this product?</p>
-                <p className="text-xs mt-2">
+                <p className="mt-2 text-xs">
                   Your review should be about your experience with the product.
                 </p>
               </div>
 
               <div className="border-b-2 py-4">
                 <p className="text-sm">How to review a product?</p>
-                <p className="text-xs mt-2">
+                <p className="mt-2 text-xs">
                   Your review should include facts. An honest opinion is always
                   appreciated. If you have an issue with the product or service
                   please contact us from the help centre.
@@ -96,9 +96,9 @@ const GiveRatingProduct = () => {
         </div>
 
         {/* Right Section */}
-        <div className="grid-cols-1 row-end-2 md:row-auto md:col-span-7 lg:col-span-9   bg-white  shadow-md">
+        <div className="row-end-2 grid-cols-1 bg-white shadow-md md:col-span-7   md:row-auto  lg:col-span-9">
           <div className="flex flex-col gap-y-1">
-            <div className="p-4 border-b-2">
+            <div className="border-b-2 p-4">
               <p className="text-sm font-semibold">Rate this product</p>
               <div className="mt-2 flex items-center gap-x-4">
                 <Rating
@@ -110,10 +110,10 @@ const GiveRatingProduct = () => {
                 <span
                   className={
                     rateValueOptimize === "Very Bad"
-                      ? "text-red-500 text-xs font-semibold"
+                      ? "text-xs font-semibold text-red-500"
                       : rateValueOptimize === "Bad"
-                      ? "text-orange-500 text-xs font-semibold"
-                      : "text-green-500 text-xs font-semibold"
+                        ? "text-xs font-semibold text-orange-500"
+                        : "text-xs font-semibold text-green-500"
                   }
                 >
                   {rateValueOptimize}
@@ -122,7 +122,7 @@ const GiveRatingProduct = () => {
             </div>
             <form onSubmit={form.onSubmit(console.log)}>
               <div className="px-4 pt-3">
-                <p className="text-sm font-semibold pb-3">
+                <p className="pb-3 text-sm font-semibold">
                   Review this product
                 </p>
                 <div className="flex flex-col gap-y-4">
@@ -145,13 +145,13 @@ const GiveRatingProduct = () => {
               </div>
 
               <div className="px-4 pt-5">
-                <div className="w-12 h-12 flex justify-center items-center p-2 cursor-pointer bg-gray-200">
+                <div className="flex h-12 w-12 cursor-pointer items-center justify-center bg-gray-200 p-2">
                   <img src="/addImgCamara.svg" color="red" alt="" />
                 </div>
               </div>
 
-              <button type="submit" className="p-4 float-end ">
-                <p className="bg-[#FB641B] py-3  px-10  text-white text-xs font-semibold uppercase cursor-pointer shadow-md">
+              <button type="submit" className="float-end p-4 ">
+                <p className="cursor-pointer bg-[#FB641B]  px-10  py-3 text-xs font-semibold uppercase text-white shadow-md">
                   SUBMIT
                 </p>
               </button>
@@ -160,7 +160,7 @@ const GiveRatingProduct = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default GiveRatingProduct;
+export default RateProduct

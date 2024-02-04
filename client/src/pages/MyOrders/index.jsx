@@ -4,8 +4,9 @@ import { LuSettings2 } from "react-icons/lu"
 import { MdOutlineNavigateNext } from "react-icons/md"
 import { Link, NavLink } from "react-router-dom"
 import FilterSection from "./FilterSection"
-import MyOrderSearchBar from "./MyOrderSearchBar"
-import OrderProductCard from "./OrderProductCard"
+import MyOrderSearchBar from "./OrderListingSection/SearchBar"
+import OrderListingSection from "./OrderListingSection"
+import OrderProductCard from "./OrderListingSection/ProductCard"
 
 const MyOrders = ({ isAdmin }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
@@ -37,7 +38,7 @@ const MyOrders = ({ isAdmin }) => {
     },
   ]
   return (
-    <div>
+    <div className="min-h-screen">
       {/** Navigation path */}
       <div className="container mx-auto flex items-center justify-start gap-x-2 px-2 text-xs text-gray-500">
         <Link to="/" className="hover:text-blue-600">
@@ -61,46 +62,23 @@ const MyOrders = ({ isAdmin }) => {
         </NavLink>
       </div>
 
-      <div className="mt-2 flex w-full items-center justify-end gap-2 px-2 md:hidden">
-        <button
-          className="flex items-center justify-center gap-1"
-          onClick={() => setIsOpenSidebar(true)}
-        >
-          <LuSettings2
-            className="cursor-pointer text-gray-500 md:hidden"
-            size={22}
-          />
-          <span>Filters</span>
-        </button>
-      </div>
       {/** Main Component*/}
       <div className="container mx-auto grid min-h-[30rem] grid-cols-12 gap-x-2 gap-y-2 p-2">
         {/* Filter Section */}
-        <div className="md:col-span-4 lg:col-span-2">
-          <div
-            className={`${
-              isOpenSidebar
-                ? "translate-x-0"
-                : "translate-x-full md:-translate-x-0"
-            } fixed left-0 top-0 z-50 col-span-12 h-screen w-full rounded-md border-2 border-gray-200 bg-gray-100 transition-all duration-500 ease-in-out md:static  md:col-span-4 md:h-full md:w-full md:rounded-sm md:border-0 md:bg-none lg:col-span-2`}
-          >
-            <FilterSection setIsOpenSidebar={setIsOpenSidebar} />
-          </div>
-        </div>
+        <section className="md:col-span-4 lg:col-span-2">
+          <FilterSection
+            isOpenSidebar={isOpenSidebar}
+            setIsOpenSidebar={setIsOpenSidebar}
+          />
+        </section>
 
         {/* Order Listing Section */}
-        <div className="col-span-12 bg-white shadow-md   md:col-span-8  lg:col-span-10">
-          <div className="mb-4 mt-2 flex justify-start px-4">
-            {/** SearchBar */}
-            <MyOrderSearchBar />
-          </div>
-
-          <div>
-            {myOrders.map((product) => (
-              <OrderProductCard key={product?.id} product={product} />
-            ))}
-          </div>
-        </div>
+        <section className="col-span-12 bg-white shadow-md   md:col-span-8  lg:col-span-10">
+          <OrderListingSection
+            setIsOpenSidebar={setIsOpenSidebar}
+            myOrders={myOrders}
+          />
+        </section>
       </div>
     </div>
   )

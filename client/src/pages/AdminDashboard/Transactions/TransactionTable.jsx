@@ -1,4 +1,4 @@
-import { Tooltip } from "@mantine/core";
+import { Tooltip } from "@mantine/core"
 import {
   createColumnHelper,
   flexRender,
@@ -7,18 +7,13 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import moment from "moment";
-import { useState } from "react";
-import { GrFormPrevious } from "react-icons/gr";
-import {
-  MdKeyboardDoubleArrowLeft,
-  MdOutlineNavigateNext,
-} from "react-icons/md";
-import { RiArrowRightDoubleLine } from "react-icons/ri";
-import { getTableHeader } from "../../../Utils/common.jsx";
-import DeletePopover from "../../../components/DeletePopover.jsx";
-import EditTransactionModal from "../../../components/modals/EditTransactionModal.jsx";
+} from "@tanstack/react-table"
+import moment from "moment"
+import { useState } from "react"
+import { getTableHeader } from "../../../Utils/common.jsx"
+import DeletePopover from "../../../components/DeletePopover.jsx"
+import TablePagination from "../../../components/TablePagination.jsx"
+import EditTransactionModal from "../../../components/modals/EditTransactionModal.jsx"
 
 const data = [
   {
@@ -51,9 +46,9 @@ const data = [
       "pune, maharashtra, chakan pin 410501, near ganesh temple pune india",
     createdAt: new Date(),
   },
-];
+]
 
-const colHelper = createColumnHelper();
+const colHelper = createColumnHelper()
 const columns = [
   colHelper.accessor("id", {
     header: (header) => getTableHeader(header, "OrderID"),
@@ -73,8 +68,8 @@ const columns = [
           props.getValue() === "Processing"
             ? "text-blue-600"
             : props.getValue() === "Delivered"
-            ? "text-green-600"
-            : "text-red-600"
+              ? "text-green-600"
+              : "text-red-600"
         }  mr-2`}
       >
         {props.getValue()}
@@ -100,7 +95,7 @@ const columns = [
         arrowOffset={12}
         arrowSize={6}
         withArrow
-        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
       >
         <p className="mr-2 w-28 truncate">{props.getValue()}</p>
       </Tooltip>
@@ -115,7 +110,7 @@ const columns = [
         arrowOffset={12}
         arrowSize={6}
         withArrow
-        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
       >
         <p className="mr-2 w-[4.5rem] truncate">
           {moment(props.getValue()).format("YYYY-MM-DD HH:mm:ss")}
@@ -127,17 +122,17 @@ const columns = [
   colHelper.accessor("action", {
     header: () => null,
     cell: () => (
-      <p className="flex px-0  justify-start items-center gap-x-3 text-gray-500">
+      <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
         <EditTransactionModal />
         <DeletePopover size={18} deleteItemName="transaction" />
       </p>
     ),
   }),
-];
+]
 
 const TransactionTable = ({ globalFilter, setGlobalFilter }) => {
-  const [sorting, setSorting] = useState([]);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 11 });
+  const [sorting, setSorting] = useState([])
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 11 })
 
   const table = useReactTable({
     data,
@@ -154,14 +149,14 @@ const TransactionTable = ({ globalFilter, setGlobalFilter }) => {
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
     onGlobalFilterChange: setGlobalFilter,
-  });
+  })
 
   return (
     <div>
-      <div className="overflow-auto thin-scrollbar h-[28rem] w-full flex flex-col justify-between">
+      <div className="thin-scrollbar flex h-[28rem] w-full flex-col justify-between overflow-auto">
         <table
           width={table.getTotalSize()}
-          className="bg-red-00 text-sm w-full "
+          className="bg-red-00 w-full text-sm "
         >
           <thead>
             {table.getHeaderGroups().map((headerGroup) => {
@@ -175,15 +170,15 @@ const TransactionTable = ({ globalFilter, setGlobalFilter }) => {
                           header.getContext()
                         )}
                       </th>
-                    );
+                    )
                   })}
                 </tr>
-              );
+              )
             })}
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="text-xs  border-b-2">
+              <tr key={row.id} className="border-b-2  text-xs">
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
@@ -198,39 +193,9 @@ const TransactionTable = ({ globalFilter, setGlobalFilter }) => {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end items-center w-full  gap-2 mt-2">
-        <button
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <MdKeyboardDoubleArrowLeft />
-        </button>
-        <button
-          disabled={!table.getCanPreviousPage()}
-          onClick={() => table.previousPage()}
-        >
-          <GrFormPrevious />
-        </button>
-        <button
-          disabled={!table.getCanNextPage()}
-          onClick={() => table.nextPage()}
-        >
-          <MdOutlineNavigateNext />
-        </button>
-        <button
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          <RiArrowRightDoubleLine />
-        </button>
-        <p className="font-medium text-sm ml-3">
-          {table.getState().pagination.pageIndex + 1}
-        </p>
-        <p className="font-base text-gray-600 text-sm">of</p>
-        <p className="font-medium text-sm">{table.getPageCount()}</p>
-      </div>
+      <TablePagination table={table} />
     </div>
-  );
-};
+  )
+}
 
-export default TransactionTable;
+export default TransactionTable

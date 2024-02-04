@@ -1,4 +1,4 @@
-const ReviewAndRatings = () => {
+const MyReviewAndRatings = () => {
   return (
     <>
       <p className="border-b-[1.5px] px-4 py-4">
@@ -8,10 +8,10 @@ const ReviewAndRatings = () => {
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="flex justify-between items-start px-4 w-full  py-5 border-b-[1.5px]"
+            className="flex w-full items-start justify-between border-b-[1.5px]  px-4 py-5"
           >
-            <div className="flex justify-start items-start gap-x-3">
-              <div className="px-3 pt-1 w-20 ">
+            <div className="flex items-start justify-start gap-x-3">
+              <div className="w-20 px-3 pt-1 ">
                 <img src="/shirt.png" alt="" />
               </div>
 
@@ -19,24 +19,24 @@ const ReviewAndRatings = () => {
                 <p className="text-gray-500">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 </p>
-                <div className="text-xs text-gray-700 mt-2">
-                  <span className="bg-green-600 px-1 py-[2px] rounded-sm mr-2 text-white">
+                <div className="mt-2 text-xs text-gray-700">
+                  <span className="mr-2 rounded-sm bg-green-600 px-1 py-[2px] text-white">
                     4.5★
                   </span>
-                  <span className="text-gray-800 font-semibold">
+                  <span className="font-semibold text-gray-800">
                     Mind-blowing purchase
                   </span>
                 </div>
-                <p className="text-xs text-gray-800 mt-2">Awesome product</p>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="mt-2 text-xs text-gray-800">Awesome product</p>
+                <p className="mt-2 text-xs text-gray-500">
                   Nishant Argade <span>09 Dec, 2023</span>
                 </p>
 
                 <div className="mt-2">
-                  <button className="mr-6 text-blue-500 font-semibold text-xs">
+                  <button className="mr-6 text-xs font-semibold text-blue-500">
                     Edit
                   </button>
-                  <button className="text-blue-500 font-semibold text-xs">
+                  <button className="text-xs font-semibold text-blue-500">
                     Delete
                   </button>
                 </div>
@@ -46,7 +46,7 @@ const ReviewAndRatings = () => {
         ))}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ReviewAndRatings;
+export default MyReviewAndRatings

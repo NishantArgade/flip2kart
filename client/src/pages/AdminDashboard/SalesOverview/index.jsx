@@ -1,8 +1,7 @@
-import { Select } from "@mantine/core"
 import { ResponsiveLine } from "@nivo/line"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
-const data = [
+const salesData = [
   {
     id: "japan",
     color: "hsl(236, 70%, 50%)",
@@ -161,7 +160,7 @@ const SalesOverview = () => {
       </div>
       <div className="bg-green-20 thin-scrollbar felx container mx-auto h-[30rem] w-full items-center justify-center overflow-auto bg-gray-50 shadow-md">
         <ResponsiveLine
-          data={view === "sales" ? data : unitData}
+          data={view === "sales" ? salesData : unitData}
           margin={{ top: 60, right: 50, bottom: 80, left: 74 }}
           xScale={{ type: "point" }}
           xFormat=" >-"
@@ -181,6 +180,27 @@ const SalesOverview = () => {
                 },
               },
             },
+          }}
+          tooltip={({ point }) => {
+            return (
+              <div className="flex  w-fit items-center justify-center gap-2 rounded-sm border-[0.8px] border-gray-300  bg-white px-2 py-1 text-[0.70rem]  shadow-sm">
+                <div
+                  style={{
+                    width: "12px",
+                    height: "12px",
+                    backgroundColor: point.borderColor,
+                  }}
+                ></div>
+                <span className="text-[#4e4e4e]">
+                  <span className="mr-1 font-normal">
+                    x: <span className="font-bold">{point.data.x},</span>
+                  </span>
+                  <span className="font-normal">
+                    y: <span className="font-bold">{point.data.y}</span>
+                  </span>
+                </span>
+              </div>
+            )
           }}
           yFormat=" >-.2f"
           axisTop={null}
@@ -216,15 +236,6 @@ const SalesOverview = () => {
           pointBorderColor={{ from: "serieColor" }}
           pointLabelYOffset={-12}
           useMesh={true}
-          tooltip={({ point }) => {
-            return (
-              <div className="w-fit rounded-sm border-2 bg-white px-4 py-2 text-xs font-medium text-gray-700 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-                <span className="font-normal">x: </span> {point.data.x},
-                <span className="font-normal"> y: </span>
-                {point.data.y}
-              </div>
-            )
-          }}
           legends={[
             {
               anchor: "top-right",

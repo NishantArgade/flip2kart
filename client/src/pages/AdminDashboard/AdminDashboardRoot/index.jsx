@@ -1,30 +1,30 @@
-import LatestTransactionTable from "./LatestTransactionTable.jsx";
-import RevenueChart from "./RevenueChart.jsx";
-import SalesPieChart from "./SalesPieChart.jsx";
-import SectionOverviewCards from "./SectionOverviewCards.jsx";
+import LatestTransactionTable from "./LatestTransactionTable.jsx"
+import RevenueChart from "./RevenueChart.jsx"
+import SalesPieChart from "./SalesPieChart.jsx"
+import SectionOverviewCards from "./SectionOverviewCards.jsx"
 
 const AdminDashboardRoot = () => {
   return (
-    <div className=" md:p-4 py-4 flex flex-col gap-y-4">
+    <div className=" flex flex-col gap-y-4 py-4 md:p-4">
       {/* 1st Grid */}
-      <div className=" grid grid-cols-1 lg:grid-cols-12  gap-4">
+      <section className=" grid grid-cols-1 gap-4  lg:grid-cols-12">
         {/* Overview Section */}
         <SectionOverviewCards />
 
         {/* Revenue Section */}
         <RevenueChart />
-      </div>
+      </section>
 
       {/* 2nd Grid */}
-      <div className="grid  grid-cols-1 lg:grid-cols-12 gap-4">
+      <section className="grid  grid-cols-1 gap-4 lg:grid-cols-12">
         {/* Latest Transactions Section  */}
         <LatestTransactionTable />
 
         {/* Pie Chart Section */}
         <SalesPieChart />
-      </div>
+      </section>
     </div>
-  );
-};
+  )
+}
 
-export default AdminDashboardRoot;
+export default AdminDashboardRoot

@@ -1,4 +1,4 @@
-import ManageAddressAccordion from "./ManageAddressAccordion";
+import ManageAddressAccordion from "./ManageAddressAccordion"
 
 const ManagesAddress = () => {
   // const [opened, setOpened] = useState("false");
@@ -7,7 +7,7 @@ const ManagesAddress = () => {
     <div className="p-6">
       <ManageAddressAccordion />
     </div>
-  );
-};
+  )
+}
 
-export default ManagesAddress;
+export default ManagesAddress

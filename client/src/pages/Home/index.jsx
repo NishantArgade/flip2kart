@@ -1,11 +1,11 @@
 import MultiProductHCarousel from "../../components/MultiProductHCarousel/index.jsx"
-import AdAutoSlideCarousel from "./components/AdAutoSlideCarousel"
-import ProductCategoryCards from "./components/ProductCategoryCards"
+import AdAutoSlideCarousel from "./AdAutoSlideCarousel.jsx"
+import ProductCategoryCardsSection from "./ProductCategoryCardSection/index.jsx"
 
 const Home = () => {
   return (
     <div className="container mx-auto">
-      <ProductCategoryCards />
+      <ProductCategoryCardsSection />
       <AdAutoSlideCarousel />
       <MultiProductHCarousel
         title="Suggested for you"

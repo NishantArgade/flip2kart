@@ -1,4 +1,4 @@
-import { Tooltip } from "@mantine/core";
+import { Tooltip } from "@mantine/core"
 import {
   createColumnHelper,
   flexRender,
@@ -7,18 +7,13 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import moment from "moment";
-import { useState } from "react";
-import { GrFormPrevious } from "react-icons/gr";
-import {
-  MdKeyboardDoubleArrowLeft,
-  MdOutlineNavigateNext,
-} from "react-icons/md";
-import { RiArrowRightDoubleLine } from "react-icons/ri";
-import { getTableHeader } from "../../../Utils/common";
-import DeletePopover from "../../../components/DeletePopover";
-import EditUserModal from "../../../components/modals/EditUserModal";
+} from "@tanstack/react-table"
+import moment from "moment"
+import { useState } from "react"
+import { getTableHeader } from "../../../Utils/common"
+import DeletePopover from "../../../components/DeletePopover"
+import TablePagination from "../../../components/TablePagination"
+import EditUserModal from "../../../components/modals/EditUserModal"
 
 const data = [
   {
@@ -87,9 +82,9 @@ const data = [
     createdAt: new Date("2023/01/10"),
     role: "user",
   },
-];
+]
 
-const colHelper = createColumnHelper();
+const colHelper = createColumnHelper()
 const columns = [
   colHelper.accessor("id", {
     header: (header) => getTableHeader(header, "UserID"),
@@ -105,7 +100,7 @@ const columns = [
         arrowOffset={12}
         arrowSize={6}
         withArrow
-        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
       >
         <p className="mr-2 w-14 truncate">{props.getValue()}</p>
       </Tooltip>
@@ -130,7 +125,7 @@ const columns = [
         arrowOffset={12}
         arrowSize={6}
         withArrow
-        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
       >
         <p className="mr-2 w-32 truncate">{props.getValue()}</p>
       </Tooltip>
@@ -161,17 +156,17 @@ const columns = [
   colHelper.accessor("action", {
     header: () => null,
     cell: () => (
-      <p className="flex px-0  justify-start items-center gap-x-3 text-gray-500">
+      <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
         <EditUserModal />
         <DeletePopover size={18} deleteItemName="user" />
       </p>
     ),
   }),
-];
+]
 
 const UserTable = ({ globalFilter, setGlobalFilter }) => {
-  const [sorting, setSorting] = useState([]);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 11 });
+  const [sorting, setSorting] = useState([])
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 11 })
 
   const table = useReactTable({
     data,
@@ -190,14 +185,14 @@ const UserTable = ({ globalFilter, setGlobalFilter }) => {
     onGlobalFilterChange: setGlobalFilter,
 
     debugTable: true,
-  });
+  })
 
   return (
     <div>
-      <div className="overflow-auto thin-scrollbar h-[28rem] w-full flex flex-col justify-between">
+      <div className="thin-scrollbar flex h-[28rem] w-full flex-col justify-between overflow-auto">
         <table
           width={table.getTotalSize()}
-          className="bg-red-00 text-sm w-full "
+          className="bg-red-00 w-full text-sm "
         >
           <thead>
             {table.getHeaderGroups().map((headerGroup) => {
@@ -211,15 +206,15 @@ const UserTable = ({ globalFilter, setGlobalFilter }) => {
                           header.getContext()
                         )}
                       </th>
-                    );
+                    )
                   })}
                 </tr>
-              );
+              )
             })}
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="text-xs  border-b-2">
+              <tr key={row.id} className="border-b-2  text-xs">
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
@@ -234,39 +229,9 @@ const UserTable = ({ globalFilter, setGlobalFilter }) => {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end items-center w-full  gap-2 mt-2">
-        <button
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <MdKeyboardDoubleArrowLeft />
-        </button>
-        <button
-          disabled={!table.getCanPreviousPage()}
-          onClick={() => table.previousPage()}
-        >
-          <GrFormPrevious />
-        </button>
-        <button
-          disabled={!table.getCanNextPage()}
-          onClick={() => table.nextPage()}
-        >
-          <MdOutlineNavigateNext />
-        </button>
-        <button
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          <RiArrowRightDoubleLine />
-        </button>
-        <p className="font-medium text-sm ml-3">
-          {table.getState().pagination.pageIndex + 1}
-        </p>
-        <p className="font-base text-gray-600 text-sm">of</p>
-        <p className="font-medium text-sm">{table.getPageCount()}</p>
-      </div>
+      <TablePagination table={table} />
     </div>
-  );
-};
+  )
+}
 
-export default UserTable;
+export default UserTable

@@ -1,4 +1,4 @@
-import { Tooltip } from "@mantine/core";
+import { Tooltip } from "@mantine/core"
 import {
   createColumnHelper,
   flexRender,
@@ -7,20 +7,14 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import moment from "moment";
-import { useState } from "react";
-import { GrFormPrevious } from "react-icons/gr";
-import {
-  MdKeyboardDoubleArrowLeft,
-  MdOutlineNavigateNext,
-} from "react-icons/md";
-import { RiArrowRightDoubleLine } from "react-icons/ri";
-import { TbArrowsSort } from "react-icons/tb";
-import { Link } from "react-router-dom";
-import { getTableHeader } from "../../../Utils/common.jsx";
-import DeletePopover from "../../../components/DeletePopover.jsx";
-import EditUser from "../../../components/modals/EditUserModal.jsx";
+} from "@tanstack/react-table"
+import moment from "moment"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { getTableHeader } from "../../../Utils/common.jsx"
+import DeletePopover from "../../../components/DeletePopover.jsx"
+import TablePagination from "../../../components/TablePagination.jsx"
+import EditUser from "../../../components/modals/EditUserModal.jsx"
 
 const data = [
   {
@@ -262,9 +256,9 @@ const data = [
     createdAt: new Date("2023/01/10"),
     updatedAt: new Date("2023/03/11"),
   },
-];
+]
 
-const colHelper = createColumnHelper();
+const colHelper = createColumnHelper()
 const columns = [
   colHelper.accessor("id", {
     header: (header) => getTableHeader(header, "ProductID"),
@@ -278,7 +272,7 @@ const columns = [
         arrowOffset={12}
         arrowSize={6}
         withArrow
-        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
       >
         <p className="mr-2  w-32 truncate">{props.getValue()}</p>
       </Tooltip>
@@ -309,7 +303,7 @@ const columns = [
         arrowOffset={12}
         arrowSize={6}
         withArrow
-        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
       >
         <p className="mr-2 w-32 truncate">{props.getValue()}</p>
       </Tooltip>
@@ -333,7 +327,7 @@ const columns = [
   colHelper.accessor("action", {
     header: () => null,
     cell: () => (
-      <p className="flex px-0  justify-start items-center gap-x-3 text-gray-500">
+      <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
         <Link to="/edit-product">
           {" "}
           <EditUser />
@@ -342,11 +336,11 @@ const columns = [
       </p>
     ),
   }),
-];
+]
 
 const ProductTable = ({ globalFilter, setGlobalFilter }) => {
-  const [sorting, setSorting] = useState([]);
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 11 });
+  const [sorting, setSorting] = useState([])
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 11 })
 
   const table = useReactTable({
     data: data,
@@ -363,14 +357,14 @@ const ProductTable = ({ globalFilter, setGlobalFilter }) => {
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
     onGlobalFilterChange: setGlobalFilter,
-  });
+  })
 
   return (
     <div>
-      <div className="overflow-auto thin-scrollbar h-[28rem] w-full flex flex-col justify-between">
+      <div className="thin-scrollbar flex h-[28rem] w-full flex-col justify-between overflow-auto">
         <table
           width={table.getTotalSize()}
-          className="bg-red-00 text-sm w-full "
+          className="bg-red-00 w-full text-sm "
         >
           <thead>
             {table.getHeaderGroups().map((headerGroup) => {
@@ -384,15 +378,15 @@ const ProductTable = ({ globalFilter, setGlobalFilter }) => {
                           header.getContext()
                         )}
                       </th>
-                    );
+                    )
                   })}
                 </tr>
-              );
+              )
             })}
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="text-xs  border-b-2">
+              <tr key={row.id} className="border-b-2  text-xs">
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
@@ -407,39 +401,9 @@ const ProductTable = ({ globalFilter, setGlobalFilter }) => {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end items-center w-full  gap-2 mt-2">
-        <button
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <MdKeyboardDoubleArrowLeft />
-        </button>
-        <button
-          disabled={!table.getCanPreviousPage()}
-          onClick={() => table.previousPage()}
-        >
-          <GrFormPrevious />
-        </button>
-        <button
-          disabled={!table.getCanNextPage()}
-          onClick={() => table.nextPage()}
-        >
-          <MdOutlineNavigateNext />
-        </button>
-        <button
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          <RiArrowRightDoubleLine />
-        </button>
-        <p className="font-medium text-sm ml-3">
-          {table.getState().pagination.pageIndex + 1}
-        </p>
-        <p className="font-base text-gray-600 text-sm">of</p>
-        <p className="font-medium text-sm">{table.getPageCount()}</p>
-      </div>
+      <TablePagination table={table} />
     </div>
-  );
-};
+  )
+}
 
-export default ProductTable;
+export default ProductTable

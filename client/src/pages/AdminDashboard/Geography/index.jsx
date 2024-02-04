@@ -1,6 +1,6 @@
-import { ResponsiveChoropleth } from "@nivo/geo";
-import React from "react";
-import { geoData } from "./geoData";
+import { ResponsiveChoropleth } from "@nivo/geo"
+import React from "react"
+import { geoData } from "./geoData"
 
 const data = [
   {
@@ -19,11 +19,11 @@ const data = [
     id: "IND",
     value: 190,
   },
-];
+]
 
 const Geography = () => {
   return (
-    <div className="container mx-auto bg-green-20 h-[33rem] shadow-md overflow-auto w-full thin-scrollbar bg-gray-50 felx justify-center items-center">
+    <div className="bg-green-20 thin-scrollbar felx container mx-auto h-[33rem] w-full items-center justify-center overflow-auto bg-gray-50 shadow-md">
       <ResponsiveChoropleth
         data={data}
         height={700}
@@ -39,10 +39,15 @@ const Geography = () => {
         projectionTranslation={[0.45, 0.6]}
         projectionRotation={[0, 0, 0]}
         enableGraticule={false}
-        //   graticuleLineColor="#dddddd"
         borderWidth={1.3}
-        // isInteractive
-        // projectionType=""
+        theme={{
+          tooltip: {
+            container: {
+              color: "#4e4e4e",
+              fontSize: "0.70rem",
+            },
+          },
+        }}
         borderColor="#666666"
         legends={[
           {
@@ -71,7 +76,7 @@ const Geography = () => {
         ]}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Geography;
+export default Geography

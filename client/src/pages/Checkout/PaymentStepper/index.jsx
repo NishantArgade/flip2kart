@@ -1,18 +1,18 @@
-import { Stepper } from "@mantine/core";
-import { useState } from "react";
-import CompleteStep from "./CompleteStep.jsx";
-import DeliveryAddressStep from "./DeliveryAddressStep.jsx";
-import LoginInfoStep from "./LoginInfoStep.jsx";
-import OrderSummaryStep from "./OrderSummaryStep.jsx";
-import PaymentStep from "./PaymentStep.jsx";
+import { Stepper } from "@mantine/core"
+import { useState } from "react"
+import CompleteStep from "./CompleteStep.jsx"
+import DeliveryAddressStep from "./DeliveryAddressStep.jsx"
+import LoginInfoStep from "./LoginInfoStep.jsx"
+import OrderSummaryStep from "./OrderSummaryStep.jsx"
+import PaymentStep from "./PaymentStep.jsx"
 
 const PaymentStepper = () => {
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(1)
 
   const nextStep = () =>
-    setActive((current) => (current < 4 ? current + 1 : current));
+    setActive((current) => (current < 4 ? current + 1 : current))
   const prevStep = () =>
-    setActive((current) => (current > 0 ? current - 1 : current));
+    setActive((current) => (current > 0 ? current - 1 : current))
 
   const stepperStyleOption = {
     stepLabel: {
@@ -33,7 +33,7 @@ const PaymentStepper = () => {
       marginRight: 2,
       height: 3,
     },
-  };
+  }
 
   return (
     <Stepper
@@ -59,7 +59,7 @@ const PaymentStepper = () => {
         <CompleteStep />
       </Stepper.Completed>
     </Stepper>
-  );
-};
+  )
+}
 
-export default PaymentStepper;
+export default PaymentStepper

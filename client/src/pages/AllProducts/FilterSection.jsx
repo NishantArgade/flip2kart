@@ -17,8 +17,10 @@ const FilterSection = ({ isOpenSidebar, setIsOpenSidebar }) => {
   return (
     <div
       className={`${
-        isOpenSidebar ? "translate-x-0" : "translate-x-full md:-translate-x-0"
-      } fixed left-0 top-0 z-50 col-span-12 h-screen w-full rounded-md border-2 border-gray-200 bg-gray-100 transition-all duration-500 ease-in-out md:static md:col-span-4  md:h-full   md:w-full md:rounded-sm md:border-0 md:bg-none lg:col-span-2`}
+        isOpenSidebar
+          ? "translate-x-0 bg-white"
+          : "translate-x-full md:-translate-x-0"
+      } fixed left-0 top-0 z-50 col-span-12 h-screen w-full rounded-md border-2 border-gray-200  transition-all duration-500 ease-in-out md:static md:col-span-4  md:h-full   md:w-full md:rounded-sm md:border-0 md:bg-none lg:col-span-2`}
     >
       <div className="col-span-2 h-auto bg-white">
         {/** Heading */}

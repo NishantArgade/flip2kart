@@ -1,7 +1,7 @@
 import { City, Country } from "country-state-city"
 import "leaflet/dist/leaflet.css"
 import { MapContainer, TileLayer } from "react-leaflet"
-import MapMarker from "./Marker"
+import MapMarker from "./MapMarker"
 
 const Map = () => {
   const officeLocations = [

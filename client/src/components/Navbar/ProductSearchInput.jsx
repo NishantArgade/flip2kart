@@ -1,5 +1,5 @@
-import React from "react";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import React from "react"
+import { ReactSearchAutocomplete } from "react-search-autocomplete"
 
 const ProductSearchInput = ({ setSearchValue }) => {
   const items = [
@@ -26,19 +26,19 @@ const ProductSearchInput = ({ setSearchValue }) => {
       description:
         "New Stylish T-shirt for boys with 100% cotton and available in all sizes ",
     },
-  ];
+  ]
 
   const formatResult = (item) => {
     return (
       <>
         <span className="h-10">{item.name}</span>
       </>
-    );
-  };
+    )
+  }
 
   return (
     <ReactSearchAutocomplete
-      className="outline-none w-full  text-sm"
+      className="w-full text-sm  outline-none"
       items={items}
       fuseOptions={{ keys: ["name", "description"] }}
       styling={{
@@ -56,7 +56,7 @@ const ProductSearchInput = ({ setSearchValue }) => {
       onSearch={(value) => setSearchValue(value)}
       onSelect={(item) => setSearchValue(item.name)}
     />
-  );
-};
+  )
+}
 
-export default ProductSearchInput;
+export default ProductSearchInput
