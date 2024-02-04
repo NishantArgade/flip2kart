@@ -26,7 +26,7 @@ const AdminDashboardLayout = () => {
 
         {/* Right Section for Outlet (children)*/}
         <section
-          id={"admin-dashboard-right-section"}
+          id={"AdminDashboardLayoutRightSection"}
           className="col-span-12 h-fit bg-white md:col-span-8 lg:col-span-10"
         >
           <Outlet />

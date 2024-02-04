@@ -138,7 +138,7 @@ const SalesOverview = () => {
 
   return (
     <>
-      <div className="mx-2 flex  flex-row items-center justify-between bg-gray-50  p-2 text-sm font-medium text-gray-600 ">
+      <div className="flex flex-row  items-center justify-between bg-gray-50 px-3 py-2 text-sm font-medium text-gray-600 ">
         <div>
           <p className="text-lg uppercase text-gray-500">Sales Overview</p>
           <p className="text-xs text-gray-400">Chart for sales overview</p>

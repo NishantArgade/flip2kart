@@ -3,9 +3,9 @@ import { useState } from "react"
 import { FiFilter } from "react-icons/fi"
 import ClientFacingHeader from "../ClientFacingHeader"
 import TableSearchBar from "../TableSearchBar"
-import UserTable from "./UserTable"
+import AdminTable from "./AdminTable"
 
-const Users = () => {
+const ManagingAdmin = () => {
   const [globalFilter, setGlobalFilter] = useState("")
   const [columnFilters, setColumnFilters] = useState([
     { id: "role", value: "" },
@@ -24,7 +24,7 @@ const Users = () => {
 
   return (
     <>
-      <ClientFacingHeader heading={"Users"} subHeading={"Table for users"} />
+      <ClientFacingHeader heading={"Admins"} subHeading={"Table for users"} />
 
       <div className="w-full p-4">
         {/** Header */}
@@ -32,7 +32,7 @@ const Users = () => {
           <TableSearchBar
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
-            placeholder={"Search user by name, email, etc..."}
+            placeholder={"Search by name, email, etc..."}
           />
           <Menu
             shadow="md"
@@ -53,35 +53,44 @@ const Users = () => {
               <Menu.Label>Roles</Menu.Label>
               <Menu.Item
                 className={`${
-                  isSelectedRating("") && "bg-[#F5FAFF] text-gray-700"
+                  isSelectedRating("") && "bg-[#F5FAFF] text-gray-600"
                 }  hover:bg-[#F5FAFF] hover:text-gray-700`}
                 onClick={() => onColumnFilterChange("role", "")}
                 value={"All"}
               >
                 All
               </Menu.Item>
+
               <Menu.Item
                 className={`${
-                  isSelectedRating("user") && "bg-[#F5FAFF] text-green-500"
-                }  hover:bg-[#F5FAFF] hover:text-green-500`}
-                onClick={() => onColumnFilterChange("role", "user")}
-              >
-                User
-              </Menu.Item>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("admin") && "bg-[#F5FAFF] text-orange-500"
-                }  hover:bg-[#F5FAFF] hover:text-orange-500`}
+                  isSelectedRating("admin") && "bg-[#F5FAFF] text-gray-600"
+                }  hover:bg-[#F5FAFF] hover:text-gray-700`}
                 onClick={() => onColumnFilterChange("role", "admin")}
               >
                 Admin
+              </Menu.Item>
+              <Menu.Item
+                className={`${
+                  isSelectedRating("operator") && "bg-[#F5FAFF] text-gray-600"
+                }  hover:bg-[#F5FAFF] hover:text-gray-700`}
+                onClick={() => onColumnFilterChange("role", "operator")}
+              >
+                Operator
+              </Menu.Item>
+              <Menu.Item
+                className={`${
+                  isSelectedRating("manager") && "bg-[#F5FAFF] text-gray-600"
+                }  hover:bg-[#F5FAFF] hover:text-gray-700`}
+                onClick={() => onColumnFilterChange("role", "manager")}
+              >
+                Manager
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
         </section>
 
         {/** Table */}
-        <UserTable
+        <AdminTable
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
           columnFilters={columnFilters}
@@ -91,4 +100,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default ManagingAdmin

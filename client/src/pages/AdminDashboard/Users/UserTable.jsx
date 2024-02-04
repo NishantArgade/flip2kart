@@ -164,7 +164,7 @@ const columns = [
   }),
 ]
 
-const UserTable = ({ globalFilter, setGlobalFilter }) => {
+const UserTable = ({ globalFilter, setGlobalFilter, columnFilters }) => {
   const [sorting, setSorting] = useState([])
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 11 })
 
@@ -175,6 +175,7 @@ const UserTable = ({ globalFilter, setGlobalFilter }) => {
       sorting,
       pagination,
       globalFilter,
+      columnFilters,
     },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

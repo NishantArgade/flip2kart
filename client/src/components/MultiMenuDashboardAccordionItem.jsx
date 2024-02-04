@@ -17,10 +17,11 @@ const MultiMenuDashboardAccordionItem = ({ name, icon, subMenu }) => {
             to={item?.link}
             end
             onClick={() => {
-              const ele = document.getElementById(
-                "admin-dashboard-right-section"
-              )
-              if (ele) ele.scrollIntoView({ behavior: "smooth", block: "end" })
+              window.scroll({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+              })
             }}
             className={({ isActive, isPending }) =>
               isPending

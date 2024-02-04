@@ -7,9 +7,11 @@ import {
 import "./App.css"
 import AdminDashboardLayout from "./pages/AdminDashboard/AdminDashboardLayout"
 import AdminDashboardRoot from "./pages/AdminDashboard/AdminDashboardRoot"
+import AffiliatePerformance from "./pages/AdminDashboard/AffiliatePerformance"
 import DailySales from "./pages/AdminDashboard/DailySales"
 import Geography from "./pages/AdminDashboard/Geography"
 import ManageProduct from "./pages/AdminDashboard/ManageProduct"
+import ManagingAdmin from "./pages/AdminDashboard/ManagingAdmin"
 import MonthlySales from "./pages/AdminDashboard/MonthlySales"
 import Products from "./pages/AdminDashboard/Products"
 import Reviews from "./pages/AdminDashboard/Reviews"
@@ -63,6 +65,12 @@ const router = createBrowserRouter(
         <Route path="daily-sales" element={<DailySales />} />
         <Route path="monthly-sales" element={<MonthlySales />} />
         <Route path="sales-breakdown" element={<SalesBreakdown />} />
+
+        <Route
+          path="affiliate-performance"
+          element={<AffiliatePerformance />}
+        />
+        <Route path="admins" element={<ManagingAdmin />} />
       </Route>
 
       <Route path="add-product" element={<ManageProduct />} />

@@ -18,6 +18,8 @@ import EditTransactionModal from "../../../components/modals/EditTransactionModa
 const data = [
   {
     id: "65a63a404e9ce490acd0c3a6",
+    firstName: "Aniket",
+    lastName: "Argade",
     userId: "65a63a404e9ce490acd0c3a6",
     status: "Processing",
     quantity: 30000,
@@ -28,6 +30,8 @@ const data = [
   },
   {
     id: "65a63a404e9ce490acd0c3a6",
+    firstName: "Aniket",
+    lastName: "Argade",
     userId: "65a63a404e9ce490acd0c3a6",
     status: "Delivered",
     quantity: 30000,
@@ -38,6 +42,8 @@ const data = [
   },
   {
     id: "65a63a404e9ce490acd0c3a6",
+    firstName: "Aniket",
+    lastName: "Argade",
     userId: "65a63a404e9ce490acd0c3a6",
     status: "Failed",
     quantity: 30000,
@@ -51,7 +57,12 @@ const data = [
 const colHelper = createColumnHelper()
 const columns = [
   colHelper.accessor("id", {
-    header: (header) => getTableHeader(header, "OrderID"),
+    header: (header) => getTableHeader(header, "ID"),
+    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+  }),
+  colHelper.accessor((row) => `${row.firstName} ${row.lastName}`, {
+    id: "fullName",
+    header: (header) => getTableHeader(header, "Name"),
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
 
@@ -60,25 +71,17 @@ const columns = [
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
 
-  colHelper.accessor("status", {
-    header: (header) => getTableHeader(header, "Status"),
+  colHelper.accessor("createdAt", {
+    header: (header) => getTableHeader(header, "CreatedAt"),
     cell: (props) => (
-      <p
-        className={`${
-          props.getValue() === "Processing"
-            ? "text-blue-600"
-            : props.getValue() === "Delivered"
-              ? "text-green-600"
-              : "text-red-600"
-        }  mr-2`}
-      >
-        {props.getValue()}
+      <p className="mr-2 w-fit truncate">
+        {moment(props.getValue()).format("YYYY-MM-DD HH:mm:ss")}
       </p>
     ),
   }),
 
   colHelper.accessor("quantity", {
-    header: (header) => getTableHeader(header, "Quantity"),
+    header: (header) => getTableHeader(header, "# of Products"),
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
 
@@ -87,50 +90,9 @@ const columns = [
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     // size: 50,
   }),
-  colHelper.accessor("address", {
-    header: (header) => getTableHeader(header, "Address"),
-    cell: (props) => (
-      <Tooltip
-        label={props.getValue()}
-        arrowOffset={12}
-        arrowSize={6}
-        withArrow
-        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
-      >
-        <p className="mr-2 w-28 truncate">{props.getValue()}</p>
-      </Tooltip>
-    ),
-  }),
-
-  colHelper.accessor("createdAt", {
-    header: (header) => getTableHeader(header, "CreatedAt"),
-    cell: (props) => (
-      <Tooltip
-        label={moment(props.getValue()).format("YYYY-MM-DD HH:mm:ss")}
-        arrowOffset={12}
-        arrowSize={6}
-        withArrow
-        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
-      >
-        <p className="mr-2 w-[4.5rem] truncate">
-          {moment(props.getValue()).format("YYYY-MM-DD HH:mm:ss")}
-        </p>
-      </Tooltip>
-    ),
-  }),
-
-  colHelper.accessor("action", {
-    header: () => null,
-    cell: () => (
-      <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
-        <EditTransactionModal />
-        <DeletePopover size={18} deleteItemName="transaction" />
-      </p>
-    ),
-  }),
 ]
 
-const TransactionTable = ({ globalFilter, setGlobalFilter, columnFilters }) => {
+const PerformanceTable = ({ globalFilter, setGlobalFilter, columnFilters }) => {
   const [sorting, setSorting] = useState([])
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 11 })
 
@@ -199,4 +161,4 @@ const TransactionTable = ({ globalFilter, setGlobalFilter, columnFilters }) => {
   )
 }
 
-export default TransactionTable
+export default PerformanceTable

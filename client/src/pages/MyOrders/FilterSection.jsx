@@ -7,10 +7,8 @@ const FilterSection = ({ isOpenSidebar, setIsOpenSidebar }) => {
   return (
     <div
       className={`${
-        isOpenSidebar
-          ? "translate-x-0  bg-white"
-          : "translate-x-full md:-translate-x-0"
-      } fixed left-0 top-0 z-50 col-span-12 h-screen w-full rounded-md border-2 transition-all duration-500 ease-in-out md:static  md:col-span-4 md:h-full md:w-full md:rounded-sm md:border-0 md:bg-inherit  lg:col-span-2`}
+        isOpenSidebar ? "translate-x-0" : "translate-x-full md:-translate-x-0"
+      } fixed left-0 top-0 z-50 col-span-12 h-screen  w-full rounded-md border-2 bg-white transition-transform duration-500 ease-out md:static md:col-span-4  md:h-full md:w-full md:rounded-sm md:border-0 md:bg-inherit  lg:col-span-2`}
     >
       <div className="bg-white">
         <p className="flex  items-center justify-between border-b-2 border-gray-200 p-2 text-start text-gray-800">

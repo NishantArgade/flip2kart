@@ -28,14 +28,6 @@ const ProductSearchInput = ({ setSearchValue }) => {
     },
   ]
 
-  const formatResult = (item) => {
-    return (
-      <>
-        <span className="h-10">{item.name}</span>
-      </>
-    )
-  }
-
   return (
     <ReactSearchAutocomplete
       className="w-full text-sm  outline-none"
@@ -52,7 +44,7 @@ const ProductSearchInput = ({ setSearchValue }) => {
       placeholder="Search for Products, Brands and More"
       autoFocus={false}
       resultStringKeyName="name"
-      formatResult={formatResult}
+      formatResult={(item) => <span className="h-10">{item.name}</span>}
       onSearch={(value) => setSearchValue(value)}
       onSelect={(item) => setSearchValue(item.name)}
     />
