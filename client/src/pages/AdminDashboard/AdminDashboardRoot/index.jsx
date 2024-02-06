@@ -1,4 +1,6 @@
+import { PDFDownloadLink } from "@react-pdf/renderer"
 import { FaDownload } from "react-icons/fa"
+import DashboardReportPDFDoc from "./DashboardReportPDFDoc/index.jsx"
 import LatestTransactionTable from "./LatestTransactionTable.jsx"
 import RevenueChart from "./RevenueChart.jsx"
 import SalesPieChart from "./SalesPieChart.jsx"
@@ -12,10 +14,25 @@ const AdminDashboardRoot = () => {
           <p className="text-lg uppercase text-gray-500">Dashboard</p>
           <p className="text-xs text-gray-400">Welcome to admin dashboard</p>
         </div>
-        <button className="flex items-center justify-center gap-2 rounded-sm bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow-md hover:text-gray-700">
-          <FaDownload />
-          <p>Download Report</p>
-        </button>
+        <PDFDownloadLink
+          document={<DashboardReportPDFDoc />}
+          fileName="Dashboard Report.pdf"
+        >
+          {({ loading, error }) => (
+            <div className=" rounded-sm bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow-md hover:text-gray-700">
+              <p className="flex items-center justify-center gap-2">
+                <FaDownload />
+                <span>
+                  {error
+                    ? "Try again"
+                    : loading
+                      ? "Loading Report"
+                      : "Download Report"}
+                </span>
+              </p>
+            </div>
+          )}
+        </PDFDownloadLink>
       </div>
       {/* 1st Grid */}
       <section className=" grid grid-cols-1 gap-4  lg:grid-cols-12">

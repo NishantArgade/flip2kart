@@ -363,6 +363,7 @@ const ProductTable = ({ globalFilter, setGlobalFilter }) => {
     <div>
       <div className="thin-scrollbar flex h-[28rem] w-full flex-col justify-between overflow-auto">
         <table
+          id=""
           width={table.getTotalSize()}
           className="bg-red-00 w-full text-sm "
         >

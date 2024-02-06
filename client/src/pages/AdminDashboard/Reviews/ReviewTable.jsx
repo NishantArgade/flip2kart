@@ -262,6 +262,7 @@ const ReviewTable = ({ globalFilter, setGlobalFilter, columnFilters }) => {
     <div>
       <div className="thin-scrollbar flex h-[28rem] w-full flex-col justify-between overflow-auto">
         <table
+          id="reviewTable"
           width={table.getTotalSize()}
           className="bg-red-00 w-full text-sm "
         >

@@ -1,13 +1,13 @@
-import { Tooltip } from "@mantine/core";
+import { Tooltip } from "@mantine/core"
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import { useState } from "react";
-import { getTableHeader } from "../../../Utils/common";
+} from "@tanstack/react-table"
+import { useState } from "react"
+import { getTableHeader } from "../../../Utils/common"
 
 const data = [
   {
@@ -98,9 +98,9 @@ const data = [
     quantity: 2,
     cost: "4000",
   },
-];
+]
 
-const columnHelper = createColumnHelper();
+const columnHelper = createColumnHelper()
 const columns = [
   columnHelper.accessor((row) => `${row.firstName} ${row.lastName}`, {
     id: "full name",
@@ -111,7 +111,7 @@ const columns = [
         arrowOffset={12}
         arrowSize={6}
         withArrow
-        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
       >
         <p className="mr-2  w-16 truncate">{props.getValue()}</p>
       </Tooltip>
@@ -122,7 +122,7 @@ const columns = [
   columnHelper.accessor("id", {
     header: (header) => getTableHeader(header, "UserID"),
     cell: (props) => (
-      <p className="text-[0.7rem] py-2 mr-2">{props.getValue()}</p>
+      <p className="mr-2 py-2 text-[0.7rem]">{props.getValue()}</p>
     ),
   }),
 
@@ -134,7 +134,7 @@ const columns = [
         arrowOffset={12}
         arrowSize={6}
         withArrow
-        className="bg-gray-600 text-white max-w-80 max-h-32  text-xs text-wrap"
+        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
       >
         <p className="mr-2  w-16 truncate">{props.getValue()}</p>
       </Tooltip>
@@ -145,19 +145,19 @@ const columns = [
   columnHelper.accessor("quantity", {
     header: (header) => getTableHeader(header, "Qty"),
     cell: (props) => (
-      <p className="text-[0.7rem] py-2 mr-2">{props.getValue()}</p>
+      <p className="mr-2 py-2 text-[0.7rem]">{props.getValue()}</p>
     ),
     // size: 120,
   }),
   columnHelper.accessor("cost", {
     header: (header) => getTableHeader(header, "Cost"),
-    cell: (props) => <p className="text-[0.7rem] py-2">{props.getValue()}</p>,
+    cell: (props) => <p className="py-2 text-[0.7rem]">{props.getValue()}</p>,
     // size: 120,
   }),
-];
+]
 
 const LatestTransactionTable = () => {
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState([])
 
   const reactTable = useReactTable({
     columns,
@@ -168,15 +168,15 @@ const LatestTransactionTable = () => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
-  });
+  })
 
   return (
-    <div className=" col-span-1  lg:col-span-8  p-3 rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] bg-gray-50">
-      <div className="text-sm font-semibold text-slate-500 tracking-wide pb-4">
+    <div className=" col-span-1  rounded-md  bg-gray-50 p-3 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-8">
+      <div className="pb-4 text-sm font-semibold tracking-wide text-slate-500">
         Latest Transactions
       </div>
-      <div className="overflow-auto  w-full thin-scrollbar">
-        <table width={reactTable.getTotalSize()}>
+      <div className="thin-scrollbar  w-full overflow-auto">
+        <table width={reactTable.getTotalSize()} id="latestTransactionTable">
           <thead>
             {reactTable.getHeaderGroups().map((headerGroup) => {
               return (
@@ -188,37 +188,15 @@ const LatestTransactionTable = () => {
                         key={header.id}
                         id={header.id}
                       >
-                        {/* <div className="flex justify-start gap-x-2"> */}
-                        {/* <div> */}
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                        {/* </div> */}
-                        {/* <span className="inline-flex flex-col gap-y-[4px] w-3">
-                        <div className=" overflow-hidden inline-block ">
-                          <div
-                            onClick={() => {
-                              header.column.toggleSorting(false, false);
-                            }}
-                            className="h-[0.5rem] w-[0.5rem] bg-orange-300 rotate-45 transform origin-bottom-left"
-                          ></div>
-                        </div>
-                        <div className="w-10 overflow-hidden inline-block">
-                          <div
-                            onClick={() => {
-                              header.column.toggleSorting(true, false);
-                            }}
-                            className=" h-[0.5rem] w-[0.5rem] bg-orange-300 -rotate-45 transform origin-top-left"
-                          ></div>
-                        </div>
-                      </span> */}
-                        {/* </div> */}
                       </th>
-                    );
+                    )
                   })}
                 </tr>
-              );
+              )
             })}
           </thead>
           <tbody className="text-xs">
@@ -237,16 +215,16 @@ const LatestTransactionTable = () => {
                           cell.getContext()
                         )}
                       </td>
-                    );
+                    )
                   })}
                 </tr>
-              );
+              )
             })}
           </tbody>
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LatestTransactionTable;
+export default LatestTransactionTable
