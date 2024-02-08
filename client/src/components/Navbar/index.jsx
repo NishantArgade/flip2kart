@@ -31,7 +31,7 @@ const Navbar = () => {
         isAdmin={isAdmin}
       />
 
-      <div className="sticky left-0  right-0 top-0 z-[10] overflow-visible bg-white shadow-md ">
+      <div className="sticky left-0  right-0 top-0 z-20 overflow-visible bg-white shadow-md ">
         <div className="container mx-auto flex flex-col items-center justify-between py-3 md:flex-row lg:px-12 ">
           {/** Navbar for Mobile */}
           <div className=" mb-4 flex w-full items-center justify-between px-2 text-2xl md:hidden">

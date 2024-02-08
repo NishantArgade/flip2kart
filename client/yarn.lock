@@ -3408,7 +3408,7 @@ react-datepicker@^6.1.0:
     prop-types "^15.7.2"
     react-onclickoutside "^6.13.0"
 
-react-dom@^18.2.0:
+react-dom@^18.0.0, react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -3534,7 +3534,7 @@ react-transition-group@4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@^18.2.0:
+react@^18.0.0, react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -3776,6 +3776,14 @@ stackblur-canvas@^2.0.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/stackblur-canvas/-/stackblur-canvas-2.6.0.tgz#7876bab4ea99bfc97b69ce662614d7a1afb2d71b"
   integrity sha512-8S1aIA+UoF6erJYnglGPug6MaHYGo1Ot7h5fuXx4fUPvcvQfcdw2o/ppCse63+eZf8PPidSu4v1JnmEVtEDnpg==
+
+stepper-react@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/stepper-react/-/stepper-react-0.0.9.tgz#1289123070edbc000bd1cd79d5722ef303f39e79"
+  integrity sha512-8YHcvxB8TlxvvzhfhZIQkJOPgLSQetTBjXHZ4GJaXXUx60seWhnWfQ4v9xM0tXJyAAh6JtKTa51Tlqk4tno0+g==
+  dependencies:
+    react "^18.0.0"
+    react-dom "^18.0.0"
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
   name string-width-cjs

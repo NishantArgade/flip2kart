@@ -30,10 +30,11 @@ const Geography = () => {
         subHeading={"Map to see where our users are located"}
       />
 
-      <div className="bg-green-20 thin-scrollbar felx container mx-auto h-[33rem] w-full items-center justify-center overflow-auto bg-gray-50 shadow-md">
+      <div className="bg-green-20 thin-scrollbar felx container mx-auto h-[30rem] w-full items-center justify-center overflow-auto bg-gray-50 shadow-md">
         <ResponsiveChoropleth
           data={data}
-          // height={600}
+          height={600}
+          width={1200}
           projectionScale={180}
           features={geoData.features}
           margin={{ top: 70, right: 0, bottom: 0, left: 10 }}

@@ -43,7 +43,8 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.21.3",
     "react-search-autocomplete": "^8.5.2",
-    "react-table": "^7.8.0"
+    "react-table": "^7.8.0",
+    "stepper-react": "^0.0.9"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
