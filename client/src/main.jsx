@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import ReactDOM from "react-dom/client"
 import App from "./App.jsx"
 
+// Register font for react-pdf
 Font.register({
   family: "Open Sans",
   fonts: [

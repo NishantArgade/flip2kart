@@ -4,9 +4,9 @@ import { useState } from "react"
 import { BsCart3 } from "react-icons/bs"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { Link, useLocation } from "react-router-dom"
-import MobileSidebarDrawer from "../MobileSidebarDrawer/index.jsx"
-import ProfileMenuButton from "../ProfileMenuButton/index.jsx"
-import ProductSearchInput from "./ProductSearchInput.jsx"
+import AvatarButton from "../AvatarButton/index.jsx"
+import MobileSideDrawer from "../MobileSideDrawer.jsx"
+import SearchInput from "./SearchInput.jsx"
 
 const Navbar = () => {
   const location = useLocation()
@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <>
       {/** SidbarBar Drawer menu for small devices */}
-      <MobileSidebarDrawer
+      <MobileSideDrawer
         opened={opened}
         close={close}
         isLoggedIn={isLoggedIn}
@@ -82,12 +82,12 @@ const Navbar = () => {
               </Link>
 
               <div className="flex w-full items-center  justify-start px-2 lg:w-[38rem]">
-                <ProductSearchInput setSearchValue={setSearchValue} />
+                <SearchInput setSearchValue={setSearchValue} />
               </div>
             </div>
 
             <div className="hidden md:flex md:gap-x-2 lg:flex lg:items-center lg:justify-between lg:gap-x-8">
-              <ProfileMenuButton isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
+              <AvatarButton isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
 
               <Link
                 to="/cart"
