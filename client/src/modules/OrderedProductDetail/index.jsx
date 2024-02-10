@@ -45,7 +45,7 @@ const OrderedProductDetail = () => {
             </div>
             <PDFDownloadLink
               document={<InvoicePDF />}
-              fileName="Dashboard Report.pdf"
+              fileName="Order Invoice.pdf"
             >
               {({ loading, error }) => (
                 <button className="rounded-sm border-[1.5px] px-6 py-1 text-[0.66rem] font-medium text-blue-500">

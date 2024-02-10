@@ -4,9 +4,10 @@ import moment from "moment"
 import { useState } from "react"
 import { FiFilter } from "react-icons/fi"
 import DeletePopover from "../../components/DeletePopover"
-import TableHeader from "./components/TableHeader"
 import ClientFacingHeader from "./components/ClientFacingHeader"
+import EditTransactionModal from "./components/EditTransactionModal"
 import Table from "./components/Table"
+import TableHeader from "./components/TableHeader"
 import TableSearchBar from "./components/TableSearchBar"
 
 const data = [
@@ -117,7 +118,7 @@ const columns = [
     header: () => null,
     cell: () => (
       <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
-        {/* <EditTransactionModal /> */}
+        <EditTransactionModal />
         <DeletePopover size={18} deleteItemName="transaction" />
       </p>
     ),

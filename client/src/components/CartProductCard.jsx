@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import DeleteConfirmModal from "./modals/DeleteConfirmModal"
+import DeleteConfirmModal from "./DeleteConfirmModal"
 
 const CartProductCard = ({ product }) => {
   return (

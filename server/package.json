@@ -1,15 +1,31 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
+  "name": "flip2kart-server",
+  "version": "0.0.5",
+  "description": "This is server for flip2kart e-commerce website",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "flip2kart",
+    "e-commerce",
+    "server",
+    "express",
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "Nishant Argade",
+  "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2"
+    "axios": "^1.6.7",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^8.1.1",
+    "nodemon": "^3.0.3"
   }
 }

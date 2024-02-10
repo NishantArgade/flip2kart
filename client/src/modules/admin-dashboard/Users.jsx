@@ -4,10 +4,10 @@ import moment from "moment"
 import { useState } from "react"
 import { FiFilter } from "react-icons/fi"
 import DeletePopover from "../../components/DeletePopover"
-import TableHeader from "./components/TableHeader"
-import EditUserModal from "../../components/modals/EditUserModal"
+import EditUserModal from "../../components/EditUserModal"
 import ClientFacingHeader from "./components/ClientFacingHeader"
 import Table from "./components/Table"
+import TableHeader from "./components/TableHeader"
 import TableSearchBar from "./components/TableSearchBar"
 
 const data = [

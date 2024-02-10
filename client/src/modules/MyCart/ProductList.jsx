@@ -1,5 +1,5 @@
 import CartProductCard from "../../components/CartProductCard"
-import ChangeAddressModal from "../../components/modals/ChangeAddressModal"
+import ChangeAddressModal from "./components/ChangeAddressModal"
 
 const ProductList = ({ cartData }) => {
   return (
