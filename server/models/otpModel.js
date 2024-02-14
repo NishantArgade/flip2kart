@@ -10,15 +10,8 @@ const otpSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  is_verified: {
-    type: Boolean,
-    required: true,
-  },
-  timestamp: {
+  otpExpire: {
     type: Date,
-    default: Date.now,
-    set: (timestamp) => new Date(timestamp),
-    get: (timestamp) => timestamp.getTime(),
   },
 });
 

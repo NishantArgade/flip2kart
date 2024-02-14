@@ -1,18 +1,21 @@
 import React from "react"
 
-const RequestOTP = ({ handleLogin }) => {
+const RequestOTP = ({ handleLogin, email, setEmail }) => {
   return (
-    <div className="mt-5 flex w-full flex-col  items-center justify-start px-2 pt-2 md:my-auto md:gap-y-7">
+    <div className="flex w-full flex-col items-center  justify-between gap-y-6">
       <input
-        className="mx-2 w-full border-b-[1.5px] border-gray-300 text-sm outline-none focus:border-blue-500  md:text-base"
+        className="w-full  border-b-[1.5px] border-gray-300 py-1 text-sm outline-none focus:border-blue-500  md:text-sm"
         type="text"
-        placeholder={"Enter Email/Mobile number"}
+        placeholder={"Enter Email Address"}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
 
       <div className="mt-5 w-full md:mt-0">
         <p className="mb-3 text-[0.60rem] text-gray-400">
-          By continuing, you agree to Flipkart's Terms of Use and Privacy
-          Policy.
+          By continuing, you agree to Flipkart's{" "}
+          <span className="text-blue-500"> Terms of Use </span> and
+          <span className="text-blue-500"> Privacy Policy. </span>
         </p>
 
         <button

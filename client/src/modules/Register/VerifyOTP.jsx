@@ -1,7 +1,13 @@
 import { PinInput } from "@mantine/core"
 import React from "react"
 
-const VerifyOTP = ({ handleOTP, setShowReqOtpField, OTP, setOTP, email }) => {
+const VerifyOTP = ({
+  handleRegister,
+  setShowReqOtpField,
+  OTP,
+  setOTP,
+  email,
+}) => {
   return (
     <div className="flex w-full flex-col items-center justify-start gap-y-7">
       <div className="text-center text-sm md:text-base">
@@ -25,7 +31,7 @@ const VerifyOTP = ({ handleOTP, setShowReqOtpField, OTP, setOTP, email }) => {
 
       <div className="w-full">
         <button
-          onClick={handleOTP}
+          onClick={handleRegister}
           className="w-full rounded-sm bg-[#2874F0] p-3 text-xs font-bold text-white shadow-md"
         >
           Verify
