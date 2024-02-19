@@ -1,32 +1,35 @@
-import { IoMdNotifications } from "react-icons/io";
-import { MdStar } from "react-icons/md";
-import { TbTruckDelivery } from "react-icons/tb";
+import { IoMdNotifications } from "react-icons/io"
+import { MdStar } from "react-icons/md"
+import { TbTruckDelivery } from "react-icons/tb"
+import { Link } from "react-router-dom"
 
 const LoginInfoStep = ({ nextStep }) => {
   return (
-    <div className="flex flex-col items-center justify-center pt-6 gap-y-10  py-2 border-t-[1px]">
+    <div className="flex flex-col items-center justify-center gap-y-10 border-t-[1px]  py-2 pt-6">
       <div>
-        <div className="bg-r flex md:flex-row flex-col gap-y-6 items-start justify-center lg:gap-x-20 gap-x-4">
-          <div className="flex flex-col justify-start items-start gap-y-2">
+        <div className="bg-r flex flex-col items-start justify-center gap-x-4 gap-y-6 md:flex-row lg:gap-x-20">
+          <div className="flex flex-col items-start justify-start gap-y-2">
+            {true && (
+              <div className="flex items-center justify-start gap-x-3">
+                <p className="text-gray-500">Name</p>
+                <p>Nishant Argade</p>
+              </div>
+            )}
             <div className="flex items-center justify-start gap-x-3">
-              <p className="text-gray-500">Name</p>
-              <p>Nishant Argade</p>
+              <p className="text-gray-500">Email</p>
+              <p>nishantargade4579@gmail.com</p>
             </div>
-            <div className="flex items-center justify-start gap-x-3">
-              <p className="text-gray-500">Name</p>
-              <p>Nishant Argade</p>
-            </div>
-            <p className="text-blue-500">
-              Lorem ipsum dolor sit amet consectetur.
-            </p>
+            <Link to="/login" className="text-blue-500">
+              Logout & Sign in to another account
+            </Link>
             <button
               onClick={nextStep}
-              className="bg-[#FB641B] py-3 lg:px-10 px-4  mt-2 lg:w-64 text-white rounded-sm   cursor-pointer shadow-md"
+              className="mt-2 cursor-pointer rounded-sm bg-[#FB641B]  px-4 py-3 text-white shadow-md   lg:w-64 lg:px-10"
             >
               Continue Checkout
             </button>
           </div>
-          <div className="flex flex-col justify-start items-start gap-y-2">
+          <div className="flex flex-col items-start justify-start gap-y-2">
             <p className="text-xs text-gray-500">
               Lorem ipsum dolor sit amet consectetur.
             </p>
@@ -50,7 +53,7 @@ const LoginInfoStep = ({ nextStep }) => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginInfoStep;
+export default LoginInfoStep

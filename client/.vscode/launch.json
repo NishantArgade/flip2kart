@@ -1,0 +1,19 @@
+{
+    "configurations": [
+      {
+        "name": "LaunchFE",
+        "request": "launch",
+        "type": "chrome",
+        "url": "http://localhost:5173",
+        "webRoot": "${workspaceFolder}/client"
+      },
+      {
+        "type": "node-terminal",
+        "name": "LaunchBE",
+        "request": "launch",
+        "command": "npm run dev",
+        "cwd": "${workspaceFolder}/server"
+      }
+    ]
+  }
+  

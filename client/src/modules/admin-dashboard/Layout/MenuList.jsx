@@ -82,6 +82,18 @@ const MenuList = ({ isOpenSidebar, setIsOpenSidebar }) => {
               name: "Performance",
               link: "/admin-dashboard/affiliate-performance",
             },
+            {
+              name: "Categories",
+              link: "/admin-dashboard/categories",
+            },
+            {
+              name: "Offers",
+              link: "/admin-dashboard/offers",
+            },
+            {
+              name: "Offices",
+              link: "/admin-dashboard/offices",
+            },
           ]}
         />
 

@@ -32,6 +32,17 @@ export function errorHandler(error, req, res, next) {
     if (error.name === "CastError") {
       error = new CustomError("Invalid ID", 400);
     }
+    if (error.code === 11000) {
+      error = new CustomError("Duplicate Field Value", 400);
+    }
+    if (error.name === "ValidationError") {
+      const errors = [];
+
+      Object.keys(error.errors).forEach((key) => {
+        errors.push(error.errors[key].message);
+      });
+      error = new CustomError(`Validation Error: ${errors}`, 400);
+    }
 
     prodErrors(res, error);
   }

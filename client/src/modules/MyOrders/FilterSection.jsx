@@ -1,7 +1,9 @@
 import { Accordion, Checkbox } from "@mantine/core"
 import { IoArrowBack } from "react-icons/io5"
+import Skeleton from "react-loading-skeleton"
 
 const FilterSection = ({ isOpenSidebar, setIsOpenSidebar }) => {
+  const isLoading = true
   return (
     <div
       className={`${
@@ -24,43 +26,52 @@ const FilterSection = ({ isOpenSidebar, setIsOpenSidebar }) => {
           </span>
         </p>
 
-        <Accordion multiple>
-          <Accordion.Item value={"ORDER STATUS"}>
-            <Accordion.Control className="text-xs font-bold text-gray-800">
-              ORDER STATUS
-            </Accordion.Control>
-            <Accordion.Panel className="text-xs">
-              <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
-                <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
-                  x
-                </span>
-                <span className="text-gray-500">Clear All</span>
-              </div>
-              <Checkbox size="xs" label="On the way" className="mt-3" />
-              <Checkbox size="xs" label="Delivered" className="mt-3" />
-              <Checkbox size="xs" label="Cancelled" className="mt-3" />
-              <Checkbox size="xs" label="Returned" className="mt-3" />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value={"ORDER TIME"}>
-            <Accordion.Control className="text-xs font-bold text-gray-800">
-              ORDER TIME
-            </Accordion.Control>
-            <Accordion.Panel className="text-xs">
-              <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
-                <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
-                  x
-                </span>
-                <span className="text-gray-500">Clear All</span>
-              </div>
-              <Checkbox size="xs" label="Last 30 days" className="mt-3" />
-              <Checkbox size="xs" label="2023" className="mt-3" />
-              <Checkbox size="xs" label="2022" className="mt-3" />
-              <Checkbox size="xs" label="2021" className="mt-3" />
-              <Checkbox size="xs" label="Older" className="mt-3" />
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
+        {isLoading ? (
+          <Accordion multiple>
+            <Accordion.Item value={"ORDER STATUS"}>
+              <Accordion.Control className="text-xs font-bold text-gray-800">
+                ORDER STATUS
+              </Accordion.Control>
+              <Accordion.Panel className="text-xs">
+                <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                  <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
+                    x
+                  </span>
+                  <span className="text-gray-500">Clear All</span>
+                </div>
+                <Checkbox size="xs" label="On the way" className="mt-3" />
+                <Checkbox size="xs" label="Delivered" className="mt-3" />
+                <Checkbox size="xs" label="Cancelled" className="mt-3" />
+                <Checkbox size="xs" label="Returned" className="mt-3" />
+              </Accordion.Panel>
+            </Accordion.Item>
+            <Accordion.Item value={"ORDER TIME"}>
+              <Accordion.Control className="text-xs font-bold text-gray-800">
+                ORDER TIME
+              </Accordion.Control>
+              <Accordion.Panel className="text-xs">
+                <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                  <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
+                    x
+                  </span>
+                  <span className="text-gray-500">Clear All</span>
+                </div>
+                <Checkbox size="xs" label="Last 30 days" className="mt-3" />
+                <Checkbox size="xs" label="2023" className="mt-3" />
+                <Checkbox size="xs" label="2022" className="mt-3" />
+                <Checkbox size="xs" label="2021" className="mt-3" />
+                <Checkbox size="xs" label="Older" className="mt-3" />
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        ) : (
+          <div className="p-2">
+            <Skeleton className="my-2" height={16} />
+            <Skeleton className="my-2" width={150} height={16} />
+            <Skeleton className="my-2" height={16} />
+            <Skeleton className="my-2" width={150} height={16} />
+          </div>
+        )}
       </div>
     </div>
   )

@@ -5,17 +5,17 @@ export const myOrders = expressAsyncHandler(async (req, res, next) => {
   const userID = req.user._id;
   const orders = await Order.find({ user_id: userID });
 
-  res.json({
+  res.status(200).json({
     status: "success",
     message: "Fetched my all orders successfully",
-    orders,
+    orders: orders || [],
   });
 });
 
 export const orderDetail = expressAsyncHandler(async (req, res, next) => {
   const orderID = req.params.orderID;
   const order = await Order.findById(orderID);
-  res.json({
+  res.status(200).json({
     status: "success",
     message: "Fetch order detail successfully",
     order,
@@ -38,7 +38,7 @@ export const editOrder = expressAsyncHandler(async (req, res, next) => {
 
   await Order.findByIdAndUpdate(orderID, body);
 
-  res.json({
+  res.status(200).json({
     status: "success",
     message: "Order updated successfully",
   });
@@ -48,15 +48,15 @@ export const deleteOrder = expressAsyncHandler(async (req, res, next) => {
   const orderID = req.params.orderID;
   await Order.findByIdAndDelete(orderID);
 
-  res.json({
+  res.status(200).json({
     status: "success",
     message: "Order deleted successfully",
   });
 });
 
-export const allTransactions = expressAsyncHandler(async (req, res, next) => {
+export const allOrders = expressAsyncHandler(async (req, res, next) => {
   const allOrders = await Order.find();
-  res.json({
+  res.status(200).json({
     status: "success",
     message: "Fetched all Orders successfully",
     allOrders,

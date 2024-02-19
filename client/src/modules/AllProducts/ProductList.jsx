@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { GoSortDesc } from "react-icons/go"
 import { LuSettings2 } from "react-icons/lu"
 import { Link } from "react-router-dom"
+import Spinner from "../../components/Spinner"
 
 const ProductCard = ({ product }) => {
   return (
@@ -64,6 +65,8 @@ const ProductList = ({ setIsOpenSidebar }) => {
     )
   }
 
+  const isLoading = false
+
   return (
     <>
       {/** Sort By Drawer For Small Screens */}
@@ -114,22 +117,31 @@ const ProductList = ({ setIsOpenSidebar }) => {
       </div>
 
       {/* Products List */}
-      <div className="grid grid-cols-2 gap-x-2 gap-y-4 px-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-6 ">
-        {Array.from({ length: 200 }).map((product, index) => (
-          <ProductCard
-            key={index}
-            product={{
-              name: "Canon Camera",
-              image: "/camera.png",
-              description:
-                "Lorem Invidunt sit no et ipsum kasd rebum clita. Duo sanctus duo tempor clita aliquyam, eos dolores dolore nonumy no lorem.",
-              price: 3000,
-              stock: 440,
-              deliveryCharges: 0,
-              quantity: 30,
-            }}
-          />
-        ))}
+      <div className="relative">
+        <div
+          className={`${isLoading ? "opacity-50" : "opacity-100"} grid grid-cols-2 gap-x-2 gap-y-4 px-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-6`}
+        >
+          {Array.from({ length: 40 }).map((product, index) => (
+            <ProductCard
+              key={index}
+              product={{
+                name: "Canon Camera",
+                image: "/camera.png",
+                description:
+                  "Lorem Invidunt sit no et ipsum kasd rebum clita. Duo sanctus duo tempor clita aliquyam, eos dolores dolore nonumy no lorem.",
+                price: 3000,
+                stock: 440,
+                deliveryCharges: 0,
+                quantity: 30,
+              }}
+            />
+          ))}
+        </div>
+        <div
+          className={`${isLoading ? "block" : "hidden"} absolute left-1/2 top-52 z-10 -translate-x-1/2`}
+        >
+          <Spinner />
+        </div>
       </div>
     </>
   )

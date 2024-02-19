@@ -14,7 +14,7 @@ const data = [
   {
     id: "65a63a404e9ce490acd0c3a6",
     userId: "65a63a404e9ce490acd0c3a6",
-    status: "Processing",
+    status: "Order Confirmed",
     quantity: 30000,
     amount: 20000000,
     address:
@@ -34,7 +34,17 @@ const data = [
   {
     id: "65a63a404e9ce490acd0c3a6",
     userId: "65a63a404e9ce490acd0c3a6",
-    status: "Failed",
+    status: "Shipped",
+    quantity: 30000,
+    amount: 20000000,
+    address:
+      "pune, maharashtra, chakan pin 410501, near ganesh temple pune india",
+    createdAt: new Date(),
+  },
+  {
+    id: "65a63a404e9ce490acd0c3a6",
+    userId: "65a63a404e9ce490acd0c3a6",
+    status: "Out for delivery",
     quantity: 30000,
     amount: 20000000,
     address:
@@ -60,11 +70,13 @@ const columns = [
     cell: (props) => (
       <p
         className={`${
-          props.getValue() === "Processing"
-            ? "text-blue-600"
-            : props.getValue() === "Delivered"
-              ? "text-green-600"
-              : "text-red-600"
+          props.getValue() === "Order Confirmed"
+            ? "text-pink-600"
+            : props.getValue() === "Shipped"
+              ? "text-blue-600"
+              : props.getValue() === "Out for delivery"
+                ? "text-orange-600"
+                : "text-green-600"
         }  mr-2`}
       >
         {props.getValue()}
@@ -168,7 +180,7 @@ const Transactions = () => {
             <Menu.Target>
               <button className="flex items-center gap-x-2 text-xs text-blue-500">
                 <FiFilter />
-                <p>Filter By Rating</p>
+                <p>Filter By Order Status</p>
               </button>
             </Menu.Target>
 
@@ -183,29 +195,42 @@ const Transactions = () => {
               >
                 All
               </Menu.Item>
+
               <Menu.Item
                 className={`${
                   isSelectedRating("5") && "bg-[#F5FAFF] text-blue-500"
-                }  hover:bg-[#F5FAFF] hover:text-blue-500`}
-                onClick={() => onColumnFilterChange("status", "processing")}
+                }  hover:bg-[#F5FAFF] hover:text-pink-500`}
+                onClick={() =>
+                  onColumnFilterChange("status", "Order Confirmed")
+                }
               >
-                Processing
+                Order Confirmed
               </Menu.Item>
               <Menu.Item
                 className={`${
                   isSelectedRating("4") && "bg-[#F5FAFF] text-green-500"
-                }  hover:bg-[#F5FAFF] hover:text-green-500`}
-                onClick={() => onColumnFilterChange("status", "delivered")}
+                }  hover:bg-[#F5FAFF] hover:text-blue-500`}
+                onClick={() => onColumnFilterChange("status", "Shipped")}
               >
-                Delivered
+                Shipped
+              </Menu.Item>
+              <Menu.Item
+                className={`${
+                  isSelectedRating("4") && "bg-[#F5FAFF] text-green-500"
+                }  hover:bg-[#F5FAFF] hover:text-orange-500`}
+                onClick={() =>
+                  onColumnFilterChange("status", "Out for delivery")
+                }
+              >
+                Out for delivery
               </Menu.Item>
               <Menu.Item
                 className={`${
                   isSelectedRating("4") && "bg-[#F5FAFF] text-red-500"
-                }  hover:bg-[#F5FAFF] hover:text-red-500`}
-                onClick={() => onColumnFilterChange("status", "failed")}
+                }  hover:bg-[#F5FAFF] hover:text-green-500`}
+                onClick={() => onColumnFilterChange("status", "Delivered")}
               >
-                Failed
+                Delivered
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>

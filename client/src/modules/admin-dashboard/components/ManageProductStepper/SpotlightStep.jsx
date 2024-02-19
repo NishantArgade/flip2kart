@@ -1,108 +1,142 @@
-import { Table, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { IoMdAddCircle } from "react-icons/io";
-import { MdDelete } from "react-icons/md";
-import { RxCross2 } from "react-icons/rx";
+import { TextInput } from "@mantine/core"
+import { useState } from "react"
+import { IoMdAddCircle } from "react-icons/io"
+import { MdDelete } from "react-icons/md"
+import _ from "lodash"
+import { getPascalCaseString } from "../../../../utils/helper"
+import { RxCross2 } from "react-icons/rx"
 
-const SpotlightStep = ({ nextStep, prevStep }) => {
-  const form = useForm({
-    initialValues: {
-      SpotlightTitle: "",
-      SpotlightDescription: "",
-    },
+const SpotlightStep = ({
+  nextStep,
+  prevStep,
+  spotlightStepData,
+  setSpotlightStepData,
+}) => {
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
 
-    validate: {
-      SpotlightTitle: (value) => {
-        if (!value) return "this field is required";
-      },
-      SpotlightDescription: (value) => {
-        if (!value) return "this field is required";
-      },
-    },
-  });
+  function handleAddService() {
+    const formatedTitle = getPascalCaseString(title)
+    const formatedDescription = getPascalCaseString(description)
 
-  const elements = [
-    {
-      desc: "24 hrs service",
-    },
-    {
-      desc: "25 hrs service",
-    },
-    {
-      desc: "26 hrs service",
-    },
-    {
-      desc: "27 hrs service",
-    },
-    {
-      desc: "28 hrs service",
-    },
-  ];
+    if (!!formatedTitle && !!formatedDescription) {
+      const existingItem = _.find(spotlightStepData, { title: formatedTitle })
+
+      if (existingItem) {
+        if (!existingItem.description.includes(formatedDescription))
+          existingItem.description.push(formatedDescription)
+      } else {
+        spotlightStepData.push({
+          title: formatedTitle,
+          description: [formatedDescription],
+        })
+      }
+
+      setTitle("")
+      setDescription("")
+    }
+  }
+
+  function handleSumbit() {
+    nextStep()
+  }
+
+  function handleDeleteDescription(title, descriptionToDelete) {
+    setSpotlightStepData((prevData) => {
+      const dataCopy = [...prevData]
+      const item = dataCopy.find((d) => d.title === title)
+
+      if (item) {
+        item.description = item.description.filter(
+          (desc) => desc !== descriptionToDelete
+        )
+      }
+
+      if (item.description.length === 0)
+        return dataCopy.filter((item) => item.title !== title)
+
+      return dataCopy
+    })
+  }
+
+  function handleDeleteService(title) {
+    setSpotlightStepData((prevData) =>
+      prevData.filter((item) => item.title !== title)
+    )
+  }
 
   return (
-    <form
-      onSubmit={form.onSubmit(console.log)}
-      className="mt-3 flex flex-col text-sm"
-    >
-      <div className="grid grid-cols-2 gap-5">
+    <>
+      <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
         <TextInput
           withAsterisk
           label="Title"
           placeholder="eg. Service"
-          {...form.getInputProps("SpotlightTitle")}
+          className="w-full"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <TextInput
           withAsterisk
           label="Description"
           placeholder="eg. Cash on delivery"
-          {...form.getInputProps("SpotlightDescription")}
+          className="w-full"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
-      </div>
-
-      <div className="self-end ">
-        <div className="p-2 bg-blue-500 w-fit rounded-md mt-4  text-white shadow-md cursor-pointer">
+        <button
+          onClick={handleAddService}
+          className="flex h-9 w-10 cursor-pointer  flex-col items-center justify-center self-end rounded-md bg-blue-500 text-white  shadow-md md:w-20"
+        >
           <IoMdAddCircle size={20} />
-        </div>
+        </button>
       </div>
 
       <div className="">
-        <p className="font-semibold border-b-2 py-2 mt-4">Preview</p>
-        <div className="md:h-fit overflow-auto thin-scrollbar">
-          {[1, 2].map((i) => (
+        {spotlightStepData.length > 0 && (
+          <p className="mt-4 border-b-2 py-2 font-semibold">Preview</p>
+        )}
+        <div className="thin-scrollbar overflow-auto md:h-fit">
+          {spotlightStepData.map((spotlight, i) => (
             <div key={i} className=" border-b py-2">
               <div className="flex items-center gap-x-2 ">
-                <p className="py-2 text-gray-800 font-semibold">Service</p>
-                <MdDelete size={18} className="cursor-pointer text-gray-400" />
+                <p className="py-2 font-semibold text-gray-800">
+                  {spotlight?.title}
+                </p>
+                <MdDelete
+                  size={18}
+                  className="cursor-pointer text-gray-400"
+                  onClick={() => handleDeleteService(spotlight?.title)}
+                />
               </div>
 
-              <Table horizontalSpacing={"xs"}>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Desc</Table.Th>
-                    <Table.Th>Remove</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {elements.map((element) => (
-                    <Table.Tr className="text-gray-800" key={element.desc}>
-                      <Table.Td>{element.desc}</Table.Td>
-                      <Table.Td>
-                        <RxCross2 className=" cursor-pointer" />
-                      </Table.Td>
-                    </Table.Tr>
-                  ))}
-                </Table.Tbody>
-              </Table>
+              {spotlight?.description?.map((item, i) => {
+                return (
+                  <div
+                    key={i}
+                    className="flex items-center gap-x-4 border-t-[1.5px] py-1"
+                  >
+                    <p>{item}</p>
+                    <button
+                      onClick={() =>
+                        handleDeleteDescription(spotlight.title, item)
+                      }
+                    >
+                      <RxCross2 size={18} />
+                    </button>
+                  </div>
+                )
+              })}
             </div>
           ))}
         </div>
       </div>
 
-      <div className="self-end py-4 flex items-center gap-4 float-end">
+      <div className="float-end flex items-center gap-4 self-end py-4">
         <div className="mt-8 text-end">
           <button
             type="submit"
-            className="bg-white px-4 py-2 text-gray-500 border-[1.5px] text-sm font-semibold shadow-md rounded-sm "
+            className="rounded-sm border-[1.5px] bg-white px-4 py-2 text-sm font-semibold text-gray-500 shadow-md "
             onClick={nextStep}
           >
             Skip
@@ -111,7 +145,7 @@ const SpotlightStep = ({ nextStep, prevStep }) => {
         <div className="mt-8 text-end">
           <button
             type="submit"
-            className="bg-blue-500 px-4 py-2 text-white text-sm font-semibold shadow-md rounded-sm "
+            className="rounded-sm bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-md "
             onClick={prevStep}
           >
             Previous
@@ -119,16 +153,15 @@ const SpotlightStep = ({ nextStep, prevStep }) => {
         </div>
         <div className="mt-8 text-end">
           <button
-            type="submit"
-            className="bg-blue-500 px-4 py-2 text-white text-sm font-semibold shadow-md rounded-sm "
-            onClick={nextStep}
+            className="rounded-sm bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-md "
+            onClick={handleSumbit}
           >
             Next
           </button>
         </div>
       </div>
-    </form>
-  );
-};
+    </>
+  )
+}
 
-export default SpotlightStep;
+export default SpotlightStep

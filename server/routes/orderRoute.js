@@ -4,20 +4,18 @@ import {
   orderDetail,
   editOrder,
   deleteOrder,
-  allTransactions,
   createOrder,
+  allOrders,
 } from "../controllers/orderController.js";
 import { protect, restrict } from "../middlewares/auth.js";
 
 const router = Router();
 
+router.route("/create-order").post(protect, createOrder);
+
 router.route("/order-detail/:orderID").get(protect, orderDetail);
 
 router.route("/my-orders").get(protect, myOrders);
-
-router
-  .route("/create-order")
-  .post(protect, restrict("admin", "operator"), createOrder);
 
 router
   .route("/edit-order/:orderID")
@@ -28,7 +26,7 @@ router
   .delete(protect, restrict("admin", "operator"), deleteOrder);
 
 router
-  .route("/all-transactions")
-  .get(protect, restrict("admin", "operator"), allTransactions);
+  .route("/all-orders")
+  .get(protect, restrict("admin", "operator"), allOrders);
 
 export default router;

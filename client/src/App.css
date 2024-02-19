@@ -37,6 +37,49 @@
   }
 }
 
-.leaflet-control { z-index: 0 !important}
-.leaflet-pane { z-index: 0 !important}
-.leaflet-top, .leaflet-bottom {z-index: 0 !important}
+.leaflet-control {
+  z-index: 0 !important;
+}
+.leaflet-pane {
+  z-index: 0 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 0 !important;
+}
+
+.react-datepicker__input-container input {
+  display: block;
+  width: 100%;
+  border: 1px solid rgb(216, 216, 216);
+  padding: 0.4rem 1.4rem;
+  border-radius: 5px;
+}
+.react-datepicker__input-container input:focus {
+  outline: 0.0001px solid rgb(50, 154, 239);
+  outline-width: 0.01px;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+}
+.react-datepicker {
+  font-size: 0.7rem;
+}
+
+.react-datepicker__header {
+  padding-top: 0.7rem;
+}
+
+.react-datepicker__current-month {
+  font-size: 0.8rem;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  width: 1.4rem;
+  line-height: 1.4rem;
+  margin: 0.14rem;
+}

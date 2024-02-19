@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
     >
       <div className="flex items-start justify-start gap-x-3 md:flex-col md:gap-2 lg:flex-row ">
         <div className="w-20 cursor-pointer px-3 pt-1">
-          <img src="/shirt.png" alt="" />
+          <img src={product?.image} alt="" />
         </div>
 
         <div className="w-full text-sm">

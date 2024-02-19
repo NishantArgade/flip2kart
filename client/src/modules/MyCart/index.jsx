@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton"
 import AmountDetails from "./AmountDetails"
 import CartEmptyPage from "./CartEmptyPage"
 import ProductList from "./ProductList"
@@ -226,22 +227,56 @@ const cartData = [
   },
 ]
 
+const isLoading = true
+
 // md:sticky md:right-0 md:top-[4.8rem]
 const MyCart = () => {
   return (
     <div className="min-h-screen">
       {cartData.length !== 0 ? (
-        <div className="container m-2 mx-auto grid  grid-cols-12 gap-x-3  md:relative">
-          {/* Add to cart Product Listing */}
-          <section className="col-span-12 md:col-span-8">
-            <ProductList cartData={cartData} />
-          </section>
+        isLoading ? (
+          <div className="container m-2 mx-auto grid  grid-cols-12 gap-x-3  md:relative">
+            {/* Add to cart Product Listing */}
+            <section className="col-span-12 md:col-span-8">
+              <ProductList cartData={cartData} />
+            </section>
 
-          {/*Product Amount info */}
-          <section className=" col-span-12 h-fit  text-sm md:sticky md:right-0 md:top-[4.4rem] md:col-span-4">
-            <AmountDetails />
-          </section>
-        </div>
+            {/*Product Amount info */}
+            <section className="col-span-12 h-fit  text-sm md:sticky md:right-0 md:top-[4.4rem] md:col-span-4">
+              <AmountDetails />
+            </section>
+          </div>
+        ) : (
+          <div className="container m-2 mx-auto mb-14 grid min-h-screen grid-cols-12 gap-x-3 ">
+            {/* Payment Step */}
+            <section className="col-span-12 h-[80vh] bg-white p-4 pt-8 shadow-md md:col-span-8">
+              {Array.from({ length: 4 }).map((item, i) => (
+                <div key={i} className="flex items-center pb-4">
+                  <Skeleton className="my-1" height={100} width={100} />
+                  <div className="w-full px-3 py-3">
+                    <Skeleton className="my-1" height={16} />
+                    <Skeleton className="my-1" height={16} width={600} />
+                    <Skeleton className="my-1" height={16} width={100} />
+                  </div>
+                </div>
+              ))}
+            </section>
+
+            {/* Amount info */}
+            <section className="sticky  right-0 top-[4.4rem] col-span-12 h-[20rem] bg-white  text-sm md:col-span-4">
+              <div className="pt-8">
+                {Array.from({ length: 5 }).map((item, i) => (
+                  <div className="px-3 py-2" key={i}>
+                    <Skeleton className="my-1" height={16} />
+                  </div>
+                ))}
+              </div>
+              <div className="mt-5 px-3">
+                <Skeleton className="float-end my-1 " height={16} width={140} />
+              </div>
+            </section>
+          </div>
+        )
       ) : (
         <CartEmptyPage />
       )}

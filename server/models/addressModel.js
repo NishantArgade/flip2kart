@@ -5,34 +5,23 @@ const addressSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Users",
   },
-  name: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  city: {
-    type: String,
-    required: true,
-  },
-  state: {
-    type: String,
-    required: true,
-  },
-  pincode: {
-    type: String,
-    required: true,
-  },
-  area: {
-    type: String,
-    required: true,
-  },
-  isActive: {
+  user_name: String,
+  phone: String,
+  country: String,
+  state: String,
+  city: String,
+  street: String,
+  landmark: String,
+  pincode: Number,
+  is_active: {
     type: Boolean,
     default: false,
   },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
+  updated_at: Date,
 });
 
 export const Address =

@@ -2,17 +2,17 @@ import { Stepper } from "stepper-react"
 
 const steps = [
   {
-    topLabel: "Order Placed",
+    topLabel: "Order Confirmed",
     bottomLabel: "Mon, 1st Nov",
     content: `Your order has been received and is being processed.`,
   },
   {
-    topLabel: "Payment Confirmed",
+    topLabel: "Shipped",
     bottomLabel: "Mon, 1st Nov",
     content: `Your payment has been confirmed. Thank you for your purchase.`,
   },
   {
-    topLabel: "In Transit",
+    topLabel: "Out for delivery",
     bottomLabel: "Tue, 2nd Nov",
     content: "Your order is in transit. It's on its way to you.",
   },

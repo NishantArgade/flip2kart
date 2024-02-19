@@ -166,13 +166,13 @@ const DailySales = () => {
         </div>
         <div className="flex gap-4">
           <div>
-            <p className="ml-1  text-xs">Start Date</p>
+            <p className="text-xs">Start Date</p>
             <DatePicker
               showIcon
-              icon={<IoCalendarOutline className="w-auto" />}
+              icon={<IoCalendarOutline className="mt-[1px] w-auto" />}
               selected={startDate}
               onChange={(date) => setStartDate(date)}
-              className="ml-1 w-28 cursor-pointer border-2 outline-blue-400"
+              className="ml-[2px] w-28 cursor-pointer border-2 outline-blue-400"
               placeholderText="Start Date"
             />
           </div>
@@ -180,10 +180,10 @@ const DailySales = () => {
             <p className="ml-1  text-xs">End Date</p>
             <DatePicker
               showIcon
-              icon={<IoCalendarOutline className="w-auto" />}
+              icon={<IoCalendarOutline className="mt-[1px] w-auto" />}
               selected={endDate}
               onChange={(date) => setEndDate(date)}
-              className="ml-1 w-28 cursor-pointer border-2 outline-blue-400"
+              className="ml-[2px] w-28 cursor-pointer border-2 outline-blue-400"
               placeholderText="End Date"
             />
           </div>

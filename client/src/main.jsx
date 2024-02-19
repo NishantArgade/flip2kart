@@ -1,12 +1,16 @@
 import "@brainhubeu/react-carousel/lib/style.css"
 import "@mantine/carousel/styles.css"
+import "@mantine/notifications/styles.css"
+import "react-datepicker/dist/react-datepicker.css"
+import "react-loading-skeleton/dist/skeleton.css"
+
 import { MantineProvider } from "@mantine/core"
 import "@mantine/core/styles.css"
 import { Font } from "@react-pdf/renderer"
 import React from "react"
-import "react-datepicker/dist/react-datepicker.css"
 import ReactDOM from "react-dom/client"
 import App from "./App.jsx"
+import { Notifications } from "@mantine/notifications"
 
 // Register font for react-pdf
 Font.register({
@@ -33,6 +37,11 @@ Font.register({
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MantineProvider>
+      <Notifications
+        position="bottom-center"
+        zIndex={1000}
+        styles={{ notification: { background: "#212121" } }}
+      />
       <App />
     </MantineProvider>
   </React.StrictMode>

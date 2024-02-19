@@ -13,9 +13,9 @@ const router = Router();
 
 router.route("/login").post(loginUser);
 
-router.route("/verify-otp").post(verifyOTP);
-
 router.route("/register").post(regiserUser);
+
+router.route("/verify-otp").post(verifyOTP);
 
 router
   .route("/edit-user/:userID")

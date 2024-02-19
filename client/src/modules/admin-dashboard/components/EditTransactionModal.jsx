@@ -1,48 +1,61 @@
-import { Menu, Modal } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { useMemo, useState } from "react";
-import { FaEdit } from "react-icons/fa";
-import { FcProcess } from "react-icons/fc";
-import { TbTruckDelivery } from "react-icons/tb";
-import { VscError } from "react-icons/vsc";
+import { Menu, Modal } from "@mantine/core"
+import { useDisclosure } from "@mantine/hooks"
+import { useMemo, useState } from "react"
+import { FaEdit } from "react-icons/fa"
+import { FcProcess } from "react-icons/fc"
+import { TbTruckDelivery } from "react-icons/tb"
+import { VscError } from "react-icons/vsc"
+import { GiConfirmed } from "react-icons/gi"
+import { FaBuildingCircleArrowRight } from "react-icons/fa6"
+import { IoMdDoneAll } from "react-icons/io"
 
 function EditTransactionModal() {
-  const [opened, { open, close }] = useDisclosure(false);
-  const [status, setStatus] = useState("Processing");
+  const [opened, { open, close }] = useDisclosure(false)
+  const [status, setStatus] = useState("Processing")
 
   const onStatusChange = (statusValue) => {
-    setStatus(statusValue);
-  };
+    setStatus(statusValue)
+  }
 
   const getStatus = useMemo(() => {
-    if (status === "Processing")
+    if (status === "Order Confirmed")
       return (
         <>
-          <div className="flex justify-center items-center">
-            <FcProcess size={17} />
+          <div className="flex items-center justify-center">
+            <IoMdDoneAll size={17} className="text-green-500" />
           </div>
-          <p>Processing</p>
+          <p>Order Confirmed</p>
         </>
-      );
+      )
+    else if (status === "Shipped")
+      return (
+        <>
+          <div className="flex items-center justify-center">
+            <FaBuildingCircleArrowRight className="text-blue-500" size={17} />
+          </div>
+          <p>Shipped</p>
+        </>
+      )
+    else if (status === "Out for delivery")
+      return (
+        <>
+          <div className="flex items-center justify-center">
+            <TbTruckDelivery className="text-gray-500" size={17} />
+          </div>
+          <p>Out for delivery</p>
+        </>
+      )
     else if (status === "Delivered")
       return (
         <>
-          <div className="flex justify-center items-center">
-            <TbTruckDelivery className="text-green-500 " size={17} />
+          <div className="flex items-center justify-center">
+            <GiConfirmed className="text-green-500" size={17} />
           </div>
           <p>Delivered</p>
         </>
-      );
-    else
-      return (
-        <>
-          <div className="flex justify-center items-center">
-            <VscError className="text-red-500 " size={17} />
-          </div>
-          <p>Failed</p>
-        </>
-      );
-  }, [status]);
+      )
+    else return null
+  }, [status])
 
   return (
     <>
@@ -54,10 +67,10 @@ function EditTransactionModal() {
         closeOnClickOutside={false}
         centered
       >
-        <div className="gap-6 grid grid-cols-2">
+        <div className="grid grid-cols-2 gap-6">
           {/** User Info */}
-          <div className="text-xs border-[1.5px] rounded-sm p-2">
-            <p className="text-sm mb-2 font-semibold text-gray-800">
+          <div className="rounded-sm border-[1.5px] p-2 text-xs">
+            <p className="mb-2 text-sm font-semibold text-gray-800">
               User Info
             </p>
             <p className="mb-1">
@@ -74,8 +87,8 @@ function EditTransactionModal() {
           </div>
 
           {/** Product Details */}
-          <div className="text-xs border-[1.5px] rounded-sm p-2">
-            <p className="text-sm mb-2 font-semibold text-gray-800">
+          <div className="rounded-sm border-[1.5px] p-2 text-xs">
+            <p className="mb-2 text-sm font-semibold text-gray-800">
               Product Info
             </p>
             <p className="mb-1">
@@ -89,8 +102,8 @@ function EditTransactionModal() {
           </div>
 
           {/** Seller Info */}
-          <div className="text-xs border-[1.5px] rounded-sm p-2">
-            <p className="text-sm mb-2 font-semibold text-gray-800">
+          <div className="rounded-sm border-[1.5px] p-2 text-xs">
+            <p className="mb-2 text-sm font-semibold text-gray-800">
               Seller Info
             </p>
             <p className="mb-1">
@@ -104,8 +117,8 @@ function EditTransactionModal() {
           </div>
 
           {/** Amount Info */}
-          <div className="text-xs border-[1.5px] rounded-sm p-2">
-            <p className="text-sm mb-2 font-semibold text-gray-800">
+          <div className="rounded-sm border-[1.5px] p-2 text-xs">
+            <p className="mb-2 text-sm font-semibold text-gray-800">
               Amount Info
             </p>
             <p className="mb-1">
@@ -143,8 +156,8 @@ function EditTransactionModal() {
           </div>
 
           {/** Payment Info */}
-          <div className="text-xs border-[1.5px] rounded-sm p-2">
-            <p className="text-sm mb-2 font-semibold text-gray-800">
+          <div className="rounded-sm border-[1.5px] p-2 text-xs">
+            <p className="mb-2 text-sm font-semibold text-gray-800">
               Payment Info
             </p>
             <p className="mb-1">
@@ -162,11 +175,11 @@ function EditTransactionModal() {
           </div>
 
           {/** Status Info */}
-          <div className="text-xs border-[1.5px] rounded-sm p-2">
-            <p className="text-sm mb-2 font-semibold text-gray-800">
+          <div className="rounded-sm border-[1.5px] p-2 text-xs">
+            <p className="mb-2 text-sm font-semibold text-gray-800">
               Status Info
             </p>
-            <p className="mb-1 flex gap-x-4 items-center">
+            <p className="mb-1 flex items-center gap-x-4">
               <div className="flex items-center gap-2">
                 <p>Status: </p>
                 <div className="flex items-center justify-start gap-1">
@@ -189,26 +202,35 @@ function EditTransactionModal() {
                     <Menu.Label>Status</Menu.Label>
                     <Menu.Item
                       className="hover:bg-[#F5FAFF]"
+                      leftSection={<IoMdDoneAll className="text-green-500" />}
+                      onClick={() => onStatusChange("Order Confirmed")}
+                    >
+                      Order Confirmed
+                    </Menu.Item>
+                    <Menu.Item
+                      className="hover:bg-[#F5FAFF]"
                       leftSection={
-                        <TbTruckDelivery className="text-green-500" />
+                        <FaBuildingCircleArrowRight className="text-blue-500" />
                       }
+                      onClick={() => onStatusChange("Shipped")}
+                    >
+                      Shipped
+                    </Menu.Item>
+                    <Menu.Item
+                      className="hover:bg-[#F5FAFF]"
+                      leftSection={
+                        <TbTruckDelivery className="text-gray-500" />
+                      }
+                      onClick={() => onStatusChange("Out for delivery")}
+                    >
+                      Out for delivery
+                    </Menu.Item>
+                    <Menu.Item
+                      className="hover:bg-[#F5FAFF]"
+                      leftSection={<GiConfirmed className="text-green-500" />}
                       onClick={() => onStatusChange("Delivered")}
                     >
                       Delivered
-                    </Menu.Item>
-                    <Menu.Item
-                      className="hover:bg-[#F5FAFF]"
-                      leftSection={<FcProcess />}
-                      onClick={() => onStatusChange("Processing")}
-                    >
-                      Processing
-                    </Menu.Item>
-                    <Menu.Item
-                      className="hover:bg-[#F5FAFF]"
-                      leftSection={<VscError className="text-red-500" />}
-                      onClick={() => onStatusChange("Failed")}
-                    >
-                      Failed
                     </Menu.Item>
                   </Menu.Dropdown>
                 </Menu>
@@ -219,14 +241,14 @@ function EditTransactionModal() {
           <div className="col-span-2 flex justify-end gap-x-5">
             <button
               onClick={close}
-              className="bg-white text-gray-800 border-[1.5px] border-gray-200 shadow-md rounded-sm text-xs py-2 px-6 "
+              className="rounded-sm border-[1.5px] border-gray-200 bg-white px-6 py-2 text-xs text-gray-800 shadow-md "
             >
               CANCEL
             </button>
 
             <button
               type="submit"
-              className="bg-blue-600 text-white shadow-md rounded-sm text-xs py-2 px-6 "
+              className="rounded-sm bg-blue-600 px-6 py-2 text-xs text-white shadow-md "
             >
               SAVE
             </button>
@@ -236,7 +258,7 @@ function EditTransactionModal() {
 
       <FaEdit onClick={open} size={16} className="cursor-pointer" />
     </>
-  );
+  )
 }
 
-export default EditTransactionModal;
+export default EditTransactionModal

@@ -1,6 +1,7 @@
 import { Accordion, Checkbox, RangeSlider } from "@mantine/core"
 import { useState } from "react"
 import { IoArrowBack } from "react-icons/io5"
+import Skeleton from "react-loading-skeleton"
 
 const Filter = ({ isOpenSidebar, setIsOpenSidebar }) => {
   const [filterPriceRange, setFilterPriceRange] = useState([0, 500])
@@ -38,122 +39,144 @@ const Filter = ({ isOpenSidebar, setIsOpenSidebar }) => {
         </p>
 
         {/** Range Filter */}
-        <div className="mt-2 border-b-2 border-gray-100 p-2 pb-4">
-          <RangeSlider
-            size={"sm"}
-            min={priceRange[0]}
-            max={priceRange[1]}
-            step={100}
-            value={[filterPriceRange[0], filterPriceRange[1]]}
-            onChange={(value) => setFilterPriceRange(value)}
-          />
-          <div className="mt-2 flex items-center justify-between">
-            <select
-              value={filterPriceRange[0]}
-              className="w-[5rem] cursor-pointer rounded-sm border-2 bg-white p-1 text-xs outline-blue-500"
-              onChange={(e) => {
-                setFilterPriceRange([
-                  Number(e.target.value),
-                  filterPriceRange[1],
-                ])
-              }}
-            >
-              {getFilterPriceRange()}
-            </select>
-            <span className="px-1 text-xs text-gray-400">to</span>
-            <select
-              value={filterPriceRange[1]}
-              className="w-[5rem] cursor-pointer rounded-sm border-2  bg-white p-1 text-xs outline-blue-500"
-              onChange={(e) => {
-                setFilterPriceRange([
-                  filterPriceRange[0],
-                  Number(e.target.value),
-                ])
-              }}
-            >
-              {getFilterPriceRange()}
-            </select>
-          </div>
-        </div>
 
-        {/** Filter Options */}
-        <Accordion multiple={true}>
-          {" "}
-          <Accordion.Item value={"BRAND"}>
-            <Accordion.Control className="text-xs font-bold text-gray-800">
-              BRAND
-            </Accordion.Control>
-            <Accordion.Panel className="text-xs">
-              <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
-                <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
-                  x
-                </span>
-                <span className="text-gray-500">Clear All</span>
+        {true ? (
+          <>
+            <div className="mt-2 border-b-2 border-gray-100 p-2 pb-4">
+              <RangeSlider
+                size={"sm"}
+                min={priceRange[0]}
+                max={priceRange[1]}
+                step={100}
+                value={[filterPriceRange[0], filterPriceRange[1]]}
+                onChange={(value) => setFilterPriceRange(value)}
+              />
+              <div className="mt-2 flex items-center justify-between">
+                <select
+                  value={filterPriceRange[0]}
+                  className="w-[5rem] cursor-pointer rounded-sm border-2 bg-white p-1 text-xs outline-blue-500"
+                  onChange={(e) => {
+                    setFilterPriceRange([
+                      Number(e.target.value),
+                      filterPriceRange[1],
+                    ])
+                  }}
+                >
+                  {getFilterPriceRange()}
+                </select>
+                <span className="px-1 text-xs text-gray-400">to</span>
+                <select
+                  value={filterPriceRange[1]}
+                  className="w-[5rem] cursor-pointer rounded-sm border-2  bg-white p-1 text-xs outline-blue-500"
+                  onChange={(e) => {
+                    setFilterPriceRange([
+                      filterPriceRange[0],
+                      Number(e.target.value),
+                    ])
+                  }}
+                >
+                  {getFilterPriceRange()}
+                </select>
               </div>
-              <Checkbox size="xs" label="Noise" className="mt-3" />
-              <Checkbox size="xs" label="Boat" className="mt-3" />
-              <Checkbox size="xs" label="Boult" className="mt-3" />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value={"CUSTOMER RATINGS"}>
-            <Accordion.Control className="text-xs font-bold text-gray-800">
-              CUSTOMER RATINGS
-            </Accordion.Control>
-            <Accordion.Panel className="text-xs">
-              <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
-                <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
-                  x
-                </span>
-                <span className="text-gray-500">Clear All</span>
+            </div>
+
+            <Accordion multiple={true}>
+              <Accordion.Item value={"BRAND"}>
+                <Accordion.Control className="text-xs font-bold text-gray-800">
+                  BRAND
+                </Accordion.Control>
+                <Accordion.Panel className="text-xs">
+                  <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                    <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
+                      x
+                    </span>
+                    <span className="text-gray-500">Clear All</span>
+                  </div>
+                  <Checkbox size="xs" label="Noise" className="mt-3" />
+                  <Checkbox size="xs" label="Boat" className="mt-3" />
+                  <Checkbox size="xs" label="Boult" className="mt-3" />
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value={"CUSTOMER RATINGS"}>
+                <Accordion.Control className="text-xs font-bold text-gray-800">
+                  CUSTOMER RATINGS
+                </Accordion.Control>
+                <Accordion.Panel className="text-xs">
+                  <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                    <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
+                      x
+                    </span>
+                    <span className="text-gray-500">Clear All</span>
+                  </div>
+                  <Checkbox size="xs" label="4★ & above" className="mt-3" />
+                  <Checkbox size="xs" label="3★ & above" className="mt-3" />
+                  <Checkbox size="xs" label="2★ & above" className="mt-3" />
+                  <Checkbox size="xs" label="1★ & above" className="mt-3" />
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value={"DISCOUNT"}>
+                <Accordion.Control className="text-xs font-bold text-gray-800">
+                  DISCOUNT
+                </Accordion.Control>
+                <Accordion.Panel className="text-xs">
+                  <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                    <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
+                      x
+                    </span>
+                    <span className="text-gray-500">Clear All</span>
+                  </div>
+                  <Checkbox size="xs" label="40% or more" className="mt-3" />
+                  <Checkbox size="xs" label="30% or more" className="mt-3" />
+                  <Checkbox size="xs" label="20% or more" className="mt-3" />
+                  <Checkbox
+                    size="xs"
+                    label="10% or more"
+                    className="mt-3"
+                  />{" "}
+                  <Checkbox
+                    size="xs"
+                    disabled
+                    label="10% or below"
+                    className="mt-3"
+                  />{" "}
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value={"AVAILABILITY"}>
+                <Accordion.Control className="text-xs font-bold text-gray-800">
+                  AVAILABILITY
+                </Accordion.Control>
+                <Accordion.Panel className="text-xs">
+                  <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
+                    <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
+                      x
+                    </span>
+                    <span className="text-gray-500">Clear All</span>
+                  </div>
+                  <Checkbox
+                    size="xs"
+                    label="Exclude Out of Stock"
+                    className="mt-3"
+                  />{" "}
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          </>
+        ) : (
+          <>
+            <div className="mb-2 p-1 px-2">
+              <Skeleton className="my-1" height={16} />
+              <div className="flex justify-between">
+                <Skeleton className="my-1" height={16} width={80} />
+                <Skeleton className="my-1" height={16} width={80} />
               </div>
-              <Checkbox size="xs" label="4★ & above" className="mt-3" />
-              <Checkbox size="xs" label="3★ & above" className="mt-3" />
-              <Checkbox size="xs" label="2★ & above" className="mt-3" />
-              <Checkbox size="xs" label="1★ & above" className="mt-3" />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value={"DISCOUNT"}>
-            <Accordion.Control className="text-xs font-bold text-gray-800">
-              DISCOUNT
-            </Accordion.Control>
-            <Accordion.Panel className="text-xs">
-              <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
-                <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
-                  x
-                </span>
-                <span className="text-gray-500">Clear All</span>
+            </div>
+            {Array.from({ length: 4 }).map((item, i) => (
+              <div className="p-1 px-2" key={i}>
+                <Skeleton className="my-1" height={16} />
               </div>
-              <Checkbox size="xs" label="40% or more" className="mt-3" />
-              <Checkbox size="xs" label="30% or more" className="mt-3" />
-              <Checkbox size="xs" label="20% or more" className="mt-3" />
-              <Checkbox size="xs" label="10% or more" className="mt-3" />{" "}
-              <Checkbox
-                size="xs"
-                disabled
-                label="10% or below"
-                className="mt-3"
-              />{" "}
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value={"AVAILABILITY"}>
-            <Accordion.Control className="text-xs font-bold text-gray-800">
-              AVAILABILITY
-            </Accordion.Control>
-            <Accordion.Panel className="text-xs">
-              <div className="flex cursor-pointer items-center justify-start gap-x-2 ">
-                <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
-                  x
-                </span>
-                <span className="text-gray-500">Clear All</span>
-              </div>
-              <Checkbox
-                size="xs"
-                label="Exclude Out of Stock"
-                className="mt-3"
-              />{" "}
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
+            ))}
+          </>
+        )}
       </div>
     </div>
   )

@@ -1,4 +1,5 @@
 import CartProductCard from "../../../components/CartProductCard"
+import Spinner from "../../../components/Spinner"
 
 const cartData = [
   {
@@ -31,23 +32,30 @@ const cartData = [
 
 const OrderSummaryStep = ({ nextStep }) => {
   return (
-    <div>
-      {" "}
-      <div className="border-t-[1px]">
-        {cartData.map((product) => (
-          <CartProductCard key={product.id} product={product} />
-        ))}
-      </div>
-      <div className="flex justify-end">
-        <button
-          className="mt-2 w-fit cursor-pointer self-end bg-[#FB641B] px-10   py-3  text-white shadow-md"
-          size="xs"
-          onClick={nextStep}
-        >
-          CONTINUE
-        </button>
-      </div>
-    </div>
+    <>
+      {true ? (
+        <div>
+          <div className="border-t-[1px]">
+            {cartData.map((product) => (
+              <CartProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          <div className="flex justify-end">
+            <button
+              className="mt-2 w-fit cursor-pointer self-end bg-[#FB641B] px-10   py-3  text-white shadow-md"
+              size="xs"
+              onClick={nextStep}
+            >
+              CONTINUE
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex h-[25rem] items-center justify-center">
+          <Spinner />
+        </div>
+      )}
+    </>
   )
 }
 

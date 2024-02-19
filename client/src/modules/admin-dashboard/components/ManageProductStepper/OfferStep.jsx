@@ -1,71 +1,37 @@
-import { MultiSelect } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useState } from "react";
+import { MultiSelect } from "@mantine/core"
+import { useState } from "react"
 
-const OfferStep = ({ nextStep, prevStep }) => {
-  const form = useForm({
-    initialValues: {
-      offer: "",
-    },
-  });
+const offers = [
+  "Bank Offer10% off on1 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+  "Bank Offer10% off on2 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+  "Bank Offer10% off on3 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+  "Bank Offer10% off on4 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+  "Bank Offer10% off on5 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+  "Bank Offer10% off on6 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+  "Bank Offer10% off on7 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+  "Bank Offer10% off on8 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+  "Bank Offer10% off o9 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+  "Bank Offer10% off on10 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
+]
 
-  const [searchValue, setSearchValue] = useState("");
+const OfferStep = ({ nextStep, prevStep, offerData, setOfferData }) => {
+  const [searchValue, setSearchValue] = useState("")
+
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
       option.label.toLowerCase().trim().includes(search.toLowerCase().trim())
-    );
+    )
 
-    filtered.sort((a, b) => a.label.localeCompare(b.label));
-    return filtered;
-  };
+    filtered.sort((a, b) => a.label.localeCompare(b.label))
+    return filtered
+  }
+
   return (
-    <form onSubmit={form.onSubmit(console.log)} className="mt-3">
+    <>
       <MultiSelect
         label="Select Offer"
         placeholder="Pick Offer"
-        data={[
-          {
-            value: "react",
-            label:
-              "React lorem2 ffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-          },
-          {
-            value: "ng",
-            label:
-              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, vel incidunt. Ipsa, omnis veniam cupiditate placeat enim deserunt non dolor!",
-          },
-          {
-            value: "svelte",
-            label:
-              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, vel incidunt. Ipsa, omnis veniam cupiditate placeat enim deserunt non dolor!",
-          },
-          {
-            value: "vue",
-            label:
-              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, vel incidunt. Ipsa, omnis veniam cupiditate placeat enim deserunt non dolor!",
-          },
-          {
-            value: "ember",
-            label:
-              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, vel incidunt. Ipsa, omnis veniam cupiditate placeat enim deserunt non dolor!",
-          },
-          { value: "marko", label: "Marko" },
-          { value: "mithril", label: "Mithril" },
-          { value: "backbone", label: "Backbone" },
-          { value: "hyperapp", label: "Hyperapp" },
-          { value: "preact", label: "Preact" },
-          { value: "inferno", label: "Inferno" },
-          { value: "angularjs", label: "AngularJS" },
-          { value: "aurelia", label: "Aurelia" },
-          { value: "knockout", label: "Knockout" },
-          { value: "marionette", label: "Marionette" },
-
-          { value: "polymer", label: "Polymer" },
-          { value: "ractive", label: "Ractive" },
-          { value: "riot", label: "Riot" },
-          { value: "vanilla", label: "Vanilla" },
-        ]}
-        {...form.getInputProps("category")}
+        data={offers.map((offer) => ({ label: offer, value: offer }))}
         clearable
         searchable
         filter={optionsFilter}
@@ -75,15 +41,17 @@ const OfferStep = ({ nextStep, prevStep }) => {
         checkIconPosition="left"
         comboboxProps={{ shadow: "xs" }}
         className="w-full"
-        // hidePickedOptions={true}
+        hidePickedOptions={true}
         height={4}
+        value={offerData}
+        onChange={setOfferData}
       />
 
-      <div className="flex py-4 items-center gap-4 float-end">
+      <div className="float-end flex items-center gap-4 py-4">
         <div className="mt-8 text-end">
           <button
             type="submit"
-            className="bg-white px-4 py-2 text-gray-500 border-[1.5px] text-sm font-semibold shadow-md rounded-sm "
+            className="rounded-sm border-[1.5px] bg-white px-4 py-2 text-sm font-semibold text-gray-500 shadow-md "
             onClick={nextStep}
           >
             Skip
@@ -92,7 +60,7 @@ const OfferStep = ({ nextStep, prevStep }) => {
         <div className="mt-8 text-end">
           <button
             type="submit"
-            className="bg-blue-500 px-4 py-2 text-white text-sm font-semibold shadow-md rounded-sm "
+            className="rounded-sm bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-md "
             onClick={prevStep}
           >
             Previous
@@ -101,15 +69,15 @@ const OfferStep = ({ nextStep, prevStep }) => {
         <div className="mt-8 text-end">
           <button
             type="submit"
-            className="bg-blue-500 px-4 py-2 text-white text-sm font-semibold shadow-md rounded-sm "
+            className="rounded-sm bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-md "
             onClick={nextStep}
           >
             Next
           </button>
         </div>
       </div>
-    </form>
-  );
-};
+    </>
+  )
+}
 
-export default OfferStep;
+export default OfferStep

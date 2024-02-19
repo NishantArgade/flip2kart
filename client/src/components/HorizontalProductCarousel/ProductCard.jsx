@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { IoMdHeart } from "react-icons/io"
 import { Link } from "react-router-dom"
 
@@ -7,14 +8,17 @@ const HorizontalProductCarouselCard = ({
   showDiscount,
   product,
 }) => {
+  const [isImageLoaded, setImageLoaded] = useState(false)
+
   return (
     <div className="border-[1.5px] hover:shadow-md ">
       <div className="relative my-1 flex h-32 flex-col items-center justify-center overflow-hidden md:h-44">
         <Link to="/product-detail/4">
           <img
-            src={product?.image}
+            src={isImageLoaded ? product?.image : "/photoPlaceholder.png"}
+            onLoad={() => setImageLoaded(true)}
             className="m-2 w-[5rem] hover:scale-105 md:w-[6rem] lg:w-[9rem]"
-            alt=""
+            alt="photoPlaceholder"
           />
         </Link>
         <span className="absolute right-1 top-0 cursor-pointer text-gray-300">

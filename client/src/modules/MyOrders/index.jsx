@@ -13,7 +13,8 @@ const MyOrders = ({ isAdmin }) => {
       name: "TV",
       description:
         "Stet accusam accusam takimata lorem clita. Elitr lorem diam et tempor sit lorem ea lorem ipsum, ea et ipsum et.",
-      amount: 200,
+      amount: 80_000,
+      image: "/productsIMG/TV/1.jpg",
       deliveredDate: new Date(),
     },
     {
@@ -21,7 +22,8 @@ const MyOrders = ({ isAdmin }) => {
       name: "Shirt",
       description:
         "Stet accusam accusam takimata lorem clita. Elitr lorem diam et tempor sit lorem ea lorem ipsum, ea et ipsum et.",
-      amount: 20,
+      amount: 1_000,
+      image: "/productsIMG/Shirt/2.1.jpg",
       deliveredDate: new Date(),
     },
     {
@@ -29,7 +31,8 @@ const MyOrders = ({ isAdmin }) => {
       name: "Laptop",
       description:
         "Stet accusam accusam takimata lorem clita. Elitr lorem diam et tempor sit lorem ea lorem ipsum, ea et ipsum et.",
-      amount: 100,
+      amount: 90_000,
+      image: "/productsIMG/Laptops/1.jpg",
       deliveredDate: new Date(),
     },
   ]

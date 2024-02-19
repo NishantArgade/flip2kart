@@ -1,4 +1,5 @@
-import { Accordion, Avatar, Group, Text } from "@mantine/core";
+import { Accordion, Avatar, Group, Text } from "@mantine/core"
+import Spinner from "../../../components/Spinner"
 
 const charactersList = [
   {
@@ -26,7 +27,7 @@ const charactersList = [
     label: "Cash on Delivery",
     description: "Overweight, lazy, and often ignorant",
   },
-];
+]
 
 function AccordionLabel({ label, phone, image, description }) {
   return (
@@ -37,12 +38,12 @@ function AccordionLabel({ label, phone, image, description }) {
           <Text size="sm">{label}</Text>
           <Text size="sm">{phone}</Text>
         </div>
-        <Text className="text-xs mt-1" size="sm" c="dimmed" fw={400}>
+        <Text className="mt-1 text-xs" size="sm" c="dimmed" fw={400}>
           {description}
         </Text>
       </div>
     </Group>
-  );
+  )
 }
 
 export default function PaymentStep({ nextStep }) {
@@ -54,18 +55,26 @@ export default function PaymentStep({ nextStep }) {
       <Accordion.Panel>
         <Text
           onClick={nextStep}
-          className="bg-[#FB641B] py-3 self-end px-10 mt-2 text-white   w-fit  cursor-pointer shadow-md"
+          className="mt-2 w-fit cursor-pointer self-end bg-[#FB641B] px-10   py-3  text-white shadow-md"
           size="xs"
         >
           PAY
         </Text>
       </Accordion.Panel>
     </Accordion.Item>
-  ));
+  ))
 
   return (
-    <Accordion chevronPosition="right" variant="contained">
-      {items}
-    </Accordion>
-  );
+    <>
+      {true ? (
+        <Accordion chevronPosition="right" variant="contained">
+          {items}
+        </Accordion>
+      ) : (
+        <div className="flex h-[25rem] items-center justify-center">
+          <Spinner />
+        </div>
+      )}
+    </>
+  )
 }

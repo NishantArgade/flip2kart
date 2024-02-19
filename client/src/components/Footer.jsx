@@ -1,37 +1,37 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom"
 
 const Footer = () => {
-  const location = useLocation();
-  console.log(location.pathname);
+  const location = useLocation()
+  console.log(location.pathname)
 
   const shortFooterPage = [
     "/cart",
     "/checkout",
     "/add-product",
     "/edit-product",
-  ];
+  ]
 
   /** Hide footer */
-  if (location.pathname.includes("/admin-dashboard")) return null;
+  if (location.pathname.includes("/admin-dashboard")) return null
 
   /** Small Footer */
   if (shortFooterPage.includes(location.pathname))
     return (
-      <div className="text-gray-600 border-t-2 mt-4">
-        <div className="container mx-auto flex md:flex-row gap-2 flex-col justify-between py-6 text-xs px-2 ">
-          <div className="flex flex-col md:flex-row  gap-2 gap-x-4">
-            <div className="flex items-center gap-x-1 flex-wrap gap-1">
+      <div className="mt-4 border-t-2 text-gray-600">
+        <div className="container mx-auto flex flex-col justify-between gap-2 px-2 py-6 text-xs md:flex-row ">
+          <div className="flex flex-col gap-2  gap-x-4 md:flex-row">
+            <div className="flex flex-wrap items-center gap-1 gap-x-1">
               <p>Policies: </p>
-              <Link to="/" className="border-gray-400 border-r-[1px] pr-1">
+              <Link to="/" className="border-r-[1px] border-gray-400 pr-1">
                 Returns Policy
               </Link>
-              <Link to="/" className="border-gray-400 border-r-[1px] pr-1">
+              <Link to="/" className="border-r-[1px] border-gray-400 pr-1">
                 Terms of use
               </Link>
-              <Link to="/" className="border-gray-400 border-r-[1px] pr-1">
+              <Link to="/" className="border-r-[1px] border-gray-400 pr-1">
                 Security
               </Link>
-              <Link to="/" className="border-gray-400 border-r-[1px] pr-1">
+              <Link to="/" className="border-r-[1px] border-gray-400 pr-1">
                 Privacy
               </Link>
               <Link to="/">Infringement</Link>
@@ -51,16 +51,16 @@ const Footer = () => {
           </p>
         </div>
       </div>
-    );
+    )
 
   /** Big Footer */
   return (
-    <div className="md:h-auto w-full bg-[#212121] overflow-hidden p-3 ">
+    <div className="w-full overflow-hidden bg-[#172337] p-3 md:h-auto ">
       <div className="flex flex-col gap-4 py-4">
         {/** Left Section */}
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4  md:container md:mx-auto">
+        <div className="grid grid-cols-2 gap-4 md:container  md:mx-auto md:grid-cols-4">
           <div>
-            <p className="text-xs text-gray-400 mb-2">ABOUT</p>
+            <p className="mb-2 text-xs text-gray-400">ABOUT</p>
             <div className="flex flex-col items-start justify-start">
               <Link
                 to="/contact"
@@ -76,7 +76,7 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <p className="text-xs text-gray-400 mb-2">HELP</p>
+            <p className="mb-2 text-xs text-gray-400">HELP</p>
             <div className="flex flex-col items-start justify-start">
               <p className="text-[0.68rem] font-bold text-gray-300">Payment</p>
               <p className="text-[0.68rem] font-bold text-gray-300">Shipping</p>
@@ -87,7 +87,7 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <p className="text-xs text-gray-400 mb-2">CONSUMER POLICY</p>
+            <p className="mb-2 text-xs text-gray-400">CONSUMER POLICY</p>
             <div className="flex flex-col items-start justify-start">
               <p className="text-[0.68rem] font-bold text-gray-300">
                 {" "}
@@ -102,7 +102,7 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <p className="text-xs text-gray-400 mb-2">SOCIAL</p>
+            <p className="mb-2 text-xs text-gray-400">SOCIAL</p>
             <div className="flex flex-col items-start justify-start">
               <p className="text-[0.68rem] font-bold text-gray-300">Facebook</p>
               <p className="text-[0.68rem] font-bold text-gray-300">Twitter</p>
@@ -115,9 +115,9 @@ const Footer = () => {
         </div>
 
         {/* Right section */}
-        <div className="grid col-span-1 md:grid-cols-2 gap-4  md:container md:mx-auto">
+        <div className="col-span-1 grid gap-4 md:container  md:mx-auto md:grid-cols-2">
           <div>
-            <p className="text-xs text-gray-400 mb-2 ">Mail Us:</p>
+            <p className="mb-2 text-xs text-gray-400 ">Mail Us:</p>
             <div className="flex flex-col items-start justify-start">
               <div className="text-[0.68rem] text-gray-50 ">
                 Flipkart Internet Private Limited, Buildings Alyssa, Begonia &
@@ -127,10 +127,10 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <p className="text-xs text-gray-400 mb-2">
+            <p className="mb-2 text-xs text-gray-400">
               Registered Office Address:
             </p>
-            <div className="flex flex-col items-start justify-start flex-wrap">
+            <div className="flex flex-col flex-wrap items-start justify-start">
               <div className="text-[0.68rem]  text-gray-50">
                 Flipkart Internet Private Limited, Buildings Alyssa, Begonia &
                 Clove Embassy Tech Village, Outer Ring Road, Devarabeesanahali
@@ -142,21 +142,21 @@ const Footer = () => {
         </div>
       </div>
       {/** Sub Foogter */}
-      <div className="border-t-2 md:px-12 px-4 border-gray-700 flex py-2 items-center justify-between gap-x-4">
-        <span className="text-gray-400 text-xs">2007-2024 Flip2kart.com</span>
-        <div className="flex justify-start items-center gap-x-2">
+      <div className="flex items-center justify-between gap-x-4 border-t-2 border-gray-700 px-4 py-2 md:px-12">
+        <span className="text-xs text-gray-400">2007-2024 Flip2kart.com</span>
+        <div className="flex items-center justify-start gap-x-2">
           <img src="paymentGateway/visa.png" className="w-9" alt="" />
           <img src="paymentGateway/mastercard.png" className="w-9" alt="" />
-          <span className="bg-white h-5 flex justify-center items-center">
+          <span className="flex h-5 items-center justify-center bg-white">
             <img src="paymentGateway/rupay.png" className="w-9" alt="" />
           </span>
-          <span className="bg-white h-5 flex justify-center items-center">
+          <span className="flex h-5 items-center justify-center bg-white">
             <img src="paymentGateway/paypal.png" className="w-9 " alt="" />
           </span>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

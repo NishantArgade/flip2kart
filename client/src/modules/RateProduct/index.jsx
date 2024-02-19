@@ -2,6 +2,8 @@ import { Input, Rating, Textarea } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
+import { getSuccessToast } from "../../utils/getSuccessToast.jsx"
+import Spinner from "../../components/Spinner"
 
 const RateProduct = () => {
   const [rateValue, setRateValue] = useState(0)
@@ -32,6 +34,8 @@ const RateProduct = () => {
       },
     },
   })
+
+  const isBoughtProduct = true
 
   return (
     <div className="min-h-screen">
@@ -97,66 +101,93 @@ const RateProduct = () => {
 
         {/* Right Section */}
         <div className="row-end-2 grid-cols-1 bg-white shadow-md md:col-span-7   md:row-auto  lg:col-span-9">
-          <div className="flex flex-col gap-y-1">
-            <div className="border-b-2 p-4">
-              <p className="text-sm font-semibold">Rate this product</p>
-              <div className="mt-2 flex items-center gap-x-4">
-                <Rating
-                  value={rateValue}
-                  className="gap-x-2"
-                  onChange={setRateValue}
-                  color="#FFE11B"
-                />
-                <span
-                  className={
-                    rateValueOptimize === "Very Bad"
-                      ? "text-xs font-semibold text-red-500"
-                      : rateValueOptimize === "Bad"
-                        ? "text-xs font-semibold text-orange-500"
-                        : "text-xs font-semibold text-green-500"
-                  }
-                >
-                  {rateValueOptimize}
-                </span>
+          {isBoughtProduct ? (
+            true ? (
+              <div className="flex flex-col gap-y-1">
+                <div className="border-b-2 p-4">
+                  <p className="text-sm font-semibold">Rate this product</p>
+                  <div className="mt-2 flex items-center gap-x-4">
+                    <Rating
+                      value={rateValue}
+                      className="gap-x-2"
+                      onChange={setRateValue}
+                      color="#FFE11B"
+                    />
+                    <span
+                      className={
+                        rateValueOptimize === "Very Bad"
+                          ? "text-xs font-semibold text-red-500"
+                          : rateValueOptimize === "Bad"
+                            ? "text-xs font-semibold text-orange-500"
+                            : "text-xs font-semibold text-green-500"
+                      }
+                    >
+                      {rateValueOptimize}
+                    </span>
+                  </div>
+                </div>
+                <form onSubmit={form.onSubmit(console.log)}>
+                  <div className="px-4 pt-3">
+                    <p className="pb-3 text-sm font-semibold">
+                      Review this product
+                    </p>
+                    <div className="flex flex-col gap-y-4">
+                      <Textarea
+                        radius="xs"
+                        description="Description"
+                        placeholder="Write description here..."
+                        {...form.getInputProps("description")}
+                        rows={8}
+                      />
+                      <Input.Wrapper description="Title (optional)">
+                        <Input
+                          radius="xs"
+                          maxLength={80}
+                          placeholder="Review title..."
+                          {...form.getInputProps("rateTitle")}
+                        />
+                      </Input.Wrapper>
+                    </div>
+                  </div>
+
+                  <div className="px-4 pt-5">
+                    <div className="flex h-12 w-12 cursor-pointer items-center justify-center bg-gray-200 p-2">
+                      <img src="/addImgCamara.svg" color="red" alt="" />
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() =>
+                      getSuccessToast("Review Submitted Successfully")
+                    }
+                    type="submit"
+                    className="float-end p-4 "
+                  >
+                    <p className="cursor-pointer bg-[#FB641B]  px-10  py-3 text-xs font-semibold uppercase text-white shadow-md">
+                      SUBMIT
+                    </p>
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <Spinner />
+              </div>
+            )
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <div className="flex flex-col items-center justify-center gap-y-4">
+                <img src="/cycleMan.png" alt="notPurchased" />
+                <p className="mt-2 text-xl font-medium text-gray-800">
+                  Haven't purchased this product?
+                </p>
+                <p className="text-gray-500">
+                  Sorry! You are not allowed to review this product since you
+                  haven't bought it on Flip2kart.
+                </p>
               </div>
             </div>
-            <form onSubmit={form.onSubmit(console.log)}>
-              <div className="px-4 pt-3">
-                <p className="pb-3 text-sm font-semibold">
-                  Review this product
-                </p>
-                <div className="flex flex-col gap-y-4">
-                  <Textarea
-                    radius="xs"
-                    description="Description"
-                    placeholder="Write description here..."
-                    {...form.getInputProps("description")}
-                    rows={8}
-                  />
-                  <Input.Wrapper description="Title (optional)">
-                    <Input
-                      radius="xs"
-                      maxLength={80}
-                      placeholder="Review title..."
-                      {...form.getInputProps("rateTitle")}
-                    />
-                  </Input.Wrapper>
-                </div>
-              </div>
-
-              <div className="px-4 pt-5">
-                <div className="flex h-12 w-12 cursor-pointer items-center justify-center bg-gray-200 p-2">
-                  <img src="/addImgCamara.svg" color="red" alt="" />
-                </div>
-              </div>
-
-              <button type="submit" className="float-end p-4 ">
-                <p className="cursor-pointer bg-[#FB641B]  px-10  py-3 text-xs font-semibold uppercase text-white shadow-md">
-                  SUBMIT
-                </p>
-              </button>
-            </form>
-          </div>
+          )}
         </div>
       </div>
     </div>

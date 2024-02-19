@@ -97,38 +97,46 @@ const product = {
   deliveryEstimateDays: "3",
 };
 
-const spotlightSchema = new mongoose.Schema({
-  title: String,
-  description: [String],
-});
-
-const specSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-});
-
-const categorySpecSchema = new mongoose.Schema({
-  category: String,
-  specs: [specSchema],
-});
-
 const productSchema = new mongoose.Schema({
   name: String,
   description: String,
+  images: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
   price: Number,
-  stock: { type: Number, default: 0 },
+  discount: Number,
   category: String,
-  images: [String],
   brand: String,
-  spotlight: [spotlightSchema],
-  offers: [String],
-  specifications: [categorySpecSchema],
+  stock: { type: Number, default: 0 },
   seller: String,
-  rating: { type: Number, default: 0 },
-  reviews: { type: Number, default: 0 },
-  deliveryEstimateDays: String,
-  createdAt: { type: Date, default: Date.now },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+  seller_address: String,
+  delivery_estimate_days: Number,
+  created_at: { type: Date, default: Date.now },
+  created_by: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+  updated_at: { type: Date },
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reviews" }],
+  spotlight: [
+    {
+      title: String,
+      description: [String],
+    },
+  ],
+  offers: [String],
+  specifications: [
+    {
+      category: String,
+      items: [
+        {
+          title: String,
+          description: String,
+        },
+      ],
+    },
+  ],
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reviews" }],
 });
 
 export const Product =

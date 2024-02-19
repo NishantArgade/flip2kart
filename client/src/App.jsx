@@ -39,6 +39,9 @@ import ManagesAddress from "./modules/user-dashboard/ManagesAddress"
 import MyReviewAndRatings from "./modules/user-dashboard/MyReviewAndRatings"
 import ProfileInfo from "./modules/user-dashboard/ProfileInfo"
 import Wishlist from "./modules/user-dashboard/Wishlist"
+import Offices from "./modules/admin-dashboard/Offices"
+import Offers from "./modules/admin-dashboard/Offers"
+import Categories from "./modules/admin-dashboard/Categories"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -71,6 +74,9 @@ const router = createBrowserRouter(
           element={<AffiliatePerformance />}
         />
         <Route path="admins" element={<ManageAdmin />} />
+        <Route path="offices" element={<Offices />} />
+        <Route path="categories" element={<Categories />} />
+        <Route path="offers" element={<Offers />} />
       </Route>
 
       <Route path="add-product" element={<ManageProduct />} />

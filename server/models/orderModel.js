@@ -47,32 +47,43 @@ const PaymentStatusSchema = new mongoose.Schema({
 });
 
 const OrderSchema = new mongoose.Schema({
-  userName: String,
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
-  userAddress: String,
-
-  productName: String,
-  product_id: { type: mongoose.Schema.Types.ObjectId, ref: "Products" },
-  product_Description: String,
-  image: String,
-
-  quantity: Number,
-  price: Number,
-  discount: Number,
-  tax: Number,
-  igst: Number,
-  shippingCharge: Number,
-
-  seller: String,
-  sellerAddress: String,
-
-  orderDate: { type: Date, default: Date.now },
-  orderedThrough: String,
-
-  transactionId: String,
-  paymentMethod: String,
-
-  paymentStatus: [PaymentStatusSchema],
+  payment: {
+    transaction_id: String,
+    status: {
+      type: String,
+      enum: ["Pending", "Success", "Failed"],
+      default: "Pending",
+    },
+    method: String,
+    date: { type: Date, default: Date.now },
+    billing_user_address: String,
+  },
+  products: [
+    {
+      product_id: { type: mongoose.Schema.Types.ObjectId, ref: "Products" },
+      name: String,
+      description: String,
+      images: [{ url: String, filename: String }],
+      price: Number,
+      quantity: Number,
+      discount: Number,
+      tax: Number,
+      igst: Number,
+      seller: String,
+      seller_address: String,
+    },
+  ],
+  order_status: {
+    type: String,
+    enum: ["Order Confirmed", "Shipped", "Out for delivery", "Delivered"],
+    default: "Order Confirmed",
+  },
+  shipping_address: { type: String, required: true },
+  shipping_charges: Number,
+  packing_charges: Number,
+  total_price: Number,
+  order_through: String,
 });
 
 export const Order =

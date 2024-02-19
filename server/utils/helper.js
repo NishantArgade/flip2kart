@@ -19,3 +19,9 @@ export const cookiesOption = (tokenExpire) => ({
   secure: process.env.NODE_ENV === "production",
   sameSite: process.env.NODE_ENV === "production" ? "none" : "Strict",
 });
+
+export const generateOTP = (digit = 4) => {
+  const start = Math.pow(10, digit - 1);
+  const end = Math.pow(10, digit) - 1;
+  return Math.floor(start + Math.random() * (end - start + 1));
+};
