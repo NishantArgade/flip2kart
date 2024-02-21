@@ -1,11 +1,36 @@
-import { Menu } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Menu } from "@mantine/core"
+import { MdOutlineLogout } from "react-icons/md"
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "../../utils/toast"
+import { logout } from "../../api/userApi"
+import { persistor } from "../../store" // import persistor from your store
+import { useDispatch } from "react-redux"
+import { resetUserData } from "../../slices/userSlice"
+import { queryClient } from "../../main"
 
 export default function AdminProfileDropdownBtn({
   navLinks,
   TargetButton,
   isLoggedIn,
 }) {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handleLogout = async () => {
+    try {
+      const response = await logout()
+
+      queryClient.invalidateQueries("checkAuth")
+      dispatch(resetUserData())
+      persistor.purge()
+      navigate("/")
+
+      toast.success(response.message)
+    } catch (error) {
+      toast.error(error.response.data.message)
+    }
+  }
+
   return (
     <Menu
       trigger="click-hover"
@@ -23,7 +48,7 @@ export default function AdminProfileDropdownBtn({
       <Menu.Dropdown>
         {!isLoggedIn && (
           <Menu.Item className="hover:bg-gray-50">
-            <p className="border-b-2 pb-2 flex items-center justify-between">
+            <p className="flex items-center justify-between border-b-2 pb-2">
               <span>New Customer?</span>
               <Link
                 to="/register"
@@ -42,7 +67,17 @@ export default function AdminProfileDropdownBtn({
             </Menu.Item>
           </Link>
         ))}
+
+        {isLoggedIn && (
+          <Menu.Item
+            className="hover:bg-gray-50"
+            leftSection={<MdOutlineLogout size={24} />}
+            onClick={handleLogout}
+          >
+            Logout
+          </Menu.Item>
+        )}
       </Menu.Dropdown>
     </Menu>
-  );
+  )
 }

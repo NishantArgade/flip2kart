@@ -1,14 +1,49 @@
 import { PinInput } from "@mantine/core"
-import React from "react"
+import React, { useEffect, useState } from "react"
 
-const VerifyOTP = ({ handleOTP, setShowReqOtpField, OTP, setOTP, email }) => {
+const VerifyOTP = ({
+  handleVerifyOTP,
+  setShowReqOtpField,
+  OTP,
+  setOTP,
+  email,
+  sendOTPMutate,
+  verifyOTPIsPending,
+}) => {
+  const [count, setCount] = useState(null)
+  const [isActive, setIsActive] = useState(false)
+
+  useEffect(() => {
+    let interval = null
+    if (isActive && count > 0) {
+      interval = setInterval(() => {
+        setCount((count) => count - 1)
+      }, 1000)
+    } else if (!isActive && count !== 0) {
+      clearInterval(interval)
+    }
+    return () => clearInterval(interval)
+  }, [isActive, count])
+
+  function handleResendOTP() {
+    setOTP("")
+    setIsActive(true)
+    setCount(15)
+    sendOTPMutate()
+  }
+
+  function handleOptChange() {
+    setOTP("")
+    setShowReqOtpField(true)
+  }
+
   return (
     <div className="flex w-full flex-col items-center justify-start gap-y-7">
       <div className="text-center text-sm md:text-base">
         Please enter the OTP sent to <br /> {email}{" "}
         <button
           className="text-sm font-semibold text-blue-500"
-          onClick={() => setShowReqOtpField(true)}
+          onClick={handleOptChange}
         >
           Change
         </button>
@@ -25,14 +60,24 @@ const VerifyOTP = ({ handleOTP, setShowReqOtpField, OTP, setOTP, email }) => {
 
       <div className="w-full">
         <button
-          onClick={handleOTP}
+          onClick={handleVerifyOTP}
           className="w-full rounded-sm bg-[#2874F0] p-3 text-xs font-bold text-white shadow-md"
+          disabled={verifyOTPIsPending}
         >
           Verify
         </button>
         <p className="mt-3 text-center text-xs text-gray-400">
           Not received your code?{" "}
-          <span className="cursor-pointer text-blue-500">Resend code</span>
+          {isActive && count > 0 ? (
+            <span>00:{String(count).padStart(2, "0")}</span>
+          ) : (
+            <button
+              onClick={handleResendOTP}
+              className="cursor-pointer text-blue-500"
+            >
+              Resend code
+            </button>
+          )}
         </p>
       </div>
     </div>

@@ -3,6 +3,8 @@ import "./config/dotenvConfig.js";
 import { v2 as cloudinary } from "cloudinary";
 
 import cors from "cors";
+import cookieParser from "cookie-parser";
+
 import { errorHandler } from "./middlewares/errorHandler.js";
 import userRoute from "./routes/userRoute.js";
 import productRoute from "./routes/productRoute.js";
@@ -23,6 +25,7 @@ cloudinary.config({
 });
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.CLIENT_URL,

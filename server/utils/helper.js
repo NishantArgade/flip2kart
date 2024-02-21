@@ -1,13 +1,10 @@
 import jwt from "jsonwebtoken";
 
 export const generateToken = (user, secret, expire) => {
+  const { first_name, last_name, email, phone, addresses, role, gender } = user;
+
   return jwt.sign(
-    {
-      userID: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      userEmail: user.email,
-    },
+    { first_name, last_name, email, phone, addresses, role, gender },
     secret,
     { expiresIn: expire }
   );
@@ -17,7 +14,7 @@ export const cookiesOption = (tokenExpire) => ({
   maxAge: tokenExpire,
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "Strict",
+  sameSite: process.env.NODE_ENV === "production" ? "noon" : "Strict",
 });
 
 export const generateOTP = (digit = 4) => {

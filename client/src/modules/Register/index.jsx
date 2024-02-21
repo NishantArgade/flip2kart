@@ -1,18 +1,89 @@
 import { useState } from "react"
 import RequestOTP from "./RequestOTP"
-import { Link } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import VerifyOTP from "./VerifyOTP"
+import { isValidEmail } from "../../utils/helper"
+import { toast } from "../../utils/toast"
+import { login, register, verifyOTP } from "../../api/userApi"
+import { useMutation } from "@tanstack/react-query"
+import { useDispatch } from "react-redux"
+import { queryClient } from "../../main"
 
 const Register = () => {
+  const location = useLocation()
+  const navigate = useNavigate()
   const [showReqOtpField, setShowReqOtpField] = useState(true)
   const [OTP, setOTP] = useState("")
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState(location.state?.email || "")
+  const [emailError, setEmailError] = useState("")
 
-  const handleRegister = () => {
-    // 1. check if mobile number already exists if so then navigate to login page
-    // 2. else send otp to user mobile then verify otp after succesfull verification of otp then navigate to registeration page  set setShowRegistrationForm(true)
-    // 3. after successful registeration redirect user to home page (back page where he was using naviagte(-1))
-    setShowReqOtpField(false)
+  const dispatch = useDispatch()
+
+  const { isPending: registerIsPending, mutate: registerMutate } = useMutation({
+    mutationKey: ["register"],
+    mutationFn: async () => await register(email),
+    onSuccess: () => {
+      setShowReqOtpField(false)
+      toast.success(`Verification code sent to ${email}`)
+    },
+    onError: (error) => {
+      if (error.response.status === 400) {
+        navigate("/login", { state: { email } })
+        toast.info(error.response.data.message)
+      } else {
+        toast.error(error.response.data.message)
+      }
+    },
+  })
+
+  const { mutate: sendOTPMutate } = useMutation({
+    mutationKey: ["sendOTP"],
+    mutationFn: async () => await login(email),
+    onSuccess: () => {
+      toast.success(`Verification code sent to ${email}`)
+    },
+    onError: (error) => {
+      if (error.response.status === 404) {
+        navigate("/register", { state: { email } })
+        toast.info(error.response.data.message)
+      } else {
+        toast.error(error.response.data.message)
+      }
+    },
+  })
+
+  const { mutate: verifyOTPMutate, isPending: verifyOTPIsPending } =
+    useMutation({
+      mutationKey: ["verifyOTP"],
+      mutationFn: async () => await verifyOTP(email, OTP),
+      onSuccess: () => {
+        queryClient.invalidateQueries("checkAuth")
+
+        navigate("/")
+
+        setEmail("")
+        setOTP("")
+      },
+      onError: (error) => {
+        toast.error(error.response.data.message)
+      },
+    })
+
+  const handleVerifyOTP = async () => {
+    if (OTP.length !== 6) {
+      return toast.error("OTP should be 6 digits long.")
+    }
+
+    verifyOTPMutate()
+  }
+
+  const handleRegister = async (e) => {
+    e.preventDefault()
+
+    if (!isValidEmail(email))
+      return setEmailError("Please enter a valid Email ID")
+
+    registerMutate()
   }
 
   return (
@@ -40,17 +111,22 @@ const Register = () => {
         <div className="flex flex-col items-start justify-between px-4 py-4 md:w-[64rem] md:p-6 ">
           {showReqOtpField ? (
             <RequestOTP
-              handleRegister={handleRegister}
               email={email}
               setEmail={setEmail}
+              emailError={emailError}
+              handleRegister={handleRegister}
+              setEmailError={setEmailError}
+              registerIsPending={registerIsPending}
             />
           ) : (
             <VerifyOTP
               OTP={OTP}
               setOTP={setOTP}
-              handleRegister={handleRegister}
-              setShowReqOtpField={setShowReqOtpField}
               email={email}
+              setShowReqOtpField={setShowReqOtpField}
+              sendOTPMutate={sendOTPMutate}
+              handleVerifyOTP={handleVerifyOTP}
+              verifyOTPIsPending={verifyOTPIsPending}
             />
           )}
         </div>

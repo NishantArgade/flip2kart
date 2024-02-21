@@ -9,7 +9,7 @@ import {
 } from "../../utils/navLinkMenuData"
 import DropdownList from "./DropdownList"
 
-export default function AvatarButton({ isLoggedIn, isAdmin }) {
+export default function AvatarButton({ isLoggedIn, isAdmin, user }) {
   const getNavlinks = () => {
     if (!isLoggedIn) return unAuthUserNavLinks()
     if (isLoggedIn && isAdmin) return adminNavLinks()
@@ -31,7 +31,9 @@ export default function AvatarButton({ isLoggedIn, isAdmin }) {
       return (
         <div className="flex cursor-pointer items-center justify-center gap-x-1  rounded-md px-2 py-1 hover:bg-gray-100">
           <Avatar src="avatar.png" alt="it's me" size={26} />
-          <span className="text-sm md:hidden lg:inline-block ">Nishant</span>
+          <span className="text-sm md:hidden lg:inline-block ">
+            {user?.role}
+          </span>
         </div>
       )
   }

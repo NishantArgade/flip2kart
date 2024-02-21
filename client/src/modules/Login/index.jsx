@@ -1,26 +1,75 @@
-import { PinInput } from "@mantine/core"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import RequestOTP from "./RequestOTP"
 import VerifyOTP from "./VerifyOTP"
+import { login, verifyOTP } from "../../api/userApi"
+import { isValidEmail } from "../../utils/helper"
+import { useMutation } from "@tanstack/react-query"
+import { useDispatch } from "react-redux"
+import { toast } from "../../utils/toast"
+import { queryClient } from "../../main"
 
 const Login = () => {
+  const location = useLocation()
+  const navigate = useNavigate()
   const [showReqOtpField, setShowReqOtpField] = useState(true)
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState(location.state?.email || "")
   const [OTP, setOTP] = useState("")
+  const [emailError, setEmailError] = useState("")
 
-  const handleLogin = () => {
-    // after successful login verification redirect user to home page (back page where he was using naviagte(-1))
-    // after successful send otp then set:
-    setShowReqOtpField(false)
+  const dispatch = useDispatch()
+
+  const { isPending: sendOTPIsPending, mutate: sendOTPMutate } = useMutation({
+    mutationKey: ["sendOTP"],
+    mutationFn: async () => await login(email),
+    onSuccess: () => {
+      setShowReqOtpField(false)
+      toast.success(`Verification code sent to ${email}`)
+    },
+    onError: (error) => {
+      if (error.response.status === 404) {
+        navigate("/register", { state: { email } })
+        toast.info(error.response.data.message)
+      } else {
+        toast.error(error.response.data.message)
+      }
+    },
+  })
+
+  const { mutate: verifyOTPMutate, isPending: verifyOTPIsPending } =
+    useMutation({
+      mutationKey: ["verifyOTP"],
+      mutationFn: async () => await verifyOTP(email, OTP),
+      onSuccess: () => {
+        queryClient.invalidateQueries("checkAuth")
+
+        navigate("/")
+
+        setEmail("")
+        setOTP("")
+      },
+      onError: (error) => {
+        toast.error(error.response.data.message)
+      },
+    })
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+
+    if (!isValidEmail(email))
+      return setEmailError("Please enter a valid Email ID")
+
+    sendOTPMutate()
   }
 
-  const handleOTP = () => {
-    // 1. check if otp is correct then redirect user to home page (back page where he was using naviagte(-1))
-    // 2. else show error message
-    console.log(email)
-    console.log(OTP)
+  const handleVerifyOTP = async () => {
+    if (OTP.length !== 6) {
+      return toast.error("OTP should be 6 digits long.")
+    }
+
+    verifyOTPMutate()
   }
+
   return (
     <div className="container mx-auto  grid place-items-center  py-4">
       <div className="flex min-h-[25rem] w-full flex-col  bg-white shadow-md md:w-[40rem] md:flex-row ">
@@ -47,14 +96,19 @@ const Login = () => {
               handleLogin={handleLogin}
               email={email}
               setEmail={setEmail}
+              emailError={emailError}
+              setEmailError={setEmailError}
+              sendOTPIsPending={sendOTPIsPending}
             />
           ) : (
             <VerifyOTP
-              handleOTP={handleOTP}
+              handleVerifyOTP={handleVerifyOTP}
               setShowReqOtpField={setShowReqOtpField}
-              OTP={OTP}
               setOTP={setOTP}
+              OTP={OTP}
               email={email}
+              sendOTPMutate={sendOTPMutate}
+              verifyOTPIsPending={verifyOTPIsPending}
             />
           )}
 

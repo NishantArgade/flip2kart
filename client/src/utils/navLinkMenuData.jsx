@@ -23,11 +23,6 @@ export const adminNavLinks = () => [
     name: "All Transactions",
     link: "/admin-dashboard/transactions",
   },
-  {
-    icon: <MdOutlineLogout size={24} />,
-    name: "Logout",
-    link: "/login",
-  },
 ]
 export const userNavLinks = () => [
   {
@@ -44,11 +39,6 @@ export const userNavLinks = () => [
     icon: <MdFavoriteBorder size={24} />,
     name: "Wishlist",
     link: "dashboard/wishlist",
-  },
-  {
-    icon: <MdOutlineLogout size={24} />,
-    name: "Logout",
-    link: "/login",
   },
 ]
 export const unAuthUserNavLinks = () => [

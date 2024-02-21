@@ -2,7 +2,6 @@ import { Input, Rating, Textarea } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
-import { getSuccessToast } from "../../utils/getSuccessToast.jsx"
 import Spinner from "../../components/Spinner"
 
 const RateProduct = () => {
@@ -156,13 +155,7 @@ const RateProduct = () => {
                     </div>
                   </div>
 
-                  <button
-                    onClick={() =>
-                      getSuccessToast("Review Submitted Successfully")
-                    }
-                    type="submit"
-                    className="float-end p-4 "
-                  >
+                  <button type="submit" className="float-end p-4 ">
                     <p className="cursor-pointer bg-[#FB641B]  px-10  py-3 text-xs font-semibold uppercase text-white shadow-md">
                       SUBMIT
                     </p>

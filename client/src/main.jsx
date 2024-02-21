@@ -11,7 +11,10 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import App from "./App.jsx"
 import { Notifications } from "@mantine/notifications"
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { PersistGate } from "redux-persist/integration/react"
+import { Provider } from "react-redux"
+import { persistor, store } from "./store.js"
 // Register font for react-pdf
 Font.register({
   family: "Open Sans",
@@ -34,15 +37,26 @@ Font.register({
   ],
 })
 
+export const queryClient = new QueryClient()
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MantineProvider>
       <Notifications
         position="bottom-center"
         zIndex={1000}
-        styles={{ notification: { background: "#212121" } }}
+        styles={{
+          notification: { background: "#212121" },
+        }}
+        w="fit-content"
       />
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <App />
+          </PersistGate>
+        </Provider>
+      </QueryClientProvider>
     </MantineProvider>
   </React.StrictMode>
 )

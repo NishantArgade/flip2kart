@@ -83,3 +83,8 @@
   line-height: 1.4rem;
   margin: 0.14rem;
 }
+
+.offline {
+  filter: grayscale(100%);
+  overflow: hidden;
+}

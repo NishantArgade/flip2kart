@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router-dom"
 
 const Footer = () => {
   const location = useLocation()
-  console.log(location.pathname)
 
   const shortFooterPage = [
     "/cart",
@@ -52,8 +51,7 @@ const Footer = () => {
         </div>
       </div>
     )
-
-  /** Big Footer */
+  /** Large Footer */
   return (
     <div className="w-full overflow-hidden bg-[#172337] p-3 md:h-auto ">
       <div className="flex flex-col gap-4 py-4">

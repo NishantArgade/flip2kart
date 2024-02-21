@@ -7,17 +7,19 @@ import { Link, useLocation } from "react-router-dom"
 import AvatarButton from "../AvatarButton/index.jsx"
 import MobileSideDrawer from "../MobileSideDrawer.jsx"
 import SearchInput from "./SearchInput.jsx"
+import { useSelector } from "react-redux"
 
-const Navbar = () => {
+const Navbar = ({ authData }) => {
   const location = useLocation()
   const [opened, { open, close }] = useDisclosure(false)
   const [searchValue, setSearchValue] = useState("")
 
+  const { isLoggedIn, user } = authData
+
   const removeNavbarPages = ["/add-product", "/edit-product"]
   if (removeNavbarPages.includes(location.pathname)) return null
 
-  const isLoggedIn = true
-  let isAdmin = true
+  let isAdmin = user?.role === "admin"
 
   const isAdminUser = isLoggedIn && isAdmin
 
@@ -87,7 +89,11 @@ const Navbar = () => {
             </div>
 
             <div className="hidden md:flex md:gap-x-2 lg:flex lg:items-center lg:justify-between lg:gap-x-8">
-              <AvatarButton isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
+              <AvatarButton
+                isLoggedIn={isLoggedIn}
+                isAdmin={isAdmin}
+                user={user}
+              />
 
               <Link
                 to="/cart"
@@ -96,7 +102,7 @@ const Navbar = () => {
                 <span>
                   <BsCart3 />
                 </span>
-                <span className="text-sm  md:hidden lg:inline-block">Cart</span>
+                <p className="text-sm  md:hidden lg:inline-block">Cart</p>
               </Link>
             </div>
           </div>
