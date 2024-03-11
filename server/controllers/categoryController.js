@@ -15,10 +15,9 @@ export const allCategories = expressAsyncHandler(async (req, res, next) => {
 
 export const getBrandsByCategory = expressAsyncHandler(
   async (req, res, next) => {
-    let { name, category } = req.body;
-    let brands = [],
-      min_price = undefined,
-      max_price = undefined;
+    const { name, category } = req.body;
+    let brands = [];
+    let min_price, max_price;
 
     if (name) {
       const escapedName = name.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
@@ -38,18 +37,24 @@ export const getBrandsByCategory = expressAsyncHandler(
       if (
         products.every((product) => product.category === products[0].category)
       ) {
-        category = products[0].category;
-      } else {
-        category = undefined;
-      }
-    }
+        brands = products.map((product) => product.brand);
+        brands = [...new Set(brands)];
 
-    if (category) {
+        const data = await Category.findOne({
+          name: products[0].category,
+        });
+        min_price = data?.min_price;
+        max_price = data?.max_price;
+      }
+    } else if (category) {
       const data = await Category.findOne({
         name: category,
       });
-      console.log(data?.brands.toObject());
-      brands = data?.brands.toObject();
+
+      const products = await Product.find({ category });
+      brands = products.map((product) => product.brand);
+      brands = [...new Set(brands)];
+
       min_price = data?.min_price;
       max_price = data?.max_price;
     }
@@ -58,7 +63,7 @@ export const getBrandsByCategory = expressAsyncHandler(
       status: "success",
       message: "Fetched all categories successfully",
       priceRange: { min: min_price, max: max_price },
-      brands: brands,
+      brands,
     });
   }
 );

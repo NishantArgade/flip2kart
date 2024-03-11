@@ -64,6 +64,7 @@ const BasicInfoStep = ({
         />
 
         <Select
+          searchable
           label="Category"
           placeholder="Pick value"
           data={categories}
@@ -71,6 +72,7 @@ const BasicInfoStep = ({
           {...form.getInputProps("category")}
         />
         <Select
+          searchable
           label="Brand"
           placeholder="Type brand name"
           data={brandList}

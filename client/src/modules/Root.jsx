@@ -1,11 +1,6 @@
 import { Outlet } from "react-router-dom"
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
-import { useEffect, useState } from "react"
-import { checkAuth } from "../api/userApi"
-import { useQuery } from "@tanstack/react-query"
-import { useDispatch } from "react-redux"
-import { setUserData } from "../slices/userSlice"
 
 const Root = ({ authData }) => {
   return (

@@ -39,6 +39,8 @@ const AllProducts = () => {
     queryFn: async () => await getFilteredProducts(window.location.search),
   })
 
+  console.log(data)
+
   useEffect(() => {
     if (!isLoading && data) {
       window.scroll({
@@ -57,7 +59,7 @@ const AllProducts = () => {
           <FilterSection
             isOpenSidebar={isOpenSidebar}
             setIsOpenSidebar={setIsOpenSidebar}
-            category={category}
+            category={category || data?.products[0]?.category}
             name={name}
             selectedBrands={selectedBrands}
             setSelectedBrands={setSelectedBrands}
@@ -72,6 +74,7 @@ const AllProducts = () => {
             selectedDelivery={selectedDelivery}
             setSelectedDelivery={setSelectedDelivery}
             setActivePage={setActivePage}
+            isProductDataLoading={isLoading}
           />
         </section>
 

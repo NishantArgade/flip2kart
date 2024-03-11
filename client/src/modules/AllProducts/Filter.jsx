@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react"
 import { IoArrowBack } from "react-icons/io5"
 import Skeleton from "react-loading-skeleton"
 import { getBrandsByCategory } from "../../api/categoryApi"
+import { IoSearch } from "react-icons/io5"
+import SearchInput from "./components/SearchInput"
 
 const Filter = ({
   isOpenSidebar,
@@ -23,10 +25,16 @@ const Filter = ({
   selectedDelivery,
   setSelectedDelivery,
   setActivePage,
+  isProductDataLoading,
 }) => {
   const [accordionValue, setAccordionValue] = useState([])
   const [priceRange, setPriceRange] = useState([0, 500])
   const [showMoreFilterOption, setShowMoreFilterOption] = useState(false)
+  const [showMoreBrands, setShowMoreBrands] = useState(false)
+
+  // Search Brand States
+  const [brandsList, setBrandsList] = useState([])
+  const [searchBrandValue, setSearchBrandValue] = useState("")
 
   const { data, isLoading } = useQuery({
     queryKey: ["getBrandsByCategory", category, name],
@@ -223,6 +231,7 @@ const Filter = ({
     urlParams.delete("brand")
     window.history.pushState({}, "", "?" + urlParams.toString())
     setSelectedBrands([])
+    setSearchBrandValue("")
   }
   function handleClearRatingFilter() {
     const urlParams = new URLSearchParams(window.location.search)
@@ -277,6 +286,7 @@ const Filter = ({
     setSelectedDiscount([])
     setSelectedAvailability("")
     setSelectedDelivery("")
+    setSearchBrandValue("")
   }
 
   useEffect(() => {
@@ -287,6 +297,7 @@ const Filter = ({
         data?.priceRange?.max +
           Math.pow(10, Math.floor(Math.log10(data?.priceRange?.max)) - 1),
       ])
+      setBrandsList(data?.brands)
     }
   }, [data, isLoading])
 
@@ -371,7 +382,7 @@ const Filter = ({
                   <button
                     key={i}
                     className="group inline-block h-min  rounded-sm bg-gray-200 p-1 shadow-sm hover:bg-gray-300"
-                    onClick={() => onBrandCheckboxClick(brand, false)}
+                    onClick={() => onBrandCheckboxClick(brand, category, false)}
                   >
                     <span className="pl-1 pr-2">x</span>
                     <span className="text-xs group-hover:line-through">
@@ -446,7 +457,7 @@ const Filter = ({
 
         {/** Range Filter */}
 
-        {!isLoading ? (
+        {!isProductDataLoading && !isLoading ? (
           <>
             <div className="mt-2 flex items-center justify-between">
               <button className="px-2 text-xs uppercase tracking-wide text-gray-800">
@@ -535,31 +546,56 @@ const Filter = ({
                   <Accordion.Control className="text-xs font-bold text-gray-800">
                     BRAND
                   </Accordion.Control>
-                  <Accordion.Panel className="text-xs">
-                    {selectedBrands.length > 0 && (
+                  <Accordion.Panel>
+                    <div
+                      className={`${showMoreBrands ? "h-full" : "max-h-28"}  overflow-hidden text-xs`}
+                    >
+                      {selectedBrands.length > 0 && (
+                        <button
+                          className="mb-3 flex cursor-pointer items-center justify-start gap-x-2"
+                          onClick={handleClearBrandFilter}
+                        >
+                          <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
+                            x
+                          </span>
+                          <button className="text-gray-500">Clear All</button>
+                        </button>
+                      )}
+
+                      {data?.brands.length > 2 && (
+                        <SearchInput
+                          brandsList={data?.brands || []}
+                          setFilteredBrands={setBrandsList}
+                          searchBrandValue={searchBrandValue}
+                          setSearchBrandValue={setSearchBrandValue}
+                        />
+                      )}
+
+                      {brandsList.length > 0 ? (
+                        brandsList.map((brand, i) => (
+                          <Checkbox
+                            key={i}
+                            size="xs"
+                            label={brand}
+                            onChange={(e) =>
+                              onBrandCheckboxClick(brand, e.target.checked)
+                            }
+                            className="mb-3"
+                            checked={selectedBrands.includes(brand)}
+                          />
+                        ))
+                      ) : (
+                        <div className="text-xs text-gray-400">Not Found</div>
+                      )}
+                    </div>
+                    {brandsList.length > 3 && (
                       <button
-                        className="mb-3 flex cursor-pointer items-center justify-start gap-x-2"
-                        onClick={handleClearBrandFilter}
+                        className="mt-1 text-[0.60rem]  uppercase text-blue-500"
+                        onClick={() => setShowMoreBrands((prev) => !prev)}
                       >
-                        <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
-                          x
-                        </span>
-                        <button className="text-gray-500">Clear All</button>
+                        {showMoreBrands ? "Show Less" : "Show More"}
                       </button>
                     )}
-
-                    {data?.brands.map((brand, i) => (
-                      <Checkbox
-                        key={i}
-                        size="xs"
-                        label={brand}
-                        onChange={(e) =>
-                          onBrandCheckboxClick(brand, e.target.checked)
-                        }
-                        className="mb-3"
-                        checked={selectedBrands.includes(brand)}
-                      />
-                    ))}
                   </Accordion.Panel>
                 </Accordion.Item>
               )}

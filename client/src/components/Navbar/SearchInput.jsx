@@ -3,6 +3,7 @@ import { ReactSearchAutocomplete } from "react-search-autocomplete"
 import { getAllProducts } from "../../api/productApi"
 import { useQuery } from "@tanstack/react-query"
 import { queryClient } from "../../main"
+import { useEffect } from "react"
 
 function getProductName(str) {
   let productName = str.split(" (")[0]
@@ -33,6 +34,12 @@ const SearchInput = ({ searchValue, setSearchValue }) => {
     queryClient.invalidateQueries("filteredProducts")
   }
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const name = urlParams.get("name") ? urlParams.get("name") : ""
+    setSearchValue(name)
+  }, [])
+
   return (
     <div
       onKeyDown={(event) => {
@@ -62,6 +69,7 @@ const SearchInput = ({ searchValue, setSearchValue }) => {
             {item.name}
           </span>
         )}
+        inputSearchString={searchValue}
         onSelect={(item) => onSearchClick(item)}
         onSearch={(value) => setSearchValue(value)}
       />
