@@ -22,6 +22,7 @@ const AllProducts = () => {
   const searchParams = new URLSearchParams(location.search)
   const category = searchParams.get("category") // gets the value of the 'category' query parameter
   const brand = searchParams.get("brand") // gets the value of the 'category' query parameter
+  const name = searchParams.get("name") // gets the value of the 'category' query parameter
 
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -57,6 +58,7 @@ const AllProducts = () => {
             isOpenSidebar={isOpenSidebar}
             setIsOpenSidebar={setIsOpenSidebar}
             category={category}
+            name={name}
             selectedBrands={selectedBrands}
             setSelectedBrands={setSelectedBrands}
             filterPriceRange={filterPriceRange}
@@ -69,6 +71,7 @@ const AllProducts = () => {
             setSelectedAvailability={setSelectedAvailability}
             selectedDelivery={selectedDelivery}
             setSelectedDelivery={setSelectedDelivery}
+            setActivePage={setActivePage}
           />
         </section>
 

@@ -9,6 +9,7 @@ const Filter = ({
   isOpenSidebar,
   setIsOpenSidebar,
   category,
+  name,
   selectedBrands,
   setSelectedBrands,
   selectedRatings,
@@ -21,14 +22,15 @@ const Filter = ({
   setSelectedDiscount,
   selectedDelivery,
   setSelectedDelivery,
+  setActivePage,
 }) => {
   const [accordionValue, setAccordionValue] = useState([])
   const [priceRange, setPriceRange] = useState([0, 500])
   const [showMoreFilterOption, setShowMoreFilterOption] = useState(false)
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getBrandsByCategory", category],
-    queryFn: async () => await getBrandsByCategory(category),
+    queryKey: ["getBrandsByCategory", category, name],
+    queryFn: async () => await getBrandsByCategory(category, name),
   })
 
   const getMinRangeOptions = useMemo(() => {
@@ -75,6 +77,8 @@ const Filter = ({
     return (
       filterPriceRange[0] !== priceRange[0] ||
       (filterPriceRange[1] !== 0 &&
+        data?.priceRange?.min &&
+        data?.priceRange?.max &&
         filterPriceRange[1] !==
           data?.priceRange?.max +
             Math.pow(10, Math.floor(Math.log10(data?.priceRange?.max)) - 1))
@@ -180,7 +184,11 @@ const Filter = ({
 
     const urlParams = new URLSearchParams(window.location.search)
     if (!isChecked) urlParams.delete("availability")
-    else urlParams.set("availability", value)
+    else {
+      urlParams.set("availability", value)
+      urlParams.delete("page")
+      setActivePage(1)
+    }
     window.history.pushState({}, "", "?" + urlParams.toString())
   }
 
@@ -188,8 +196,13 @@ const Filter = ({
     setSelectedDelivery(isChecked ? value : "")
 
     const urlParams = new URLSearchParams(window.location.search)
-    if (!isChecked) urlParams.delete("delivery")
-    else urlParams.set("delivery", value)
+    if (!isChecked) {
+      urlParams.delete("delivery")
+    } else {
+      urlParams.set("delivery", value)
+      urlParams.delete("page")
+      setActivePage(1)
+    }
     window.history.pushState({}, "", "?" + urlParams.toString())
   }
 

@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom"
@@ -125,12 +126,11 @@ function App() {
             <Route path="users" element={<Users />} />
             <Route path="reviews" element={<Reviews />} />
             <Route path="geography" element={<Geography />} />
-
             <Route path="sales-overview" element={<SalesOverview />} />
             <Route path="daily-sales" element={<DailySales />} />
             <Route path="monthly-sales" element={<MonthlySales />} />
             <Route path="sales-breakdown" element={<SalesBreakdown />} />
-
+            authData
             <Route
               path="affiliate-performance"
               element={<AffiliatePerformance />}
@@ -164,8 +164,14 @@ function App() {
         />
         <Route path="products" element={<AllProducts />} />
         <Route path="product-detail/:productId" element={<ProductDetail />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route
+          path="login"
+          element={!authData?.isLoggedIn ? <Login /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="register"
+          element={!authData?.isLoggedIn ? <Register /> : <Navigate to={"/"} />}
+        />
         <Route path="offerzone" element={<OfferZone />} />
         <Route
           path="cart"

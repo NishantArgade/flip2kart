@@ -18,6 +18,6 @@ export const getAllCategoriesAndBrands = async () => {
   return await axiosCall("get", `/api/all-categories`)
 }
 
-export const getBrandsByCategory = async (category) => {
-  return await axiosCall("get", `/api/brands-by-category/${category}`)
+export const getBrandsByCategory = async (category, name) => {
+  return await axiosCall("post", `/api/brands-by-category`, { category, name })
 }

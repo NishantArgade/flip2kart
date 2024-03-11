@@ -89,16 +89,6 @@ export const filteredProducts = expressAsyncHandler(async (req, res, next) => {
       $gte: minDiscount,
     };
   }
-  // if (
-  //   !!req.query?.availability &&
-  //   req.query.availability === "ExcludeOutOfStock"
-  // ) {
-  //   searchObj.stock = { $gt: 0 };
-  // }
-
-  // if (!!req.query?.delivery && req.query.delivery === "one_day") {
-  //   searchObj.delivery_estimate_days = 1;
-  // }
 
   if (req.query?.minPrice)
     searchObj.price = {
@@ -119,30 +109,31 @@ export const filteredProducts = expressAsyncHandler(async (req, res, next) => {
       /[-\/\\^$*+?.()|[\]{}]/g,
       "\\$&"
     );
-    searchObj.name = { $regex: new RegExp(escapedName, "i") };
+    const regex = { $regex: new RegExp(escapedName, "i") };
+
+    searchObj.$or = [
+      { name: regex },
+      { description: regex },
+      { category: regex },
+      { brands: regex },
+    ];
   }
 
-  let p = await Product.find(searchObj).sort(sortObj);
-  let totalProductsLength = p.length;
+  if (req.query?.delivery === "one_day") {
+    searchObj.delivery_estimate_days = 1;
+  }
+
+  if (req.query?.availability === "ExcludeOutOfStock") {
+    searchObj.stock = { $gt: 0 };
+  }
 
   let products = await Product.find(searchObj)
     .sort(sortObj)
     .skip(skip)
     .limit(limit);
 
-  if (req.query?.delivery === "one_day") {
-    products = products.filter((p) => p.delivery_estimate_days === 1);
-    totalProductsLength = products.length;
-    page = 1;
-  }
+  const totalProductsCount = await Product.find(searchObj).countDocuments();
 
-  if (req.query?.availability === "ExcludeOutOfStock") {
-    products = products.filter((p) => p.stock > 0);
-    totalProductsLength = products.length;
-    page = 1;
-  }
-
-  const totalProductsCount = totalProductsLength;
   const totalPages = Math.ceil(totalProductsCount / limit);
 
   const start = (page - 1) * limit + 1;

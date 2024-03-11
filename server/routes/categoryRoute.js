@@ -34,7 +34,7 @@ const upload = multer({ storage: storage });
 
 router.route("/all-categories").get(allCategories);
 
-router.route("/brands-by-category/:category").get(getBrandsByCategory);
+router.route("/brands-by-category").post(getBrandsByCategory);
 
 router
   .route("/add-category")
