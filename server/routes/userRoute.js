@@ -8,6 +8,7 @@ import {
   getAllUsers,
   logoutUser,
   checkAuth,
+  getUserByID,
 } from "../controllers/userController.js";
 import { protect, restrict } from "../middlewares/auth.js";
 
@@ -21,9 +22,9 @@ router.route("/logout").get(logoutUser);
 
 router.route("/verify-otp").post(verifyOTP);
 
-router
-  .route("/edit-user/:userID")
-  .patch(protect, restrict("admin", "operator"), editUser);
+router.route("/edit-user/:userID").patch(protect, editUser);
+
+router.route("/user/:userID").get(protect, getUserByID);
 
 router
   .route("/delete-user/:userID")

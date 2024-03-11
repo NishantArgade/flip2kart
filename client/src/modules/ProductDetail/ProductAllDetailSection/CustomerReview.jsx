@@ -1,87 +1,222 @@
-import { Progress } from "@mantine/core";
-import React from "react";
-import { Link } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { Modal, Progress } from "@mantine/core"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useDisclosure } from "@mantine/hooks"
+import moment from "moment"
+import { Carousel } from "@mantine/carousel"
 
-const CustomerReview = () => {
+const CustomerReview = ({ reviews, product, data }) => {
+  const navigate = useNavigate()
+  const [opened, { open, close }] = useDisclosure(false)
+  const [selectedImgIndex, setSelectedImgIndex] = useState(0)
+  const [selectedReview, setSelectedReview] = useState({})
+  const [showMoreReviewsBtn, setShowMoreReviewsBtn] = useState(false)
+
+  function handleOpenModal(i, review) {
+    setSelectedImgIndex(i)
+    setSelectedReview(review)
+    open()
+  }
+
+  useEffect(() => {
+    if (data?.product?.reviews?.length > 3) setShowMoreReviewsBtn(true)
+  }, [data?.product?.reviews?.length])
+
+  console.log(data)
+
   return (
-    <div className="flex flex-col justify-start items-start gap-y-3 border-[1.5px]">
-      <div className="flex justify-between items-center w-full p-2">
-        <p className="text-xl font-semibold tracking-tight  text-gray-800">
-          Ratings & Reviews
-        </p>
-        <Link
-          to={"/rate-product"}
-          className="py-2 md:py-3 text-sm px-2 md:px-5 shadow-md border-[1.5px]"
-        >
-          Rate Product
-        </Link>
-      </div>
+    <>
+      <Modal size={850} opened={opened} onClose={close} centered>
+        <div className="grid grid-cols-12">
+          <div className="col-span-7 flex items-center justify-center bg-black">
+            <Carousel
+              height={380}
+              slideGap="md"
+              initialSlide={selectedImgIndex}
+              withIndicators
+              styles={{
+                indicator: {
+                  color: "white",
+                  background: "white",
+                  display: `${selectedReview?.images?.length === 1 ? "none" : "block"}`,
+                },
+                control: {
+                  color: "white",
+                  fontWeight: "bold",
+                  display: `${selectedReview?.images?.length === 1 ? "none" : "block"}`,
+                },
+              }}
+            >
+              {selectedReview?.images?.map((img, i) => (
+                <Carousel.Slide key={i}>
+                  <div className=" h-full w-full items-center justify-center ">
+                    <img
+                      src={img?.url}
+                      className="h-full w-full object-contain"
+                      alt=""
+                    />
+                  </div>
+                </Carousel.Slide>
+              ))}
+            </Carousel>
+          </div>
+          <div className="bg-white-200 thin-scrollbar col-span-5 h-[25rem] overflow-y-auto  p-2 ">
+            <div className="flex items-center gap-2">
+              <div
+                className={`${selectedReview?.rating == 1 ? "bg-red-400" : selectedReview?.rating == 2 ? "bg-orange-400" : "bg-green-600"} rounded-sm px-[6px] text-[0.65rem] text-white`}
+              >
+                {selectedReview?.rating}★
+              </div>
+              <p className="text-sm">{selectedReview?.review_title}</p>
+            </div>
+            <p className="py-1 text-xs">{selectedReview?.review_description}</p>
+            <div className="flex items-center gap-2 text-xs text-gray-500">
+              {(selectedReview?.user_id?.first_name ||
+                selectedReview?.user_id?.last_name) && (
+                <p>
+                  {selectedReview?.user_id?.first_name}{" "}
+                  {selectedReview?.user_id?.last_name}
+                </p>
+              )}
+              <p>{moment(selectedReview?.created_at).format("MMM, YYYY")}</p>
+            </div>
+          </div>
+        </div>
+      </Modal>
 
-      {/* Review Info */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 border-b-[1.5px] pb-4 gap-2 px-2">
-        <div className="grid-cols-1 lg:col-span-2 flex flex-col justify-center items-start lg:items-center">
-          <p className="text-xl text-center">4.5★</p>
-          <p className="text-xs text-gray-500 text-center">
-            560 Ratings & 84 Reviews
+      <div className="flex w-full flex-col items-start justify-start gap-y-3 border-[1.5px]">
+        <div className="flex w-full items-center justify-between p-2">
+          <p className="text-xl font-semibold tracking-tight  text-gray-800">
+            Ratings & Reviews
           </p>
+          <button
+            className="border-[1.5px] px-2 py-2 text-sm shadow-md md:px-5 md:py-3"
+            onClick={() => navigate(`/rate-product/${product?._id}`)}
+          >
+            Rate Product
+          </button>
         </div>
-        <div className="grid-cols-1 lg:col-span-10 text-xs flex flex-col gap-y-1">
-          <div className="flex items-center justify-start gap-x-2">
-            <span className="text-[13px] font-medium">5 ★</span>
-            <Progress value={80} className="w-44" size={4} color="green" />
-            <span className="text-gray-500 text-[13px]">412</span>
-          </div>
 
-          <div className="flex items-center justify-start gap-x-2">
-            <span className="text-[13px] font-medium">4 ★</span>
-            <Progress value={30} className="w-44" size={4} color="orange" />
-            <span className="text-gray-500 text-[13px]">412</span>
-          </div>
+        {/* Review Info */}
+        {data?.overallRating > 0 ? (
+          <div>
+            <div className="grid w-full grid-cols-1 gap-2 border-b-[1.5px] px-2 pb-4 lg:grid-cols-12">
+              <div className="flex grid-cols-1 flex-col items-start justify-center lg:col-span-2 lg:items-center">
+                <p className="text-center text-xl">{data?.overallRating}★</p>
+                <p className="text-center text-xs text-gray-500">
+                  {data?.totalRatingsCount} Ratings & {data?.reviews.length}{" "}
+                  Reviews
+                </p>
+              </div>
+              <div className="flex grid-cols-1 flex-col gap-y-1 text-xs lg:col-span-10">
+                {Array.from({ length: 5 })
+                  .map((_, index) => index)
+                  .reverse()
+                  .map((rate) => (
+                    <div
+                      key={rate}
+                      className="flex items-center justify-start gap-x-2"
+                    >
+                      <span className="text-[13px] font-medium">
+                        {rate + 1} ★
+                      </span>
+                      <Progress
+                        value={
+                          (data?.ratingsWithCount[rate + 1] /
+                            data?.totalRatingsCount) *
+                          100
+                        }
+                        className="w-44"
+                        size={4}
+                        color={
+                          rate + 1 == 1
+                            ? "#F87171"
+                            : rate + 1 == 2
+                              ? "#FB923C"
+                              : "#16A34A"
+                        }
+                      />
+                      <span className="text-[13px] text-gray-500">
+                        {data?.ratingsWithCount[rate + 1] || 0}
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            </div>
 
-          <div className="flex items-center justify-start gap-x-2">
-            <span className="text-[13px] font-medium">3 ★</span>
-            <Progress value={50} className="w-44" size={4} color="green" />
-            <span className="text-gray-500 text-[13px]">412</span>
-          </div>
-          <div className="flex items-center justify-start gap-x-2">
-            <span className="text-[13px] font-medium">2 ★</span>
-            <Progress value={50} className="w-44" size={4} color="green" />
-            <span className="text-gray-500 text-[13px]">412</span>
-          </div>
-          <div className="flex items-center justify-start gap-x-2">
-            <span className="text-[13px] font-medium">1 ★</span>
-            <Progress value={50} className="w-44" size={4} color="green" />
-            <span className="text-gray-500 text-[13px]">412</span>
-          </div>
-        </div>
-      </div>
+            <div
+              className={`${showMoreReviewsBtn ? "h-[35rem]" : "h-full"} relative flex w-full flex-col overflow-hidden`}
+            >
+              {/* customer review */}
+              {data?.reviews.map((review, idx) => (
+                <div
+                  key={idx}
+                  className="flex w-full flex-col items-start justify-start gap-y-3 border-b-[1.5px] p-2"
+                >
+                  <div>
+                    <div className=" flex items-center  gap-x-2 text-xs text-gray-700">
+                      <p
+                        className={`${review?.rating == 1 ? "bg-red-400" : review?.rating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
+                      >
+                        {review?.rating}★
+                      </p>
+                      <p className="font-semibold">{review?.review_title}</p>
+                    </div>
+                    <p className="mt-2 line-clamp-2 text-xs text-gray-800">
+                      {review?.review_description}
+                    </p>
+                  </div>
+                  {review?.images.length > 0 && (
+                    <div className="thin-scrollbar flex h-16 w-full items-center justify-start gap-1 overflow-x-auto overflow-y-hidden">
+                      {review?.images.map((img, i) => (
+                        <div key={i} className="h-14 w-14">
+                          <img
+                            className="h-full w-full cursor-pointer object-contain"
+                            src={img.url}
+                            alt=""
+                            onClick={() => handleOpenModal(i, review)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <dir className="flex gap-x-2 text-[13px] text-gray-500">
+                    {(review?.user_id?.first_name ||
+                      review?.user_id?.last_name) && (
+                      <span>
+                        {review?.user_id?.first_name}{" "}
+                        {review?.user_id?.last_name}
+                      </span>
+                    )}
+                    <span>
+                      {moment(review?.created_at).format("MMM, YYYY")}
+                    </span>
+                  </dir>
+                </div>
+              ))}
 
-      <div className="flex flex-col justify-start items-start gap-y-3 border-b-[1.5px] p-2">
-        <div>
-          <p className="text-xs text-gray-700">
-            <span className="bg-green-600 px-1 py-[2px] rounded-sm mr-2 text-white">
-              4.5★
-            </span>
-            <span className="font-semibold">Awesome</span>
+              {showMoreReviewsBtn && (
+                <div className="absolute bottom-0 left-0 h-20 w-full bg-gradient-to-t from-white to-transparent"></div>
+              )}
+            </div>
+            {showMoreReviewsBtn && (
+              <div
+                className="w-full border-t-[1.5px] bg-white p-2 py-4 text-sm font-normal text-blue-500"
+                onClick={() => setShowMoreReviewsBtn(false)}
+              >
+                <p className="inline-block cursor-pointer">Show more</p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p className="p-2 text-sm text-gray-500">
+            Be the first to review this product
           </p>
-          <p className="text-xs text-gray-800 mt-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-            cupiditate commodi excepturi adipisci cum similique fuga consequatur
-            possimus repudiandae ipsum.
-          </p>
-        </div>
-        <div className="flex justify-start items-center gap-3 w-40 bg-gray-100 h-16 p-2">
-          <img className="w-10" src="/camera.png" alt="" />
-          <img className="w-10" src="/book.png" alt="" />
-          <img className="w-10" src="/shirt.png" alt="" />
-        </div>
-        <dir className="flex text-[13px] gap-x-2 text-gray-600">
-          <span>Nishant Argade</span>
-          <span>Aug, 2023</span>
-        </dir>
+        )}
       </div>
-    </div>
-  );
-};
+    </>
+  )
+}
 
-export default CustomerReview;
+export default CustomerReview

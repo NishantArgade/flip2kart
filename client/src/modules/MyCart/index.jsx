@@ -235,7 +235,7 @@ const MyCart = () => {
     <div className="min-h-screen">
       {cartData.length !== 0 ? (
         isLoading ? (
-          <div className="container m-2 mx-auto grid  grid-cols-12 gap-x-3  md:relative">
+          <div className="container mx-auto mb-5 grid grid-cols-12 gap-x-3  px-2 py-1  md:relative">
             {/* Add to cart Product Listing */}
             <section className="col-span-12 md:col-span-8">
               <ProductList cartData={cartData} />
@@ -247,7 +247,7 @@ const MyCart = () => {
             </section>
           </div>
         ) : (
-          <div className="container m-2 mx-auto mb-14 grid min-h-screen grid-cols-12 gap-x-3 ">
+          <div className="container mx-auto mb-14 grid min-h-screen grid-cols-12 gap-x-3 px-2 py-1 ">
             {/* Payment Step */}
             <section className="col-span-12 h-[80vh] bg-white p-4 pt-8 shadow-md md:col-span-8">
               {Array.from({ length: 4 }).map((item, i) => (

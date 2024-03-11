@@ -87,9 +87,13 @@ const OrderedProductDetail = () => {
           <div className="flex items-start justify-start gap-x-2 ">
             <Link
               to={"/product-detail/1"}
-              className="w-20 cursor-pointer px-3 pt-1"
+              className="h-20 w-20 cursor-pointer rounded-sm border border-gray-200 p-1"
             >
-              <img src="/shirt.png" alt="" />
+              <img
+                src="/camera.png"
+                alt=""
+                className="h-full w-full object-contain"
+              />
             </Link>
 
             <div className="w-full text-sm md:w-[16rem] ">

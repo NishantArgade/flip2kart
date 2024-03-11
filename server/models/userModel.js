@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Address } from "./addressModel.js";
 
 const userSchema = new mongoose.Schema({
   first_name: String,
@@ -54,6 +55,16 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
+
+// Middleware to delete addresses when a user is deleted
+userSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+  async function (next) {
+    await Address.deleteMany({ _id: { $in: this.addresses } });
+    next();
+  }
+);
 
 export const User =
   mongoose.models.Users || mongoose.model("Users", userSchema);

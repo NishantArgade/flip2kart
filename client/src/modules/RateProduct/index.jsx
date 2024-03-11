@@ -1,11 +1,25 @@
 import { Input, Rating, Textarea } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { useMemo, useState } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useMemo, useState } from "react"
+import { Link, useParams } from "react-router-dom"
 import Spinner from "../../components/Spinner"
+import { IoMdTrash } from "react-icons/io"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  addReview,
+  getMyReviewAndRating,
+  uploadReviewImgs,
+} from "../../api/ratingAndReviewApi"
+import { queryClient } from "../../main"
+import axios from "axios"
+import { toast } from "../../utils/toast"
 
 const RateProduct = () => {
+  const { productID } = useParams()
   const [rateValue, setRateValue] = useState(0)
+  const [previewImages, setPreviewImages] = useState([])
+  const [selectedImages, setSelectedImages] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const rateValueOptimize = useMemo(() => {
     if (rateValue === 1) {
@@ -22,19 +36,116 @@ const RateProduct = () => {
   }, [rateValue])
 
   const form = useForm({
-    initialValues: { description: "", rateTitle: "" },
-
-    validate: {
-      description: (value) => {
-        if (!value.trim()) return "field should not be empty"
-      },
-      rateTitle: (value) => {
-        if (!value.trim()) return "field should not be empty"
-      },
-    },
+    initialValues: { review_description: "", review_title: "" },
   })
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["myReviewAndRating" + productID],
+    queryFn: async () => await getMyReviewAndRating(productID),
+  })
+
+  // const isBoughtProduct = data?.product?.is_bought
   const isBoughtProduct = true
+  console.log(data)
+
+  const { mutate: addRatingAndReviewMutate } = useMutation({
+    mutationKey: "addReview",
+    mutationFn: addReview,
+    onSuccess: () => {
+      queryClient.invalidateQueries("productRatingAndReviewDetails" + productID)
+      toast.success("Thank you so much. Your review has been saved.")
+    },
+    onSettled: () => setLoading(false),
+  })
+
+  const handleImageChange = (e) => {
+    setSelectedImages((prev) => [...prev, ...e.target.files])
+
+    // Create object URLs for preview
+    const fileArray = Array.from(e.target.files).map((file) => ({
+      url: URL.createObjectURL(file),
+    }))
+
+    setPreviewImages((prevImages) => prevImages.concat(fileArray))
+  }
+
+  const removeImage = (event, index) => {
+    event.preventDefault()
+    setPreviewImages((prevImages) => prevImages.filter((_, i) => i !== index))
+    setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index))
+    document.getElementById("formFileMultipleReviewAndRating").value = null
+  }
+
+  const handleUpload = async () => {
+    const formData = new FormData()
+    selectedImages.forEach((image, i) => {
+      if (image instanceof File) formData.append("images", image)
+    })
+
+    try {
+      const remaining = previewImages.filter(
+        (item) => !item.url.includes("blob")
+      )
+      if (formData.entries().next().value) {
+        const response = await uploadReviewImgs(formData)
+        return [...remaining, ...response.uploadedImages]
+      } else {
+        return remaining
+      }
+    } catch (error) {
+      console.error(error)
+      return []
+    }
+  }
+
+  async function handleReviewSubmit(values) {
+    setLoading(true)
+    const uploadedImages = await handleUpload()
+
+    addRatingAndReviewMutate({
+      productID,
+      payload: {
+        product_id: productID,
+        rating: rateValue,
+        images: uploadedImages,
+        ...values,
+      },
+    })
+  }
+
+  useEffect(() => {
+    form.setValues({
+      review_description: data?.reviewData?.review_description,
+      review_title: data?.reviewData?.review_title,
+    })
+    setRateValue(data?.reviewData?.rating)
+
+    setSelectedImages(data?.reviewData?.images?.map((item) => item.url) || [])
+    setPreviewImages(data?.reviewData?.images || [])
+  }, [data?.reviewData])
+
+  function handleRatingChange(rate) {
+    setRateValue(rate)
+    let review_title = ""
+    switch (rate) {
+      case 1:
+        review_title = "Utterly Disappointed"
+        break
+      case 2:
+        review_title = "Slightly disappointed"
+        break
+      case 3:
+        review_title = "Decent product"
+        break
+      case 4:
+        review_title = "Wonderful"
+        break
+      case 5:
+        review_title = "Worth every penny"
+        break
+    }
+    form.setValues({ review_title })
+  }
 
   return (
     <div className="min-h-screen">
@@ -43,26 +154,45 @@ const RateProduct = () => {
         <div className="flex flex-wrap items-center justify-between gap-x-2 px-2">
           <p className="font-semibold text-gray-800">Ratings & Reviews</p>
 
-          <Link
-            to="/product-detail/2"
-            className="bg-red-20 flex w-full items-center  justify-end gap-x-3 text-xs md:w-fit"
-          >
-            <div className="flex flex-col items-end  gap-y-1">
-              <p className="w-44 truncate text-gray-800">
-                Iphone Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Architecto, esse!
-              </p>
-              <div className="text-xs text-gray-700">
-                <span className="mr-2 rounded-sm bg-green-600 px-1 py-[2px] text-white">
-                  4.5★
-                </span>
-                <span className="font-medium text-gray-500">(460)</span>
+          {!isLoading && (
+            <Link
+              to={`/product-detail/${productID}`}
+              className="bg-red-20 flex w-full items-center  justify-end gap-x-3 text-xs md:w-fit"
+            >
+              <div className="flex flex-col items-end  gap-y-1">
+                <div className="flex w-56 justify-end">
+                  <p className="truncate text-gray-800">
+                    {data?.reviewData?.product_id?.name}
+                  </p>
+                </div>
+                {data?.reviewData?.product_id?.overall_rating > 0 ? (
+                  <div className="flex items-center gap-x-2 text-xs text-gray-700">
+                    <p
+                      className={`${data?.reviewData?.product_id?.overall_rating == 1 ? "bg-red-400" : data?.reviewData?.product_id?.overall_rating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
+                    >
+                      {data?.reviewData?.product_id?.overall_rating}★
+                    </p>
+                    <p className="mr-4 font-medium text-gray-500">
+                      ({data?.reviewData?.product_id?.rating_count})
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-xs text-gray-400">No ratings yet</p>
+                )}
               </div>
-            </div>
-            <div className="flex h-12 w-10 flex-col items-center justify-center rounded-sm border-[1.5px] p-1">
-              <img src="/camera.png" alt="" />
-            </div>
-          </Link>
+              <div className="flex h-12 w-12 flex-col items-center justify-center rounded-sm border-[1.5px] p-1">
+                <img
+                  src={
+                    data?.reviewData?.product_id?.images.length > 0
+                      ? data?.reviewData?.product_id?.images[0].url
+                      : "/photoPlaceholder.png"
+                  }
+                  className="h-full w-full object-contain"
+                  alt=""
+                />
+              </div>
+            </Link>
+          )}
         </div>
       </div>
 
@@ -101,7 +231,7 @@ const RateProduct = () => {
         {/* Right Section */}
         <div className="row-end-2 grid-cols-1 bg-white shadow-md md:col-span-7   md:row-auto  lg:col-span-9">
           {isBoughtProduct ? (
-            true ? (
+            !isLoading && !loading ? (
               <div className="flex flex-col gap-y-1">
                 <div className="border-b-2 p-4">
                   <p className="text-sm font-semibold">Rate this product</p>
@@ -109,7 +239,7 @@ const RateProduct = () => {
                     <Rating
                       value={rateValue}
                       className="gap-x-2"
-                      onChange={setRateValue}
+                      onChange={(rate) => handleRatingChange(rate)}
                       color="#FFE11B"
                     />
                     <span
@@ -125,7 +255,7 @@ const RateProduct = () => {
                     </span>
                   </div>
                 </div>
-                <form onSubmit={form.onSubmit(console.log)}>
+                <form onSubmit={form.onSubmit(handleReviewSubmit)}>
                   <div className="px-4 pt-3">
                     <p className="pb-3 text-sm font-semibold">
                       Review this product
@@ -135,7 +265,7 @@ const RateProduct = () => {
                         radius="xs"
                         description="Description"
                         placeholder="Write description here..."
-                        {...form.getInputProps("description")}
+                        {...form.getInputProps("review_description")}
                         rows={8}
                       />
                       <Input.Wrapper description="Title (optional)">
@@ -143,23 +273,65 @@ const RateProduct = () => {
                           radius="xs"
                           maxLength={80}
                           placeholder="Review title..."
-                          {...form.getInputProps("rateTitle")}
+                          {...form.getInputProps("review_title")}
                         />
                       </Input.Wrapper>
                     </div>
                   </div>
 
                   <div className="px-4 pt-5">
-                    <div className="flex h-12 w-12 cursor-pointer items-center justify-center bg-gray-200 p-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        document
+                          .getElementById("formFileMultipleReviewAndRating")
+                          .click()
+                      }
+                      className="flex h-12 w-12 cursor-pointer items-center justify-center bg-gray-200 p-2"
+                    >
                       <img src="/addImgCamara.svg" color="red" alt="" />
-                    </div>
+                      <input
+                        className="hidden"
+                        id="formFileMultipleReviewAndRating"
+                        type="file"
+                        multiple
+                        onChange={handleImageChange}
+                      />
+                    </button>
+
+                    {previewImages.length > 0 && (
+                      <div className="relative mt-4 flex h-16 w-fit items-center justify-center gap-x-2 ">
+                        {previewImages.map((item, index) => (
+                          <div
+                            key={index}
+                            className="group relative h-14  w-14 overflow-hidden  rounded-sm border border-gray-300 object-cover p-1 shadow-sm hover:opacity-50"
+                          >
+                            <img
+                              className="h-full w-full object-contain"
+                              src={item?.url}
+                              alt="preview"
+                            />
+                            <button
+                              className="absolute left-1/2 top-1/2 inline-block -translate-x-1/2 -translate-y-1/2 text-red-800 opacity-0 group-hover:bg-white group-hover:opacity-100"
+                              onClick={(e) => removeImage(e, index)}
+                            >
+                              <IoMdTrash />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  <button type="submit" className="float-end p-4 ">
-                    <p className="cursor-pointer bg-[#FB641B]  px-10  py-3 text-xs font-semibold uppercase text-white shadow-md">
+                  <div className="float-end p-4">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className=" bg-[#FB641B]  px-10  py-3 text-xs font-semibold uppercase text-white shadow-md"
+                    >
                       SUBMIT
-                    </p>
-                  </button>
+                    </button>
+                  </div>
                 </form>
               </div>
             ) : (

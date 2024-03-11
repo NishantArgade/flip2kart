@@ -1,9 +1,9 @@
 import { Avatar } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BsCart3 } from "react-icons/bs"
 import { GiHamburgerMenu } from "react-icons/gi"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import AvatarButton from "../AvatarButton/index.jsx"
 import MobileSideDrawer from "../MobileSideDrawer.jsx"
 import SearchInput from "./SearchInput.jsx"
@@ -11,6 +11,7 @@ import { useSelector } from "react-redux"
 
 const Navbar = ({ authData }) => {
   const location = useLocation()
+  const navigate = useNavigate()
   const [opened, { open, close }] = useDisclosure(false)
   const [searchValue, setSearchValue] = useState("")
 
@@ -54,7 +55,7 @@ const Navbar = ({ authData }) => {
             <div className="flex items-center gap-x-5 text-gray-500">
               {isLoggedIn ? (
                 <Link
-                  to={isAdminUser ? "/admin-dashboard/profile" : "/dashboard"}
+                  to={isAdminUser ? "/admin-dashboard/profile" : "/account"}
                 >
                   <Avatar src="avatar.png" alt="it's me" size={25} />
                 </Link>
@@ -84,7 +85,10 @@ const Navbar = ({ authData }) => {
               </Link>
 
               <div className="flex w-full items-center  justify-start px-2 lg:w-[38rem]">
-                <SearchInput setSearchValue={setSearchValue} />
+                <SearchInput
+                  searchValue={searchValue}
+                  setSearchValue={setSearchValue}
+                />
               </div>
             </div>
 

@@ -8,16 +8,39 @@ const Home = () => {
       <ProductCategories />
       <AdCarousel />
       <HorizontalProductCarousel
-        title="Suggested for you"
+        title="More to Explore"
         showRating={false}
         showStrikePrice={true}
         showDiscount={false}
+        category={"Mobile"}
       />
       <HorizontalProductCarousel
-        title="Recommanded"
+        title="Fashipn Best Sellers"
+        showRating={false}
+        showStrikePrice={true}
+        showDiscount={false}
+        category={"Mobile"}
+      />
+      <HorizontalProductCarousel
+        title="Super Hit Deals on Fashion"
+        showRating={false}
+        showStrikePrice={true}
+        showDiscount={false}
+        category={"Mobile"}
+      />
+      <HorizontalProductCarousel
+        title="Top Deals On Appliances"
+        showRating={false}
+        showStrikePrice={true}
+        showDiscount={false}
+        category={"Mobile"}
+      />
+      <HorizontalProductCarousel
+        title="Recommanded Items"
         showRating={false}
         showStrikePrice={false}
         showDiscount={true}
+        category={"Laptop"}
       />
     </div>
   )

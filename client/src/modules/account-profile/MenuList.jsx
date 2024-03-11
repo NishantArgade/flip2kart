@@ -5,8 +5,11 @@ import { RiLogoutCircleRLine } from "react-icons/ri"
 import { RxCrossCircled } from "react-icons/rx"
 import MultiAccordionMenu from "../../components/MultiAccordionMenu"
 import SingleAccordionMenu from "../../components/SingleAccordionMenu"
+import { useSelector } from "react-redux"
 
 const MenuList = ({ isOpenSidebar, setIsOpenSidebar }) => {
+  const user = useSelector((state) => state.user.data)
+
   return (
     <div
       className={`${
@@ -16,10 +19,12 @@ const MenuList = ({ isOpenSidebar, setIsOpenSidebar }) => {
       {/* Sidebar Header */}
       <div className="mb-3 flex items-center  justify-between rounded-sm bg-white  p-2 text-start  text-gray-800 shadow-md  ">
         <div className="flex items-center gap-x-2">
-          <Avatar src="avatar.png" alt="it's me" size={38} />
+          <Avatar src="/avatar-placeholder.png" alt="it's me" size={38} />
           <div>
             <p className="text-xs">Hello,</p>
-            <p className="text-sm font-semibold">Nishant Argade</p>
+            <p className="text-sm font-semibold">
+              {user?.first_name} {user?.last_name}
+            </p>
           </div>
         </div>
         <button
@@ -41,8 +46,8 @@ const MenuList = ({ isOpenSidebar, setIsOpenSidebar }) => {
           name={"ACCOUNT SETTINGS"}
           icon={<MdManageAccounts className="text-lg text-blue-500" />}
           subMenu={[
-            { name: "Profile Information", link: "/dashboard" },
-            { name: "Manages Address", link: "/dashboard/manage-address" },
+            { name: "Profile Information", link: "/account" },
+            { name: "Manages Address", link: "/account/manage-address" },
           ]}
         />
 
@@ -52,9 +57,9 @@ const MenuList = ({ isOpenSidebar, setIsOpenSidebar }) => {
           subMenu={[
             {
               name: "My Reviews & Ratings",
-              link: "/dashboard/reviews-and-ratings",
+              link: "/account/reviews-and-ratings",
             },
-            { name: "My Wishlist", link: "/dashboard/wishlist" },
+            { name: "My Wishlist", link: "/account/wishlist" },
           ]}
         />
 

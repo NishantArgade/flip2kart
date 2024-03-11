@@ -11,8 +11,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-console.log(process.env.NODEMAILER_EMAIL);
-
 export const sendMail = async (email, subject, html) => {
   try {
     await transporter.sendMail({
@@ -21,7 +19,6 @@ export const sendMail = async (email, subject, html) => {
       subject,
       html,
     });
-    console.log("Email sent successfully");
   } catch (error) {
     console.log(error);
   }

@@ -7,7 +7,7 @@ const Checkout = () => {
   return (
     <>
       {isLoading ? (
-        <div className="container m-2 mx-auto mb-14 grid min-h-screen grid-cols-12 gap-x-3 ">
+        <div className="container mx-auto  mb-5 grid min-h-screen grid-cols-12 gap-x-3 px-2 py-1 ">
           {/* Payment Step */}
           <section className="col-span-12 bg-white p-4  shadow-md md:col-span-8">
             <PaymentStepper />

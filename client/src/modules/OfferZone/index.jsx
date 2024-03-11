@@ -15,7 +15,7 @@ const OfferZone = () => {
           {Array.from({ length: 10 }).map((i) => (
             <Link
               key={i}
-              to="/all-products"
+              to="/products"
               className="items-b flex  w-44  flex-col justify-center gap-2 shadow-md transition-all duration-500 hover:scale-105"
             >
               <div className=" flex h-full flex-col items-center justify-center">

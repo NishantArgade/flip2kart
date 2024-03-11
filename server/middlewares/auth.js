@@ -11,7 +11,7 @@ export const protect = async (req, res, next) => {
         access_token,
         process.env.JWT_ACCESS_TOKEN_SECRET
       );
-      req.user = await User.findById(decode.userID);
+      req.user = await User.findById(decode?.userID);
       next();
     } else {
       const refresh_token = req.cookies?.refresh_token;
@@ -20,7 +20,7 @@ export const protect = async (req, res, next) => {
         refresh_token,
         process.env.JWT_REFRESH_TOKEN_SECRET
       );
-      const user = await User.findById(decode.userID);
+      const user = await User.findById(decode?.userID);
       const access_token = generateToken(
         user,
         process.env.JWT_ACCESS_TOKEN_SECRET,

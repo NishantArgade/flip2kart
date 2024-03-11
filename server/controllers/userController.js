@@ -4,6 +4,7 @@ import { CustomError } from "../utils/CustomError.js";
 import { sendMail } from "../utils/sendMail.js";
 import { cookiesOption, generateOTP, generateToken } from "../utils/helper.js";
 import jwt from "jsonwebtoken";
+import { Address } from "../models/addressModel.js";
 
 export const loginUser = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
@@ -159,19 +160,34 @@ export const logoutUser = asyncHandler(async (req, res, next) => {
 
 export const editUser = asyncHandler(async (req, res, next) => {
   const userID = req.params.userID;
-  const body = req.body;
+  const payload = req.body;
 
-  await User.findByIdAndUpdate(userID, body);
+  await User.findByIdAndUpdate(userID, payload);
 
-  res
-    .status(200)
-    .json({ status: "success", message: "User updated successfully" });
+  res.status(200).json({
+    status: "success",
+    message: "User Updated successfully",
+  });
+});
+
+export const getUserByID = asyncHandler(async (req, res, next) => {
+  const userID = req.params.userID;
+
+  const user = await User.findById(userID);
+
+  res.status(200).json({
+    status: "success",
+    message: "Fetched User Data successfully",
+    user,
+  });
 });
 
 export const deleteUser = asyncHandler(async (req, res, next) => {
   const userID = req.params.userID;
+  const user = await User.findById(userID);
 
-  await User.findByIdAndDelete(userID);
+  if (!user) return next(new CustomError("User not found!", 404));
+  else await user.deleteOne();
 
   res
     .status(200)
@@ -179,7 +195,10 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
 });
 
 export const getAllUsers = asyncHandler(async (req, res, next) => {
-  const users = await User.find();
+  const users = await User.find().populate({
+    path: "addresses",
+    match: { is_active: true },
+  });
 
   res.status(200).json({
     status: "success",
@@ -195,17 +214,19 @@ export const checkAuth = asyncHandler(async (req, res, next) => {
   jwt.verify(
     access_token,
     process.env.JWT_ACCESS_TOKEN_SECRET,
-    (err, decoded) => {
+    async (err, decoded) => {
       if (err) {
         jwt.verify(
           refresh_token,
           process.env.JWT_REFRESH_TOKEN_SECRET,
-          (err, decoded) => {
+          async (err, decoded) => {
             if (err) {
               return res.status(200).json({ isLoggedIn: false, user: {} });
             } else {
+              const user = await User.findById(decoded?.userID);
+
               const access_token = generateToken(
-                decoded,
+                user,
                 process.env.JWT_ACCESS_TOKEN_SECRET,
                 process.env.JWT_ACCESS_TOKEN_SECRET_EXPIRE * 60
               );
@@ -216,13 +237,13 @@ export const checkAuth = asyncHandler(async (req, res, next) => {
                   process.env.JWT_ACCESS_TOKEN_SECRET_EXPIRE * 60 * 1000
                 )
               );
-              return res.status(200).json({ isLoggedIn: true, user: decoded });
+              return res.status(200).json({ isLoggedIn: true, user });
             }
           }
         );
       } else {
-        console.log(decoded);
-        return res.status(200).json({ isLoggedIn: true, user: decoded });
+        const user = await User.findById(decoded?.userID);
+        return res.status(200).json({ isLoggedIn: true, user });
       }
     }
   );

@@ -11,65 +11,15 @@ import TableSearchBar from "./components/TableSearchBar.jsx"
 import { useDisclosure } from "@mantine/hooks"
 import { FaEdit } from "react-icons/fa"
 import CategoryModal from "./components/CategoryModal.jsx"
-
-const data = [
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    category: "Clothes",
-    brands: [
-      "Nike",
-      "Adidas",
-      "Puma",
-      "Reebok",
-      "Nike",
-      "Adidas",
-      "Puma",
-      "Reebok",
-      "Nike",
-      "Adidas",
-      "Puma",
-      "Reebok",
-      "Adidas",
-      "Puma",
-      "Reebok",
-      "Nike",
-      "Adidas",
-      "Puma",
-      "Reebok",
-      "Nike",
-      "Adidas",
-      "Puma",
-      "Reebok",
-      "Adidas",
-      "Puma",
-      "Reebok",
-      "Nike",
-      "Adidas",
-      "Puma",
-      "Reebok",
-      "Nike",
-      "Adidas",
-      "Puma",
-      "Reebok",
-    ],
-    totalProducts: 100,
-    createdAt: new Date("2023/01/10"),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    category: "Phone",
-    brands: ["Apple", "Samsung", "OnePlus", "Xiaomi"],
-    totalProducts: 100,
-    createdAt: new Date("2023/01/10"),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    category: "Clothes",
-    brands: ["Nike", "Adidas", "Puma", "Reebok"],
-    totalProducts: 100,
-    createdAt: new Date("2023/01/10"),
-  },
-]
+import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  deleteCategory,
+  getAllCategoriesAndBrands,
+} from "../../api/categoryApi.js"
+import { queryClient } from "../../main.jsx"
+import Spinner from "../../components/Spinner.jsx"
+import { set } from "lodash"
+import { useForm } from "@mantine/form"
 
 const colHelper = createColumnHelper()
 
@@ -77,8 +27,41 @@ const Categories = () => {
   const [globalFilter, setGlobalFilter] = useState("")
   const [opened, { open, close }] = useDisclosure(false)
   const [isEdit, setIsEdit] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState({})
+  const [previewImage, setPreviewImage] = useState(null)
+  const [selectedImage, setSelectedImage] = useState(null)
 
-  function handleEdit() {
+  const form = useForm({
+    initialValues: {
+      category: "",
+      brands: "",
+      min_price: "",
+      max_price: "",
+    },
+
+    validate: {
+      category: (value) => {
+        if (!value) return "Category is required"
+      },
+      min_price: (value) => {
+        if (!value) return "Minimum price is required"
+      },
+      max_price: (value) => {
+        if (!value) return "Maximum price is required"
+      },
+    },
+  })
+
+  function handleEdit(data) {
+    setSelectedCategory(data)
+    setPreviewImage(data?.image?.url || null)
+    setSelectedImage(JSON.stringify(data?.image) || null)
+    form.setValues({
+      category: data?.name || "",
+      brands: data?.brands?.join(", ") || "",
+      min_price: data?.min_price || "",
+      max_price: data?.max_price || "",
+    })
     setIsEdit(true)
     open()
   }
@@ -86,13 +69,24 @@ const Categories = () => {
     setIsEdit(false)
     open()
   }
+  const { data, isLoading } = useQuery({
+    queryKey: ["allCategories"],
+    queryFn: getAllCategoriesAndBrands,
+  })
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: "deleteCategory",
+    mutationFn: deleteCategory,
+    onSuccess: () => queryClient.invalidateQueries("allCategories"),
+  })
+
   const columns = [
-    colHelper.accessor("id", {
+    colHelper.accessor("_id", {
       header: (header) => <TableHeader header={header} name={"ID"} />,
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
 
-    colHelper.accessor("category", {
+    colHelper.accessor("name", {
       header: (header) => <TableHeader header={header} name={"Category"} />,
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
@@ -114,13 +108,6 @@ const Categories = () => {
       ),
     }),
 
-    colHelper.accessor("totalProducts", {
-      header: (header) => (
-        <TableHeader header={header} name={"Total Products"} />
-      ),
-      cell: (props) => <p className="mr-2 w-32 truncate">{props.getValue()}</p>,
-    }),
-
     colHelper.accessor("createdAt", {
       header: (header) => <TableHeader header={header} name={"createdAt"} />,
       cell: (props) => (
@@ -130,17 +117,41 @@ const Categories = () => {
 
     colHelper.accessor("action", {
       header: () => null,
-      cell: () => (
+      cell: ({ row }) => (
         <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
-          <FaEdit onClick={handleEdit} />
-          <DeletePopover size={18} deleteItemName="category" />
+          <FaEdit onClick={() => handleEdit(row.original)} />
+          <DeletePopover
+            size={18}
+            deleteItemName="category"
+            item={row.original}
+            isPending={isPending}
+            mutate={mutate}
+          />
         </p>
       ),
     }),
   ]
+
+  if (isLoading)
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner />
+      </div>
+    )
+
   return (
     <>
-      <CategoryModal opened={opened} close={close} isEdit={isEdit} />
+      <CategoryModal
+        opened={opened}
+        close={close}
+        isEdit={isEdit}
+        form={form}
+        selectedCategory={isEdit ? selectedCategory : {}}
+        previewImage={previewImage}
+        selectedImage={selectedImage}
+        setPreviewImage={setPreviewImage}
+        setSelectedImage={setSelectedImage}
+      />
 
       <ClientFacingHeader
         heading={"Categories"}
@@ -163,8 +174,9 @@ const Categories = () => {
         </section>
 
         {/** Table */}
+
         <Table
-          data={data}
+          data={data?.categories || []}
           columns={columns}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}

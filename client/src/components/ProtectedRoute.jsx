@@ -1,11 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom"
 import Spinner from "./Spinner"
 
-const ProtectedRoute = ({
-  isAdminRoute = false,
-  isCommonRoute = false,
-  authData,
-}) => {
+const ProtectedRoute = ({ isAdminRoute = false, authData }) => {
   const { isLoggedIn, isLoading, user } = authData
 
   if (isLoading)
@@ -15,15 +11,16 @@ const ProtectedRoute = ({
       </div>
     )
 
-  let allowedRoles = []
-  allowedRoles = isAdminRoute ? ["admin", "operator"] : ["user"]
-
-  if (isLoggedIn && isCommonRoute) return <Outlet />
-
-  if (!isLoggedIn) return <Navigate to="/login" />
-  else if (isLoggedIn && !allowedRoles.includes(user?.role))
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />
+  } else if (
+    (isLoggedIn && !isAdminRoute) ||
+    (isLoggedIn && isAdminRoute && ["admin", "operator"].includes(user?.role))
+  ) {
+    return <Outlet />
+  } else {
     return <Navigate to="/" />
-  else return <Outlet />
+  }
 }
 
 export default ProtectedRoute

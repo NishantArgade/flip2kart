@@ -1,7 +1,7 @@
-import { Carousel } from "@mantine/carousel";
-import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
+import { Carousel } from "@mantine/carousel"
+import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md"
 
-const SmallDeviceIMGCarousel = () => {
+const SmallDeviceIMGCarousel = ({ images }) => {
   return (
     <div className="md:hidden">
       <Carousel
@@ -15,27 +15,27 @@ const SmallDeviceIMGCarousel = () => {
         previousControlIcon={
           <MdOutlineNavigateBefore
             size={20}
-            className="bg-[#f8f8f8ec] w-6  h-6 rounded-full border-2 text-gray-600"
+            className="h-6 w-6  rounded-full border-2 bg-[#f8f8f8ec] text-gray-600"
           />
         }
         nextControlIcon={
           <MdOutlineNavigateNext
             size={20}
-            className="bg-[#f8f8f8ec] w-6 h-6  rounded-full  border-2 text-gray-600"
+            className="h-6 w-6 rounded-full  border-2  bg-[#f8f8f8ec] text-gray-600"
           />
         }
       >
-        {["/camera.png", "/shirt.png", "/book.png"].map((url) => (
+        {images?.map((item, index) => (
           <Carousel.Slide
-            key={url}
+            key={index}
             className="flex items-center justify-center p-1"
           >
-            <img src={url} />
+            <img src={item?.url} />
           </Carousel.Slide>
         ))}
       </Carousel>
     </div>
-  );
-};
+  )
+}
 
-export default SmallDeviceIMGCarousel;
+export default SmallDeviceIMGCarousel

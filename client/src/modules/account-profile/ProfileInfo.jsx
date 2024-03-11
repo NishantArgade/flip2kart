@@ -1,81 +1,98 @@
-import { Group, NumberInput, Radio, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useState } from "react";
+import { Group, NumberInput, Radio, TextInput } from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { useEffect, useState } from "react"
+import { getUserData, updateProfile } from "../../api/userApi"
+import { queryClient } from "../../main"
+import { useSelector } from "react-redux"
 
 const ProfileInfo = () => {
-  const [personalInfoEdit, setPersonalInfoEdit] = useState(false);
-  const [emailEdit, setEmailEdit] = useState(false);
-  const [mobileEdit, setMobileEdit] = useState(false);
-  const [gender, setGender] = useState("male");
+  const user = useSelector((state) => state.user.data)
+
+  const [personalInfoEdit, setPersonalInfoEdit] = useState(false)
+  const [emailEdit, setEmailEdit] = useState(false)
+  const [mobileEdit, setMobileEdit] = useState(false)
+  const [gender, setGender] = useState("")
 
   const personalInfoForm = useForm({
-    initialValues: { firstName: "", lastName: "", gender: "" },
+    initialValues: {
+      first_name: "",
+      last_name: "",
+    },
 
     validate: {
-      firstName: (value) => {
-        if (!value) return "field should not be empty";
-        return value.length < 2
-          ? "first name must have at least 2 letters"
-          : null;
-      },
-      lastName: (value) => {
-        if (!value) return "field should not be empty";
-        return value.length < 2
-          ? "last name must have at least 2 letters"
-          : null;
+      first_name: (value) => {
+        if (!value) return "field should not be empty"
       },
     },
-  });
-  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  })
+
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
   const emailForm = useForm({
     initialValues: { email: "" },
 
     validate: {
       email: (value) => {
-        if (!value) return "Email is required";
-        return emailRegex.test(value) ? null : "Invalid email";
+        if (!value) return "Email is required"
+        return emailRegex.test(value) ? null : "Invalid email"
       },
     },
-  });
+  })
 
   const mobileForm = useForm({
-    initialValues: { mobile: "" },
+    initialValues: { phone: "" },
 
     validate: {
-      mobile: (value) => {
-        if (!value) return "Mobile number is required";
+      phone: (value) => {
+        if (!value) return "Mobile number is required"
         return value.toString().length === 10 || value.toString().length === 12
           ? null
-          : "Invalid mobile number";
+          : "Invalid mobile number"
       },
     },
-  });
+  })
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["userData"],
+    queryFn: () => getUserData(user._id),
+  })
+
+  useEffect(() => {
+    if (!isLoading && !isError && data?.user) {
+      const { first_name, last_name, gender, email, phone } = data.user
+
+      personalInfoForm.setFieldValue("first_name", first_name)
+      personalInfoForm.setFieldValue("last_name", last_name)
+      emailForm.setFieldValue("email", email)
+      mobileForm.setFieldValue("phone", phone)
+      setGender(gender)
+    }
+  }, [isLoading, isError, data])
 
   function handleEmailEdit() {
-    setEmailEdit((state) => !state);
+    setEmailEdit((state) => !state)
   }
   function handleMobileEdit() {
-    setMobileEdit((state) => !state);
+    setMobileEdit((state) => !state)
   }
 
-  // useEffect(() => {
-  //   if (!personalInfoEdit) {
-  //     personalInfoForm.clearErrors();
-  //   }
-  //   if (!emailEdit) {
-  //     emailForm.clearErrors();
-  //   }
-  //   if (!mobileEdit) {
-  //     mobileForm.clearErrors();
-  //   }
-  // }, [
-  //   personalInfoEdit,
-  //   personalInfoForm,
-  //   emailEdit,
-  //   emailForm,
-  //   mobileEdit,
-  //   mobileForm,
-  // ]);
+  const { mutate } = useMutation({
+    mutationKey: "updateProfile",
+    mutationFn: updateProfile,
+    onError: (error) => {
+      console.log(error)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("userData")
+      setPersonalInfoEdit(false)
+      setEmailEdit(false)
+      setMobileEdit(false)
+    },
+  })
+
+  function handleProfileUpdate(values) {
+    mutate({ userID: user._id, payload: values })
+  }
 
   return (
     <>
@@ -87,36 +104,46 @@ const ProfileInfo = () => {
               Personal information
             </span>
             <button
-              className="pt-1 text-sm text-blue-500 font-medium"
+              className="pt-1 text-sm font-medium text-blue-500"
               onClick={() => setPersonalInfoEdit((value) => !value)}
             >
               {personalInfoEdit ? "Cancel" : "Edit"}
             </button>
           </div>
           <form
-            onSubmit={personalInfoForm.onSubmit(console.log)}
+            onSubmit={personalInfoForm.onSubmit((values) =>
+              handleProfileUpdate({ ...values, gender })
+            )}
             className="flex items-center justify-start gap-x-10"
           >
-            <div className="flex items-start flex-col md:flex-row justify-start gap-6">
+            <div className="flex flex-col items-start justify-start gap-6 md:flex-row">
               <TextInput
                 label="First Name"
                 placeholder="First Name"
-                {...personalInfoForm.getInputProps("firstName")}
+                value={personalInfoForm?.values?.first_name || ""}
+                onChange={(e) => {
+                  const newValue = e.target.value.trim().replace(/\s/g, "")
+                  personalInfoForm.setFieldValue("first_name", newValue)
+                }}
                 disabled={!personalInfoEdit}
                 size="xs"
               />
               <TextInput
                 label="Last Name"
                 placeholder="Last Name"
-                {...personalInfoForm.getInputProps("lastName")}
+                value={personalInfoForm?.values?.last_name || ""}
+                onChange={(e) => {
+                  const newValue = e.target.value.trim().replace(/\s/g, "")
+                  personalInfoForm.setFieldValue("last_name", newValue)
+                }}
                 disabled={!personalInfoEdit}
                 size="xs"
               />
               <Radio.Group
-                {...personalInfoForm.getInputProps("gender")}
                 name="Gender"
                 label="Your Gender"
                 value={gender}
+                onChange={setGender}
                 size="xs"
               >
                 <Group
@@ -142,7 +169,7 @@ const ProfileInfo = () => {
               <div className="flex flex-col self-start">
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white shadow-md rounded-sm text-xs py-2 px-6 mt-6"
+                  className="mt-6 rounded-sm bg-blue-600 px-6 py-2 text-xs text-white shadow-md"
                 >
                   SAVE
                 </button>
@@ -156,21 +183,25 @@ const ProfileInfo = () => {
           <div className="mb-5 flex items-center justify-start gap-x-4">
             <span className="text-base font-semibold ">Email Address</span>
             <button
-              className="pt-1 text-sm text-blue-500 font-medium"
+              className="pt-1 text-sm font-medium text-blue-500"
               onClick={handleEmailEdit}
             >
               {emailEdit ? "Cancel" : "Edit"}
             </button>
           </div>
           <form
-            onSubmit={emailForm.onSubmit(console.log)}
+            onSubmit={emailForm.onSubmit(handleProfileUpdate)}
             className="flex items-center justify-start gap-x-10"
           >
             <div className="flex items-start justify-start gap-x-6">
               <TextInput
                 label="Email"
                 placeholder="Email"
-                {...emailForm.getInputProps("email")}
+                value={emailForm?.values?.email || ""}
+                onChange={(e) => {
+                  const newValue = e.target.value.trim().replace(/\s/g, "")
+                  emailForm.setFieldValue("email", newValue)
+                }}
                 disabled={!emailEdit}
                 size="xs"
               />
@@ -179,7 +210,7 @@ const ProfileInfo = () => {
               <div className="flex flex-col self-start">
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white shadow-md rounded-sm text-xs py-2 px-6 mt-6"
+                  className="mt-6 rounded-sm bg-blue-600 px-6 py-2 text-xs text-white shadow-md"
                 >
                   SAVE
                 </button>
@@ -193,14 +224,14 @@ const ProfileInfo = () => {
           <div className="mb-5 flex items-center justify-start gap-x-4">
             <span className="text-base font-semibold ">Mobile Number</span>
             <button
-              className="pt-1 text-sm text-blue-500 font-medium"
+              className="pt-1 text-sm font-medium text-blue-500"
               onClick={handleMobileEdit}
             >
               {mobileEdit ? "Cancel" : "Edit"}
             </button>
           </div>
           <form
-            onSubmit={mobileForm.onSubmit(console.log)}
+            onSubmit={mobileForm.onSubmit(handleProfileUpdate)}
             className="flex items-center justify-start gap-x-10"
           >
             <div className="flex items-start justify-start gap-x-6">
@@ -208,7 +239,7 @@ const ProfileInfo = () => {
                 hideControls
                 label="Mobile"
                 placeholder="Mobile"
-                {...mobileForm.getInputProps("mobile")}
+                {...mobileForm.getInputProps("phone")}
                 disabled={!mobileEdit}
                 size="xs"
               />
@@ -217,7 +248,7 @@ const ProfileInfo = () => {
               <div className="flex flex-col self-start">
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white shadow-md rounded-sm text-xs py-2 px-6 mt-6"
+                  className="mt-6 rounded-sm bg-blue-600 px-6 py-2 text-xs text-white shadow-md"
                 >
                   SAVE
                 </button>
@@ -231,7 +262,7 @@ const ProfileInfo = () => {
           <p className=" py-4 text-base font-semibold">FAQs</p>
           <div className="flex flex-col items-start justify-start gap-y-6 text-xs">
             <div>
-              <p className="font-semibold mb-2">
+              <p className="mb-2 font-semibold">
                 What happens when I update my email address (or mobile number)?
               </p>
               <p>
@@ -241,7 +272,7 @@ const ProfileInfo = () => {
               </p>
             </div>
             <div>
-              <p className="font-semibold mb-2">
+              <p className="mb-2 font-semibold">
                 What happens when I update my email address (or mobile number)?
               </p>
               <p>
@@ -255,9 +286,9 @@ const ProfileInfo = () => {
 
         <div />
       </div>
-      <img src="/profileBg.png" className="w-full mt-6" alt="" />
+      <img src="/profileBg.png" className="mt-6 w-full" alt="" />
     </>
-  );
-};
+  )
+}
 
-export default ProfileInfo;
+export default ProfileInfo

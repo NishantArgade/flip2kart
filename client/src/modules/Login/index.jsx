@@ -43,7 +43,7 @@ const Login = () => {
       onSuccess: () => {
         queryClient.invalidateQueries("checkAuth")
 
-        navigate("/")
+        navigate(-1)
 
         setEmail("")
         setOTP("")

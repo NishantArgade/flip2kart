@@ -13,6 +13,9 @@ const SpecificationStep = ({
   specificationStepData,
   setSpecificationStepData,
   handleFormSubmit,
+  isEditProduct,
+  addProductIsPending,
+  updateProductIsPending,
 }) => {
   const [category, setCategory] = useState("")
   const [title, setTitle] = useState("")
@@ -213,8 +216,11 @@ const SpecificationStep = ({
             type="submit"
             className="rounded-sm bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-md "
             onClick={handleFormSubmit}
+            disabled={
+              isEditProduct ? updateProductIsPending : addProductIsPending
+            }
           >
-            Submit
+            {isEditProduct ? "Save" : "Submit"}
           </button>
         </div>
       </div>

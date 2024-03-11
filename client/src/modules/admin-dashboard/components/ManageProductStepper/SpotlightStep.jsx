@@ -32,7 +32,6 @@ const SpotlightStep = ({
         })
       }
 
-      setTitle("")
       setDescription("")
     }
   }

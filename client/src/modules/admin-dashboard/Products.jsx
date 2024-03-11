@@ -3,339 +3,128 @@ import { createColumnHelper } from "@tanstack/react-table"
 import moment from "moment"
 import { useState } from "react"
 import { IoMdAddCircle } from "react-icons/io"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import DeletePopover from "../../components/DeletePopover.jsx"
-import EditUser from "../../components/EditUserModal.jsx"
 import ClientFacingHeader from "./components/ClientFacingHeader.jsx"
 import Table from "./components/Table.jsx"
 import TableHeader from "./components/TableHeader.jsx"
 import TableSearchBar from "./components/TableSearchBar.jsx"
-
-const data = [
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    name: "Iphone asdfsdfs asdfdsfsd sdfdf dsfdsfd dsff dsafdfasdf asdfsdaf",
-    price: 200000,
-    stock: 100,
-    category: "Phone",
-    description:
-      "Et consetetur nonumy ea invidunt nonumy sit at voluptua dolor clita. At tempor no kasd ipsum elitr duo stet duo.",
-    createdAt: new Date("2023/01/10"),
-    updatedAt: new Date("2023/03/11"),
-  },
-]
+import { FaEdit } from "react-icons/fa"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+  deleteProduct,
+  deleteProductImgs,
+  getAllProducts,
+} from "../../api/productApi.js"
+import { queryClient } from "../../main.jsx"
 
 const colHelper = createColumnHelper()
-const columns = [
-  colHelper.accessor("id", {
-    header: (header) => <TableHeader header={header} name={"ProductID"} />,
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-  }),
-  colHelper.accessor("name", {
-    header: (header) => <TableHeader header={header} name={"Name"} />,
-    cell: (props) => (
-      <Tooltip
-        label={props.getValue()}
-        arrowOffset={12}
-        arrowSize={6}
-        withArrow
-        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
-      >
-        <p className="mr-2  w-32 truncate">{props.getValue()}</p>
-      </Tooltip>
-    ),
-    // size: 1000,
-  }),
-
-  colHelper.accessor("price", {
-    header: (header) => <TableHeader header={header} name={"Price"} />,
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-  }),
-
-  colHelper.accessor("stock", {
-    header: (header) => <TableHeader header={header} name={"Stock"} />,
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-  }),
-
-  colHelper.accessor("category", {
-    header: (header) => <TableHeader header={header} name={"Category"} />,
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-  }),
-
-  colHelper.accessor("description", {
-    header: (header) => <TableHeader header={header} name={"Description"} />,
-    cell: (props) => (
-      <Tooltip
-        label={props.getValue()}
-        arrowOffset={12}
-        arrowSize={6}
-        withArrow
-        className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
-      >
-        <p className="mr-2 w-32 truncate">{props.getValue()}</p>
-      </Tooltip>
-    ),
-  }),
-
-  colHelper.accessor("createdAt", {
-    header: (header) => <TableHeader header={header} name={"CreatedAt"} />,
-    cell: (props) => (
-      <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
-    ),
-  }),
-
-  colHelper.accessor("updatedAt", {
-    header: (header) => <TableHeader header={header} name={"UpdatedAt"} />,
-    cell: (props) => (
-      <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
-    ),
-  }),
-
-  colHelper.accessor("action", {
-    header: () => null,
-    cell: () => (
-      <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
-        <Link to="/edit-product">
-          {" "}
-          <EditUser />
-        </Link>
-        <DeletePopover size={18} deleteItemName="product" />
-      </p>
-    ),
-  }),
-]
 
 const Products = () => {
+  const navigate = useNavigate()
   const [globalFilter, setGlobalFilter] = useState("")
+  const { data } = useQuery({
+    queryKey: ["allProducts"],
+    queryFn: getAllProducts,
+  })
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["deleteProduct"],
+    mutationFn: deleteProduct,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("allProducts")
+      deleteProductImgs(data?.product?.images)
+    },
+    onError: (error) => console.log(error),
+  })
+
+  const columns = [
+    colHelper.accessor("_id", {
+      header: (header) => <TableHeader header={header} name={"ProductID"} />,
+      cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+    }),
+    colHelper.accessor("name", {
+      header: (header) => <TableHeader header={header} name={"Name"} />,
+      cell: (props) => (
+        <Tooltip
+          label={props.getValue()}
+          arrowOffset={12}
+          arrowSize={6}
+          withArrow
+          className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
+        >
+          <p className="mr-2  w-32 truncate">{props.getValue()}</p>
+        </Tooltip>
+      ),
+      // size: 1000,
+    }),
+
+    colHelper.accessor("price", {
+      header: (header) => <TableHeader header={header} name={"Price"} />,
+      cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+    }),
+
+    colHelper.accessor("stock", {
+      header: (header) => <TableHeader header={header} name={"Stock"} />,
+      cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+    }),
+
+    colHelper.accessor("category", {
+      header: (header) => <TableHeader header={header} name={"Category"} />,
+      cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+    }),
+
+    colHelper.accessor("description", {
+      header: (header) => <TableHeader header={header} name={"Description"} />,
+      cell: (props) => (
+        <Tooltip
+          label={props.getValue()}
+          arrowOffset={12}
+          arrowSize={6}
+          withArrow
+          className="max-h-auto max-w-80  text-wrap bg-gray-600  text-xs text-white"
+        >
+          <p className="mr-2 w-32 truncate">{props.getValue()}</p>
+        </Tooltip>
+      ),
+    }),
+
+    colHelper.accessor("created_at", {
+      header: (header) => <TableHeader header={header} name={"CreatedAt"} />,
+      cell: (props) => (
+        <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
+      ),
+    }),
+
+    colHelper.accessor("updated_at", {
+      header: (header) => <TableHeader header={header} name={"UpdatedAt"} />,
+      cell: (props) => (
+        <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
+      ),
+    }),
+
+    colHelper.accessor("action", {
+      header: () => null,
+      cell: ({ row }) => (
+        <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
+          <button
+            onClick={() =>
+              navigate("/edit-product", { state: { product: row.original } })
+            }
+          >
+            <FaEdit />
+          </button>
+          <DeletePopover
+            size={18}
+            deleteItemName="product"
+            mutate={mutate}
+            isPending={isPending}
+            item={row.original}
+          />
+        </p>
+      ),
+    }),
+  ]
   return (
     <>
       <ClientFacingHeader
@@ -360,7 +149,7 @@ const Products = () => {
 
         {/** Table */}
         <Table
-          data={data}
+          data={data?.products || []}
           columns={columns}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}

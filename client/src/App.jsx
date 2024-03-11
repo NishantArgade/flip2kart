@@ -23,7 +23,7 @@ import AllProducts from "./modules/AllProducts"
 import ChatSupport from "./modules/ChatSupport"
 import Checkout from "./modules/Checkout"
 import ContactUs from "./modules/ContactUs"
-import Home from "./modules/Home"
+// import Home from "./modules/Home"
 import Login from "./modules/Login"
 import MyCart from "./modules/MyCart"
 import MyOrders from "./modules/MyOrders"
@@ -34,20 +34,21 @@ import ProductDetail from "./modules/ProductDetail"
 import RateProduct from "./modules/RateProduct"
 import Register from "./modules/Register"
 import Root from "./modules/Root"
-import UserDashboardLayout from "./modules/user-dashboard/Layout"
-import ManagesAddress from "./modules/user-dashboard/ManagesAddress"
-import MyReviewAndRatings from "./modules/user-dashboard/MyReviewAndRatings"
-import ProfileInfo from "./modules/user-dashboard/ProfileInfo"
-import Wishlist from "./modules/user-dashboard/Wishlist"
+import ProfileLayout from "./modules/account-profile/Layout"
+import ManagesAddress from "./modules/account-profile/ManagesAddress"
+import MyReviewAndRatings from "./modules/account-profile/MyReviewAndRatings"
+import ProfileInfo from "./modules/account-profile/ProfileInfo"
+import Wishlist from "./modules/account-profile/Wishlist"
 import Offices from "./modules/admin-dashboard/Offices"
 import Offers from "./modules/admin-dashboard/Offers"
 import Categories from "./modules/admin-dashboard/Categories"
 import ProtectedRoute from "./components/ProtectedRoute"
 import { useAuth } from "./hooks/useAuth"
 import Spinner from "./components/Spinner"
-import { useEffect } from "react"
+import { lazy, Suspense, useEffect } from "react"
 import MissingCartPage from "./modules/MyCart/MissingCartPage"
 import EmptyContactPage from "./modules/ContactUs/EmptyContactPage"
+const Home = lazy(() => import("./modules/Home"))
 
 function App() {
   const authData = useAuth()
@@ -75,13 +76,23 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Root authData={authData} />}>
-        {/*User PROTECTED ROUTES */}
-        <Route
-          path="/"
-          element={<ProtectedRoute authData={authData} isAdminRoute={false} />}
-        >
-          <Route path="dashboard" element={<UserDashboardLayout />}>
+      <Route
+        path="/"
+        element={
+          <Suspense
+            fallback={
+              <div className="flex h-screen w-full items-center justify-center">
+                <Spinner />
+              </div>
+            }
+          >
+            <Root authData={authData} />
+          </Suspense>
+        }
+      >
+        {/* Authenticate  Routes */}
+        <Route path="/" element={<ProtectedRoute authData={authData} />}>
+          <Route path="account" element={<ProfileLayout />}>
             <Route index element={<ProfileInfo />} />
             <Route path="manage-address" element={<ManagesAddress />} />
             <Route
@@ -90,9 +101,18 @@ function App() {
             />
             <Route path="wishlist" element={<Wishlist />} />
           </Route>
+
+          <Route path="my-orders" element={<MyOrders isAdmin={false} />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route
+            path="order-detail/:orderId"
+            element={<OrderedProductDetail />}
+          />
+          <Route path="chatboat-support" element={<ChatSupport />} />
+          <Route path="rate-product/:productID" element={<RateProduct />} />
         </Route>
 
-        {/*Admin PROTECTED ROUTES */}
+        {/* Admin Protected Routes */}
         <Route
           path="/"
           element={<ProtectedRoute authData={authData} isAdminRoute={true} />}
@@ -127,24 +147,22 @@ function App() {
           />
         </Route>
 
-        {/** Common  Auth Route*/}
+        {/* Public Routes (UnAuthenticate Routes) */}
         <Route
-          path="/"
-          element={<ProtectedRoute authData={authData} isCommonRoute={true} />}
-        >
-          <Route path="my-orders" element={<MyOrders isAdmin={false} />} />
-          <Route path="checkout" element={<Checkout />} />
-          <Route
-            path="order-detail/:orderId"
-            element={<OrderedProductDetail />}
-          />
-          <Route path="chatboat-support" element={<ChatSupport />} />
-          <Route path="rate-product" element={<RateProduct />} />
-        </Route>
-
-        {/* PUBLIC ROUTES */}
-        <Route index element={<Home />} />
-        <Route path="all-products" element={<AllProducts />} />
+          index
+          element={
+            <Suspense
+              fallback={
+                <div className="flex h-screen w-full items-center justify-center">
+                  <Spinner />
+                </div>
+              }
+            >
+              <Home />{" "}
+            </Suspense>
+          }
+        />
+        <Route path="products" element={<AllProducts />} />
         <Route path="product-detail/:productId" element={<ProductDetail />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />

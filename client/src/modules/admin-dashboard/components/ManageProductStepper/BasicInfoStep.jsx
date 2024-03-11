@@ -1,56 +1,11 @@
 import { NumberInput, Select, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
+import { useQuery } from "@tanstack/react-query"
 import _ from "lodash"
 import { useMemo } from "react"
 import { IoMdTrash } from "react-icons/io"
 import { LuUpload } from "react-icons/lu"
-
-const products = [
-  {
-    name: "Electronics",
-    brands: ["Apple", "Samsung", "Sony", "LG", "Dell", "HP", "Asus"],
-  },
-  {
-    name: "Fashion",
-    brands: ["Zara", "H&M", "Uniqlo", "Adidas", "Nike", "Levi’s", "Gucci"],
-  },
-  {
-    name: "Home Appliances",
-    brands: ["Whirlpool", "Samsung", "LG", "Philips", "Bosch", "Dyson"],
-  },
-  {
-    name: "Books",
-    brands: ["Penguin", "HarperCollins", "Oxford", "Cambridge", "Scholastic"],
-  },
-  {
-    name: "Grocery",
-    brands: ["Nestle", "P&G", "Unilever", "Coca Cola", "PepsiCo"],
-  },
-  {
-    name: "Clothes",
-    brands: [
-      "Levi’s",
-      "Calvin Klein",
-      "Tommy Hilfiger",
-      "Ralph Lauren",
-      "Armani",
-      "Versace",
-      "Prada",
-    ],
-  },
-  {
-    name: "Phones",
-    brands: [
-      "Apple",
-      "Samsung",
-      "Google",
-      "OnePlus",
-      "Huawei",
-      "Xiaomi",
-      "Motorola",
-    ],
-  },
-]
+import { getAllCategoriesAndBrands } from "../../../../api/categoryApi"
 
 const BasicInfoStep = ({
   nextStep,
@@ -68,15 +23,23 @@ const BasicInfoStep = ({
     validate: {},
   })
 
-  const categories = _.map(products, "name")
+  const { data } = useQuery({
+    initialData: [],
+    queryKey: ["allCategoriesAndBrands"],
+    queryFn: getAllCategoriesAndBrands,
+  })
+
+  console.log(data)
+
+  const categories = _.map(data?.categories, "name")
 
   const brandList = useMemo(() => {
     return (
-      _.filter(products, (product) => {
-        return product.name === form.values.category
+      _.filter(data?.categories, (cat) => {
+        return cat.name === form.values.category
       })[0]?.brands ?? []
     )
-  }, [form.values.category])
+  }, [data?.categories, form.values.category])
 
   function handleSubmit(values) {
     setBasicInfoStepInitialData(values)
@@ -191,14 +154,18 @@ const BasicInfoStep = ({
 
           {previewImages.length > 0 && (
             <div className="relative mt-4 flex h-16 w-fit items-center justify-center gap-x-2 ">
-              {previewImages.map((src, index) => (
+              {previewImages.map((item, index) => (
                 <div
                   key={index}
-                  className="group relative h-12  w-12 overflow-hidden  rounded-sm bg-gray-200 object-cover p-1 shadow-sm hover:opacity-50"
+                  className="group relative h-14  w-14 overflow-hidden  rounded-sm border border-gray-300 object-cover p-1 shadow-sm hover:opacity-50"
                 >
-                  <img className="h-full w-full" src={src} alt="preview" />
+                  <img
+                    className="h-full w-full object-contain"
+                    src={item?.url}
+                    alt="preview"
+                  />
                   <button
-                    className="absolute left-1/2 top-1/2 inline-block -translate-x-1/2 -translate-y-1/2 text-gray-100 opacity-0 group-hover:opacity-100"
+                    className="absolute left-1/2 top-1/2 inline-block -translate-x-1/2 -translate-y-1/2 text-red-800 opacity-0 group-hover:bg-white group-hover:opacity-100"
                     onClick={(e) => removeImage(e, index)}
                   >
                     <IoMdTrash />

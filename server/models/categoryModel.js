@@ -10,6 +10,12 @@ const categorySchema = new mongoose.Schema({
     required: true,
   },
   brands: [String],
+  image: {
+    url: String,
+    filename: String,
+  },
+  min_price: { type: Number, default: 0 },
+  max_price: { type: Number, default: 1000000 },
   created_at: {
     type: Date,
     default: Date.now,

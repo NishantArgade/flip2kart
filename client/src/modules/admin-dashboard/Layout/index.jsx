@@ -15,7 +15,7 @@ const AdminDashboardLayout = () => {
         size={22}
       />
 
-      <div className="container mx-auto  grid grid-cols-12 gap-x-2 gap-y-2 p-2">
+      <div className="container mx-auto  mb-5 grid grid-cols-12 gap-x-2 gap-y-2 px-2 py-1">
         {/* Left Menu Sidebar Section */}
         <section className="md:col-span-4 lg:col-span-2">
           <MenuList

@@ -1,8 +1,28 @@
-import { Modal, Radio } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Modal, Radio } from "@mantine/core"
+import { useDisclosure } from "@mantine/hooks"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { getAllMyAddresses, updateActiveAddress } from "../../../api/addressApi"
+import { getAddressString } from "../../../utils/helper"
+import { queryClient } from "../../../main"
 
-export default function ChangeAddressModal({ children }) {
-  const [opened, { open, close }] = useDisclosure(false);
+export default function ChangeAddressModal({ children, data }) {
+  const [opened, { open, close }] = useDisclosure(false)
+
+  const {
+    mutate: updateAciveAddressMutate,
+    isPending: updateActiveAddressIsPending,
+  } = useMutation({
+    mutationKey: "updateActiveAddress",
+    mutationFn: updateActiveAddress,
+    onSuccess: () => {
+      queryClient.invalidateQueries("allMyAddresses")
+      close()
+    },
+  })
+
+  function handleUpdateActiveAddress(addressID) {
+    updateAciveAddressMutate(addressID)
+  }
 
   return (
     <>
@@ -13,25 +33,23 @@ export default function ChangeAddressModal({ children }) {
         title="Select Delivery Address"
         centered
       >
-        <div className="flex flex-col gap-y-2 text-xs items-start justify-start  h-80 overflow-auto thin-scrollbar">
-          {[
-            { isActive: false, address: "address1" },
-            { isActive: false, address: "address1" },
-            { isActive: true, address: "address1" },
-          ].map((obj, i) => (
+        <div className="thin-scrollbar flex h-80 flex-col items-start justify-start  gap-y-2 overflow-auto text-xs">
+          {data?.addresses.map((item, i) => (
             <div
               key={i}
-              className="flex justify-start items-start gap-x-2 py-3"
+              className="flex cursor-pointer items-start justify-start gap-x-2 py-3 hover:bg-gray-100"
+              onClick={() => handleUpdateActiveAddress(item._id)}
             >
               <Radio
-                onClick={close}
                 size="xs"
-                checked={obj.isActive}
-                onChange={() => {}}
+                checked={item.is_active}
+                disabled={updateActiveAddressIsPending}
               />
               <div>
-                <p className="font-semibold">Nishant Argade, 410501</p>
-                <p className="text-gray-600 mt-1">{obj.address}.</p>
+                <p className="font-semibold">
+                  {item.user_name}, <span>{item.pincode}</span>
+                </p>
+                <p className="mt-1 text-gray-600">{getAddressString(item)}</p>
               </div>
             </div>
           ))}
@@ -40,5 +58,5 @@ export default function ChangeAddressModal({ children }) {
 
       <button onClick={open}>{children}</button>
     </>
-  );
+  )
 }

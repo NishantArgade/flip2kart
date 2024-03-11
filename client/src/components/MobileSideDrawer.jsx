@@ -16,7 +16,7 @@ const MobileSideDrawer = ({ opened, close, isLoggedIn, isAdmin }) => {
 
   const isAdminUser = isLoggedIn && isAdmin
 
-  const dashboardLink = isAdminUser ? "/admin-dashboard" : "/dashboard"
+  const dashboardLink = isAdminUser ? "/admin-dashboard" : "/account"
 
   return (
     <Drawer opened={opened} size="xs" onClose={close}>

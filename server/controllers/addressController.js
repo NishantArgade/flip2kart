@@ -3,7 +3,14 @@ import { Address } from "../models/addressModel.js";
 
 export const addAddress = expressAsyncHandler(async (req, res, next) => {
   const body = req.body;
-  await Address.create(body);
+
+  // Check if there are any addresses in the Address model
+  const existingAddresses = await Address.find({ user_id: req.user._id });
+
+  // If there are no addresses, set is_active to true. Otherwise, set it to false
+  const isActive = existingAddresses.length === 0;
+
+  await Address.create({ user_id: req.user._id, is_active: isActive, ...body });
 
   res.status(200).json({
     status: "success",
@@ -16,6 +23,27 @@ export const editAddress = expressAsyncHandler(async (req, res, next) => {
   const body = req.body;
 
   await Address.findByIdAndUpdate(addressID, body);
+
+  res.status(200).json({
+    status: "success",
+    message: "Address updated successfully",
+  });
+});
+
+export const editActiveAddress = expressAsyncHandler(async (req, res, next) => {
+  const addressID = req.params.addressID;
+
+  await Address.findOneAndUpdate(
+    { user_id: req.user._id, is_active: true },
+    { is_active: false },
+    { returnOriginal: false }
+  );
+
+  await Address.findByIdAndUpdate(
+    addressID,
+    { is_active: true },
+    { new: true }
+  );
 
   res.status(200).json({
     status: "success",

@@ -15,8 +15,8 @@ export const adminNavLinks = () => [
   },
   {
     icon: <RxAvatar size={24} />,
-    name: "Profile",
-    link: "/admin-dashboard/profile",
+    name: "My Profile",
+    link: "/account",
   },
   {
     icon: <BsBoxSeam className="mr-[0.2rem]" size={21} />,
@@ -28,7 +28,7 @@ export const userNavLinks = () => [
   {
     icon: <RxAvatar size={24} />,
     name: "Profile",
-    link: "/dashboard",
+    link: "/account",
   },
   {
     icon: <BsBoxSeam className="mr-[0.2rem]" size={21} />,
@@ -38,14 +38,14 @@ export const userNavLinks = () => [
   {
     icon: <MdFavoriteBorder size={24} />,
     name: "Wishlist",
-    link: "dashboard/wishlist",
+    link: "account/wishlist",
   },
 ]
 export const unAuthUserNavLinks = () => [
   {
     icon: <BsBoxes size={24} />,
     name: "All Products",
-    link: "/all-products",
+    link: "/products",
   },
   {
     icon: <FaArrowTrendUp size={24} />,

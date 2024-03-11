@@ -113,11 +113,10 @@ const productSchema = new mongoose.Schema({
   stock: { type: Number, default: 0 },
   seller: String,
   seller_address: String,
-  delivery_estimate_days: Number,
+  delivery_estimate_days: { type: Number, default: 0 },
   created_at: { type: Date, default: Date.now },
   created_by: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
   updated_at: { type: Date },
-  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reviews" }],
   spotlight: [
     {
       title: String,
@@ -136,7 +135,8 @@ const productSchema = new mongoose.Schema({
       ],
     },
   ],
-  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reviews" }],
+  rating_count: { type: Number, default: 0 },
+  overall_rating: { type: Number, default: 0 },
 });
 
 export const Product =

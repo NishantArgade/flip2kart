@@ -9,9 +9,13 @@ const ProductCard = ({ product }) => {
       key={product?.id}
       className="flex flex-col items-start justify-between gap-2 gap-x-16 border-b-[1.5px] px-4 py-5  hover:shadow-md lg:flex-row"
     >
-      <div className="flex items-start justify-start gap-x-3 md:flex-col md:gap-2 lg:flex-row ">
-        <div className="w-20 cursor-pointer px-3 pt-1">
-          <img src={product?.image} alt="" />
+      <div className="flex items-start justify-start gap-x-3 md:flex-col md:gap-x-2 lg:flex-row ">
+        <div className="h-16 w-16 cursor-pointer rounded-sm border border-gray-200 p-1">
+          <img
+            src={product?.image}
+            alt=""
+            className="h-full w-full object-contain"
+          />
         </div>
 
         <div className="w-full text-sm">

@@ -19,3 +19,23 @@ export const verifyOTP = async (email, otp) => {
 export const checkAuth = async () => {
   return await axiosCall("get", "/api/auth/check")
 }
+
+export const updateProfile = async ({ userID, payload }) => {
+  return await axiosCall("patch", `/api/edit-user/${userID}`, payload)
+}
+
+export const getUserData = async (userID) => {
+  return await axiosCall("get", `/api/user/${userID}`)
+}
+
+export const getAllUsers = async () => {
+  return await axiosCall("get", `/api/all-users`)
+}
+
+export const editUser = async ({ userID, payload }) => {
+  return await axiosCall("patch", `/api/edit-user/${userID}`, payload)
+}
+
+export const deleteUser = async (user) => {
+  return await axiosCall("delete", `/api/delete-user/${user?._id}`)
+}

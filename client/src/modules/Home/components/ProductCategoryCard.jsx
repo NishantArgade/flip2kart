@@ -10,33 +10,34 @@ const ProductCategoryCard = ({ category }) => {
         position="bottom-start"
         styles={{
           dropdown: {
-            background: "red",
             padding: "0rem",
           },
         }}
       >
         <HoverCard.Target>
           <Link
-            to="/all-products"
-            className="grid h-[5.5rem] w-14 grid-cols-1 grid-rows-3 flex-col  "
+            to={`/products?category=${category?.name}`}
+            className=" flex h-[3.6rem] w-14 flex-col items-center justify-center "
           >
-            <div className=" row-span-2 flex items-center justify-center overflow-hidden">
-              <img className=" md:w-12 " src={category?.image} alt="" />
+            <div className="h-10 w-10 overflow-hidden ">
+              <img
+                className="h-full w-full object-contain "
+                src={category?.image?.url}
+                alt=""
+              />
             </div>
-            <p className="row-span-1 pt-1 text-center text-[0.60rem]">
-              {category?.name}
-            </p>
+            <p className="pt-1  text-[0.60rem]">{category?.name}</p>
           </Link>
         </HoverCard.Target>
         <HoverCard.Dropdown>
-          <div className="flex flex-col items-start justify-start text-xs text-gray-700 shadow-md">
-            {category?.categoryOptions?.map((option, index) => (
+          <div className="thin-scrollbar flex max-h-64 flex-col items-start justify-start overflow-auto text-xs text-gray-700 shadow-md">
+            {category?.brands?.map((brand, index) => (
               <Link
                 key={index}
-                to="/all-products"
+                to={`/products?category=${category?.name}&brand=${brand}`}
                 className="w-full bg-gray-50 p-2 hover:bg-[#F0F5FF] "
               >
-                {option}
+                {brand}
               </Link>
             ))}
           </div>

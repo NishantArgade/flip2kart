@@ -45,7 +45,7 @@ const MyOrders = ({ isAdmin }) => {
         </Link>
         <MdOutlineNavigateNext />
         <Link
-          to={`${isAdmin ? "/admin-dashboard" : "/dashboard"}`}
+          to={`${isAdmin ? "/admin-dashboard" : "/account"}`}
           className="hover:text-blue-600"
         >
           AccountMy

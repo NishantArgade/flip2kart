@@ -6,9 +6,16 @@ const CartProductCard = ({ product }) => {
     <div className="flex flex-col items-start justify-start gap-y-2 border-b-[1.5px] bg-white py-4">
       <div className="flex w-full flex-col items-start justify-between px-2 md:flex-row">
         {/* Product Image And Info Block */}
-        <div className="flex items-start justify-start gap-x-2">
-          <Link to={"/product-detail/1"} className="w-32 cursor-pointer p-2 ">
-            <img src={product?.image} alt="" />
+        <div className="flex items-center justify-center gap-x-3">
+          <Link
+            to={"/product-detail/1"}
+            className="h-32 w-32 cursor-pointer p-1 "
+          >
+            <img
+              src={product?.image}
+              alt=""
+              className="h-full w-full object-contain"
+            />
           </Link>
           <div className="text-sm">
             <Link
