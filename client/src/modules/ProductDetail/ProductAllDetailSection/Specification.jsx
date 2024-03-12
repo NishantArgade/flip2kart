@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 
 const Specification = ({ specifications }) => {
-  console.log(specifications)
   const [showMore, setShowMore] = useState(false)
 
   if (specifications.length === 0) return null

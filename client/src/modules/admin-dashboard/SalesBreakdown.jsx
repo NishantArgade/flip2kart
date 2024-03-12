@@ -240,7 +240,6 @@ const SalesBreakdown = () => {
     }
   }, [])
 
-  console.log(result)
   return (
     <>
       <div className="flex  flex-row  items-center justify-between  bg-gray-50 px-3 py-2  text-sm font-medium text-gray-600 ">

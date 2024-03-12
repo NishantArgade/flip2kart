@@ -80,7 +80,6 @@ const SpecificationStep = ({
   }
 
   function handleDeleteItem(category, title, description) {
-    console.log(title, description)
     setSpecificationStepData((prevData) => {
       const dataCopy = [...prevData]
       const categoryObject = dataCopy.find((obj) => obj.category === category)

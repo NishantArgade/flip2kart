@@ -29,8 +29,6 @@ const BasicInfoStep = ({
     queryFn: getAllCategoriesAndBrands,
   })
 
-  console.log(data)
-
   const categories = _.map(data?.categories, "name")
 
   const brandList = useMemo(() => {

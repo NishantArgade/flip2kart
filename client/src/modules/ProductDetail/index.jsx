@@ -18,8 +18,6 @@ const ProductDetail = () => {
     queryFn: async () => await getProductDetailByID(productId),
   })
 
-  console.log(data)
-
   const user = useSelector((state) => state.user.data)
 
   useEffect(() => {

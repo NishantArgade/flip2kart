@@ -143,8 +143,6 @@ const ProductList = ({
   const [isAcitveSortByMobileDrawer, setIsAcitveSortByMobileDrawer] =
     useState(false)
 
-  console.log(data)
-
   function onSelectSortClick(sortName) {
     setSelectedSort(sortName)
 
@@ -155,11 +153,11 @@ const ProductList = ({
 
   const SortLink = ({ name, link }) => {
     return (
-      <div
+      <button
         className="flex  justify-between "
         onClick={() => onSelectSortClick(link)}
       >
-        <button
+        <p
           className={
             selectedSort === link
               ? "pb-1  md:border-b-2 md:border-blue-500 md:text-blue-600 "
@@ -167,9 +165,13 @@ const ProductList = ({
           }
         >
           {name}
-        </button>
-        <Radio className="md:hidden" checked={selectedSort === link} />
-      </div>
+        </p>
+        <Radio
+          className="md:hidden"
+          defaultChecked={selectedSort === link}
+          readOnly
+        />
+      </button>
     )
   }
 

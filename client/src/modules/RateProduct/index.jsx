@@ -46,7 +46,6 @@ const RateProduct = () => {
 
   // const isBoughtProduct = data?.product?.is_bought
   const isBoughtProduct = true
-  console.log(data)
 
   const { mutate: addRatingAndReviewMutate } = useMutation({
     mutationKey: "addReview",

@@ -2,7 +2,6 @@ import { BsFillLightningFill } from "react-icons/bs"
 import { IoCart } from "react-icons/io5"
 
 const ButtonSection = ({ isInStock }) => {
-  console.log(isInStock)
   return (
     <div className="mt-4 flex flex-col gap-3 p-2 md:flex-col  lg:flex-row">
       <button

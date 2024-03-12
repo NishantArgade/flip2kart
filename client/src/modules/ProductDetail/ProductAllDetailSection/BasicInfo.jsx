@@ -1,8 +1,6 @@
 import { calculateDiscountedPrice } from "../../../utils/helper"
 
 const BasicInfo = ({ data, reviewData }) => {
-  console.log("reviewData", reviewData)
-
   return (
     <div className="flex flex-col items-start justify-start gap-y-2  pt-10 md:pt-0">
       <p className="text-md">{data?.name}</p>

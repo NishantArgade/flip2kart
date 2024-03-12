@@ -23,8 +23,6 @@ const CustomerReview = ({ reviews, product, data }) => {
     if (data?.product?.reviews?.length > 3) setShowMoreReviewsBtn(true)
   }, [data?.product?.reviews?.length])
 
-  console.log(data)
-
   return (
     <>
       <Modal size={850} opened={opened} onClose={close} centered>

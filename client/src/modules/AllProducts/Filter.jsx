@@ -200,7 +200,9 @@ const Filter = ({
     window.history.pushState({}, "", "?" + urlParams.toString())
   }
 
-  function onDeliveryCheckboxClick(value, isChecked) {
+  function onDeliveryCheckboxClick() {
+    let value = "a",
+      isChecked = false
     setSelectedDelivery(isChecked ? value : "")
 
     const urlParams = new URLSearchParams(window.location.search)
@@ -382,7 +384,7 @@ const Filter = ({
                   <button
                     key={i}
                     className="group inline-block h-min  rounded-sm bg-gray-200 p-1 shadow-sm hover:bg-gray-300"
-                    onClick={() => onBrandCheckboxClick(brand, category, false)}
+                    onClick={() => onBrandCheckboxClick(brand, false)}
                   >
                     <span className="pl-1 pr-2">x</span>
                     <span className="text-xs group-hover:line-through">
@@ -528,11 +530,10 @@ const Filter = ({
               <Checkbox
                 size="xs"
                 label={"Delivery in 1 day"}
-                onChange={(e) =>
-                  onDeliveryCheckboxClick("one_day", e.target.checked)
-                }
+                onChange={onDeliveryCheckboxClick}
                 className="py-1 text-xs  tracking-wide text-gray-800"
-                checked={selectedDelivery === "one_day"}
+                defaultChecked={selectedDelivery === "one_day"}
+                readOnly
               />
             </div>
 
@@ -558,7 +559,7 @@ const Filter = ({
                           <span className="rounded-sm bg-gray-100 px-1 text-gray-500">
                             x
                           </span>
-                          <button className="text-gray-500">Clear All</button>
+                          <span className="text-gray-500">Clear All</span>
                         </button>
                       )}
 
@@ -577,11 +578,15 @@ const Filter = ({
                             key={i}
                             size="xs"
                             label={brand}
-                            onChange={(e) =>
-                              onBrandCheckboxClick(brand, e.target.checked)
-                            }
                             className="mb-3"
-                            checked={selectedBrands.includes(brand)}
+                            onChange={(e) =>
+                              onBrandCheckboxClick(
+                                brand,
+                                e.currentTarget.checked
+                              )
+                            }
+                            defaultChecked={selectedBrands.includes(brand)}
+                            readOnly
                           />
                         ))
                       ) : (
@@ -622,9 +627,10 @@ const Filter = ({
                       label={`${rate}★ & above`}
                       className="mb-3"
                       onChange={(e) =>
-                        onRatingCheckboxClick(rate, e.target.checked)
+                        onRatingCheckboxClick(rate, e.currentTarget.checked)
                       }
-                      checked={selectedRatings.includes(rate)}
+                      defaultChecked={selectedRatings.includes(rate)}
+                      readOnly
                     />
                   ))}
                 </Accordion.Panel>
@@ -652,9 +658,13 @@ const Filter = ({
                       label={`${discount}% or more`}
                       className="mb-3"
                       onChange={(e) =>
-                        onDiscountCheckboxClick(discount, e.target.checked)
+                        onDiscountCheckboxClick(
+                          discount,
+                          e.currentTarget.checked
+                        )
                       }
-                      checked={selectedDiscount.includes(discount)}
+                      defaultChecked={selectedDiscount.includes(discount)}
+                      readOnly
                     />
                   ))}
                 </Accordion.Panel>
@@ -682,10 +692,13 @@ const Filter = ({
                     onChange={(e) =>
                       onAvailabilityCheckboxClick(
                         "ExcludeOutOfStock",
-                        e.target.checked
+                        e.currentTarget.checked
                       )
                     }
-                    checked={selectedAvailability === "ExcludeOutOfStock"}
+                    defaultChecked={
+                      selectedAvailability === "ExcludeOutOfStock"
+                    }
+                    readOnly
                   />{" "}
                 </Accordion.Panel>
               </Accordion.Item>

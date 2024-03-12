@@ -173,8 +173,6 @@ const ProductCategories = () => {
     queryFn: getAllCategoriesAndBrands,
   })
 
-  console.log(data)
-
   return (
     <div className="bg-white  shadow-md">
       <div className="px-2 md:px-8 lg:px-28">

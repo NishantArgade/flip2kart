@@ -39,8 +39,6 @@ const AllProducts = () => {
     queryFn: async () => await getFilteredProducts(window.location.search),
   })
 
-  console.log(data)
-
   useEffect(() => {
     if (!isLoading && data) {
       window.scroll({
