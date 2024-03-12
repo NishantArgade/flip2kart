@@ -15,7 +15,7 @@ const CartEmptyPage = () => {
           <p className="text-2xl font-semibold text-gray-500">
             Your cart is empty.
           </p>
-          <Link to="/products" className="ml-1 text-blue-500">
+          <Link to="/" className="ml-1 text-blue-500">
             Continue shopping
           </Link>
         </p>

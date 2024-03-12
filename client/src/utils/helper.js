@@ -21,15 +21,20 @@ export function getAddressString(addressObj) {
     .join(", ")
 }
 
-export function calculateDiscountedPrice(originalPrice, discountRate) {
+export function calculateDiscountedPrice(
+  originalPrice,
+  discountRate,
+  quantity = 1
+) {
   discountRate = discountRate / 100
 
   if (discountRate === 1) {
     return 0
   }
   const discountedPrice = originalPrice * (1 - discountRate)
-  const price = Math.floor(discountedPrice / 100) * 100 - 1
-  return price.toLocaleString()
+  let price = Math.floor(discountedPrice / 100) * 100 - 1
+  price = price * quantity
+  return price.toLocaleString("en-IN")
 }
 
 export const categoryPriceRanges = {

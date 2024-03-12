@@ -13,24 +13,6 @@ export const addProduct = expressAsyncHandler(async (req, res, next) => {
   });
 });
 
-export const toggleProductInWhislist = expressAsyncHandler(
-  async (req, res, next) => {
-    const productID = req.body.productID;
-    const user = req.user;
-
-    if (user.wishlist.includes(productID))
-      user.wishlist = user.wishlist.filter((item) => item != productID);
-    else user.wishlist = [...user.wishlist, productID];
-
-    await user.save();
-
-    res.status(200).json({
-      status: "success",
-      message: "Added to Favorite",
-    });
-  }
-);
-
 export const editProduct = expressAsyncHandler(async (req, res, next) => {
   const productID = req.params.productID;
   const body = req.body;
@@ -221,4 +203,134 @@ export const deleteUploadedImg = expressAsyncHandler(async (req, res, next) => {
   await cloudinary.uploader.destroy(filename);
 
   res.status(200).json({ message: "Image deleted" });
+});
+
+export const toggleProductInWhislist = expressAsyncHandler(
+  async (req, res, next) => {
+    const productID = req.body.productID;
+    const user = req.user;
+
+    if (user.wishlist.includes(productID))
+      user.wishlist = user.wishlist.filter((item) => item != productID);
+    else user.wishlist = [...user.wishlist, productID];
+
+    await user.save();
+
+    res.status(200).json({
+      status: "success",
+      message: "Added to Favorite",
+    });
+  }
+);
+
+export const addProductToCart = expressAsyncHandler(async (req, res, next) => {
+  const productID = req.params.productID;
+  const user = req.user;
+
+  const isProductExist = user?.cart?.find((c) => c.product == productID);
+  if (!isProductExist) {
+    user.cart = [{ product: productID }, ...user.cart];
+    await user.save();
+  }
+
+  res.status(200).json({
+    status: "success",
+    message: "Added product to Cart",
+  });
+});
+export const updateAddToCartProduct = expressAsyncHandler(
+  async (req, res, next) => {
+    const { quantity, product: productID } = req.body;
+    const user = req.user;
+
+    const isProductExist = user?.cart?.find((c) => c.product == productID);
+    if (isProductExist) {
+      user.cart = user.cart.map((item) => {
+        if (item.product == productID) {
+          item.quantity = quantity || 1;
+        }
+        return item;
+      });
+      await user.save();
+    }
+
+    const updatedProduct = await Product.findById(productID).select("name");
+
+    res.status(200).json({
+      status: "success",
+      message: "Updated product Cart",
+      updatedProduct: { product: updatedProduct, quantity },
+    });
+  }
+);
+
+export const removeProductFromCart = expressAsyncHandler(
+  async (req, res, next) => {
+    const productID = req.params.productID;
+    const user = req.user;
+
+    user.cart = user.cart.filter((item) => item.product != productID);
+    await user.save();
+
+    const removedProduct = await Product.findById(productID).select("name");
+
+    res.status(200).json({
+      status: "success",
+      message: "Removed product from Cart",
+      removedProduct,
+    });
+  }
+);
+export function calculateDiscountAmount(originalPrice, discountRate) {
+  discountRate = discountRate / 100;
+
+  if (discountRate === 1) {
+    return originalPrice;
+  }
+
+  const discountedPrice = originalPrice * (1 - discountRate);
+  const price = Math.floor(discountedPrice / 100) * 100 - 1;
+  const discountAmount = originalPrice - price;
+
+  return discountAmount;
+}
+
+export const getCartProducts = expressAsyncHandler(async (req, res, next) => {
+  const data = await User.findById(req.user._id)
+    .populate("cart.product")
+    .select("cart");
+
+  //calculate totalPrice,totalDiscount,totalDeliveryCharges,PackagingFee,finalTotalAmount
+  let totalPrice = 0;
+  let totalDiscount = 0;
+  let totalDeliveryCharges = 0;
+  let packagingFee = 0;
+  let finalTotalAmount = 0;
+
+  data?.cart?.forEach((item) => {
+    totalPrice += item.product.price * item.quantity;
+    totalDiscount +=
+      calculateDiscountAmount(item.product.price, item.product.discount) *
+      item.quantity;
+    totalDeliveryCharges +=
+      (item.product.price <= 2000 ? 40 : 70) * item.quantity;
+  });
+
+  if (totalPrice >= 10000) packagingFee = 59;
+
+  finalTotalAmount = totalPrice + packagingFee - totalDiscount;
+  const isDeliveryFree = finalTotalAmount > 200;
+  finalTotalAmount += !isDeliveryFree ? totalDeliveryCharges : 0;
+
+  res.status(200).json({
+    status: "success",
+    message: "Fetched Cart",
+    cart: data?.cart || [],
+    totalPrice,
+    isDeliveryFree,
+    totalDiscount,
+    totalDeliveryCharges,
+    packagingFee,
+    finalTotalAmount,
+  });
 });

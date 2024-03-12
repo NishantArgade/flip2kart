@@ -12,6 +12,10 @@ import {
   getProductsByCategory,
   filteredProducts,
   deleteUploadedImg,
+  addProductToCart,
+  getCartProducts,
+  removeProductFromCart,
+  updateAddToCartProduct,
 } from "../controllers/productController.js";
 import { protect, restrict } from "../middlewares/auth.js";
 import multer from "multer";
@@ -34,10 +38,6 @@ const upload = multer({ storage: storage });
 router
   .route("/add-product")
   .post(protect, restrict("admin", "operator"), addProduct);
-
-router
-  .route("/toggle-product-in-whislist")
-  .post(protect, toggleProductInWhislist);
 
 router.route("/my-wishlist").get(protect, getMyWishlist);
 
@@ -71,5 +71,19 @@ router
   .post(protect, restrict("admin", "operator"), deleteProductImage);
 
 router.route("/delete-uploaded-img").post(protect, deleteUploadedImg);
+
+router
+  .route("/toggle-product-in-whislist")
+  .post(protect, toggleProductInWhislist);
+
+router.route("/add-product-to-cart/:productID").get(protect, addProductToCart);
+
+router.route("/update-cart-product").post(protect, updateAddToCartProduct);
+
+router
+  .route("/remove-product-from-cart/:productID")
+  .delete(protect, removeProductFromCart);
+
+router.route("/cart-products").get(protect, getCartProducts);
 
 export default router;

@@ -1,12 +1,12 @@
 import { Stepper } from "@mantine/core"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import CompleteStep from "./CompleteStep.jsx"
 import DeliveryAddressStep from "./DeliveryAddressStep.jsx"
 import LoginInfoStep from "./LoginInfoStep.jsx"
 import OrderSummaryStep from "./OrderSummaryStep.jsx"
 import PaymentStep from "./PaymentStep.jsx"
 
-const PaymentStepper = () => {
+const PaymentStepper = ({ cartData }) => {
   const [active, setActive] = useState(1)
 
   const nextStep = () =>
@@ -34,6 +34,15 @@ const PaymentStepper = () => {
       height: 3,
     },
   }
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      return ""
+    }
+
+    return () => {
+      window.onbeforeunload = null
+    }
+  }, [])
 
   return (
     <Stepper
@@ -50,7 +59,7 @@ const PaymentStepper = () => {
         <DeliveryAddressStep prevStep={prevStep} nextStep={nextStep} />
       </Stepper.Step>
       <Stepper.Step label="ORDER SUMMARY">
-        <OrderSummaryStep nextStep={nextStep} />
+        <OrderSummaryStep nextStep={nextStep} cart={cartData?.cart} />
       </Stepper.Step>
       <Stepper.Step label="PAYMENT OPTIONS">
         <PaymentStep nextStep={nextStep} />

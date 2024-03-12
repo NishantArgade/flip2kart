@@ -19,22 +19,22 @@ const Home = () => {
         showRating={false}
         showStrikePrice={true}
         showDiscount={false}
-        category={"Mobile"}
+        category={"headphones"}
       />
       <HorizontalProductCarousel
         title="Super Hit Deals on Fashion"
         showRating={false}
         showStrikePrice={true}
         showDiscount={false}
-        category={"Mobile"}
+        category={"Clothes"}
       />
-      <HorizontalProductCarousel
+      {/* <HorizontalProductCarousel
         title="Top Deals On Appliances"
         showRating={false}
         showStrikePrice={true}
         showDiscount={false}
-        category={"Mobile"}
-      />
+        category={"Clothes"}
+      /> */}
       <HorizontalProductCarousel
         title="Recommanded Items"
         showRating={false}

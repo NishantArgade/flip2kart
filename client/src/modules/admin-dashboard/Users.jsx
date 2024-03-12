@@ -100,7 +100,7 @@ const Users = () => {
             props.getValue() === "user" ? "text-green-500" : "text-orange-600"
           }  mr-2`}
         >
-          {props.getValue()?.toLocaleString()}
+          {props.getValue()?.toLocaleString("en-IN")}
         </p>
       ),
     }),

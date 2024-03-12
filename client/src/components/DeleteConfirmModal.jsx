@@ -1,8 +1,15 @@
-import { Modal } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Modal } from "@mantine/core"
+import { useDisclosure } from "@mantine/hooks"
+import { useMutation } from "@tanstack/react-query"
+import { removeProductFromCart } from "../api/cartApi"
 
-export default function DeleteConfirmModal({ children }) {
-  const [opened, { open, close }] = useDisclosure(false);
+export default function DeleteConfirmModal({
+  children,
+  removeProductIsPending,
+  removeProductMutate,
+  productID,
+}) {
+  const [opened, { open, close }] = useDisclosure(false)
 
   return (
     <>
@@ -13,29 +20,29 @@ export default function DeleteConfirmModal({ children }) {
         title="Remove Item"
         centered
       >
-        <div className="flex flex-col gap-y-2 text-xs items-start">
+        <div className="flex flex-col items-start gap-y-2 text-xs">
           <p className="text-gray-600">
             Are you sure you want to remove this item?
           </p>
-          <div className="self-center flex justify-center items-center gap-x-4 mt-10">
+          <div className="mt-10 flex items-center justify-center gap-x-4 self-center">
             <button
               onClick={close}
-              className="px-10 py-3  border-[1.5px] border-gray-300 font-semibold shadow-sm rounded-sm"
+              className="rounded-sm border-[1.5px]  border-gray-300 px-10 py-3 font-semibold shadow-sm"
             >
               CANCEL
             </button>
             <button
-              onClick={close}
-              className="px-10 py-3  bg-blue-500 text-white font-semibold shadow-sm rounded-sm"
+              disabled={removeProductIsPending}
+              onClick={() => removeProductMutate(productID)}
+              className="rounded-sm bg-blue-500  px-10 py-3 font-semibold text-white shadow-sm"
             >
               REMOVE
             </button>
-            {/* <button></button> */}
           </div>
         </div>
       </Modal>
 
       <button onClick={open}>{children}</button>
     </>
-  );
+  )
 }

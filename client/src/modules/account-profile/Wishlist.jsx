@@ -68,7 +68,7 @@ const Wishlist = () => {
                         </div>
                         <p className="mt-4 text-xs">
                           <span className="mr-2 text-[1.2rem] text-sm font-bold">
-                            ₹{item?.price.toLocaleString()}
+                            ₹{item?.price.toLocaleString("en-IN")}
                           </span>
                           <strike className="mr-2 text-gray-700">₹2300</strike>
                           <span className="text-green-600 ">

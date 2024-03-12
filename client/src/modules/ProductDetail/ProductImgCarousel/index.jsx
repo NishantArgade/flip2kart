@@ -31,7 +31,7 @@ const ProductImgCarousel = ({
         setSelectedImgIndex={setSelectedImgIndex}
       />
       <SmallDeviceIMGCarousel images={images} />
-      <ButtonSection isInStock={isInStock} />
+      <ButtonSection isInStock={isInStock} productID={product?._id} />
       <button disabled={isPending} onClick={handleAddToWishlist}>
         <IoMdHeart
           className={`${isFav ? "text-red-500" : "text-gray-300"} absolute right-2 top-2 z-10  cursor-pointer rounded-full border-e-2 border-gray-200 bg-gray-100 p-1 `}

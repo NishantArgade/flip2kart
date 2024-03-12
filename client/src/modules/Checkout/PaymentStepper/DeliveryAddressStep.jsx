@@ -1,28 +1,17 @@
-import {
-  Accordion,
-  Group,
-  NumberInput,
-  Radio,
-  Text,
-  TextInput,
-  Textarea,
-} from "@mantine/core"
-import { useForm } from "@mantine/form"
-import { IoIosAdd } from "react-icons/io"
+import { Accordion } from "@mantine/core"
 import Spinner from "../../../components/Spinner"
 import AccordionItem from "./AccordionItem"
-import { getAllMyAddresses } from "../../../api/addressApi"
-import { useQuery } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 import AddAddressAccordionItem from "./AddAddressAccordionItem"
+import { getAllMyAddresses } from "../../../api/addressApi"
+import { useQuery } from "@tanstack/react-query"
 
 export default function DeliveryAddressStep({ prevStep, nextStep }) {
+  const [activeItem, setActiveItem] = useState("0")
   const { data, isLoading } = useQuery({
     queryKey: ["allMyAddresses"],
     queryFn: getAllMyAddresses,
   })
-
-  const [activeItem, setActiveItem] = useState("0")
 
   useEffect(() => {
     data?.addresses?.length > 0 &&
@@ -35,7 +24,7 @@ export default function DeliveryAddressStep({ prevStep, nextStep }) {
 
   return (
     <>
-      {true ? (
+      {!isLoading ? (
         <Accordion
           chevronPosition="right"
           variant="contained"
