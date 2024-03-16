@@ -10,11 +10,16 @@ export const addAddress = expressAsyncHandler(async (req, res, next) => {
   // If there are no addresses, set is_active to true. Otherwise, set it to false
   const isActive = existingAddresses.length === 0;
 
-  await Address.create({ user_id: req.user._id, is_active: isActive, ...body });
+  const address = await Address.create({
+    user_id: req.user._id,
+    is_active: isActive,
+    ...body,
+  });
 
   res.status(200).json({
     status: "success",
     message: "Address created successfully",
+    address,
   });
 });
 

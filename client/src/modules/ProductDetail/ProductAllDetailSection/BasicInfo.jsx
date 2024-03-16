@@ -22,7 +22,10 @@ const BasicInfo = ({ data, reviewData }) => {
       )}
       <p className="mt-3 text-xs">
         <span className="mr-2 text-[1.30rem] font-bold">
-          ₹{calculateDiscountedPrice(data?.price, data?.discount)}
+          ₹
+          {calculateDiscountedPrice(data?.price, data?.discount).toLocaleString(
+            "en-IN"
+          )}
         </span>
         <strike className="mr-2 text-gray-700">₹{data?.price}</strike>
         <span className="font-semibold text-green-600">

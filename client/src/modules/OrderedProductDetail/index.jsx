@@ -2,15 +2,66 @@ import { PDFDownloadLink } from "@react-pdf/renderer"
 import { BsQuestionSquareFill } from "react-icons/bs"
 import { IoMdArrowRoundBack } from "react-icons/io"
 import { IoDocumentText } from "react-icons/io5"
-import { Link, useParams } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import InvoicePDF from "./InvoicePdf"
 import OrderStatusStepper from "./OrderStatusStepper"
 import Skeleton from "react-loading-skeleton"
+import { useQuery } from "@tanstack/react-query"
+import { getOrderByOrderIDAndProductID } from "../../api/orderApi"
+import moment from "moment"
+import { useEffect } from "react"
 
 const OrderedProductDetail = () => {
-  const { orderId } = useParams()
+  const location = useLocation()
 
-  const isLoading = true
+  const { data, isLoading } = useQuery({
+    queryKey: ["getOrderByOrderIDAndProductID", location.search],
+    queryFn: async () => await getOrderByOrderIDAndProductID(location.search),
+  })
+
+  console.log(data?.order)
+  console.log(data?.product?.order_status)
+
+  const steps = [
+    {
+      topLabel: "Order Confirmed",
+      bottomLabel: "",
+      content: `Your order has been received and is being processed.`,
+    },
+    {
+      topLabel: "Shipped",
+      bottomLabel: "",
+      content: `Your payment has been confirmed. Thank you for your purchase.`,
+    },
+    {
+      topLabel: "Out for delivery",
+      bottomLabel: "",
+      content: "Your order is in transit. It's on its way to you.",
+    },
+    {
+      topLabel: "Delivered",
+      bottomLabel: "",
+      content: "Your order has been delivered. Enjoy your purchase!",
+    },
+  ]
+  const statusToStepIndex = {
+    "Order Confirmed": 0,
+    Shipped: 1,
+    "Out for delivery": 2,
+    Delivered: 3,
+  }
+
+  let lastStatusIndex = 0
+
+  data?.product?.order_status.forEach((o) => {
+    const stepIndex = statusToStepIndex[o.status]
+
+    if (stepIndex > lastStatusIndex) lastStatusIndex = stepIndex
+
+    if (stepIndex !== undefined) {
+      steps[stepIndex].bottomLabel = moment(o.date).format("ddd, Do MMM")
+    }
+  })
 
   return (
     <div className="container mx-auto min-h-screen">
@@ -25,17 +76,14 @@ const OrderedProductDetail = () => {
 
       {/** Product Order Detail */}
       <div className="grid grid-cols-1 bg-white text-xs  shadow-md md:grid-cols-12 ">
-        {isLoading ? (
+        {!isLoading ? (
           <div className="col-span-1 flex flex-col items-start justify-start gap-y-2 border-r-[1px] p-4   md:col-span-7">
             <p className="text-sm">Delivery Address</p>
-            <p className="font-semibold">Nishant Argade</p>
-            <p className="font-light">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Molestias, quidem. sdfdsf sdfsdf asdfds fds asdf
-            </p>
+            <p className="font-semibold">{data?.order?.shipping_to_user}</p>
+            <p className="font-light">{data?.order?.shipping_address}</p>
             <span className="flex items-center justify-start gap-2">
               <p className="font-semibold">Phone Number</p>
-              <p>8007896396</p>
+              <p>{data?.order?.shipping_user_phone}</p>
             </span>
           </div>
         ) : (
@@ -47,7 +95,7 @@ const OrderedProductDetail = () => {
             <Skeleton width={400} />
           </div>
         )}
-        {isLoading ? (
+        {!isLoading ? (
           <div className="col-span-1 flex flex-col gap-y-2 p-4  md:col-span-5">
             <p className="text-sm">More Action</p>
             <div className="flex items-center justify-between">
@@ -58,7 +106,7 @@ const OrderedProductDetail = () => {
                 <p className="text-gray-500">Download Invoice</p>
               </div>
               <PDFDownloadLink
-                document={<InvoicePDF />}
+                document={<InvoicePDF data={data} />}
                 fileName="Order Invoice.pdf"
               >
                 {({ loading, error }) => (
@@ -81,16 +129,18 @@ const OrderedProductDetail = () => {
       </div>
 
       {/** Product Card */}
-      {isLoading ? (
+      {!isLoading ? (
         <div className="gap- my-4 flex flex-col items-start justify-between bg-white px-4 py-5 shadow-md  lg:flex-row">
           {/** Product Detail */}
           <div className="flex items-start justify-start gap-x-2 ">
             <Link
-              to={"/product-detail/1"}
+              to={`/product-detail/${data?.product?.product_id}`}
               className="h-20 w-20 cursor-pointer rounded-sm border border-gray-200 p-1"
             >
               <img
-                src="/camera.png"
+                src={
+                  data?.product.images.length > 0 && data?.product.images[0].url
+                }
                 alt=""
                 className="h-full w-full object-contain"
               />
@@ -98,26 +148,28 @@ const OrderedProductDetail = () => {
 
             <div className="w-full text-sm md:w-[16rem] ">
               <Link
-                to={"/product-detail/1"}
-                className="cursor-pointer text-gray-800 hover:text-blue-500"
+                to={`/product-detail/${data?.product?.product_id}`}
+                className="line-clamp-1 cursor-pointer text-gray-800 hover:text-blue-500"
               >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                {data?.product?.name}
               </Link>
-              <p className=" mt-1 text-xs text-gray-500">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem
-                ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum
+              <p className=" mt-1 line-clamp-2 text-xs text-gray-500">
+                {data?.product?.description}
               </p>
               <p className=" mt-2 text-xs text-gray-500">
                 <span>Seller: </span>
-                <span> Amenora mall</span>
+                <span> {data?.product?.seller}</span>
               </p>
               <p className="mb-6 mt-2 text-sm font-semibold text-gray-800 md:mb-0">
-                ₹2,000
+                ₹{data?.product?.price - data?.product?.discount}
               </p>
             </div>
           </div>
           <div>
-            <OrderStatusStepper />
+            <OrderStatusStepper
+              steps={steps}
+              activeStep={lastStatusIndex + 1}
+            />
           </div>
           {/** Need Help Button  */}
           <Link

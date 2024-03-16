@@ -3,39 +3,17 @@ import { MdOutlineNavigateNext } from "react-icons/md"
 import { Link, NavLink } from "react-router-dom"
 import FilterSection from "./FilterSection"
 import OrderList from "./OrderList"
+import { useQuery } from "@tanstack/react-query"
+import { getAllMyOrders } from "../../api/orderApi"
 
 const MyOrders = ({ isAdmin }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
 
-  const myOrders = [
-    {
-      id: "123abc",
-      name: "TV",
-      description:
-        "Stet accusam accusam takimata lorem clita. Elitr lorem diam et tempor sit lorem ea lorem ipsum, ea et ipsum et.",
-      amount: 80_000,
-      image: "/productsIMG/TV/1.jpg",
-      deliveredDate: new Date(),
-    },
-    {
-      id: "11abc",
-      name: "Shirt",
-      description:
-        "Stet accusam accusam takimata lorem clita. Elitr lorem diam et tempor sit lorem ea lorem ipsum, ea et ipsum et.",
-      amount: 1_000,
-      image: "/productsIMG/Shirt/2.1.jpg",
-      deliveredDate: new Date(),
-    },
-    {
-      id: "22ABCD",
-      name: "Laptop",
-      description:
-        "Stet accusam accusam takimata lorem clita. Elitr lorem diam et tempor sit lorem ea lorem ipsum, ea et ipsum et.",
-      amount: 90_000,
-      image: "/productsIMG/Laptops/1.jpg",
-      deliveredDate: new Date(),
-    },
-  ]
+  const { data, isLoading } = useQuery({
+    queryKey: ["myOrders"],
+    queryFn: getAllMyOrders,
+  })
+
   return (
     <div className="min-h-screen">
       {/** Navigation path */}
@@ -73,7 +51,11 @@ const MyOrders = ({ isAdmin }) => {
 
         {/* Order Listing Section */}
         <section className="col-span-12 bg-white shadow-md   md:col-span-8  lg:col-span-10">
-          <OrderList setIsOpenSidebar={setIsOpenSidebar} myOrders={myOrders} />
+          <OrderList
+            setIsOpenSidebar={setIsOpenSidebar}
+            orders={data?.orders}
+            isLoading={isLoading}
+          />
         </section>
       </div>
     </div>

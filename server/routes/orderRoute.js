@@ -19,7 +19,7 @@ router.route("/save-order").post(protect, saveOrder);
 
 router.route("/validate-order").post(protect, validateOrder);
 
-router.route("/order-detail/:orderID").get(protect, orderDetail);
+router.route("/order-detail").get(protect, orderDetail);
 
 router.route("/my-orders").get(protect, myOrders);
 

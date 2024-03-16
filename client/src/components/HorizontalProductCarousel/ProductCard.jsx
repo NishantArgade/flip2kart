@@ -71,7 +71,11 @@ const HorizontalProductCarouselCard = ({
           ))}
         <p className="mt-1 flex flex-col items-center  justify-start text-[0.8rem] md:flex-row md:text-[0.9rem]">
           <span className=" mr-2 font-bold">
-            ₹{calculateDiscountedPrice(product?.price, product?.discount)}
+            ₹
+            {calculateDiscountedPrice(
+              product?.price,
+              product?.discount
+            ).toLocaleString("en-IN")}
           </span>
           {showStrikePrice && (
             <strike className="mr-2  text-xs text-gray-700">

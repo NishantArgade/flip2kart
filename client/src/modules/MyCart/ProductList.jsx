@@ -11,7 +11,7 @@ import {
 import { queryClient } from "../../main"
 import { toast } from "../../utils/toast"
 
-const ProductList = ({ cartData }) => {
+const ProductList = ({ cartData, isFreeDelivery }) => {
   const [activeAddress, setActiveAddress] = useState({})
 
   const { data, isLoading } = useQuery({
@@ -84,6 +84,7 @@ const ProductList = ({ cartData }) => {
             removeProductMutate={removeProductMutate}
             updateAddToProductMutate={updateAddToProductMutate}
             updateAddToCartIsPending={updateAddToCartIsPending}
+            isFreeDelivery={isFreeDelivery}
           />
         ))}
       </div>

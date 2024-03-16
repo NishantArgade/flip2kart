@@ -10,3 +10,9 @@ export const validateOrder = async (payload) => {
 export const saveOrder = async (payload) => {
   return await axiosCall("post", `/api/save-order`, payload)
 }
+export const getAllMyOrders = async () => {
+  return await axiosCall("get", `/api/my-orders`)
+}
+export const getOrderByOrderIDAndProductID = async (search) => {
+  return await axiosCall("get", `/api/order-detail${search}`)
+}

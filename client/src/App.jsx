@@ -105,10 +105,7 @@ function App() {
 
           <Route path="my-orders" element={<MyOrders isAdmin={false} />} />
           <Route path="checkout" element={<Checkout />} />
-          <Route
-            path="order-detail/:orderId"
-            element={<OrderedProductDetail />}
-          />
+          <Route path="order-detail" element={<OrderedProductDetail />} />
           <Route path="chatboat-support" element={<ChatSupport />} />
           <Route path="rate-product/:productID" element={<RateProduct />} />
         </Route>

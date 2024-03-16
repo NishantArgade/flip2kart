@@ -2,11 +2,12 @@ import { Link } from "react-router-dom"
 import DeleteConfirmModal from "./DeleteConfirmModal"
 import { calculateDiscountedPrice } from "../utils/helper"
 import moment from "moment"
-import { useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { updateAddToCartProduct } from "../api/cartApi"
 import { queryClient } from "../main"
 import { toast } from "../utils/toast"
+import _, { debounce, set } from "lodash"
 
 const CartProductCard = ({
   product,
@@ -15,6 +16,7 @@ const CartProductCard = ({
   removeProductMutate,
   updateAddToProductMutate,
   updateAddToCartIsPending,
+  isFreeDelivery,
 }) => {
   const [qty, setQty] = useState(quantity)
 
@@ -57,14 +59,41 @@ const CartProductCard = ({
     updateAddToProductMutate({ product: product?._id, quantity: newQty })
   }
 
-  function handleQtyChange(e) {
-    setQty(e.target.value)
+  const debouncedUpdate = useCallback(
+    _.debounce((value) => {
+      if (value < 1) {
+        setQty(1)
+        return
+      }
+      if (value > 10) {
+        setQty(10)
+        toast.success("We're sorry! Only 10 unit(s) allowed in each order")
+        return
+      }
+      setQty(value)
+      updateAddToProductMutate({
+        product: product?._id,
+        quantity: Number(value),
+      })
+    }, 700),
+    []
+  )
 
-    updateAddToProductMutate({
-      product: product?._id,
-      quantity: e.target.value,
-    })
+  function handleQtyChange(e) {
+    const quantity = e.target.value
+
+    if (!/^\d*\s*\d*$/.test(quantity)) return
+
+    debouncedUpdate(Number(quantity))
   }
+
+  const freeDelivery = useMemo(() => {
+    return (
+      isFreeDelivery ||
+      calculateDiscountedPrice(product?.price, product?.discount) * qty > 200
+    )
+  }, [isFreeDelivery, product?.price, product?.discount, qty])
+
   return (
     <div className="flex flex-col items-start justify-start gap-y-2 border-b-[1.5px] bg-white py-4">
       <div className="flex w-full flex-col items-start justify-between px-2 md:flex-row">
@@ -103,7 +132,7 @@ const CartProductCard = ({
                   product?.price,
                   product?.discount,
                   qty
-                )}
+                ).toLocaleString("en-IN")}
               </span>
               <strike className="mr-2 text-gray-700">
                 ₹{product?.price * qty}
@@ -118,9 +147,17 @@ const CartProductCard = ({
           Delivery by {getDiliveryStatusText(product?.delivery_estimate_days)}
           <div>
             <span> | </span>
-            <span className="mx-1 font-medium text-green-600">Free</span>
-            <span className="text-gray-500 line-through">
-              ₹{(product?.price <= 2000 ? 40 : 70) * qty}
+            {freeDelivery && (
+              <span className="mx-1 font-medium text-green-600">Free</span>
+            )}
+            <span
+              className={`text-gray-500 ${freeDelivery ? "line-through" : ""}`}
+            >
+              ₹
+              {(calculateDiscountedPrice(product?.price, product?.discount) <=
+              2000
+                ? 40
+                : 70) * qty}
             </span>
           </div>
         </div>

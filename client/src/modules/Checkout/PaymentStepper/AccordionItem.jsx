@@ -11,14 +11,19 @@ import React, { useState } from "react"
 import { getAddressString } from "../../../utils/helper"
 import { useForm } from "@mantine/form"
 import { useMutation } from "@tanstack/react-query"
-import { updateAddress } from "../../../api/addressApi"
+import { updateActiveAddress, updateAddress } from "../../../api/addressApi"
 import { queryClient } from "../../../main"
 
-function AccordionLabel({ user_name, phone, isActive, address }) {
+function AccordionLabel({ user_name, phone, activeItem, address }) {
   return (
     <Group wrap="nowrap">
       <div>
-        <Radio size="xs" defaultChecked={isActive} readOnly />
+        <Radio
+          size="xs"
+          defaultChecked={activeItem}
+          disabled={!activeItem}
+          readOnly
+        />
       </div>
       <div>
         <div className="flex items-center gap-x-4">
@@ -36,6 +41,7 @@ function AccordionLabel({ user_name, phone, isActive, address }) {
 const AccordionItem = ({ item, nextStep, activeItem, setPaymentData }) => {
   const [isEdit, setIsEdit] = useState(true)
 
+  // console.log(activeItem)
   const form = useForm({
     initialValues: {
       user_name: item?.user_name,
@@ -88,14 +94,26 @@ const AccordionItem = ({ item, nextStep, activeItem, setPaymentData }) => {
       },
     })
 
+  const { mutate: updateAciveAddressMutate } = useMutation({
+    mutationKey: "updateActiveAddress",
+    mutationFn: updateActiveAddress,
+    onSuccess: () => {
+      queryClient.invalidateQueries("allMyAddresses")
+    },
+  })
+
   const handleUpdateAddress = (addressID, values) => {
     updateAddressMutate({ addressID, payload: values })
   }
 
   function handleDeliverClick() {
+    updateAciveAddressMutate(item._id)
+
     setPaymentData((prev) => ({
       ...prev,
       shipping_address: getAddressString(item),
+      shipping_to_user: item?.user_name,
+      shipping_user_phone: item?.phone,
     }))
 
     nextStep()
@@ -105,7 +123,6 @@ const AccordionItem = ({ item, nextStep, activeItem, setPaymentData }) => {
       <Accordion.Control onClick={handleCancelEdit}>
         <AccordionLabel
           {...item}
-          isActive={item._id == activeItem}
           address={getAddressString(item)}
           activeItem={activeItem}
         />

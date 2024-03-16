@@ -7,6 +7,7 @@ import {
   View,
 } from "@react-pdf/renderer"
 import InvoicePdfTableSection from "./InvoicePdfTableSection"
+import moment from "moment"
 // import PaymentDetails from "./InvoicePdfSection"
 
 /** PDF Document Styling */
@@ -37,9 +38,10 @@ const style = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     flexWrap: "wrap",
-    rowGap: "4px",
+    rowGap: "2px",
     marginBottom: "10px",
-    padding: "10px",
+    padding: "2px 4px 10px 4px",
+
     borderBottom: "1px solid rgb(230, 230, 230)",
   },
 
@@ -93,7 +95,10 @@ const style = StyleSheet.create({
   },
 })
 
-const InvoicePDF = () => {
+const generateGSTIN = () =>
+  `${Math.floor(10 + Math.random() * 90)}${Array.from({ length: 10 }, () => String.fromCharCode(65 + Math.random() * 26)).join("")}${Math.floor(1000 + Math.random() * 9000)}Z${Math.floor(1 + Math.random() * 9)}`
+
+const InvoicePDF = ({ data }) => {
   return (
     <Document>
       <Page size={"A4"} style={style.page}>
@@ -104,19 +109,25 @@ const InvoicePDF = () => {
         <View style={style.addressesContainer}>
           <View style={style.addressesSection}>
             <Text>
-              Order Id: <Text style={style.fontBold}>OD429468363371391100</Text>
+              Order Id: <Text style={style.fontBold}>{data?.order?._id}</Text>
             </Text>
-            <Text>Order Date: 21-10-2023, 12:28 AM</Text>
+            <Text>
+              Order Date:{" "}
+              {moment(data?.order?.created_at).format("DD-MM-YYYY, hh:mm A")}
+            </Text>
           </View>
           <View style={[style.hBorder, style.addressesSection]}>
             <Text>
-              Invoice No: <Text style={style.fontBold}>FAKOJ82400009919</Text>
+              Invoice No:{" "}
+              <Text style={style.fontBold}>
+                invoice#
+                {moment().format("YYYYMMDDHHmm")}
+              </Text>
             </Text>
-            <Text>Invoice Date: 21-10-2023, 06:44 AM</Text>
+            <Text>Invoice Date: {moment().format("DD-MM-YYYY, hh:mm A")}</Text>
           </View>
           <View style={style.addressesSection}>
-            <Text> GSTIN: 36ABBCS9028B1ZI</Text>
-            <Text> PAN: ABBCS9028B</Text>
+            <Text> GSTIN: {generateGSTIN()}</Text>
           </View>
         </View>
 
@@ -125,25 +136,24 @@ const InvoicePDF = () => {
           <View style={style.paymentAddressDetailSec}>
             <Text style={style.fontBold}>Sold By</Text>
             <Text>
-              SRI SAMBRAMA 99 HEALTH CARE, 1-6-46 3a indira nagar colony, ,
-              RANGAREDDY - 500060{" "}
+              {data?.product?.seller}, {data?.product?.seller_address}
             </Text>
           </View>
 
           <View style={style.paymentAddressDetailSec}>
             <Text style={style.fontBold}>Shipping ADDRESS</Text>
-            <Text>Nishant Vilas Argade</Text>
+            <Text>{data?.order?.shipping_to_user}</Text>
             <Text>
-              Office No: 520, Amanora chamber, Hadapsar, Amanora Mall, Amanora
-              chamber. Pune 411028 Maharashtra Phone: xxxxxxxxxx
+              {data?.order?.shipping_address}, Phone:{" "}
+              {data?.order?.shipping_user_phone}
             </Text>
           </View>
           <View style={style.paymentAddressDetailSec}>
             <Text style={style.fontBold}>Billing Address</Text>
-            <Text>Nishant Vilas Argade</Text>
+            <Text>{data?.order?.billing_user}</Text>
             <Text>
-              Office No: 520, Amanora chamber, Hadapsar, Amanora Mall, Amanora
-              chamber. Pune 411028 Maharashtra Phone: xxxxxxxxxx
+              {data?.order?.shipping_address}, Phone:{" "}
+              {data?.order?.shipping_user_phone}
             </Text>
           </View>
         </View>
@@ -156,41 +166,44 @@ const InvoicePDF = () => {
             { label: "Qty", value: "qty" },
             { label: "Gross Amount", value: "gross" },
             { label: "Discount", value: "discount" },
-            { label: "Taxable Value", value: "taxable" },
-            { label: "IGST", value: "igst" },
             { label: "Total", value: "total" },
           ]}
           tableBody={[
             {
-              product:
-                "ALLEN A84 Lipoma Drops 30 | allen lipoma 1 | IMEI/SrNo: [[]] HSN: 3004 | IGST: 12%",
-              description: "HSN: 3004 | IGST: 12%",
-              qty: 3,
-              gross: 432.0,
-              discount: -0.0,
-              taxable: 385.71,
-              igst: 46.29,
-              total: 432.0,
+              product: data?.product?.name,
+              description: data?.product?.description,
+              qty: data?.product?.quantity,
+              gross: data?.product?.price * data?.product?.quantity,
+              discount: `- ${data?.product?.discount * data?.product?.quantity}`,
+              total:
+                (data?.product?.price - data?.product?.discount) *
+                data?.product?.quantity,
             },
             {
               product: " ",
               description: "Shipping and Handling Charges",
-              qty: 3,
-              gross: 0.0,
+              qty: data?.product?.quantity,
+              gross: data?.order?.shipping_charges,
               discount: 0,
-              taxable: 0.0,
-              igst: 0.0,
-              total: 0.0,
+              total: data?.order?.shipping_charges * data?.product?.quantity,
+            },
+            {
+              product: " ",
+              description: "Packging Charges",
+              qty: data?.product?.quantity,
+              gross: data?.order?.packing_charges,
+              discount: 0,
+              total: data?.order?.packing_charges,
             },
           ]}
+          data={data}
         />
 
         {/** Seller Info */}
         <View style={style.sellerInfoContainer}>
           <Text style={style.fontBold}>Seller Registered Address:</Text>
           <Text>
-            SRI SAMBRAMA 99 HEALTH CARE, SRI SAMBRAMA 99 HEALTH CARE,
-            Saroornagar, Hyderabad - 500060. Declaration
+            {data?.product?.seller}, {data?.product?.seller_address}
           </Text>
           <Text style={style.fontBold}>Declaration</Text>
           <Text>
@@ -204,9 +217,7 @@ const InvoicePDF = () => {
           <Image style={style.logo} src={"/flipkart-logo.png"} />
           <View>
             <Text>Ordered Through</Text>
-            <Text style={style.orderThroughName}>
-              SRI SAMBRAMA 99 HEALTH CARE
-            </Text>
+            <Text style={style.orderThroughName}>Flip2kart</Text>
           </View>
         </View>
       </Page>

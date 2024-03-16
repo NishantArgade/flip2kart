@@ -4,7 +4,16 @@ import ProductCard from "./components/ProductCard"
 import SearchBar from "./components/SearchBar"
 import Skeleton from "react-loading-skeleton"
 
-const OrderList = ({ setIsOpenSidebar, myOrders }) => {
+const OrderList = ({ setIsOpenSidebar, orders, isLoading }) => {
+  console.log(orders)
+
+  if (orders?.length === 0)
+    return (
+      <div className="flex h-80 items-center justify-center">
+        <h1 className="text-2xl text-gray-300">No Orders Found</h1>
+      </div>
+    )
+
   return (
     <div>
       {/** SearchBar */}
@@ -24,10 +33,16 @@ const OrderList = ({ setIsOpenSidebar, myOrders }) => {
       </div>
 
       <div>
-        {true
-          ? myOrders.map((product) => (
-              <ProductCard key={product?.id} product={product} />
-            ))
+        {!isLoading
+          ? orders.map((order) =>
+              order?.products?.map((product) => (
+                <ProductCard
+                  key={product?.id}
+                  product={product}
+                  orderID={order._id}
+                />
+              ))
+            )
           : Array.from({ length: 3 }).map((item, i) => (
               <div className="shadow-m  my-8 h-24 border-2 p-4" key={i}>
                 <Skeleton className="my-2" height={16} />

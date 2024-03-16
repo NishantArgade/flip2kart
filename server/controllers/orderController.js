@@ -5,7 +5,7 @@ import crypto from "crypto";
 
 export const myOrders = expressAsyncHandler(async (req, res, next) => {
   const userID = req.user._id;
-  const orders = await Order.find({ user_id: userID });
+  const orders = await Order.find({ billing_user_id: userID });
 
   res.status(200).json({
     status: "success",
@@ -15,15 +15,19 @@ export const myOrders = expressAsyncHandler(async (req, res, next) => {
 });
 
 export const orderDetail = expressAsyncHandler(async (req, res, next) => {
-  const orderID = req.params.orderID;
+  const orderID = req.query.order;
+  const productID = req.query.product;
+
   const order = await Order.findById(orderID);
+  const product = order.products.find((p) => p.product_id.equals(productID));
+
   res.status(200).json({
     status: "success",
     message: "Fetch order detail successfully",
     order,
+    product,
   });
 });
-
 export const createOrder = expressAsyncHandler(async (req, res, next) => {
   const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,

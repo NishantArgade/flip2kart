@@ -295,6 +295,17 @@ export function calculateDiscountAmount(originalPrice, discountRate) {
   return discountAmount;
 }
 
+function calculateDiscountedPrice(originalPrice, discountRate) {
+  discountRate = discountRate / 100;
+
+  if (discountRate === 1) {
+    return 0;
+  }
+  const discountedPrice = originalPrice * (1 - discountRate);
+  let price = Math.floor(discountedPrice / 100) * 100 - 1;
+  return price;
+}
+
 export const getCartProducts = expressAsyncHandler(async (req, res, next) => {
   const data = await User.findById(req.user._id)
     .populate("cart.product")
@@ -312,15 +323,22 @@ export const getCartProducts = expressAsyncHandler(async (req, res, next) => {
     totalDiscount +=
       calculateDiscountAmount(item.product.price, item.product.discount) *
       item.quantity;
-    totalDeliveryCharges +=
-      (item.product.price <= 2000 ? 40 : 70) * item.quantity;
+
+    const discountPrice = calculateDiscountedPrice(
+      item.product.price,
+      item.product?.discount
+    );
+
+    totalDeliveryCharges += (discountPrice <= 2000 ? 40 : 70) * item.quantity;
   });
 
-  finalTotalAmount = totalPrice + packagingFee - totalDiscount;
+  finalTotalAmount = totalPrice - totalDiscount;
   const isDeliveryFree = finalTotalAmount > 200;
   finalTotalAmount += !isDeliveryFree ? totalDeliveryCharges : 0;
 
   if (finalTotalAmount >= 10000) packagingFee = 59;
+
+  finalTotalAmount += packagingFee;
 
   res.status(200).json({
     status: "success",

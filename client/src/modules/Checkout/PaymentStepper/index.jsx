@@ -46,10 +46,13 @@ const PaymentStepper = ({ cartData, active, setActive }) => {
     }
   }, [])
 
+  console.log(user)
+
   useEffect(() => {
     setPaymentData((prev) => ({
       ...prev,
-      user: user?.first_name + " " + user?.last_name,
+      billing_user: user?.first_name + " " + user?.last_name,
+      billing_user_id: user?._id,
     }))
   }, [user])
 

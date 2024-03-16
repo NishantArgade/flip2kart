@@ -46,7 +46,9 @@ export default function PaymentStep({
               method: data.method,
               date: new Date(),
             },
-            shipping_charges: cartData?.totalDeliveryCharges,
+            shipping_charges: cartData?.isDeliveryFree
+              ? 0
+              : cartData?.totalDeliveryCharges,
             packing_charges: cartData?.packagingFee,
             total_price: cartData?.finalTotalAmount,
           }

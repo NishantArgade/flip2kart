@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query"
 import React from "react"
 import { IoIosAdd } from "react-icons/io"
 import { queryClient } from "../../../main"
-import { addAddress } from "../../../api/addressApi"
+import { addAddress, updateActiveAddress } from "../../../api/addressApi"
 import { getAddressString } from "../../../utils/helper"
 
 const AddAddressAccordionItem = ({
@@ -44,11 +44,29 @@ const AddAddressAccordionItem = ({
       },
     },
   })
+  const { mutate: updateAciveAddressMutate } = useMutation({
+    mutationKey: "updateActiveAddress",
+    mutationFn: updateActiveAddress,
+    onSuccess: () => {
+      queryClient.invalidateQueries("allMyAddresses")
+    },
+  })
+
   const { mutate: addAddressMutate, isPending: addAddressIsPending } =
     useMutation({
       mutationKey: "addAddress",
       mutationFn: addAddress,
-      onSuccess: () => {
+      onSuccess: (data) => {
+        setPaymentData((prev) => ({
+          ...prev,
+          shipping_address: getAddressString({ ...form.values }),
+          shipping_to_user: form?.user_name,
+          shipping_user_phone: form?.phone,
+        }))
+
+        updateAciveAddressMutate(data?.address?._id)
+
+        nextStep()
         setActiveItem(null)
         form.reset()
         queryClient.invalidateQueries("allMyAddresses")
@@ -63,14 +81,7 @@ const AddAddressAccordionItem = ({
     setActiveItem(null)
     form.reset()
   }
-  function handleClickContinue() {
-    setPaymentData((prev) => ({
-      ...prev,
-      shipping_address: getAddressString({ ...form.values }),
-    }))
 
-    nextStep()
-  }
   return (
     <Accordion.Item value={"add-new-address"}>
       <Accordion.Control>
@@ -147,7 +158,6 @@ const AddAddressAccordionItem = ({
                 className="text-xm mt-4  rounded-sm bg-[#FB641B] px-6 py-3 font-medium uppercase text-white shadow-md "
                 type="submit"
                 disabled={addAddressIsPending}
-                onClick={handleClickContinue}
               >
                 Save and delivery here
               </button>

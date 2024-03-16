@@ -21,7 +21,10 @@ const MyCart = () => {
         <div className="container mx-auto mb-5 grid grid-cols-12 gap-x-3  px-2 py-1  md:relative">
           {/* Add to cart Product Listing */}
           <section className="col-span-12 md:col-span-8">
-            <ProductList cartData={data?.cart} />
+            <ProductList
+              cartData={data?.cart}
+              isFreeDelivery={data?.isDeliveryFree}
+            />
           </section>
 
           {/*Product Amount info */}

@@ -43,11 +43,11 @@ const AmountDetails = ({ cartData }) => {
           <div className="flex flex-col items-start justify-start border-y-2 border-dashed px-4 py-5 ">
             <div className="flex w-full items-center justify-between text-[0.95rem] font-medium">
               <p>Total Amount</p>
-              <p>₹{cartData.finalTotalAmount.toLocaleString("en-IN")}</p>
+              <p>₹{cartData?.finalTotalAmount.toLocaleString("en-IN")}</p>
             </div>
           </div>
           <p className="p-4 text-xs font-semibold tracking-wide text-green-600 ">
-            You will save ₹{cartData.totalDiscount.toLocaleString("en-IN")} on
+            You will save ₹{cartData?.totalDiscount.toLocaleString("en-IN")} on
             this order
           </p>
         </div>

@@ -2,43 +2,72 @@
 import moment from "moment"
 import { Link } from "react-router-dom"
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, orderID }) => {
+  function getDeliveryStatus(order_status) {
+    let latest_status = order_status[0]
+    order_status.forEach((s) => {
+      if (s.date > latest_status.date) {
+        latest_status = s
+      }
+    })
+    return `${latest_status.status} on ${moment(latest_status.date).format("MMM DD, YYYY")}`
+  }
+  function getDeliveryStatusMessage(order_status) {
+    let latest_status = order_status[0]
+    order_status.forEach((s) => {
+      if (s.date > latest_status.date) {
+        latest_status = s
+      }
+    })
+    switch (latest_status.status) {
+      case "Order Confirmed":
+        return "Your order for this item has been confirmed"
+      case "Shipped":
+        return "Your item has been shipped"
+      case "Out for delivery":
+        return "Your item has been Out for delivery"
+      case "Delivered":
+        return "Your item has been deliverd"
+    }
+  }
+
   return (
     <Link
-      to={`/order-detail/${product?.id}`}
-      key={product?.id}
-      className="flex flex-col items-start justify-between gap-2 gap-x-16 border-b-[1.5px] px-4 py-5  hover:shadow-md lg:flex-row"
+      to={`/order-detail?order=${orderID}&product=${product?.product_id}`}
+      key={product?.product_id}
+      className="grid grid-cols-12 border-b-[1.5px] px-4 py-5  hover:shadow-md "
     >
-      <div className="flex items-start justify-start gap-x-3 md:flex-col md:gap-x-2 lg:flex-row ">
-        <div className="h-16 w-16 cursor-pointer rounded-sm border border-gray-200 p-1">
+      <div className="col-span-6 flex w-full gap-4">
+        <div className="h-24 w-24 cursor-pointer rounded-sm border border-gray-200 p-1">
           <img
-            src={product?.image}
+            src={product?.images[0].url}
             alt=""
             className="h-full w-full object-contain"
           />
         </div>
 
         <div className="w-full text-sm">
-          <p className="cursor-pointer text-gray-800">{product?.name}</p>
-          <p className="cursor-pointer text-xs text-gray-500">
+          <p className="line-clamp-1 cursor-pointer text-gray-800">
+            {product?.name}
+          </p>
+          <p className="line-clamp-2 cursor-pointer text-xs text-gray-500">
             {product?.description}
           </p>
         </div>
       </div>
-      <div className="mb-2  text-center text-sm md:mb-0">
-        ₹{product?.amount}
+      <div className="col-span-2 mb-2  text-center text-sm md:mb-0">
+        ₹{product?.price - product?.discount}
       </div>
-      <div>
+      <div className="col-span-4 ">
         <div className="flex items-center  justify-start gap-x-2">
           <div className="h-2 w-2 rounded-full bg-green-600"> </div>
           <p className="text-sm">
-            {" "}
-            Delivered on {moment(product?.deliveredDate).format("MM DD, YYYY")}
+            {getDeliveryStatus(product?.order_status)}
+            {/* Delivered on {moment(product?.deliveredDate).format("MM DD, YYYY")} */}
           </p>
         </div>
         <p className="text-xs text-gray-700">
-          Lorem ipsum dolor ctetur adipisicin ctetur adipisicinctetur
-          adipisicincteturg elit. Atque, dicta.
+          {getDeliveryStatusMessage(product?.order_status)}
         </p>
       </div>
     </Link>

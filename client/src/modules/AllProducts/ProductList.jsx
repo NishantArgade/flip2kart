@@ -80,7 +80,11 @@ const ProductCard = ({ product }) => {
           </div>
           <div className="mt-1 flex flex-wrap items-center justify-start gap-2 text-[0.8rem]  md:flex  md:text-[0.9rem]">
             <span className="font-bold">
-              ₹{calculateDiscountedPrice(product?.price, product?.discount)}
+              ₹
+              {calculateDiscountedPrice(
+                product?.price,
+                product?.discount
+              ).toLocaleString("en-IN")}
             </span>
             {product?.price && (
               <strike className="text-xs text-gray-700">

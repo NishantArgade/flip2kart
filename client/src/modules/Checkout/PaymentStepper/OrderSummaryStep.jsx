@@ -7,6 +7,10 @@ import CartProductCard from "../../../components/CartProductCard"
 import Spinner from "../../../components/Spinner"
 import { queryClient } from "../../../main"
 import { toast } from "../../../utils/toast"
+import {
+  calculateDiscountedPrice,
+  calculateDiscountAmount,
+} from "../../../utils/helper"
 
 const OrderSummaryStep = ({ nextStep, cart, setPaymentData }) => {
   const { mutate: removeProductMutate, isPending: removeProductIsPending } =
@@ -48,9 +52,10 @@ const OrderSummaryStep = ({ nextStep, cart, setPaymentData }) => {
       images: c.product.images,
       price: c.product.price,
       quantity: c.quantity,
-      discount: c.product.discount,
+      discount: calculateDiscountAmount(c.product.price, c.product.discount),
       seller: c.product.seller,
       seller_address: c.product.seller_address,
+      delivery_estimate_days: c.product.delivery_estimate_days,
     }))
 
     setPaymentData((prev) => ({

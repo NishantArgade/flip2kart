@@ -33,8 +33,7 @@ export function calculateDiscountedPrice(
   }
   const discountedPrice = originalPrice * (1 - discountRate)
   let price = Math.floor(discountedPrice / 100) * 100 - 1
-  price = price * quantity
-  return price.toLocaleString("en-IN")
+  return (price = price * quantity)
 }
 
 export const categoryPriceRanges = {
@@ -42,4 +41,18 @@ export const categoryPriceRanges = {
   clothes: { min: 300, max: 1000 },
   laptop: { min: 20000, max: 75000 },
   books: { min: 100, max: 1000 },
+}
+
+export function calculateDiscountAmount(originalPrice, discountRate) {
+  discountRate = discountRate / 100
+
+  if (discountRate === 1) {
+    return originalPrice
+  }
+
+  const discountedPrice = originalPrice * (1 - discountRate)
+  const price = Math.floor(discountedPrice / 100) * 100 - 1
+  const discountAmount = originalPrice - price
+
+  return discountAmount
 }

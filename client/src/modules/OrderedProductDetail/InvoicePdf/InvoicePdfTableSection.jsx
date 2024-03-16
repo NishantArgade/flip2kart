@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const InvoicePdfTableSection = ({ tableHeader, tableBody }) => {
+const InvoicePdfTableSection = ({ tableHeader, tableBody, data }) => {
   return (
     <View style={styles.table}>
       <View
@@ -96,8 +96,16 @@ const InvoicePdfTableSection = ({ tableHeader, tableBody }) => {
         </View>
       ))}
       <View style={styles.tableFooter}>
-        <Text style={styles.fontBold}>TOTAL QTY: 3</Text>
-        <Text style={styles.fontBold}>TOTAL PRICE: 432.00</Text>
+        <Text style={styles.fontBold}>
+          TOTAL QTY: {data?.product?.quantity}
+        </Text>
+        <Text style={styles.fontBold}>
+          TOTAL PRICE:{" "}
+          {(data?.product?.price - data?.product?.discount) *
+            data?.product?.quantity +
+            data?.order?.shipping_charges * data?.product?.quantity +
+            data?.order?.packing_charges}
+        </Text>
       </View>
     </View>
   )
