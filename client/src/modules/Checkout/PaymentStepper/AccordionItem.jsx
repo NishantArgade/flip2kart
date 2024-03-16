@@ -18,7 +18,7 @@ function AccordionLabel({ user_name, phone, isActive, address }) {
   return (
     <Group wrap="nowrap">
       <div>
-        <Radio size="xs" checked={isActive} />
+        <Radio size="xs" defaultChecked={isActive} readOnly />
       </div>
       <div>
         <div className="flex items-center gap-x-4">
@@ -33,7 +33,7 @@ function AccordionLabel({ user_name, phone, isActive, address }) {
   )
 }
 
-const AccordionItem = ({ item, nextStep, activeItem }) => {
+const AccordionItem = ({ item, nextStep, activeItem, setPaymentData }) => {
   const [isEdit, setIsEdit] = useState(true)
 
   const form = useForm({
@@ -92,6 +92,14 @@ const AccordionItem = ({ item, nextStep, activeItem }) => {
     updateAddressMutate({ addressID, payload: values })
   }
 
+  function handleDeliverClick() {
+    setPaymentData((prev) => ({
+      ...prev,
+      shipping_address: getAddressString(item),
+    }))
+
+    nextStep()
+  }
   return (
     <Accordion.Item value={item._id}>
       <Accordion.Control onClick={handleCancelEdit}>
@@ -108,7 +116,7 @@ const AccordionItem = ({ item, nextStep, activeItem }) => {
             <Text
               className="mt-2 w-fit cursor-pointer self-end bg-[#FB641B] px-10   py-3  text-white shadow-md"
               size="xs"
-              onClick={nextStep}
+              onClick={handleDeliverClick}
             >
               DELIVER HERE
             </Text>

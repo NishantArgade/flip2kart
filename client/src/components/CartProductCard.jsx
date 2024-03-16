@@ -57,6 +57,14 @@ const CartProductCard = ({
     updateAddToProductMutate({ product: product?._id, quantity: newQty })
   }
 
+  function handleQtyChange(e) {
+    setQty(e.target.value)
+
+    updateAddToProductMutate({
+      product: product?._id,
+      quantity: e.target.value,
+    })
+  }
   return (
     <div className="flex flex-col items-start justify-start gap-y-2 border-b-[1.5px] bg-white py-4">
       <div className="flex w-full flex-col items-start justify-between px-2 md:flex-row">
@@ -80,15 +88,15 @@ const CartProductCard = ({
               {product?.name}
             </Link>
 
-            <p className="my-3 flex flex-col items-start justify-start gap-x-2  text-xs text-gray-500 md:flex-row md:items-center">
+            <div className="my-3 flex flex-col items-start justify-start gap-x-2  text-xs text-gray-500 md:flex-row md:items-center">
               <p>
                 <span>Seller: </span>
                 {product?.seller}
               </p>
               <img src="/assured.png" className="mt-1 w-12 md:mt-0" alt="" />
-            </p>
+            </div>
 
-            <p className="mt-1 text-xs">
+            <div className="mt-1 text-xs">
               <span className="mr-2 text-[1rem] font-bold">
                 ₹
                 {calculateDiscountedPrice(
@@ -101,12 +109,12 @@ const CartProductCard = ({
                 ₹{product?.price * qty}
               </strike>
               <span className="text-green-600 ">{product?.discount}% off</span>
-            </p>
+            </div>
           </div>
         </div>
 
         {/* Delivery By Text Block*/}
-        <p className="ml-4 flex items-center gap-1 self-center pl-9 pt-2 text-xs md:ml-0 md:self-start md:p-0 ">
+        <div className="ml-4 flex items-center gap-1 self-center pl-9 pt-2 text-xs md:ml-0 md:self-start md:p-0 ">
           Delivery by {getDiliveryStatusText(product?.delivery_estimate_days)}
           <div>
             <span> | </span>
@@ -115,7 +123,7 @@ const CartProductCard = ({
               ₹{(product?.price <= 2000 ? 40 : 70) * qty}
             </span>
           </div>
-        </p>
+        </div>
       </div>
 
       <div className="mt-4 flex items-center justify-start gap-x-6 px-4 text-sm ">
@@ -134,6 +142,7 @@ const CartProductCard = ({
             type="text"
             className="w-10 border-2 px-1 py-[3px] text-center text-xs outline-none"
             value={qty}
+            onChange={handleQtyChange}
             disabled={updateAddToCartIsPending}
           />
           <button
@@ -150,7 +159,7 @@ const CartProductCard = ({
           removeProductMutate={removeProductMutate}
           productID={product?._id}
         >
-          <button className="font-medium  hover:text-blue-500">REMOVE</button>
+          <span>REMOVE</span>
         </DeleteConfirmModal>
       </div>
     </div>

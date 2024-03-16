@@ -42,7 +42,9 @@ export default function DeleteConfirmModal({
         </div>
       </Modal>
 
-      <button onClick={open}>{children}</button>
+      <button className="font-medium  hover:text-blue-500" onClick={open}>
+        {children}
+      </button>
     </>
   )
 }

@@ -6,12 +6,18 @@ import {
   deleteOrder,
   createOrder,
   allOrders,
+  validateOrder,
+  saveOrder,
 } from "../controllers/orderController.js";
 import { protect, restrict } from "../middlewares/auth.js";
 
 const router = Router();
 
 router.route("/create-order").post(protect, createOrder);
+
+router.route("/save-order").post(protect, saveOrder);
+
+router.route("/validate-order").post(protect, validateOrder);
 
 router.route("/order-detail/:orderID").get(protect, orderDetail);
 

@@ -5,8 +5,13 @@ import React from "react"
 import { IoIosAdd } from "react-icons/io"
 import { queryClient } from "../../../main"
 import { addAddress } from "../../../api/addressApi"
+import { getAddressString } from "../../../utils/helper"
 
-const AddAddressAccordionItem = ({ setActiveItem }) => {
+const AddAddressAccordionItem = ({
+  setActiveItem,
+  nextStep,
+  setPaymentData,
+}) => {
   const form = useForm({
     initialValues: {
       user_name: "",
@@ -57,6 +62,14 @@ const AddAddressAccordionItem = ({ setActiveItem }) => {
   function handleCancel() {
     setActiveItem(null)
     form.reset()
+  }
+  function handleClickContinue() {
+    setPaymentData((prev) => ({
+      ...prev,
+      shipping_address: getAddressString({ ...form.values }),
+    }))
+
+    nextStep()
   }
   return (
     <Accordion.Item value={"add-new-address"}>
@@ -134,6 +147,7 @@ const AddAddressAccordionItem = ({ setActiveItem }) => {
                 className="text-xm mt-4  rounded-sm bg-[#FB641B] px-6 py-3 font-medium uppercase text-white shadow-md "
                 type="submit"
                 disabled={addAddressIsPending}
+                onClick={handleClickContinue}
               >
                 Save and delivery here
               </button>

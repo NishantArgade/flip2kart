@@ -9,8 +9,7 @@ import { persistor } from "../../../store"
 import { toast } from "../../../utils/toast"
 import { logout } from "../../../api/userApi"
 
-const LoginInfoStep = ({ nextStep }) => {
-  const user = useSelector((state) => state.user.data)
+const LoginInfoStep = ({ nextStep, user }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -29,6 +28,9 @@ const LoginInfoStep = ({ nextStep }) => {
     }
   }
 
+  function handleContinue() {
+    nextStep()
+  }
   return (
     <div className="flex flex-col items-center justify-center gap-y-10 border-t-[1px]  py-2 pt-6">
       <div>
@@ -50,7 +52,7 @@ const LoginInfoStep = ({ nextStep }) => {
               Logout & Sign in to another account
             </button>
             <button
-              onClick={nextStep}
+              onClick={handleContinue}
               className="mt-2 cursor-pointer rounded-sm bg-[#FB641B]  px-4 py-3 text-white shadow-md   lg:w-64 lg:px-10"
             >
               Continue Checkout

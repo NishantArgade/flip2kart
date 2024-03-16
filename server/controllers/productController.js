@@ -316,11 +316,11 @@ export const getCartProducts = expressAsyncHandler(async (req, res, next) => {
       (item.product.price <= 2000 ? 40 : 70) * item.quantity;
   });
 
-  if (totalPrice >= 10000) packagingFee = 59;
-
   finalTotalAmount = totalPrice + packagingFee - totalDiscount;
   const isDeliveryFree = finalTotalAmount > 200;
   finalTotalAmount += !isDeliveryFree ? totalDeliveryCharges : 0;
+
+  if (finalTotalAmount >= 10000) packagingFee = 59;
 
   res.status(200).json({
     status: "success",

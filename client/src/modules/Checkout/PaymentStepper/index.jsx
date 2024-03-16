@@ -5,9 +5,11 @@ import DeliveryAddressStep from "./DeliveryAddressStep.jsx"
 import LoginInfoStep from "./LoginInfoStep.jsx"
 import OrderSummaryStep from "./OrderSummaryStep.jsx"
 import PaymentStep from "./PaymentStep.jsx"
+import { useSelector } from "react-redux"
 
-const PaymentStepper = ({ cartData }) => {
-  const [active, setActive] = useState(1)
+const PaymentStepper = ({ cartData, active, setActive }) => {
+  const [paymentData, setPaymentData] = useState({})
+  const user = useSelector((state) => state.user.data)
 
   const nextStep = () =>
     setActive((current) => (current < 4 ? current + 1 : current))
@@ -44,6 +46,13 @@ const PaymentStepper = ({ cartData }) => {
     }
   }, [])
 
+  useEffect(() => {
+    setPaymentData((prev) => ({
+      ...prev,
+      user: user?.first_name + " " + user?.last_name,
+    }))
+  }, [user])
+
   return (
     <Stepper
       active={active}
@@ -53,19 +62,32 @@ const PaymentStepper = ({ cartData }) => {
       styles={stepperStyleOption}
     >
       <Stepper.Step label="LOGIN INFO">
-        <LoginInfoStep nextStep={nextStep} />
+        <LoginInfoStep nextStep={nextStep} user={user} />
       </Stepper.Step>
       <Stepper.Step label="DELIVERY ADDRESS">
-        <DeliveryAddressStep prevStep={prevStep} nextStep={nextStep} />
+        <DeliveryAddressStep
+          prevStep={prevStep}
+          nextStep={nextStep}
+          setPaymentData={setPaymentData}
+        />
       </Stepper.Step>
       <Stepper.Step label="ORDER SUMMARY">
-        <OrderSummaryStep nextStep={nextStep} cart={cartData?.cart} />
+        <OrderSummaryStep
+          nextStep={nextStep}
+          cart={cartData?.cart}
+          setPaymentData={setPaymentData}
+        />
       </Stepper.Step>
-      <Stepper.Step label="PAYMENT OPTIONS">
-        <PaymentStep nextStep={nextStep} />
+      <Stepper.Step label="PAYMENT">
+        <PaymentStep
+          nextStep={nextStep}
+          cartData={cartData}
+          paymentData={paymentData}
+          setPaymentData={setPaymentData}
+        />
       </Stepper.Step>
       <Stepper.Completed>
-        <CompleteStep />
+        <CompleteStep paymentData={paymentData} />
       </Stepper.Completed>
     </Stepper>
   )

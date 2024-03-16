@@ -1,75 +1,106 @@
 import { Accordion, Avatar, Group, Text } from "@mantine/core"
 import Spinner from "../../../components/Spinner"
+import { createOrder, saveOrder, validateOrder } from "../../../api/orderApi"
+import { toast } from "../../../utils/toast"
+import { useState } from "react"
+import { useSelector } from "react-redux"
 
-const charactersList = [
-  {
-    id: "upi",
-    image: "/phonepe.svg",
-    label: "UPI",
-    description: "asfsd",
-  },
+export default function PaymentStep({
+  nextStep,
+  cartData,
+  paymentData,
+  setPaymentData,
+}) {
+  const [loading, setLoading] = useState(false)
+  console.log(cartData)
+  const user = useSelector((state) => state.user.data)
 
-  {
-    id: "wallet",
-    image: "/upi.svg",
-    label: "Wallets",
-    description: "Overweight, lazy, and often ignorant",
-  },
-  {
-    id: "creditCard",
-    image: "/wallet.png",
-    label: "Credit / Debit / ATM Card",
-    description: "Overweight, lazy, and often ignorant",
-  },
-  {
-    id: "cod",
-    image: "/cash-on-delivery.png",
-    label: "Cash on Delivery",
-    description: "Overweight, lazy, and often ignorant",
-  },
-]
+  async function handleCreateOrder(e) {
+    const amount = cartData?.finalTotalAmount * 100
+    const currency = "INR"
+    const receipt = "TXN" + Date.now()
 
-function AccordionLabel({ label, phone, image, description }) {
-  return (
-    <Group wrap="nowrap">
-      <Avatar src={image} radius="xl" size="sm" />
-      <div>
-        <div className="flex items-center gap-x-4">
-          <Text size="sm">{label}</Text>
-          <Text size="sm">{phone}</Text>
-        </div>
-        <Text className="mt-1 text-xs" size="sm" c="dimmed" fw={400}>
-          {description}
-        </Text>
-      </div>
-    </Group>
-  )
-}
+    setLoading(true)
+    const order = await createOrder({
+      amount,
+      currency,
+      receipt,
+    })
+    const options = {
+      key: import.meta.env.VITE_APP_RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+      amount: amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: currency,
+      name: user?.first_name + " " + user?.last_name,
+      description: "Test Transaction",
+      image: "/avatar-placeholder.png",
+      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      handler: async function (response) {
+        console.log(response)
+        try {
+          const data = await validateOrder(response)
 
-export default function PaymentStep({ nextStep }) {
-  const items = charactersList.map((item) => (
-    <Accordion.Item value={item.id} key={item.label}>
-      <Accordion.Control>
-        <AccordionLabel {...item} />
-      </Accordion.Control>
-      <Accordion.Panel>
-        <Text
-          onClick={nextStep}
-          className="mt-2 w-fit cursor-pointer self-end bg-[#FB641B] px-10   py-3  text-white shadow-md"
-          size="xs"
-        >
-          PAY
-        </Text>
-      </Accordion.Panel>
-    </Accordion.Item>
-  ))
+          const payload = {
+            payment: {
+              transaction_id: data.paymentId,
+              status: "Success",
+              method: data.method,
+              date: new Date(),
+            },
+            shipping_charges: cartData?.totalDeliveryCharges,
+            packing_charges: cartData?.packagingFee,
+            total_price: cartData?.finalTotalAmount,
+          }
+
+          setPaymentData((prev) => ({
+            ...prev,
+            ...payload,
+          }))
+
+          await saveOrder({ ...paymentData, ...payload })
+
+          nextStep()
+        } catch (error) {
+          toast.error(error)
+        } finally {
+          setLoading(false)
+        }
+      },
+      prefill: {
+        name: user?.first_name + " " + user?.last_name,
+        email: user?.email,
+        contact: user?.mobile,
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    }
+    const rzp1 = new window.Razorpay(options)
+    rzp1.on("payment.failed", function (response) {
+      setLoading(false)
+      toast.error(response.error.description)
+    })
+
+    rzp1.open()
+    e.preventDefault()
+    setLoading(false)
+  }
 
   return (
     <>
-      {true ? (
-        <Accordion chevronPosition="right" variant="contained">
-          {items}
-        </Accordion>
+      {!loading ? (
+        <div className="h-screen w-full ">
+          <div className="flex h-1/2 items-center justify-center">
+            <button
+              className="rounded-sm  bg-blue-500 px-8 py-2 text-base uppercase text-white shadow-md hover:bg-blue-600"
+              onClick={handleCreateOrder}
+            >
+              Pay Now
+            </button>
+          </div>
+        </div>
       ) : (
         <div className="flex h-[25rem] items-center justify-center">
           <Spinner />

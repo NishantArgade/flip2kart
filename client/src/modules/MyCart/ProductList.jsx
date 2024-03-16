@@ -68,9 +68,7 @@ const ProductList = ({ cartData }) => {
             <p className="text-gray-500">{getAddressString(activeAddress)}</p>
           </div>
           <ChangeAddressModal data={data}>
-            <button className="rounded-sm border-2 bg-white  px-4 py-2 font-semibold text-blue-500 shadow-sm  hover:shadow-md">
-              Change
-            </button>
+            <span>Change</span>
           </ChangeAddressModal>
         </div>
       )}

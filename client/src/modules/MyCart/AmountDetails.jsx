@@ -2,11 +2,6 @@ import { AiFillSafetyCertificate } from "react-icons/ai"
 import { Link } from "react-router-dom"
 
 const AmountDetails = ({ cartData }) => {
-  // totalPrice,
-  // totalDiscount,
-  // totalDeliveryCharges,
-  // packagingFee,
-  // finalTotalAmount,
   return (
     <div className="">
       <div className="flex  flex-col  bg-white  pb-2 shadow-md">

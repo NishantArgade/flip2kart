@@ -42,7 +42,8 @@ export default function ChangeAddressModal({ children, data }) {
             >
               <Radio
                 size="xs"
-                checked={item.is_active}
+                defaultChecked={item.is_active}
+                readOnly
                 disabled={updateActiveAddressIsPending}
               />
               <div>
@@ -56,7 +57,12 @@ export default function ChangeAddressModal({ children, data }) {
         </div>
       </Modal>
 
-      <button onClick={open}>{children}</button>
+      <button
+        onClick={open}
+        className="rounded-sm border-2 bg-white  px-4 py-2 font-semibold text-blue-500 shadow-sm  hover:shadow-md"
+      >
+        {children}
+      </button>
     </>
   )
 }

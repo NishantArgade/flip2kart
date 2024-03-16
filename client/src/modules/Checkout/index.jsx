@@ -7,12 +7,12 @@ import { useQuery } from "@tanstack/react-query"
 import { getCartProducts } from "../../api/cartApi"
 
 const Checkout = () => {
+  const [active, setActive] = useState(1)
+
   const { data: cartData, isLoading } = useQuery({
     queryKey: ["cartProducts"],
     queryFn: getCartProducts,
   })
-
-  console.log(cartData)
 
   if (isLoading) {
     return (
@@ -48,14 +48,22 @@ const Checkout = () => {
   return (
     <div className="container mx-auto  mb-5 grid min-h-screen grid-cols-12 gap-x-3 px-2 py-1 ">
       {/* Payment Step */}
-      <section className="col-span-12 bg-white p-4  shadow-md md:col-span-8">
-        <PaymentStepper cartData={cartData} />
+      <section
+        className={`${active === 4 ? "md:col-span-12" : "md:col-span-8"} col-span-12 bg-white p-4  shadow-md `}
+      >
+        <PaymentStepper
+          cartData={cartData}
+          active={active}
+          setActive={setActive}
+        />
       </section>
 
       {/* Amount info */}
-      <section className="sticky  right-0 top-[4.4rem] col-span-12 h-fit text-sm md:col-span-4">
-        <AmountInfo cartData={cartData} />
-      </section>
+      {active !== 4 && (
+        <section className="sticky  right-0 top-[4.4rem] col-span-12 h-fit text-sm md:col-span-4">
+          <AmountInfo cartData={cartData} />
+        </section>
+      )}
     </div>
   )
 }

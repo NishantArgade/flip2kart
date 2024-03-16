@@ -47,7 +47,7 @@ const PaymentStatusSchema = new mongoose.Schema({
 });
 
 const OrderSchema = new mongoose.Schema({
-  user_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+  user: String,
   payment: {
     transaction_id: String,
     status: {
@@ -57,7 +57,6 @@ const OrderSchema = new mongoose.Schema({
     },
     method: String,
     date: { type: Date, default: Date.now },
-    billing_user_address: String,
   },
   products: [
     {
@@ -78,8 +77,9 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     enum: ["Order Confirmed", "Shipped", "Out for delivery", "Delivered"],
     default: "Order Confirmed",
+    required: true,
   },
-  shipping_address: { type: String, required: true },
+  shipping_address: String,
   shipping_charges: Number,
   packing_charges: Number,
   total_price: Number,

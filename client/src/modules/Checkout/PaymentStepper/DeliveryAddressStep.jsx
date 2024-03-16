@@ -6,7 +6,11 @@ import AddAddressAccordionItem from "./AddAddressAccordionItem"
 import { getAllMyAddresses } from "../../../api/addressApi"
 import { useQuery } from "@tanstack/react-query"
 
-export default function DeliveryAddressStep({ prevStep, nextStep }) {
+export default function DeliveryAddressStep({
+  prevStep,
+  nextStep,
+  setPaymentData,
+}) {
   const [activeItem, setActiveItem] = useState("0")
   const { data, isLoading } = useQuery({
     queryKey: ["allMyAddresses"],
@@ -39,9 +43,14 @@ export default function DeliveryAddressStep({ prevStep, nextStep }) {
               nextStep={nextStep}
               activeItem={activeItem}
               setActiveItem={setActiveItem}
+              setPaymentData={setPaymentData}
             />
           ))}
-          <AddAddressAccordionItem setActiveItem={setActiveItem} />
+          <AddAddressAccordionItem
+            setActiveItem={setActiveItem}
+            nextStep={nextStep}
+            setPaymentData={setPaymentData}
+          />
         </Accordion>
       ) : (
         <div className="flex h-[25rem] items-center justify-center">

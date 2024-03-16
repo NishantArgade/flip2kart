@@ -8,7 +8,7 @@ import Spinner from "../../../components/Spinner"
 import { queryClient } from "../../../main"
 import { toast } from "../../../utils/toast"
 
-const OrderSummaryStep = ({ nextStep, cart }) => {
+const OrderSummaryStep = ({ nextStep, cart, setPaymentData }) => {
   const { mutate: removeProductMutate, isPending: removeProductIsPending } =
     useMutation({
       mutationKey: "removeProductFromCart",
@@ -38,7 +38,27 @@ const OrderSummaryStep = ({ nextStep, cart }) => {
       )
     },
   })
+  console.log(cart)
 
+  function handleClickContinue() {
+    const products = cart.map((c) => ({
+      product_id: c.product._id,
+      name: c.product.name,
+      description: c.product.description,
+      images: c.product.images,
+      price: c.product.price,
+      quantity: c.quantity,
+      discount: c.product.discount,
+      seller: c.product.seller,
+      seller_address: c.product.seller_address,
+    }))
+
+    setPaymentData((prev) => ({
+      ...prev,
+      products,
+    }))
+    nextStep()
+  }
   return (
     <div>
       <div className="border-t-[1px]">
@@ -58,7 +78,7 @@ const OrderSummaryStep = ({ nextStep, cart }) => {
         <button
           className="mt-2 w-fit cursor-pointer self-end bg-[#FB641B] px-10   py-3  text-white shadow-md"
           size="xs"
-          onClick={nextStep}
+          onClick={handleClickContinue}
         >
           CONTINUE
         </button>
