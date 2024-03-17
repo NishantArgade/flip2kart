@@ -1,6 +1,6 @@
 import { Menu, Modal } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { FaEdit } from "react-icons/fa"
 import { FcProcess } from "react-icons/fc"
 import { TbTruckDelivery } from "react-icons/tb"
@@ -8,14 +8,26 @@ import { VscError } from "react-icons/vsc"
 import { GiConfirmed } from "react-icons/gi"
 import { FaBuildingCircleArrowRight } from "react-icons/fa6"
 import { IoMdDoneAll } from "react-icons/io"
+import moment from "moment"
 
-function EditTransactionModal() {
+function getLastDeliveryStatus(order_status) {
+  let latest_status = order_status[0]
+  order_status.forEach((s) => {
+    if (s.date > latest_status.date) {
+      latest_status = s
+    }
+  })
+  return latest_status
+}
+function EditTransactionModal({ data }) {
   const [opened, { open, close }] = useDisclosure(false)
-  const [status, setStatus] = useState("Processing")
+  const [status, setStatus] = useState("")
 
   const onStatusChange = (statusValue) => {
     setStatus(statusValue)
   }
+
+  console.log(data)
 
   const getStatus = useMemo(() => {
     if (status === "Order Confirmed")
@@ -57,12 +69,21 @@ function EditTransactionModal() {
     else return null
   }, [status])
 
+  useEffect(() => {
+    setStatus(getLastDeliveryStatus(data?.product?.order_status).status)
+  }, [data])
+
+  function handleClose() {
+    close()
+    setStatus(getLastDeliveryStatus(data?.product?.order_status).status)
+  }
+
   return (
     <>
       <Modal
         size={800}
         opened={opened}
-        onClose={close}
+        onClose={handleClose}
         title="Manage Transaction"
         closeOnClickOutside={false}
         centered
@@ -75,14 +96,11 @@ function EditTransactionModal() {
             </p>
             <p className="mb-1">
               <span>Name: </span>
-              <span>Nishant Argade</span>
+              <span>{data?.billing_user}</span>
             </p>
             <p>
               <span>Address: </span>
-              <span>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum,
-                asperiores.{" "}
-              </span>
+              <span>{data?.shipping_address}</span>
             </p>
           </div>
 
@@ -93,11 +111,11 @@ function EditTransactionModal() {
             </p>
             <p className="mb-1">
               <span>Product Name: </span>
-              <span>Puma Shoes </span>
+              <span className="line-clamp-2">{data?.product?.name} </span>
             </p>
             <p>
               <span>Product ID: </span>
-              <span>asdfsdfsdaffsawdsfierj232343ljs</span>
+              <span>{data?.product?._id}</span>
             </p>
           </div>
 
@@ -108,11 +126,11 @@ function EditTransactionModal() {
             </p>
             <p className="mb-1">
               <span>Seller Name: </span>
-              <span>TechGuru Shop </span>
+              <span>{data?.product?.seller} </span>
             </p>
             <p>
-              <span>Dispatched Date: </span>
-              <span>2023-02-12 02:12:43</span>
+              <span>Seller Address: </span>
+              <span>{data?.product?.seller_address}</span>
             </p>
           </div>
 
@@ -123,35 +141,36 @@ function EditTransactionModal() {
             </p>
             <p className="mb-1">
               <span>Purchase Quantity: </span>
-              <span>3 </span>
+              <span>{data?.product?.quantity} </span>
             </p>
             <p>
-              <span>Single Item Amount: </span>
-              <span>₹200</span>
+              <span>Gross Amount: </span>
+              <span>₹{data?.product?.price * data?.product?.quantity}</span>
             </p>
-            <p>
-              <span>Total: </span>
-              <span>₹600</span>
-            </p>
-            <p>
-              <span>No. Of Offer Apply: </span>
-              <span>2</span>
-            </p>
+
             <p>
               <span>Discount: </span>
-              <span>₹200</span>
+              <span>₹{data?.product?.discount * data?.product?.quantity}</span>
             </p>
             <p>
               <span>Shipping Charges: </span>
-              <span>₹50</span>
+              <span>₹{data?.shipping_charges * data?.product?.quantity}</span>
             </p>
+
             <p>
-              <span>Tax: </span>
-              <span>₹140</span>
+              <span>Packaging Charges: </span>
+              <span>₹{data?.packing_charges}</span>
             </p>
+
             <p>
               <span>Final Amount: </span>
-              <span>₹820</span>
+              <span>
+                ₹
+                {data?.product?.price * data?.product?.quantity -
+                  data?.product?.discount * data?.product?.quantity +
+                  data?.packing_charges +
+                  data?.shipping_charges}
+              </span>
             </p>
           </div>
 
@@ -162,15 +181,17 @@ function EditTransactionModal() {
             </p>
             <p className="mb-1">
               <span>Payment Mode: </span>
-              <span>Phonepay </span>
+              <span>{data?.payment?.method} </span>
             </p>
             <p className="mb-1">
               <span>Transaction ID: </span>
-              <span>#asfldsf2324jk23hhfhjasfljkafhjjh23</span>
+              <span>{data?.payment?.transaction_id}</span>
             </p>
             <p>
               <span>Transaction Date: </span>
-              <span>2023-02-10 01:10:43</span>
+              <span>
+                {moment(data?.payment?.date).format("YYYY-MM-DD HH:mm:ss")}
+              </span>
             </p>
           </div>
 
@@ -240,7 +261,7 @@ function EditTransactionModal() {
 
           <div className="col-span-2 flex justify-end gap-x-5">
             <button
-              onClick={close}
+              onClick={handleClose}
               className="rounded-sm border-[1.5px] border-gray-200 bg-white px-6 py-2 text-xs text-gray-800 shadow-md "
             >
               CANCEL

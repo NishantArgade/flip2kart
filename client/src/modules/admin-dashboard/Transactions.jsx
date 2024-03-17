@@ -1,7 +1,7 @@
 import { Menu, Tooltip } from "@mantine/core"
 import { createColumnHelper } from "@tanstack/react-table"
 import moment from "moment"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { FiFilter } from "react-icons/fi"
 import DeletePopover from "../../components/DeletePopover"
 import ClientFacingHeader from "./components/ClientFacingHeader"
@@ -9,8 +9,10 @@ import EditTransactionModal from "./components/EditTransactionModal"
 import Table from "./components/Table"
 import TableHeader from "./components/TableHeader"
 import TableSearchBar from "./components/TableSearchBar"
+import { useQuery } from "@tanstack/react-query"
+import { getAllOrders } from "../../api/orderApi"
 
-const data = [
+const data2 = [
   {
     id: "65a63a404e9ce490acd0c3a6",
     userId: "65a63a404e9ce490acd0c3a6",
@@ -55,17 +57,17 @@ const data = [
 
 const colHelper = createColumnHelper()
 const columns = [
-  colHelper.accessor("id", {
+  colHelper.accessor("_id", {
     header: (header) => <TableHeader header={header} name={"OrderID"} />,
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
 
-  colHelper.accessor("userId", {
+  colHelper.accessor("billing_user_id", {
     header: (header) => <TableHeader header={header} name={"UserID"} />,
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
 
-  colHelper.accessor("status", {
+  colHelper.accessor("order_status", {
     header: (header) => <TableHeader header={header} name={"Status"} />,
     cell: (props) => (
       <p
@@ -128,9 +130,9 @@ const columns = [
 
   colHelper.accessor("action", {
     header: () => null,
-    cell: () => (
+    cell: ({ row }) => (
       <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
-        <EditTransactionModal />
+        <EditTransactionModal data={row.original} />
         <DeletePopover size={18} deleteItemName="transaction" />
       </p>
     ),
@@ -153,16 +155,53 @@ const Transactions = () => {
 
   const isSelectedRating = (role) => role === filteredRatingValue
 
+  const { data } = useQuery({
+    queryKey: ["allOrders"],
+    queryFn: getAllOrders,
+  })
+  console.log(data?.allOrders)
+
+  function getLastDeliveryStatus(order_status) {
+    let latest_status = order_status[0]
+    order_status.forEach((s) => {
+      if (s.date > latest_status.date) {
+        latest_status = s
+      }
+    })
+    return latest_status
+  }
+
+  const finalData = useMemo(() => {
+    const result = []
+    data?.allOrders?.forEach((order) => {
+      order.products.forEach((p) => {
+        result.push({
+          ...order,
+          _id: order._id,
+          billing_user_id: order.billing_user_id,
+          order_status: getLastDeliveryStatus(p.order_status).status,
+          quantity: p.quantity,
+          amount: p.price - p.discount,
+          address: order.shipping_address,
+          createdAt: order.created_at,
+          product: p,
+        })
+      })
+    })
+    return result
+  }, [data?.allOrders])
+
+  console.log(finalData)
   return (
     <>
+      {/** Header */}
       <ClientFacingHeader
         heading={"Transactions"}
         subHeading={"Table for transactions"}
       />
 
       <div className=" w-full p-4 ">
-        {/** Header */}
-        {/** Header */}
+        {/* Search Bar */}
         <section className="mb-6 flex flex-wrap  justify-end gap-8 md:justify-start">
           <TableSearchBar
             globalFilter={globalFilter}
@@ -238,7 +277,7 @@ const Transactions = () => {
 
         {/** Table */}
         <Table
-          data={data}
+          data={finalData}
           columns={columns}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}

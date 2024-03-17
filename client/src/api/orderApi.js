@@ -16,3 +16,7 @@ export const getAllMyOrders = async () => {
 export const getOrderByOrderIDAndProductID = async (search) => {
   return await axiosCall("get", `/api/order-detail${search}`)
 }
+
+export const getAllOrders = async () => {
+  return await axiosCall("get", `/api/all-orders`)
+}

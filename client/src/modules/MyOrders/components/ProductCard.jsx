@@ -61,10 +61,7 @@ const ProductCard = ({ product, orderID }) => {
       <div className="col-span-4 ">
         <div className="flex items-center  justify-start gap-x-2">
           <div className="h-2 w-2 rounded-full bg-green-600"> </div>
-          <p className="text-sm">
-            {getDeliveryStatus(product?.order_status)}
-            {/* Delivered on {moment(product?.deliveredDate).format("MM DD, YYYY")} */}
-          </p>
+          <p className="text-sm">{getDeliveryStatus(product?.order_status)}</p>
         </div>
         <p className="text-xs text-gray-700">
           {getDeliveryStatusMessage(product?.order_status)}
