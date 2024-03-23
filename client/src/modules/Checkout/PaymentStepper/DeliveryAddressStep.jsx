@@ -11,23 +11,21 @@ export default function DeliveryAddressStep({
   nextStep,
   setPaymentData,
 }) {
-  // const [activeItem, setActiveItem] = useState("0")
+  const [activeItem, setActiveItem] = useState("0")
 
   const { data, isLoading } = useQuery({
     queryKey: ["allMyAddresses"],
     queryFn: getAllMyAddresses,
   })
 
-  // useEffect(() => {
-  //   data?.addresses?.length > 0 &&
-  //     data?.addresses?.map((item) => {
-  //       if (item.is_active) {
-  //         setActiveItem(item._id)
-  //       }
-  //     })
-  // }, [])
-
-  console.log(data)
+  useEffect(() => {
+    data?.addresses?.length > 0 &&
+      data?.addresses?.map((item) => {
+        if (item.is_active) {
+          setActiveItem(item._id)
+        }
+      })
+  }, [data?.addresses])
 
   return (
     <>
@@ -35,17 +33,16 @@ export default function DeliveryAddressStep({
         <Accordion
           chevronPosition="right"
           variant="contained"
-          // value={activeItem}
-          // onChange={setActiveItem}
+          value={activeItem}
+          onChange={setActiveItem}
         >
           {data?.addresses?.map((item, index) => (
             <AccordionItem
-              key={item._id + item.is_active}
+              key={item._id}
               item={item}
               index={index.toString()}
               nextStep={nextStep}
               activeItem={item.is_active}
-              // setActiveItem={setActiveItem}
               setPaymentData={setPaymentData}
             />
           ))}

@@ -2,7 +2,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer"
 import { BsQuestionSquareFill } from "react-icons/bs"
 import { IoMdArrowRoundBack } from "react-icons/io"
 import { IoDocumentText } from "react-icons/io5"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import InvoicePDF from "./InvoicePdf"
 import OrderStatusStepper from "./OrderStatusStepper"
 import Skeleton from "react-loading-skeleton"
@@ -13,6 +13,7 @@ import { useEffect } from "react"
 
 const OrderedProductDetail = () => {
   const location = useLocation()
+  const navigate = useNavigate()
 
   const { data, isLoading } = useQuery({
     queryKey: ["getOrderByOrderIDAndProductID", location.search],
@@ -20,7 +21,7 @@ const OrderedProductDetail = () => {
   })
 
   console.log(data?.order)
-  console.log(data?.product?.order_status)
+  console.log(data?.product?.order_status_history)
 
   const steps = [
     {
@@ -44,6 +45,7 @@ const OrderedProductDetail = () => {
       content: "Your order has been delivered. Enjoy your purchase!",
     },
   ]
+
   const statusToStepIndex = {
     "Order Confirmed": 0,
     Shipped: 1,
@@ -53,7 +55,7 @@ const OrderedProductDetail = () => {
 
   let lastStatusIndex = 0
 
-  data?.product?.order_status.forEach((o) => {
+  data?.product?.order_status_history.forEach((o) => {
     const stepIndex = statusToStepIndex[o.status]
 
     if (stepIndex > lastStatusIndex) lastStatusIndex = stepIndex
@@ -66,13 +68,13 @@ const OrderedProductDetail = () => {
   return (
     <div className="container mx-auto min-h-screen">
       {/** Go Back Button */}
-      <Link
-        to="/my-orders"
+      <button
+        onClick={() => navigate(-1)}
         className="flex items-center gap-x-2 px-1 py-2 text-gray-500"
       >
         <IoMdArrowRoundBack />
         <p className="text-xs">Back</p>
-      </Link>
+      </button>
 
       {/** Product Order Detail */}
       <div className="grid grid-cols-1 bg-white text-xs  shadow-md md:grid-cols-12 ">

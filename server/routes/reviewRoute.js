@@ -10,6 +10,7 @@ import {
   uploadReviewImages,
   deleteReviewImages,
   getMyAllReviewsRatings,
+  getAllReviewsRatings,
 } from "../controllers/reviewController.js";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
@@ -31,6 +32,8 @@ const upload = multer({ storage: storage });
 router.route("/all-reviews").get(protect, allReviews);
 
 router.route("/my-all-reviews-ratings").get(protect, getMyAllReviewsRatings);
+
+router.route("/all-reviews-ratings").get(protect, getAllReviewsRatings);
 
 router.route("/rating-review/:productID").get(getRatingAndReviewByProductID);
 

@@ -42,7 +42,7 @@ export default function ChangeAddressModal({ children, data }) {
             >
               <Radio
                 size="xs"
-                defaultChecked={item.is_active}
+                checked={item.is_active}
                 readOnly
                 disabled={updateActiveAddressIsPending}
               />

@@ -28,6 +28,25 @@ export const getMyAllReviewsRatings = expressAsyncHandler(
     });
   }
 );
+export const getAllReviewsRatings = expressAsyncHandler(
+  async (req, res, next) => {
+    const allRviewsAndRatings = await Review.find()
+      .populate({
+        path: "product_id",
+        select: "name",
+      })
+      .populate({
+        path: "user_id",
+        select: "first_name last_name email phone",
+      });
+
+    res.status(200).json({
+      status: "success",
+      message: "Fetched all reviews successfully",
+      allRviewsAndRatings,
+    });
+  }
+);
 
 export const getMyReviewAndRating = expressAsyncHandler(
   async (req, res, next) => {

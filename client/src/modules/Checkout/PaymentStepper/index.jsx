@@ -7,7 +7,7 @@ import OrderSummaryStep from "./OrderSummaryStep.jsx"
 import PaymentStep from "./PaymentStep.jsx"
 import { useSelector } from "react-redux"
 
-const PaymentStepper = ({ cartData, active, setActive }) => {
+const PaymentStepper = ({ cartData, active, setActive, hasSearchParam }) => {
   const [paymentData, setPaymentData] = useState({})
   const user = useSelector((state) => state.user.data)
 
@@ -79,6 +79,7 @@ const PaymentStepper = ({ cartData, active, setActive }) => {
           nextStep={nextStep}
           cart={cartData?.cart}
           setPaymentData={setPaymentData}
+          hasSearchParam={hasSearchParam}
         />
       </Stepper.Step>
       <Stepper.Step label="PAYMENT">

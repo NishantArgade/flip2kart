@@ -16,7 +16,7 @@ export default function PaymentStep({
   const user = useSelector((state) => state.user.data)
 
   async function handleCreateOrder(e) {
-    const amount = cartData?.finalTotalAmount * 100
+    const amount = cartData?.finalTotalAmount * 10
     const currency = "INR"
     const receipt = "TXN" + Date.now()
 

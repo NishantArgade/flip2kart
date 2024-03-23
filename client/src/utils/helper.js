@@ -56,3 +56,13 @@ export function calculateDiscountAmount(originalPrice, discountRate) {
 
   return discountAmount
 }
+
+export function getDescriptionFromName(name) {
+  const regex = /\(([^)]+)\)/g
+  const matches = name.match(regex) || []
+
+  const result = matches.map((match) => match.slice(1, -1))
+
+  if (result.length === 0) return null
+  else return result.join(", ")
+}

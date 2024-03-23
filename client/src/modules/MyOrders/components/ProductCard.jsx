@@ -3,23 +3,8 @@ import moment from "moment"
 import { Link } from "react-router-dom"
 
 const ProductCard = ({ product, orderID }) => {
-  function getDeliveryStatus(order_status) {
-    let latest_status = order_status[0]
-    order_status.forEach((s) => {
-      if (s.date > latest_status.date) {
-        latest_status = s
-      }
-    })
-    return `${latest_status.status} on ${moment(latest_status.date).format("MMM DD, YYYY")}`
-  }
-  function getDeliveryStatusMessage(order_status) {
-    let latest_status = order_status[0]
-    order_status.forEach((s) => {
-      if (s.date > latest_status.date) {
-        latest_status = s
-      }
-    })
-    switch (latest_status.status) {
+  function getDeliveryStatusMessage(status) {
+    switch (status) {
       case "Order Confirmed":
         return "Your order for this item has been confirmed"
       case "Shipped":
@@ -61,10 +46,10 @@ const ProductCard = ({ product, orderID }) => {
       <div className="col-span-4 ">
         <div className="flex items-center  justify-start gap-x-2">
           <div className="h-2 w-2 rounded-full bg-green-600"> </div>
-          <p className="text-sm">{getDeliveryStatus(product?.order_status)}</p>
+          <p className="text-sm">{`${product?.latest_order_status?.status} on ${moment(product?.latest_order_status?.date).format("MMM DD, YYYY")}`}</p>
         </div>
         <p className="text-xs text-gray-700">
-          {getDeliveryStatusMessage(product?.order_status)}
+          {getDeliveryStatusMessage(product?.latest_order_status?.status)}
         </p>
       </div>
     </Link>

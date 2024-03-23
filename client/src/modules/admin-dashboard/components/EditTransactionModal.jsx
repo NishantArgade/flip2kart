@@ -1,6 +1,6 @@
 import { Menu, Modal } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { FaEdit } from "react-icons/fa"
 import { FcProcess } from "react-icons/fc"
 import { TbTruckDelivery } from "react-icons/tb"
@@ -9,6 +9,10 @@ import { GiConfirmed } from "react-icons/gi"
 import { FaBuildingCircleArrowRight } from "react-icons/fa6"
 import { IoMdDoneAll } from "react-icons/io"
 import moment from "moment"
+import { useMutation } from "@tanstack/react-query"
+import { changeStatusOfDelivery } from "../../../api/orderApi"
+import { queryClient } from "../../../main"
+import { toast } from "../../../utils/toast"
 
 function getLastDeliveryStatus(order_status) {
   let latest_status = order_status[0]
@@ -70,12 +74,26 @@ function EditTransactionModal({ data }) {
   }, [status])
 
   useEffect(() => {
-    setStatus(getLastDeliveryStatus(data?.product?.order_status).status)
+    setStatus(getLastDeliveryStatus(data?.product?.order_status_history).status)
   }, [data])
 
   function handleClose() {
     close()
-    setStatus(getLastDeliveryStatus(data?.product?.order_status).status)
+    setStatus(getLastDeliveryStatus(data?.product?.order_status_history).status)
+  }
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: "changeStatusOfDelivery",
+    mutationFn: changeStatusOfDelivery,
+    onSuccess: () => {
+      queryClient.invalidateQueries("allOrders")
+      toast.success("Delivery Status updated successfully")
+    },
+    onSettled: () => close(),
+  })
+
+  function handleChangeStatus(orderId, productId, status) {
+    mutate({ orderId, productId, status })
   }
 
   return (
@@ -115,7 +133,7 @@ function EditTransactionModal({ data }) {
             </p>
             <p>
               <span>Product ID: </span>
-              <span>{data?.product?._id}</span>
+              <span>{data?.product?.product_id}</span>
             </p>
           </div>
 
@@ -268,8 +286,11 @@ function EditTransactionModal({ data }) {
             </button>
 
             <button
-              type="submit"
+              onClick={() =>
+                handleChangeStatus(data?._id, data?.product?.product_id, status)
+              }
               className="rounded-sm bg-blue-600 px-6 py-2 text-xs text-white shadow-md "
+              disabled={isPending}
             >
               SAVE
             </button>

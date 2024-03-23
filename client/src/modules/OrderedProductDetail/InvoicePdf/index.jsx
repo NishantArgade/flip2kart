@@ -8,6 +8,7 @@ import {
 } from "@react-pdf/renderer"
 import InvoicePdfTableSection from "./InvoicePdfTableSection"
 import moment from "moment"
+import { getDescriptionFromName } from "../../../utils/helper"
 // import PaymentDetails from "./InvoicePdfSection"
 
 /** PDF Document Styling */
@@ -171,7 +172,9 @@ const InvoicePDF = ({ data }) => {
           tableBody={[
             {
               product: data?.product?.name,
-              description: data?.product?.description,
+              description:
+                getDescriptionFromName(data?.product?.name) ||
+                data?.product?.description,
               qty: data?.product?.quantity,
               gross: data?.product?.price * data?.product?.quantity,
               discount: `- ${data?.product?.discount * data?.product?.quantity}`,
@@ -189,7 +192,7 @@ const InvoicePDF = ({ data }) => {
             },
             {
               product: " ",
-              description: "Packging Charges",
+              description: "Packaging Charges",
               qty: data?.product?.quantity,
               gross: data?.order?.packing_charges,
               discount: 0,

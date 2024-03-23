@@ -84,7 +84,7 @@ const MyReviewAndRatings = () => {
                       </Link>
                       <DeleteReviewPopover
                         deleteItemName="Review"
-                        itemID={review?._id}
+                        item={review}
                         mutate={mutate}
                         isPending={isPending}
                       />

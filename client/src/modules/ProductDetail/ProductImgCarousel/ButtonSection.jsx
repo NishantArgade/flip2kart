@@ -4,7 +4,7 @@ import { addProductToCart } from "../../../api/cartApi"
 import { useMutation } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 
-const ButtonSection = ({ isInStock, productID }) => {
+const ButtonSection = ({ isInStock, productID, product }) => {
   const navigate = useNavigate()
 
   const { mutate, isPending } = useMutation({
@@ -31,6 +31,11 @@ const ButtonSection = ({ isInStock, productID }) => {
         disabled={!isInStock}
         className={`${isInStock ? "bg-[#FB641B] text-white" : "cursor-not-allowed bg-[#878787] text-white"} px-auto flex w-full items-center justify-center gap-x-1  py-3 
          shadow-md`}
+        onClick={() =>
+          navigate(`/checkout?product=${productID}&qty=1`, {
+            state: { product },
+          })
+        }
       >
         <BsFillLightningFill className="text-[0.9rem]" />
         <p className="text-xs font-semibold uppercase">Buy Now</p>

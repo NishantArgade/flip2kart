@@ -73,7 +73,7 @@ const OrderSchema = new mongoose.Schema({
       seller: String,
       seller_address: String,
       delivery_estimate_days: { type: Number, default: 0 },
-      order_status: {
+      order_status_history: {
         type: [
           {
             status: {
@@ -97,6 +97,29 @@ const OrderSchema = new mongoose.Schema({
             date: Date.now(),
           },
         ],
+        required: true,
+      },
+      latest_order_status: {
+        type: {
+          status: {
+            type: String,
+            enum: [
+              "Order Confirmed",
+              "Shipped",
+              "Out for delivery",
+              "Delivered",
+            ],
+          },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+        default: {
+          status: "Order Confirmed",
+          date: Date.now(),
+        },
+
         required: true,
       },
     },

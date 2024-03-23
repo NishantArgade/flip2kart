@@ -4,14 +4,14 @@ import { IoMdTrash } from "react-icons/io"
 
 const DeleteReviewPopover = ({
   deleteItemName = null,
-  itemID,
+  item,
   mutate,
   isPending,
 }) => {
   const [opened, setOpened] = useState(false)
 
   function handleDelete() {
-    mutate(itemID)
+    mutate(item)
   }
 
   return (

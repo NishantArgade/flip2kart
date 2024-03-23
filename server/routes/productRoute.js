@@ -16,6 +16,7 @@ import {
   getCartProducts,
   removeProductFromCart,
   updateAddToCartProduct,
+  singleProductBillData,
 } from "../controllers/productController.js";
 import { protect, restrict } from "../middlewares/auth.js";
 import multer from "multer";
@@ -85,5 +86,7 @@ router
   .delete(protect, removeProductFromCart);
 
 router.route("/cart-products").get(protect, getCartProducts);
+
+router.route("/single-product-bill").get(protect, singleProductBillData);
 
 export default router;

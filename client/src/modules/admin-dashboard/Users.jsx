@@ -165,7 +165,12 @@ const Users = () => {
           >
             <Menu.Target>
               <button className="flex items-center gap-x-2 text-xs text-blue-500">
-                <FiFilter />
+                <div className="relative">
+                  <div
+                    className={`${isSelectedRating("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
+                  ></div>
+                  <FiFilter />
+                </div>
                 <p>Filter By Role</p>
               </button>
             </Menu.Target>

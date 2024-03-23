@@ -2,19 +2,44 @@ import Skeleton from "react-loading-skeleton"
 import AmountInfo from "./AmountInfo"
 import PaymentStepper from "./PaymentStepper"
 import { useState } from "react"
-import { getAllMyAddresses } from "../../api/addressApi"
 import { useQuery } from "@tanstack/react-query"
-import { getCartProducts } from "../../api/cartApi"
+import { getCartProducts, getSingleProductBillData } from "../../api/cartApi"
+import { useLocation } from "react-router-dom"
+import SingleProductAmountInfo from "./SingleProductAmountInfo"
 
 const Checkout = () => {
   const [active, setActive] = useState(1)
+  const location = useLocation()
+  const hasSearchParam = !!location.search
+
+  // const [cartData, setCartData] = useState({})
+
+  // let singleProductCheckout = location?.state?.product
+
+  console.log(hasSearchParam)
 
   const { data: cartData, isLoading } = useQuery({
     queryKey: ["cartProducts"],
     queryFn: getCartProducts,
+    enabled: !hasSearchParam,
+    staleTime: 0,
+    refetchOnMount: true,
   })
 
-  if (isLoading) {
+  console.log(cartData)
+
+  const { data: singleProductCartData, isLoading: isProductIsLoading } =
+    useQuery({
+      queryKey: ["singleProductCartProducts"],
+      queryFn: async () =>
+        await getSingleProductBillData(window.location.search),
+      enabled: hasSearchParam,
+      staleTime: 0,
+      refetchOnMount: true,
+    })
+
+  console.log(singleProductCartData)
+  if (isLoading || isProductIsLoading) {
     return (
       <div className="container m-2 mx-auto mb-14 grid min-h-screen grid-cols-12 gap-x-3 ">
         {/* Payment Step */}
@@ -52,21 +77,23 @@ const Checkout = () => {
         className={`${active === 4 ? "md:col-span-12" : "md:col-span-8"} col-span-12 bg-white p-4  shadow-md `}
       >
         <PaymentStepper
-          cartData={cartData}
+          cartData={hasSearchParam ? singleProductCartData : cartData}
           active={active}
           setActive={setActive}
+          hasSearchParam={hasSearchParam}
         />
       </section>
 
       {/* Amount info */}
       {active !== 4 && (
         <section className="sticky  right-0 top-[4.4rem] col-span-12 h-fit text-sm md:col-span-4">
-          <AmountInfo cartData={cartData} />
+          <AmountInfo
+            cartData={hasSearchParam ? singleProductCartData : cartData}
+          />
         </section>
       )}
     </div>
   )
 }
-//
 
 export default Checkout

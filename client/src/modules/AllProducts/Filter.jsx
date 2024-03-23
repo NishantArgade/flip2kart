@@ -532,7 +532,7 @@ const Filter = ({
                 label={"Delivery in 1 day"}
                 onChange={onDeliveryCheckboxClick}
                 className="py-1 text-xs  tracking-wide text-gray-800"
-                defaultChecked={selectedDelivery === "one_day"}
+                checked={selectedDelivery === "one_day"}
                 readOnly
               />
             </div>
@@ -575,7 +575,7 @@ const Filter = ({
                       {brandsList.length > 0 ? (
                         brandsList.map((brand, i) => (
                           <Checkbox
-                            key={i}
+                            key={brand + i}
                             size="xs"
                             label={brand}
                             className="mb-3"
@@ -585,7 +585,7 @@ const Filter = ({
                                 e.currentTarget.checked
                               )
                             }
-                            defaultChecked={selectedBrands.includes(brand)}
+                            checked={selectedBrands.includes(brand)}
                             readOnly
                           />
                         ))
@@ -629,7 +629,7 @@ const Filter = ({
                       onChange={(e) =>
                         onRatingCheckboxClick(rate, e.currentTarget.checked)
                       }
-                      defaultChecked={selectedRatings.includes(rate)}
+                      checked={selectedRatings.includes(rate)}
                       readOnly
                     />
                   ))}
@@ -663,7 +663,7 @@ const Filter = ({
                           e.currentTarget.checked
                         )
                       }
-                      defaultChecked={selectedDiscount.includes(discount)}
+                      checked={selectedDiscount.includes(discount)}
                       readOnly
                     />
                   ))}
@@ -695,9 +695,7 @@ const Filter = ({
                         e.currentTarget.checked
                       )
                     }
-                    defaultChecked={
-                      selectedAvailability === "ExcludeOutOfStock"
-                    }
+                    checked={selectedAvailability === "ExcludeOutOfStock"}
                     readOnly
                   />{" "}
                 </Accordion.Panel>

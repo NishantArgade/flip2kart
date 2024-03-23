@@ -12,7 +12,12 @@ import {
   calculateDiscountAmount,
 } from "../../../utils/helper"
 
-const OrderSummaryStep = ({ nextStep, cart, setPaymentData }) => {
+const OrderSummaryStep = ({
+  nextStep,
+  cart,
+  setPaymentData,
+  hasSearchParam,
+}) => {
   const { mutate: removeProductMutate, isPending: removeProductIsPending } =
     useMutation({
       mutationKey: "removeProductFromCart",
@@ -76,6 +81,7 @@ const OrderSummaryStep = ({ nextStep, cart, setPaymentData }) => {
             removeProductMutate={removeProductMutate}
             updateAddToProductMutate={updateAddToProductMutate}
             updateAddToCartIsPending={updateAddToCartIsPending}
+            hasSearchParam={hasSearchParam}
           />
         ))}
       </div>

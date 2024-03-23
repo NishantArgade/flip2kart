@@ -352,3 +352,49 @@ export const getCartProducts = expressAsyncHandler(async (req, res, next) => {
     finalTotalAmount,
   });
 });
+export const singleProductBillData = expressAsyncHandler(
+  async (req, res, next) => {
+    const product = await Product.findById(req.query.product);
+    const qty = Number(req.query.qty);
+
+    //calculate totalPrice,totalDiscount,totalDeliveryCharges,PackagingFee,finalTotalAmount
+    let totalPrice = 0;
+    let totalDiscount = 0;
+    let totalDeliveryCharges = 0;
+    let packagingFee = 0;
+    let finalTotalAmount = 0;
+
+    // data?.cart?.forEach((item) => {
+    totalPrice += product.price * qty;
+    totalDiscount +=
+      calculateDiscountAmount(product.price, product.discount) * qty;
+
+    const discountPrice = calculateDiscountedPrice(
+      product.price,
+      product?.discount
+    );
+
+    totalDeliveryCharges += (discountPrice <= 2000 ? 40 : 70) * qty;
+    // });
+
+    finalTotalAmount = totalPrice - totalDiscount;
+    const isDeliveryFree = finalTotalAmount > 200;
+    finalTotalAmount += !isDeliveryFree ? totalDeliveryCharges : 0;
+
+    if (finalTotalAmount >= 10000) packagingFee = 59;
+
+    finalTotalAmount += packagingFee;
+
+    res.status(200).json({
+      status: "success",
+      message: "Fetched Cart",
+      cart: [{ product: product, quantity: qty }],
+      totalPrice,
+      isDeliveryFree,
+      totalDiscount,
+      totalDeliveryCharges,
+      packagingFee,
+      finalTotalAmount,
+    });
+  }
+);

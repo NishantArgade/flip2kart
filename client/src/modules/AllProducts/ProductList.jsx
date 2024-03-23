@@ -170,11 +170,7 @@ const ProductList = ({
         >
           {name}
         </p>
-        <Radio
-          className="md:hidden"
-          defaultChecked={selectedSort === link}
-          readOnly
-        />
+        <Radio className="md:hidden" checked={selectedSort === link} readOnly />
       </button>
     )
   }

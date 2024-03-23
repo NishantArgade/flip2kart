@@ -28,6 +28,31 @@ export const orderDetail = expressAsyncHandler(async (req, res, next) => {
     product,
   });
 });
+
+export const changeStatusOfDelivery = expressAsyncHandler(
+  async (req, res, next) => {
+    const { orderId, productId, status } = req.body;
+
+    const order = await Order.findById(orderId);
+    const product = order.products.find((p) => p.product_id.equals(productId));
+    product.order_status_history.push({
+      status: status,
+      date: new Date(),
+    });
+    product.latest_order_status = {
+      status: status,
+      date: new Date(),
+    };
+
+    await order.save();
+
+    res.status(200).json({
+      status: "success",
+      message: "Update order status successfully",
+    });
+  }
+);
+
 export const createOrder = expressAsyncHandler(async (req, res, next) => {
   const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -106,5 +131,177 @@ export const allOrders = expressAsyncHandler(async (req, res, next) => {
     status: "success",
     message: "Fetched all Orders successfully",
     allOrders,
+  });
+});
+
+// export const filterOrders = expressAsyncHandler(async (req, res, next) => {
+//   let { order_status, order_time } = req.query;
+
+//   let filteredOrders = [];
+//   filteredOrders = await Order.find().sort({ created_at: -1 }).limit(10);
+
+//   // if (!order_status && !order_time)
+
+//   if (order_status) {
+//     order_status = order_status.split(",");
+//     filteredOrders = await Order.aggregate([
+//       {
+//         $addFields: {
+//           originalDoc: "$$ROOT",
+//         },
+//       },
+//       { $unwind: "$products" },
+//       {
+//         $match: {
+//           "products.latest_order_status.status": { $in: order_status },
+//         },
+//       },
+//       {
+//         $group: {
+//           _id: "$originalDoc._id",
+//           products: { $push: "$products" },
+//           originalDoc: { $first: "$originalDoc" },
+//         },
+//       },
+//       {
+//         $replaceRoot: {
+//           newRoot: {
+//             $mergeObjects: ["$originalDoc", { products: "$products" }],
+//           },
+//         },
+//       },
+//     ]).sort({ created_at: -1 });
+//   }
+
+//   if (order_time) {
+//     const years = order_time.split(",");
+//     const dateRanges = years.map((year) => {
+//       let startDate, endDate;
+
+//       if (year === "last 30 days") {
+//         endDate = new Date();
+//         startDate = new Date();
+//         startDate.setDate(endDate.getDate() - 30); // 30 days ago
+//       } else if (year === "older") {
+//         let date = new Date();
+//         let currentYear = date.getFullYear();
+//         startDate = new Date(0); // the earliest possible date
+//         endDate = new Date(currentYear - 4, 11, 31, 23, 59, 59);
+//       } else {
+//         startDate = new Date(Number(year), 0, 1); // start of the year
+//         endDate = new Date(Number(year), 11, 31, 23, 59, 59); // end of the year
+//       }
+
+//       return {
+//         created_at: {
+//           $gte: startDate,
+//           $lte: endDate,
+//         },
+//       };
+//     });
+
+//     filteredOrders = await Order.find({ $or: dateRanges }).sort({
+//       created_at: -1,
+//     });
+//   }
+
+//   res.status(200).json({
+//     status: "success",
+//     message: "Fetched all Orders successfully",
+//     filteredOrders,
+//   });
+// });
+
+export const filterOrders = expressAsyncHandler(async (req, res, next) => {
+  let { order_status, order_time, search } = req.query;
+
+  let conditions = [];
+  let filteredOrders = [];
+  let showEmptyPage = false;
+
+  if (search) {
+    conditions.push({
+      $or: [
+        { "products.name": { $regex: search, $options: "i" } },
+        { "products.description": { $regex: search, $options: "i" } },
+      ],
+    });
+  }
+
+  if (order_status) {
+    order_status = order_status.split(",");
+    conditions.push({
+      "products.latest_order_status.status": { $in: order_status },
+    });
+  }
+
+  if (order_time) {
+    const years = order_time.split(",");
+    const dateRanges = years.map((year) => {
+      let startDate, endDate;
+
+      if (year === "last 30 days") {
+        endDate = new Date();
+        startDate = new Date();
+        startDate.setDate(endDate.getDate() - 30); // 30 days ago
+      } else if (year === "older") {
+        let date = new Date();
+        let currentYear = date.getFullYear();
+        startDate = new Date(0); // the earliest possible date
+        endDate = new Date(currentYear - 4, 11, 31, 23, 59, 59);
+      } else {
+        startDate = new Date(Number(year), 0, 1); // start of the year
+        endDate = new Date(Number(year), 11, 31, 23, 59, 59); // end of the year
+      }
+
+      return {
+        created_at: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      };
+    });
+
+    conditions.push({ $or: dateRanges });
+  }
+
+  if (!order_status && !order_time && !search) {
+    filteredOrders = await Order.find().sort({ created_at: -1 });
+    if (filteredOrders.length === 0) showEmptyPage = true;
+  } else {
+    filteredOrders = await Order.aggregate([
+      {
+        $addFields: {
+          originalDoc: "$$ROOT",
+        },
+      },
+      { $unwind: "$products" },
+      {
+        $match: {
+          $and: conditions,
+        },
+      },
+      {
+        $group: {
+          _id: "$originalDoc._id",
+          products: { $push: "$products" },
+          originalDoc: { $first: "$originalDoc" },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: ["$originalDoc", { products: "$products" }],
+          },
+        },
+      },
+    ]).sort({ created_at: -1 });
+  }
+
+  res.status(200).json({
+    status: "success",
+    message: "Fetched all Orders successfully",
+    filteredOrders,
+    showEmptyPage,
   });
 });

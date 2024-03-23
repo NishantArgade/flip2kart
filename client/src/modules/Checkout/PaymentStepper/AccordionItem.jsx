@@ -18,12 +18,7 @@ function AccordionLabel({ user_name, phone, activeItem, address }) {
   return (
     <Group wrap="nowrap">
       <div>
-        <Radio
-          size="xs"
-          defaultChecked={activeItem}
-          disabled={!activeItem}
-          readOnly
-        />
+        <Radio size="xs" checked={activeItem} disabled={!activeItem} readOnly />
       </div>
       <div>
         <div className="flex items-center gap-x-4">

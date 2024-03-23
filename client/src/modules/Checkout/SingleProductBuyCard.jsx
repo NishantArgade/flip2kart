@@ -9,7 +9,7 @@ import { queryClient } from "../main"
 import { toast } from "../utils/toast"
 import _, { debounce, set } from "lodash"
 
-const CartProductCard = ({
+const SingleProductBuyCard = ({
   product,
   quantity,
   removeProductIsPending,
@@ -17,20 +17,11 @@ const CartProductCard = ({
   updateAddToProductMutate,
   updateAddToCartIsPending,
   isFreeDelivery,
-  hasSearchParam,
+  productData,
 }) => {
-  const urlParams = new URLSearchParams(window.location.search)
-  const [qty, setQty] = useState(
-    urlParams.get("qty") ? Number(urlParams.get("qty")) : quantity
-  )
+  const [qty, setQty] = useState(quantity)
 
-  useEffect(() => {
-    if (hasSearchParam) {
-      urlParams.set("qty", qty)
-      window.history.pushState({}, "", "?" + urlParams.toString())
-      queryClient.invalidateQueries("singleProductCartProducts")
-    }
-  }, [qty])
+  useEffect(() => setQty(quantity), [])
 
   function getDiliveryStatusText(day) {
     if (day >= 2) return moment().add(day, "days").format("ddd MMM DD")
@@ -55,7 +46,7 @@ const CartProductCard = ({
     }
     setQty(newQty)
 
-    if (!hasSearchParam)
+    if (!productData)
       updateAddToProductMutate({ product: product?._id, quantity: newQty })
   }
 
@@ -71,7 +62,7 @@ const CartProductCard = ({
     }
     setQty(newQty)
 
-    if (!hasSearchParam)
+    if (!productData)
       updateAddToProductMutate({ product: product?._id, quantity: newQty })
   }
 
@@ -88,7 +79,7 @@ const CartProductCard = ({
       }
       setQty(value)
 
-      if (!hasSearchParam)
+      if (!productData)
         updateAddToProductMutate({
           product: product?._id,
           quantity: Number(value),
@@ -221,4 +212,4 @@ const CartProductCard = ({
   )
 }
 
-export default CartProductCard
+export default SingleProductBuyCard
