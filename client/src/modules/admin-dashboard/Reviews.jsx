@@ -14,6 +14,7 @@ import { useDisclosure } from "@mantine/hooks"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { allReviewAndRatings, deleteReview } from "../../api/ratingAndReviewApi"
 import { queryClient } from "../../main"
+import Spinner from "../../components/Spinner"
 
 const data2 = [
   {
@@ -198,19 +199,28 @@ const Reviews = () => {
     }),
     colHelper.accessor("user_id", {
       header: (header) => <TableHeader header={header} name={"UserName"} />,
-      cell: (props) => (
-        <Tooltip
-          label={`${props.getValue().first_name} ${props.getValue().last_name}`}
-          arrowOffset={12}
-          arrowSize={6}
-          withArrow
-          className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
-        >
-          <p className="mr-2 w-32 truncate">
-            {props.getValue().first_name} {props.getValue().last_name}
-          </p>
-        </Tooltip>
-      ),
+      cell: (props) =>
+        props.getValue()?.first_name || props.getValue()?.last_name ? (
+          <Tooltip
+            label={
+              (props.getValue()?.first_name
+                ? props.getValue()?.first_name
+                : "") +
+              " " +
+              (props.getValue()?.last_name ? props.getValue()?.last_name : "")
+            }
+            arrowOffset={12}
+            arrowSize={6}
+            withArrow
+            className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
+          >
+            <p className="mr-2 w-32 truncate">
+              {props.getValue()?.first_name} {props.getValue()?.last_name}
+            </p>
+          </Tooltip>
+        ) : (
+          "-"
+        ),
     }),
     colHelper.accessor("rating", {
       header: (header) => <TableHeader header={header} name={"Rating"} />,
@@ -281,11 +291,10 @@ const Reviews = () => {
     }),
   ]
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["allReviews"],
     queryFn: allReviewAndRatings,
   })
-  console.log(data)
   return (
     <>
       <Modal
@@ -399,98 +408,112 @@ const Reviews = () => {
         subHeading={"Table for reviews"}
       />
 
-      <div className="w-full p-4">
-        {/** Header */}
-        <section className="mb-6 flex flex-wrap  justify-end gap-8 md:justify-start">
-          <TableSearchBar
-            globalFilter={globalFilter}
-            setGlobalFilter={setGlobalFilter}
-            placeholder={"Search review by rating, comment, created at, etc..."}
-          />
-          <Menu
-            shadow="md"
-            position="top-start"
-            withArrow
-            arrowSize={12}
-            width={200}
-            value="All"
-          >
-            <Menu.Target>
-              <button className="flex items-center gap-x-2 text-xs text-blue-500">
-                <div className="relative">
-                  <div
-                    className={`${isSelectedRating("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
-                  ></div>
-                  <FiFilter />
-                </div>
-                <p>Filter By Rating</p>
-              </button>
-            </Menu.Target>
+      {!isLoading ? (
+        data?.allRviewsAndRatings.length > 0 ? (
+          <div className="w-full p-4">
+            {/** Header */}
+            <section className="mb-6 flex flex-wrap  justify-end gap-8 md:justify-start">
+              <TableSearchBar
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                placeholder={
+                  "Search review by rating, comment, created at, etc..."
+                }
+              />
+              <Menu
+                shadow="md"
+                position="top-start"
+                withArrow
+                arrowSize={12}
+                width={200}
+                value="All"
+              >
+                <Menu.Target>
+                  <button className="flex items-center gap-x-2 text-xs text-blue-500">
+                    <div className="relative">
+                      <div
+                        className={`${isSelectedRating("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
+                      ></div>
+                      <FiFilter />
+                    </div>
+                    <p>Filter By Rating</p>
+                  </button>
+                </Menu.Target>
 
-            <Menu.Dropdown defaultValue="All">
-              <Menu.Label>Ratings</Menu.Label>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("") && "bg-[#F5FAFF] text-gray-700"
-                }  hover:bg-[#F5FAFF] hover:text-gray-700`}
-                onClick={() => onColumnFilterChange("rating", "")}
-                value={"All"}
-              >
-                All
-              </Menu.Item>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("5") && "bg-[#F5FAFF] text-green-500"
-                }  hover:bg-[#F5FAFF] hover:text-green-500`}
-                onClick={() => onColumnFilterChange("rating", "5")}
-              >
-                5 Star
-              </Menu.Item>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("4") && "bg-[#F5FAFF] text-green-500"
-                }  hover:bg-[#F5FAFF] hover:text-green-500`}
-                onClick={() => onColumnFilterChange("rating", "4")}
-              >
-                4 Star
-              </Menu.Item>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("3") && "bg-[#F5FAFF]  text-orange-500"
-                }  hover:bg-[#F5FAFF] hover:text-orange-500`}
-                onClick={() => onColumnFilterChange("rating", "3")}
-              >
-                3 Star
-              </Menu.Item>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("2") && "bg-[#F5FAFF] text-orange-500"
-                }  hover:bg-[#F5FAFF] hover:text-orange-500`}
-                onClick={() => onColumnFilterChange("rating", "2")}
-              >
-                2 Star
-              </Menu.Item>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("1") && "bg-[#F5FAFF] text-red-500"
-                }  hover:bg-[#F5FAFF] hover:text-red-500`}
-                onClick={() => onColumnFilterChange("rating", "1")}
-              >
-                1 Star
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
-        </section>
+                <Menu.Dropdown defaultValue="All">
+                  <Menu.Label>Ratings</Menu.Label>
+                  <Menu.Item
+                    className={`${
+                      isSelectedRating("") && "bg-[#F5FAFF] text-gray-700"
+                    }  hover:bg-[#F5FAFF] hover:text-gray-700`}
+                    onClick={() => onColumnFilterChange("rating", "")}
+                    value={"All"}
+                  >
+                    All
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedRating("5") && "bg-[#F5FAFF] text-green-500"
+                    }  hover:bg-[#F5FAFF] hover:text-green-500`}
+                    onClick={() => onColumnFilterChange("rating", "5")}
+                  >
+                    5 Star
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedRating("4") && "bg-[#F5FAFF] text-green-500"
+                    }  hover:bg-[#F5FAFF] hover:text-green-500`}
+                    onClick={() => onColumnFilterChange("rating", "4")}
+                  >
+                    4 Star
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedRating("3") && "bg-[#F5FAFF]  text-orange-500"
+                    }  hover:bg-[#F5FAFF] hover:text-orange-500`}
+                    onClick={() => onColumnFilterChange("rating", "3")}
+                  >
+                    3 Star
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedRating("2") && "bg-[#F5FAFF] text-orange-500"
+                    }  hover:bg-[#F5FAFF] hover:text-orange-500`}
+                    onClick={() => onColumnFilterChange("rating", "2")}
+                  >
+                    2 Star
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedRating("1") && "bg-[#F5FAFF] text-red-500"
+                    }  hover:bg-[#F5FAFF] hover:text-red-500`}
+                    onClick={() => onColumnFilterChange("rating", "1")}
+                  >
+                    1 Star
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </section>
 
-        {/** Table */}
-        <Table
-          data={data?.allRviewsAndRatings || []}
-          columns={columns}
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
-          columnFilters={columnFilters}
-        />
-      </div>
+            {/** Table */}
+            <Table
+              data={data?.allRviewsAndRatings}
+              columns={columns}
+              globalFilter={globalFilter}
+              setGlobalFilter={setGlobalFilter}
+              columnFilters={columnFilters}
+            />
+          </div>
+        ) : (
+          <div className="flex  h-[28rem] w-full items-center justify-center bg-white font-medium tracking-wider text-gray-300">
+            No Data Available
+          </div>
+        )
+      ) : (
+        <div className="flex h-[30rem] items-center justify-center bg-white">
+          <Spinner />
+        </div>
+      )}
     </>
   )
 }

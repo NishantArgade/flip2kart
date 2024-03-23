@@ -5,8 +5,11 @@ import TableHeader from "./components/TableHeader"
 import ClientFacingHeader from "./components/ClientFacingHeader"
 import Table from "./components/Table"
 import TableSearchBar from "./components/TableSearchBar"
+import { useQuery } from "@tanstack/react-query"
+import { getAffiliatePerformanceData } from "../../api/userApi"
+import Spinner from "../../components/Spinner"
 
-const data = [
+const data2 = [
   {
     id: "65a63a404e9ce490acd0c3a6",
     firstName: "Aniket",
@@ -47,44 +50,38 @@ const data = [
 
 const colHelper = createColumnHelper()
 const columns = [
-  colHelper.accessor("id", {
-    header: (header) => <TableHeader header={header} name={"ID"} />,
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-  }),
-  colHelper.accessor((row) => `${row.firstName} ${row.lastName}`, {
-    id: "fullName",
-    header: (header) => <TableHeader header={header} name={"Name"} />,
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-  }),
-
-  colHelper.accessor("userId", {
+  colHelper.accessor("_id", {
     header: (header) => <TableHeader header={header} name={"UserID"} />,
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
 
-  colHelper.accessor("createdAt", {
-    header: (header) => <TableHeader header={header} name={"CreatedAt"} />,
+  colHelper.accessor("user_name", {
+    header: (header) => <TableHeader header={header} name={"Name"} />,
+    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+  }),
+
+  colHelper.accessor("count", {
+    header: (header) => <TableHeader header={header} name={"# of Orders"} />,
+    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+  }),
+
+  colHelper.accessor("total_price", {
+    header: (header) => <TableHeader header={header} name={"Total Amount"} />,
     cell: (props) => (
-      <p className="mr-2 w-fit truncate">
-        {moment(props.getValue()).format("YYYY-MM-DD HH:mm:ss")}
-      </p>
+      <p className="mr-2">₹{props.getValue().toLocaleString("en-In")}</p>
     ),
-  }),
-
-  colHelper.accessor("quantity", {
-    header: (header) => <TableHeader header={header} name={"# of Products"} />,
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-  }),
-
-  colHelper.accessor("amount", {
-    header: (header) => <TableHeader header={header} name={"Amount"} />,
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-    // size: 50,
   }),
 ]
 
 const AffiliatePerformance = () => {
   const [globalFilter, setGlobalFilter] = useState("")
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["affiliatePerformanceData"],
+    queryFn: getAffiliatePerformanceData,
+  })
+
+  console.log(data)
 
   return (
     <>
@@ -93,24 +90,36 @@ const AffiliatePerformance = () => {
         subHeading={"Track your affiliate sales performance here"}
       />
 
-      <div className=" w-full p-4 ">
-        {/** Header */}
-        <section className="mb-6 flex justify-start">
-          <TableSearchBar
-            globalFilter={globalFilter}
-            setGlobalFilter={setGlobalFilter}
-            placeholder={"Search by name, amount, etc..."}
-          />
-        </section>
+      {!isLoading ? (
+        data?.orders?.length > 0 ? (
+          <div className="w-full p-4 ">
+            {/** Header */}
+            <section className="mb-6 flex justify-start">
+              <TableSearchBar
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                placeholder={"Search by name, amount, etc..."}
+              />
+            </section>
 
-        {/** Table */}
-        <Table
-          data={data}
-          columns={columns}
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
-        />
-      </div>
+            {/** Table */}
+            <Table
+              data={data?.orders}
+              columns={columns}
+              globalFilter={globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
+          </div>
+        ) : (
+          <div className="flex  h-[28rem] w-full items-center justify-center bg-white font-medium tracking-wider text-gray-300">
+            No Data Available
+          </div>
+        )
+      ) : (
+        <div className="flex h-[30rem] items-center justify-center bg-white">
+          <Spinner />
+        </div>
+      )}
     </>
   )
 }

@@ -152,7 +152,6 @@ const Transactions = () => {
     return result
   }, [data?.allOrders])
 
-  console.log(finalData)
   return (
     <>
       {/** Header */}
@@ -162,113 +161,119 @@ const Transactions = () => {
       />
 
       {!isLoading ? (
-        <div className="p-4">
-          {/* Search Bar */}
-          <section className="mb-6 flex flex-wrap  justify-end gap-8 md:justify-start">
-            <TableSearchBar
+        finalData?.length > 0 ? (
+          <div className="p-4">
+            {/* Search Bar */}
+            <section className="mb-6 flex flex-wrap  justify-end gap-8 md:justify-start">
+              <TableSearchBar
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                placeholder={"Search transaction by id, status, etc..."}
+              />
+              <Menu
+                shadow="md"
+                position="top-start"
+                withArrow
+                arrowSize={12}
+                width={200}
+                value="All"
+              >
+                <Menu.Target>
+                  <button className="flex items-center gap-x-2 text-xs text-blue-500">
+                    <div className="relative">
+                      <div
+                        className={`${isSelectedOrderStatus("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
+                      ></div>
+                      <FiFilter />
+                    </div>
+                    <p>Filter By Order Status</p>
+                  </button>
+                </Menu.Target>
+
+                <Menu.Dropdown defaultValue="All">
+                  <Menu.Label>Payment Status</Menu.Label>
+                  <Menu.Item
+                    className={`${
+                      isSelectedOrderStatus("") && "bg-[#F5FAFF] text-gray-700"
+                    }  hover:bg-[#F5FAFF] hover:text-gray-700`}
+                    onClick={() =>
+                      onColumnFilterChange("latest_order_status", "")
+                    }
+                    value={"All"}
+                  >
+                    All
+                  </Menu.Item>
+
+                  <Menu.Item
+                    className={`${
+                      isSelectedOrderStatus("Order Confirmed") &&
+                      "bg-[#F5FAFF] text-blue-500"
+                    }  hover:bg-[#F5FAFF] hover:text-pink-500`}
+                    onClick={() =>
+                      onColumnFilterChange(
+                        "latest_order_status",
+                        "Order Confirmed"
+                      )
+                    }
+                  >
+                    Order Confirmed
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedOrderStatus("Shipped") &&
+                      "bg-[#F5FAFF] text-green-500"
+                    }  hover:bg-[#F5FAFF] hover:text-blue-500`}
+                    onClick={() =>
+                      onColumnFilterChange("latest_order_status", "Shipped")
+                    }
+                  >
+                    Shipped
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedOrderStatus("Out for delivery") &&
+                      "bg-[#F5FAFF] text-green-500"
+                    }  hover:bg-[#F5FAFF] hover:text-orange-500`}
+                    onClick={() =>
+                      onColumnFilterChange(
+                        "latest_order_status",
+                        "Out for delivery"
+                      )
+                    }
+                  >
+                    Out for delivery
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedOrderStatus("Delivered") &&
+                      "bg-[#F5FAFF] text-red-500"
+                    }  hover:bg-[#F5FAFF] hover:text-green-500`}
+                    onClick={() =>
+                      onColumnFilterChange("latest_order_status", "Delivered")
+                    }
+                  >
+                    Delivered
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </section>
+
+            {/** Table */}
+            <Table
+              data={finalData}
+              columns={columns}
               globalFilter={globalFilter}
               setGlobalFilter={setGlobalFilter}
-              placeholder={"Search transaction by id, status, etc..."}
+              columnFilters={columnFilters}
             />
-            <Menu
-              shadow="md"
-              position="top-start"
-              withArrow
-              arrowSize={12}
-              width={200}
-              value="All"
-            >
-              <Menu.Target>
-                <button className="flex items-center gap-x-2 text-xs text-blue-500">
-                  <div className="relative">
-                    <div
-                      className={`${isSelectedOrderStatus("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
-                    ></div>
-                    <FiFilter />
-                  </div>
-                  <p>Filter By Order Status</p>
-                </button>
-              </Menu.Target>
-
-              <Menu.Dropdown defaultValue="All">
-                <Menu.Label>Payment Status</Menu.Label>
-                <Menu.Item
-                  className={`${
-                    isSelectedOrderStatus("") && "bg-[#F5FAFF] text-gray-700"
-                  }  hover:bg-[#F5FAFF] hover:text-gray-700`}
-                  onClick={() =>
-                    onColumnFilterChange("latest_order_status", "")
-                  }
-                  value={"All"}
-                >
-                  All
-                </Menu.Item>
-
-                <Menu.Item
-                  className={`${
-                    isSelectedOrderStatus("Order Confirmed") &&
-                    "bg-[#F5FAFF] text-blue-500"
-                  }  hover:bg-[#F5FAFF] hover:text-pink-500`}
-                  onClick={() =>
-                    onColumnFilterChange(
-                      "latest_order_status",
-                      "Order Confirmed"
-                    )
-                  }
-                >
-                  Order Confirmed
-                </Menu.Item>
-                <Menu.Item
-                  className={`${
-                    isSelectedOrderStatus("Shipped") &&
-                    "bg-[#F5FAFF] text-green-500"
-                  }  hover:bg-[#F5FAFF] hover:text-blue-500`}
-                  onClick={() =>
-                    onColumnFilterChange("latest_order_status", "Shipped")
-                  }
-                >
-                  Shipped
-                </Menu.Item>
-                <Menu.Item
-                  className={`${
-                    isSelectedOrderStatus("Out for delivery") &&
-                    "bg-[#F5FAFF] text-green-500"
-                  }  hover:bg-[#F5FAFF] hover:text-orange-500`}
-                  onClick={() =>
-                    onColumnFilterChange(
-                      "latest_order_status",
-                      "Out for delivery"
-                    )
-                  }
-                >
-                  Out for delivery
-                </Menu.Item>
-                <Menu.Item
-                  className={`${
-                    isSelectedOrderStatus("Delivered") &&
-                    "bg-[#F5FAFF] text-red-500"
-                  }  hover:bg-[#F5FAFF] hover:text-green-500`}
-                  onClick={() =>
-                    onColumnFilterChange("latest_order_status", "Delivered")
-                  }
-                >
-                  Delivered
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-          </section>
-
-          {/** Table */}
-          <Table
-            data={finalData}
-            columns={columns}
-            globalFilter={globalFilter}
-            setGlobalFilter={setGlobalFilter}
-            columnFilters={columnFilters}
-          />
-        </div>
+          </div>
+        ) : (
+          <div className="flex  h-[28rem] w-full items-center justify-center bg-white font-medium tracking-wider text-gray-300">
+            No Data Available
+          </div>
+        )
       ) : (
-        <div className="flex h-[70vh] w-full items-center justify-center px-4">
+        <div className="flex h-[70vh] w-full items-center justify-center bg-white px-4">
           <Spinner />
         </div>
       )}

@@ -9,6 +9,8 @@ import {
   logoutUser,
   checkAuth,
   getUserByID,
+  getAllAdmins,
+  getAffiliatePerformance,
 } from "../controllers/userController.js";
 import { protect, restrict } from "../middlewares/auth.js";
 
@@ -33,6 +35,14 @@ router
 router
   .route("/all-users")
   .get(protect, restrict("admin", "operator"), getAllUsers);
+
+router
+  .route("/affiliate-performance")
+  .get(protect, restrict("admin", "operator"), getAffiliatePerformance);
+
+router
+  .route("/all-admins")
+  .get(protect, restrict("admin", "operator"), getAllAdmins);
 
 router.route("/auth/check").get(checkAuth);
 

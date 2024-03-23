@@ -31,6 +31,9 @@ export const getUserData = async (userID) => {
 export const getAllUsers = async () => {
   return await axiosCall("get", `/api/all-users`)
 }
+export const getAdmins = async () => {
+  return await axiosCall("get", `/api/all-admins`)
+}
 
 export const editUser = async ({ userID, payload }) => {
   return await axiosCall("patch", `/api/edit-user/${userID}`, payload)
@@ -38,4 +41,8 @@ export const editUser = async ({ userID, payload }) => {
 
 export const deleteUser = async (user) => {
   return await axiosCall("delete", `/api/delete-user/${user?._id}`)
+}
+
+export const getAffiliatePerformanceData = async () => {
+  return await axiosCall("get", `/api/affiliate-performance`)
 }

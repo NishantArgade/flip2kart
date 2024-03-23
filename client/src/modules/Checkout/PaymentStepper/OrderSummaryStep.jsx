@@ -50,18 +50,26 @@ const OrderSummaryStep = ({
   console.log(cart)
 
   function handleClickContinue() {
-    const products = cart.map((c) => ({
-      product_id: c.product._id,
-      name: c.product.name,
-      description: c.product.description,
-      images: c.product.images,
-      price: c.product.price,
-      quantity: c.quantity,
-      discount: calculateDiscountAmount(c.product.price, c.product.discount),
-      seller: c.product.seller,
-      seller_address: c.product.seller_address,
-      delivery_estimate_days: c.product.delivery_estimate_days,
-    }))
+    const products = cart.map((c) => {
+      const discount = calculateDiscountAmount(
+        c.product.price,
+        c.product.discount
+      )
+      return {
+        product_id: c.product._id,
+        name: c.product.name,
+        description: c.product.description,
+        category: c.product.category,
+        images: c.product.images,
+        price: c.product.price,
+        quantity: c.quantity,
+        discount: discount,
+        afterDiscountTotalPrice: (c.product.price - discount) * c.quantity,
+        seller: c.product.seller,
+        seller_address: c.product.seller_address,
+        delivery_estimate_days: c.product.delivery_estimate_days,
+      }
+    })
 
     setPaymentData((prev) => ({
       ...prev,

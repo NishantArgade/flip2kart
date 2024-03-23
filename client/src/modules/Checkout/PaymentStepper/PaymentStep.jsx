@@ -37,7 +37,7 @@ export default function PaymentStep({
       handler: async function (response) {
         console.log(response)
         try {
-          const data = await validateOrder(response)
+          const data = await validateOrder({ ...response, cartData })
 
           const payload = {
             payment: {

@@ -132,13 +132,6 @@ const Categories = () => {
     }),
   ]
 
-  if (isLoading)
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <Spinner />
-      </div>
-    )
-
   return (
     <>
       <CategoryModal
@@ -157,31 +150,43 @@ const Categories = () => {
         heading={"Categories"}
         subHeading={"Table for to see category details"}
       />
-      <div className="w-full p-4">
-        <section className="mb-6 flex justify-between gap-x-2">
-          <TableSearchBar
-            globalFilter={globalFilter}
-            setGlobalFilter={setGlobalFilter}
-            placeholder={"Search office by category, brand, etc..."}
-          />
-          <button
-            onClick={handleAddOffice}
-            className="flex  h-full w-20 cursor-pointer items-center justify-center gap-x-2 bg-blue-600 py-2 text-xs   text-white lg:w-32"
-          >
-            <IoMdAddCircle size={20} />
-            <p className="hidden lg:block">Add Category</p>
-          </button>
-        </section>
+      {!isLoading ? (
+        data?.categories.length > 0 ? (
+          <div className="w-full p-4">
+            <section className="mb-6 flex justify-between gap-x-2">
+              <TableSearchBar
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                placeholder={"Search office by category, brand, etc..."}
+              />
+              <button
+                onClick={handleAddOffice}
+                className="flex  h-full w-20 cursor-pointer items-center justify-center gap-x-2 bg-blue-600 py-2 text-xs   text-white lg:w-32"
+              >
+                <IoMdAddCircle size={20} />
+                <p className="hidden lg:block">Add Category</p>
+              </button>
+            </section>
 
-        {/** Table */}
+            {/** Table */}
 
-        <Table
-          data={data?.categories || []}
-          columns={columns}
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
-        />
-      </div>
+            <Table
+              data={data?.categories}
+              columns={columns}
+              globalFilter={globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
+          </div>
+        ) : (
+          <div className="flex  h-[28rem] w-full items-center justify-center bg-white font-medium tracking-wider text-gray-300">
+            No Data Available
+          </div>
+        )
+      ) : (
+        <div className="flex h-[30rem] items-center justify-center bg-white">
+          <Spinner />
+        </div>
+      )}
     </>
   )
 }

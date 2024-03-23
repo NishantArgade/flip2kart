@@ -4,7 +4,8 @@ import { CustomError } from "../utils/CustomError.js";
 import { sendMail } from "../utils/sendMail.js";
 import { cookiesOption, generateOTP, generateToken } from "../utils/helper.js";
 import jwt from "jsonwebtoken";
-import { Address } from "../models/addressModel.js";
+import { Order } from "../models/orderModel.js";
+import { ObjectId } from "mongoose";
 
 export const loginUser = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
@@ -207,6 +208,18 @@ export const getAllUsers = asyncHandler(async (req, res, next) => {
   });
 });
 
+export const getAllAdmins = asyncHandler(async (req, res, next) => {
+  const admins = await User.find({ role: { $ne: "user" } }).select(
+    "first_name last_name email phone _id created_at gender role "
+  );
+
+  res.status(200).json({
+    status: "success",
+    message: "Fetched all Admins successfully",
+    admins,
+  });
+});
+
 export const checkAuth = asyncHandler(async (req, res, next) => {
   const access_token = req.cookies.access_token;
   const refresh_token = req.cookies.refresh_token;
@@ -247,4 +260,23 @@ export const checkAuth = asyncHandler(async (req, res, next) => {
       }
     }
   );
+});
+
+export const getAffiliatePerformance = asyncHandler(async (req, res, next) => {
+  const orders = await Order.aggregate([
+    {
+      $group: {
+        _id: "$billing_user_id",
+        user_name: { $first: "$billing_user" },
+        total_price: { $sum: "$total_price" },
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    message: "Fetched all Users successfully",
+    orders,
+  });
 });

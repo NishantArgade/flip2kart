@@ -14,35 +14,10 @@ import { useDisclosure } from "@mantine/hooks"
 import OfficeModal from "./components/OfficeModal.jsx"
 import { FaEdit } from "react-icons/fa"
 import OfferModal from "./components/OfferModal.jsx"
-
-const data = [
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    offer:
-      "Bank Offer10% off on Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above  and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-    createdAt: new Date("2023/01/10"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    offer:
-      "Bank Offer10% off on Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-    createdAt: new Date("2023/01/10"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    offer: "EMI starting from ₹1,600/month",
-    createdAt: new Date("2023/01/10"),
-  },
-
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    offer:
-      "Bank Offer10% off on Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-    createdAt: new Date("2023/01/10"),
-  },
-]
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { deleteOffer, getAllOffers } from "../../api/offerApi.js"
+import Spinner from "../../components/Spinner.jsx"
+import { queryClient } from "../../main.jsx"
 
 const colHelper = createColumnHelper()
 
@@ -50,8 +25,10 @@ const Offers = () => {
   const [globalFilter, setGlobalFilter] = useState("")
   const [opened, { open, close }] = useDisclosure(false)
   const [isEdit, setIsEdit] = useState(false)
+  const [selectedOffer, setSelectedOffer] = useState({})
 
-  function handleEdit() {
+  function handleEdit(data) {
+    setSelectedOffer(data)
     setIsEdit(true)
     open()
   }
@@ -59,18 +36,33 @@ const Offers = () => {
     setIsEdit(false)
     open()
   }
+  const { mutate, isPending } = useMutation({
+    mutationKey: "deleteOffer",
+    mutationFn: deleteOffer,
+    onSuccess: () => queryClient.invalidateQueries("getAllOffers"),
+  })
   const columns = [
-    colHelper.accessor("id", {
+    colHelper.accessor("_id", {
       header: (header) => <TableHeader header={header} name={"ID"} />,
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
 
     colHelper.accessor("offer", {
       header: (header) => <TableHeader header={header} name={"Offer"} />,
-      cell: (props) => <p className="mr-2 w-[40rem]">{props.getValue()}</p>,
+      cell: (props) => (
+        <Tooltip
+          label={props.getValue()}
+          arrowOffset={12}
+          arrowSize={6}
+          withArrow
+          className="max-h-32 max-w-[30rem] text-wrap bg-gray-600  text-xs text-white"
+        >
+          <p className="mr-2 line-clamp-1 w-[30rem]">{props.getValue()}</p>
+        </Tooltip>
+      ),
     }),
 
-    colHelper.accessor("createdAt", {
+    colHelper.accessor("created_at", {
       header: (header) => <TableHeader header={header} name={"Created At"} />,
       cell: (props) => (
         <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
@@ -79,46 +71,78 @@ const Offers = () => {
 
     colHelper.accessor("action", {
       header: () => null,
-      cell: () => (
+      cell: ({ row }) => (
         <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
-          <FaEdit onClick={handleEdit} />
-          <DeletePopover size={18} deleteItemName="offer" />
+          <FaEdit onClick={() => handleEdit(row.original)} />
+          <DeletePopover
+            size={18}
+            deleteItemName="offer"
+            item={row.original}
+            mutate={mutate}
+            isPending={isPending}
+          />
         </p>
       ),
     }),
   ]
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["getAllOffers"],
+    queryFn: getAllOffers,
+  })
   return (
     <>
-      <OfferModal opened={opened} close={close} isEdit={isEdit} />
+      <OfferModal
+        opened={opened}
+        close={close}
+        isEdit={isEdit}
+        offerData={selectedOffer}
+      />
 
       <ClientFacingHeader
         heading={"Offers"}
         subHeading={"Table for to see all available offers"}
       />
-      <div className="w-full p-4">
-        <section className="mb-6 flex justify-between gap-x-2">
-          <TableSearchBar
-            globalFilter={globalFilter}
-            setGlobalFilter={setGlobalFilter}
-            placeholder={"Search office by offer"}
-          />
-          <button
-            onClick={handleAddOffice}
-            className="flex  h-full w-20 cursor-pointer items-center justify-center gap-x-2 bg-blue-600 py-2 text-xs   text-white lg:w-32"
-          >
-            <IoMdAddCircle size={20} />
-            <p className="hidden lg:block">Add Offer</p>
-          </button>
-        </section>
+      {!isLoading ? (
+        <div className="min-h-96 w-full p-4">
+          <section className="mb-6 flex justify-between gap-x-2">
+            {data?.offers.length > 0 && (
+              <TableSearchBar
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                placeholder={"Search office by offer"}
+              />
+            )}
+            <button
+              onClick={handleAddOffice}
+              className="flex  h-full w-20 cursor-pointer items-center justify-center gap-x-2 bg-blue-600 py-2 text-xs   text-white lg:w-32"
+            >
+              <IoMdAddCircle size={20} />
+              <p className="hidden lg:block">Add Offer</p>
+            </button>
+          </section>
 
-        {/** Table */}
-        <Table
-          data={data}
-          columns={columns}
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
-        />
-      </div>
+          {/** Table */}
+          {data?.offers.length > 0 && (
+            <Table
+              data={data?.offers}
+              columns={columns}
+              globalFilter={globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
+          )}
+        </div>
+      ) : (
+        // data?.offers.length > 0
+        //  (
+        //   <div className="flex  h-[28rem] w-full items-center justify-center bg-white font-medium tracking-wider text-gray-300">
+        //     No Data Available
+        //   </div>
+        // )
+        <div className="flex h-[30rem] items-center justify-center bg-white">
+          <Spinner />
+        </div>
+      )}
     </>
   )
 }

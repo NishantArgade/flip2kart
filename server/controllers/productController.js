@@ -238,6 +238,7 @@ export const addProductToCart = expressAsyncHandler(async (req, res, next) => {
     message: "Added product to Cart",
   });
 });
+
 export const updateAddToCartProduct = expressAsyncHandler(
   async (req, res, next) => {
     const { quantity, product: productID } = req.body;
@@ -281,6 +282,7 @@ export const removeProductFromCart = expressAsyncHandler(
     });
   }
 );
+
 export function calculateDiscountAmount(originalPrice, discountRate) {
   discountRate = discountRate / 100;
 
@@ -352,6 +354,7 @@ export const getCartProducts = expressAsyncHandler(async (req, res, next) => {
     finalTotalAmount,
   });
 });
+
 export const singleProductBillData = expressAsyncHandler(
   async (req, res, next) => {
     const product = await Product.findById(req.query.product);

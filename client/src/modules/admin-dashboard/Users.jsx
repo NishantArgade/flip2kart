@@ -58,30 +58,45 @@ const Users = () => {
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
 
-    colHelper.accessor((row) => `${row.first_name} ${row.last_name}`, {
+    colHelper.accessor((row) => row, {
       id: "fullName",
       header: (header) => <TableHeader header={header} name={"Name"} />,
-      cell: (props) => (
-        <Tooltip
-          label={props.getValue()}
-          arrowOffset={12}
-          arrowSize={6}
-          withArrow
-          className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
-        >
-          <p className="mr-2 w-14 truncate">{props.getValue()}</p>
-        </Tooltip>
-      ),
+      cell: (props) =>
+        props.getValue()?.first_name || props.getValue()?.last_name ? (
+          <Tooltip
+            label={
+              (props.getValue()?.first_name
+                ? props.getValue()?.first_name
+                : "") +
+              " " +
+              (props.getValue()?.last_name ? props.getValue()?.last_name : "")
+            }
+            arrowOffset={12}
+            arrowSize={6}
+            withArrow
+            className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
+          >
+            <p className="mr-2 w-14 truncate">
+              {props.getValue()?.first_name} {props.getValue()?.last_name}
+            </p>
+          </Tooltip>
+        ) : (
+          "-"
+        ),
     }),
 
     colHelper.accessor("email", {
       header: (header) => <TableHeader header={header} name={"Email"} />,
-      cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+      cell: (props) => (
+        <p className="mr-2">{props.getValue() ? props.getValue() : "-"}</p>
+      ),
     }),
 
     colHelper.accessor("phone", {
       header: (header) => <TableHeader header={header} name={"Phone"} />,
-      cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+      cell: (props) => (
+        <p className="mr-2">{props.getValue() ? props.getValue() : "-"}</p>
+      ),
     }),
 
     colHelper.accessor("created_at", {
@@ -129,13 +144,6 @@ const Users = () => {
     }),
   ]
 
-  if (isLoading)
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <Spinner />
-      </div>
-    )
-
   return (
     <>
       {selectedUser?._id && (
@@ -147,74 +155,87 @@ const Users = () => {
       )}
       <ClientFacingHeader heading={"Users"} subHeading={"Table for users"} />
 
-      <div className="w-full p-4">
-        {/** Header */}
-        <section className="mb-6 flex flex-wrap  justify-end gap-8 md:justify-start">
-          <TableSearchBar
-            globalFilter={globalFilter}
-            setGlobalFilter={setGlobalFilter}
-            placeholder={"Search user by name, email, etc..."}
-          />
-          <Menu
-            shadow="md"
-            position="bottom-start"
-            withArrow
-            arrowSize={12}
-            width={200}
-            value="All"
-          >
-            <Menu.Target>
-              <button className="flex items-center gap-x-2 text-xs text-blue-500">
-                <div className="relative">
-                  <div
-                    className={`${isSelectedRating("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
-                  ></div>
-                  <FiFilter />
-                </div>
-                <p>Filter By Role</p>
-              </button>
-            </Menu.Target>
+      {!isLoading ? (
+        data?.users.length > 0 ? (
+          <div className="w-full p-4">
+            {/** Header */}
+            <section className="mb-6 flex flex-wrap  justify-end gap-8 md:justify-start">
+              <TableSearchBar
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                placeholder={"Search user by name, email, etc..."}
+              />
+              <Menu
+                shadow="md"
+                position="bottom-start"
+                withArrow
+                arrowSize={12}
+                width={200}
+                value="All"
+              >
+                <Menu.Target>
+                  <button className="flex items-center gap-x-2 text-xs text-blue-500">
+                    <div className="relative">
+                      <div
+                        className={`${isSelectedRating("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
+                      ></div>
+                      <FiFilter />
+                    </div>
+                    <p>Filter By Role</p>
+                  </button>
+                </Menu.Target>
 
-            <Menu.Dropdown defaultValue="All">
-              <Menu.Label>Roles</Menu.Label>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("") && "bg-[#F5FAFF] text-gray-700"
-                }  hover:bg-[#F5FAFF] hover:text-gray-700`}
-                onClick={() => onColumnFilterChange("role", "")}
-                value={"All"}
-              >
-                All
-              </Menu.Item>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("user") && "bg-[#F5FAFF] text-green-500"
-                }  hover:bg-[#F5FAFF] hover:text-green-500`}
-                onClick={() => onColumnFilterChange("role", "user")}
-              >
-                User
-              </Menu.Item>
-              <Menu.Item
-                className={`${
-                  isSelectedRating("admin") && "bg-[#F5FAFF] text-orange-500"
-                }  hover:bg-[#F5FAFF] hover:text-orange-500`}
-                onClick={() => onColumnFilterChange("role", "admin")}
-              >
-                Admin
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
-        </section>
+                <Menu.Dropdown defaultValue="All">
+                  <Menu.Label>Roles</Menu.Label>
+                  <Menu.Item
+                    className={`${
+                      isSelectedRating("") && "bg-[#F5FAFF] text-gray-700"
+                    }  hover:bg-[#F5FAFF] hover:text-gray-700`}
+                    onClick={() => onColumnFilterChange("role", "")}
+                    value={"All"}
+                  >
+                    All
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedRating("user") && "bg-[#F5FAFF] text-green-500"
+                    }  hover:bg-[#F5FAFF] hover:text-green-500`}
+                    onClick={() => onColumnFilterChange("role", "user")}
+                  >
+                    User
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedRating("admin") &&
+                      "bg-[#F5FAFF] text-orange-500"
+                    }  hover:bg-[#F5FAFF] hover:text-orange-500`}
+                    onClick={() => onColumnFilterChange("role", "admin")}
+                  >
+                    Admin
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </section>
 
-        {/** Table */}
-        <Table
-          data={data?.users || []}
-          columns={columns}
-          globalFilter={globalFilter}
-          setColumnFilters={setGlobalFilter}
-          columnFilters={columnFilters}
-        />
-      </div>
+            {/** Table */}
+            <Table
+              data={data?.users}
+              columns={columns}
+              globalFilter={globalFilter}
+              setColumnFilters={setGlobalFilter}
+              columnFilters={columnFilters}
+            />
+          </div>
+        ) : (
+          <div className="flex  h-[28rem] w-full items-center justify-center bg-white font-medium tracking-wider text-gray-300">
+            No Data Available
+          </div>
+        )
+      ) : (
+        <div className="flex h-[30rem] items-center justify-center bg-white">
+          <Spinner />
+        </div>
+      )}
     </>
   )
 }

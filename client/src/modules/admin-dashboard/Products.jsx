@@ -17,13 +17,14 @@ import {
   getAllProducts,
 } from "../../api/productApi.js"
 import { queryClient } from "../../main.jsx"
+import Spinner from "../../components/Spinner.jsx"
 
 const colHelper = createColumnHelper()
 
 const Products = () => {
   const navigate = useNavigate()
   const [globalFilter, setGlobalFilter] = useState("")
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["allProducts"],
     queryFn: getAllProducts,
   })
@@ -131,30 +132,42 @@ const Products = () => {
         heading={"Products"}
         subHeading={"Table for products"}
       />
-      <div className="w-full p-4">
-        <section className="mb-6 flex justify-between gap-x-2">
-          <TableSearchBar
-            globalFilter={globalFilter}
-            setGlobalFilter={setGlobalFilter}
-            placeholder={"Search product by name, description, etc..."}
-          />
-          <Link
-            to="/add-product"
-            className="flex  h-full w-20 cursor-pointer items-center justify-center gap-x-2 bg-blue-600 py-2 text-xs   text-white lg:w-32"
-          >
-            <IoMdAddCircle size={20} />
-            <p className="hidden lg:block">Add Product</p>
-          </Link>
-        </section>
+      {!isLoading ? (
+        data?.products.length > 0 ? (
+          <div className="w-full p-4">
+            <section className="mb-6 flex justify-between gap-x-2">
+              <TableSearchBar
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                placeholder={"Search product by name, description, etc..."}
+              />
+              <Link
+                to="/add-product"
+                className="flex  h-full w-20 cursor-pointer items-center justify-center gap-x-2 bg-blue-600 py-2 text-xs   text-white lg:w-32"
+              >
+                <IoMdAddCircle size={20} />
+                <p className="hidden lg:block">Add Product</p>
+              </Link>
+            </section>
 
-        {/** Table */}
-        <Table
-          data={data?.products || []}
-          columns={columns}
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
-        />
-      </div>
+            {/** Table */}
+            <Table
+              data={data?.products}
+              columns={columns}
+              globalFilter={globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
+          </div>
+        ) : (
+          <div className="flex  h-[28rem] w-full items-center justify-center bg-white font-medium tracking-wider text-gray-300">
+            No Data Available
+          </div>
+        )
+      ) : (
+        <div className="flex h-[30rem] items-center justify-center bg-white">
+          <Spinner />
+        </div>
+      )}
     </>
   )
 }

@@ -1,5 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import { Order } from "../models/orderModel.js";
+import { Product } from "../models/productModel.js";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
@@ -78,8 +79,12 @@ export const saveOrder = expressAsyncHandler(async (req, res, next) => {
 });
 
 export const validateOrder = expressAsyncHandler(async (req, res, next) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
+  const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature,
+    cartData,
+  } = req.body;
 
   const instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -94,6 +99,18 @@ export const validateOrder = expressAsyncHandler(async (req, res, next) => {
     return res.status(400).json({ message: "Transaction is not legit!" });
 
   const { method } = await instance.payments.fetch(razorpay_payment_id);
+  //write logic to deduct stock after success payment for product
+  // await Product
+
+  const bulkOps = cartData?.cart.map((item) => ({
+    updateOne: {
+      filter: { _id: item.product._id },
+      update: { $inc: { stock: -item.quantity } },
+    },
+  }));
+
+  await Product.bulkWrite(bulkOps);
+  console.log(cartData);
 
   res.status(200).json({
     message: "success",

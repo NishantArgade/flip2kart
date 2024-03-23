@@ -14,6 +14,7 @@ import categoryRoute from "./routes/categoryRoute.js";
 import reviewRoute from "./routes/reviewRoute.js";
 import officeRoute from "./routes/officeRoute.js";
 import offerRoute from "./routes/offerRoute.js";
+import salesRoute from "./routes/salesRoute.js";
 
 export const app = express();
 
@@ -41,6 +42,7 @@ app.use("/api", categoryRoute);
 app.use("/api", reviewRoute);
 app.use("/api", officeRoute);
 app.use("/api", offerRoute);
+app.use("/api", salesRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World");

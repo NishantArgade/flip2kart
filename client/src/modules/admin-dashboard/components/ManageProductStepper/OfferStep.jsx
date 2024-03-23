@@ -1,18 +1,7 @@
 import { MultiSelect } from "@mantine/core"
+import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
-
-const offers = [
-  "Bank Offer10% off on1 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-  "Bank Offer10% off on2 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-  "Bank Offer10% off on3 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-  "Bank Offer10% off on4 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-  "Bank Offer10% off on5 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-  "Bank Offer10% off on6 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-  "Bank Offer10% off on7 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-  "Bank Offer10% off on8 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-  "Bank Offer10% off o9 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-  "Bank Offer10% off on10 Citi-branded Credit and Debit Card Txns, up to ₹1,500 on orders of ₹10,000 and above",
-]
+import { getAllOffers } from "../../../../api/offerApi"
 
 const OfferStep = ({ nextStep, prevStep, offerData, setOfferData }) => {
   const [searchValue, setSearchValue] = useState("")
@@ -26,12 +15,17 @@ const OfferStep = ({ nextStep, prevStep, offerData, setOfferData }) => {
     return filtered
   }
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["getAllOffers"],
+    queryFn: getAllOffers,
+  })
+
   return (
     <>
       <MultiSelect
         label="Select Offer"
         placeholder="Pick Offer"
-        data={offers.map((offer) => ({ label: offer, value: offer }))}
+        data={data?.offers.map(({ offer }) => ({ label: offer, value: offer }))}
         clearable
         searchable
         filter={optionsFilter}
@@ -45,6 +39,7 @@ const OfferStep = ({ nextStep, prevStep, offerData, setOfferData }) => {
         height={4}
         value={offerData}
         onChange={setOfferData}
+        disabled={isLoading}
       />
 
       <div className="float-end flex items-center gap-4 py-4">
