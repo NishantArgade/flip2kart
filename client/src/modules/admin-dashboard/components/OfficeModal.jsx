@@ -3,9 +3,12 @@ import "react-datepicker/dist/react-datepicker.css"
 import { useForm } from "@mantine/form"
 import DatePicker from "react-datepicker"
 import { IoCalendarOutline } from "react-icons/io5"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useMutation } from "@tanstack/react-query"
+import { addOffice, editOffice } from "../../../api/officeApi"
+import { queryClient } from "../../../main"
 
-function OfficeModal({ opened, close, isEdit = false }) {
+function OfficeModal({ opened, close, isEdit = false, officeData }) {
   const [establishedAt, setEstablishedAt] = useState(null)
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
@@ -47,17 +50,77 @@ function OfficeModal({ opened, close, isEdit = false }) {
     },
   })
 
+  const { mutate: addOfficeMutate, isPending: addOfficeIsPending } =
+    useMutation({
+      mutationKey: "addOffice",
+      mutationFn: addOffice,
+      onSuccess: () => {
+        queryClient.invalidateQueries("allOffices")
+        close()
+        setEstablishedAt(null)
+        form.reset()
+      },
+    })
+
+  const { mutate: editOfficeMutate, isPending: editOfficeIsPending } =
+    useMutation({
+      mutationKey: "editOffice",
+      mutationFn: editOffice,
+      onSuccess: () => {
+        queryClient.invalidateQueries("allOffices")
+        close()
+        setEstablishedAt(null)
+        form.reset()
+      },
+    })
+
+  function handleSubmit(values) {
+    if (isEdit)
+      editOfficeMutate({
+        id: officeData?._id,
+        payload: { ...values, established_at: establishedAt },
+      })
+    else addOfficeMutate({ ...values, established_at: establishedAt })
+  }
+
+  function setInput(data) {
+    if (data) {
+      form.setValues(data)
+      setEstablishedAt(new Date(data?.established_at))
+    } else {
+      form.reset()
+      setEstablishedAt(null)
+    }
+  }
+
+  function handleClose() {
+    close()
+    if (isEdit) {
+      setInput(officeData)
+    } else {
+      setInput(null)
+    }
+  }
+
+  useEffect(() => {
+    if (isEdit) {
+      setInput(officeData)
+    } else {
+      setInput(null)
+    }
+  }, [officeData, isEdit])
+
   return (
     <>
       <Modal
         size={"lg"}
         opened={opened}
-        onClose={close}
+        onClose={handleClose}
         title={isEdit ? "Edit Office" : "Add Office"}
         closeOnClickOutside={false}
         centered
       >
-        <form onSubmit={form.onSubmit(console.log)} className="my-2">
+        <form onSubmit={form.onSubmit(handleSubmit)} className="my-2">
           <div className="grid grid-cols-2 gap-4">
             <TextInput
               label="Manager"
@@ -126,6 +189,8 @@ function OfficeModal({ opened, close, isEdit = false }) {
                 onChange={(date) => setEstablishedAt(date)}
                 className="w-full cursor-pointer border-2  text-xs outline-blue-400"
                 placeholderText="Date of establishment"
+                maxDate={new Date()}
+                dateFormat="yyyy-MM-dd"
               />
             </div>
           </div>
@@ -133,8 +198,9 @@ function OfficeModal({ opened, close, isEdit = false }) {
           <div className="flex items-center justify-end gap-4">
             <div className="flex flex-col self-start">
               <button
-                onClick={close}
+                onClick={handleClose}
                 className="mt-6 rounded-sm border-[1.5px] border-gray-200 bg-white px-6 py-2 text-xs text-gray-800 shadow-md"
+                type="button"
               >
                 CANCEL
               </button>
@@ -143,8 +209,9 @@ function OfficeModal({ opened, close, isEdit = false }) {
               <button
                 type="submit"
                 className="mt-6 rounded-sm bg-blue-600 px-6 py-2 text-xs text-white shadow-md"
+                disabled={isEdit ? editOfficeIsPending : addOfficeIsPending}
               >
-                SAVE
+                {isEdit ? "UPDATE" : "SAVE"}
               </button>
             </div>
           </div>

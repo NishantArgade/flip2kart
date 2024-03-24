@@ -1,7 +1,10 @@
-import { City, Country } from "country-state-city"
+import { City, Country, State } from "country-state-city"
 import "leaflet/dist/leaflet.css"
 import { MapContainer, TileLayer } from "react-leaflet"
 import MapMarker from "./components/MapMarker"
+import { getAllOffices } from "../../api/officeApi"
+import { useQuery } from "@tanstack/react-query"
+import { useMemo } from "react"
 
 const Map = () => {
   const officeLocations = [
@@ -21,13 +24,27 @@ const Map = () => {
       city: ["London", "Manchester", "Birmingham", "Liverpool"],
     },
   ]
+  const { data, isLoading } = useQuery({
+    queryKey: ["allOffices"],
+    queryFn: getAllOffices,
+  })
+  let allCountries = Country.getAllCountries() // Get all countries
 
-  const data = officeLocations.map((location) =>
-    City.getCitiesOfCountry(location.country, location.state).filter((city) =>
-      location.city.includes(city.name)
-    )
-  )
+  const result = useMemo(() => {
+    return data?.offices.map((location) => {
+      let country = allCountries.find(
+        (c) => c.name.toLowerCase() === location.country.toLowerCase()
+      )
+      let state = State.getAllStates(country?.isoCode).find(
+        (s) => s.name.toLowerCase() === location.state.toLowerCase()
+      )
+      return City.getCitiesOfState(country?.isoCode, state?.isoCode).filter(
+        (city) => city.name.toLowerCase() === location.city.toLowerCase()
+      )
+    })
+  }, [data])
 
+  console.log(result)
   return (
     <MapContainer
       center={[18.52043, 73.856743]}
@@ -40,14 +57,16 @@ const Map = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         // zIndex={-100}
       />
-      {data.map((country) =>
-        country.map((city) => (
-          <MapMarker
-            key={`${city.name}${city.latitude}${city.longitude}`}
-            city={city}
-          />
-        ))
-      )}
+      {result?.length > 0
+        ? result.map((country) =>
+            country.map((city) => (
+              <MapMarker
+                key={`${city.name}${city.latitude}${city.longitude}`}
+                city={city}
+              />
+            ))
+          )
+        : null}
     </MapContainer>
   )
 }

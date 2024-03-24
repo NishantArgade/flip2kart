@@ -83,7 +83,7 @@ const DailySales = () => {
                   onChange={(date) => setStartDate(date)}
                   className="ml-[2px] w-28 cursor-pointer border-2 outline-blue-400"
                   placeholderText="Start Date"
-                  dateFormat="dd/MM/yyyy"
+                  dateFormat="yyyy-MM-dd"
                 />
               </div>
               <div>
@@ -95,7 +95,7 @@ const DailySales = () => {
                   onChange={(date) => setEndDate(date)}
                   className="ml-[2px] w-28 cursor-pointer border-2 outline-blue-400"
                   placeholderText="End Date"
-                  dateFormat="dd/MM/yyyy"
+                  dateFormat="yyyy-MM-dd"
                   maxDate={new Date()}
                   minDate={startDate}
                 />
