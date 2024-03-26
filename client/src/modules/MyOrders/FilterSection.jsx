@@ -2,6 +2,14 @@ import { Accordion, Checkbox } from "@mantine/core"
 import { useEffect, useMemo, useState } from "react"
 import { IoArrowBack } from "react-icons/io5"
 import Skeleton from "react-loading-skeleton"
+import {
+  CANCELLED,
+  DELIVERED,
+  ORDER_CONFIRMED,
+  OUT_FOR_DELIVERY,
+  RETURNED,
+  SHIPPED,
+} from "../../utils/constants"
 
 const FilterSection = ({
   isOpenSidebar,
@@ -224,27 +232,24 @@ const FilterSection = ({
                     <span className="text-gray-500">Clear All</span>
                   </button>
                 )}
-                {[
-                  "Order Confirmed",
-                  "Shipped",
-                  "Out for delivery",
-                  "Delivered",
-                ].map((status, i) => (
-                  <Checkbox
-                    key={i}
-                    size="xs"
-                    label={status}
-                    className="mb-3"
-                    onChange={(e) =>
-                      onOrderStatusCheckboxClick(
-                        status,
-                        e.currentTarget.checked
-                      )
-                    }
-                    checked={selectedOrderStatus.includes(status)}
-                    readOnly
-                  />
-                ))}
+                {[OUT_FOR_DELIVERY, DELIVERED, CANCELLED, RETURNED].map(
+                  (status, i) => (
+                    <Checkbox
+                      key={i}
+                      size="xs"
+                      label={status}
+                      className="mb-3"
+                      onChange={(e) =>
+                        onOrderStatusCheckboxClick(
+                          status,
+                          e.currentTarget.checked
+                        )
+                      }
+                      checked={selectedOrderStatus.includes(status)}
+                      readOnly
+                    />
+                  )
+                )}
               </Accordion.Panel>
             </Accordion.Item>
             <Accordion.Item value={"ORDER TIME"}>

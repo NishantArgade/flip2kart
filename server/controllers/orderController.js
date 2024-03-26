@@ -4,16 +4,21 @@ import { Product } from "../models/productModel.js";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
-export const myOrders = expressAsyncHandler(async (req, res, next) => {
-  const userID = req.user._id;
-  const orders = await Order.find({ billing_user_id: userID });
-
-  res.status(200).json({
-    status: "success",
-    message: "Fetched my all orders successfully",
-    orders: orders || [],
-  });
+const instance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
+
+// export const myOrders = expressAsyncHandler(async (req, res, next) => {
+//   const userID = req.user._id;
+//   const orders = await Order.find({ billing_user_id: userID });
+
+//   res.status(200).json({
+//     status: "success",
+//     message: "Fetched my all orders successfully",
+//     orders: orders || [],
+//   });
+// });
 
 export const orderDetail = expressAsyncHandler(async (req, res, next) => {
   const orderID = req.query.order;
@@ -45,6 +50,13 @@ export const changeStatusOfDelivery = expressAsyncHandler(
       date: new Date(),
     };
 
+    // reconver stock if order is cancelled or returned
+    if (status === "Cancelled" || status === "Returned") {
+      await Product.findByIdAndUpdate(product.product_id, {
+        $inc: { stock: product.quantity },
+      });
+    }
+
     await order.save();
 
     res.status(200).json({
@@ -55,11 +67,6 @@ export const changeStatusOfDelivery = expressAsyncHandler(
 );
 
 export const createOrder = expressAsyncHandler(async (req, res, next) => {
-  const instance = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-  });
-
   const options = req.body;
   const order = await instance.orders.create(options);
 
@@ -86,21 +93,12 @@ export const validateOrder = expressAsyncHandler(async (req, res, next) => {
     cartData,
   } = req.body;
 
-  const instance = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-  });
-
   const sha = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
   sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
   const digest = sha.digest("hex");
 
   if (digest !== razorpay_signature)
     return res.status(400).json({ message: "Transaction is not legit!" });
-
-  const { method } = await instance.payments.fetch(razorpay_payment_id);
-  //write logic to deduct stock after success payment for product
-  // await Product
 
   const bulkOps = cartData?.cart.map((item) => ({
     updateOne: {
@@ -110,21 +108,43 @@ export const validateOrder = expressAsyncHandler(async (req, res, next) => {
   }));
 
   await Product.bulkWrite(bulkOps);
-  console.log(cartData);
 
   res.status(200).json({
     message: "success",
     orderId: razorpay_order_id,
     paymentId: razorpay_payment_id,
-    method,
   });
 });
+
+export const getPaymentDataByPaymentID = expressAsyncHandler(
+  async (req, res, next) => {
+    const paymentId = req.params.paymentId;
+    const data = await instance.payments.fetch(paymentId);
+
+    console.log(data);
+
+    res.status(200).json({
+      status: "success",
+      message: "Order updated successfully",
+      data,
+    });
+  }
+);
 
 export const editOrder = expressAsyncHandler(async (req, res, next) => {
   const orderID = req.params.orderID;
   const body = req.body;
 
   await Order.findByIdAndUpdate(orderID, body);
+
+  res.status(200).json({
+    status: "success",
+    message: "Order updated successfully",
+  });
+});
+
+export const cancelOrder = expressAsyncHandler(async (req, res, next) => {
+  console.log(req.body);
 
   res.status(200).json({
     status: "success",
@@ -283,7 +303,9 @@ export const filterOrders = expressAsyncHandler(async (req, res, next) => {
   }
 
   if (!order_status && !order_time && !search) {
-    filteredOrders = await Order.find().sort({ created_at: -1 });
+    filteredOrders = await Order.find({ "payment.status": "captured" }).sort({
+      created_at: -1,
+    });
     if (filteredOrders.length === 0) showEmptyPage = true;
   } else {
     filteredOrders = await Order.aggregate([

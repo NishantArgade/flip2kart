@@ -13,9 +13,9 @@ const AmountInfo = ({ cartData }) => {
               <p>Price ({cartData?.cart.length} items)</p>
               <p>
                 ₹
-                {(cartData?.totalPrice - cartData.totalDiscount).toLocaleString(
-                  "en-IN"
-                )}
+                {(
+                  cartData?.totalPrice - cartData?.totalDiscount
+                ).toLocaleString("en-IN")}
               </p>
             </div>
 
@@ -23,31 +23,31 @@ const AmountInfo = ({ cartData }) => {
               <p>Delivery Charges</p>
               <div>
                 <span
-                  className={`${cartData.isDeliveryFree ? "line-through" : ""} text-gray-500`}
+                  className={`${cartData?.isDeliveryFree ? "line-through" : ""} text-gray-500`}
                 >
-                  ₹{cartData.totalDeliveryCharges.toLocaleString("en-IN")}{" "}
+                  ₹{cartData?.totalDeliveryCharges.toLocaleString("en-IN")}{" "}
                 </span>
-                {cartData.isDeliveryFree && (
+                {cartData?.isDeliveryFree && (
                   <span className="ml-1 text-green-600">Free</span>
                 )}
               </div>
             </div>
-            {cartData.packagingFee !== 0 && (
+            {cartData?.packagingFee !== 0 && (
               <div className="flex w-full items-center justify-between">
                 <p>Packaging Charge</p>
-                <p>₹{cartData.packagingFee.toLocaleString("en-IN")}</p>
+                <p>₹{cartData?.packagingFee.toLocaleString("en-IN")}</p>
               </div>
             )}
           </div>
           <div className="flex flex-col items-start justify-start border-y-2 border-dashed px-4 py-5 ">
             <div className="flex w-full items-center justify-between text-[0.95rem] font-medium">
               <p>Total Payable</p>
-              <p>₹{cartData.finalTotalAmount.toLocaleString("en-IN")}</p>
+              <p>₹{cartData?.finalTotalAmount.toLocaleString("en-IN")}</p>
             </div>
           </div>
           <p className="p-4 text-xs font-semibold tracking-wide text-green-600 ">
             Your Total Saving on this order ₹
-            {cartData.totalDiscount.toLocaleString("en-IN")}
+            {cartData?.totalDiscount.toLocaleString("en-IN")}
           </p>
         </div>
       </div>

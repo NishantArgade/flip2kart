@@ -71,37 +71,36 @@ const DailySales = () => {
           <p className="text-lg uppercase text-gray-500">Daily Sales</p>
           <p className="text-xs text-gray-400">Chart of daily sales</p>
         </div>
-        {!isLoading &&
-          (result[0].data.length > 0 || result[1].data.length > 0) && (
-            <div className="flex gap-4">
-              <div>
-                <p className="text-xs">Start Date</p>
-                <DatePicker
-                  showIcon
-                  icon={<IoCalendarOutline className="mt-[1px] w-auto" />}
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                  className="ml-[2px] w-28 cursor-pointer border-2 outline-blue-400"
-                  placeholderText="Start Date"
-                  dateFormat="yyyy-MM-dd"
-                />
-              </div>
-              <div>
-                <p className="ml-1  text-xs">End Date</p>
-                <DatePicker
-                  showIcon
-                  icon={<IoCalendarOutline className="mt-[1px] w-auto" />}
-                  selected={endDate}
-                  onChange={(date) => setEndDate(date)}
-                  className="ml-[2px] w-28 cursor-pointer border-2 outline-blue-400"
-                  placeholderText="End Date"
-                  dateFormat="yyyy-MM-dd"
-                  maxDate={new Date()}
-                  minDate={startDate}
-                />
-              </div>
+        {!isLoading && (
+          <div className="flex gap-4">
+            <div>
+              <p className="text-xs">Start Date</p>
+              <DatePicker
+                showIcon
+                icon={<IoCalendarOutline className="mt-[1px] w-auto" />}
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                className="ml-[2px] w-28 cursor-pointer border-2 outline-blue-400"
+                placeholderText="Start Date"
+                dateFormat="yyyy-MM-dd"
+              />
             </div>
-          )}
+            <div>
+              <p className="ml-1  text-xs">End Date</p>
+              <DatePicker
+                showIcon
+                icon={<IoCalendarOutline className="mt-[1px] w-auto" />}
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                className="ml-[2px] w-28 cursor-pointer border-2 outline-blue-400"
+                placeholderText="End Date"
+                dateFormat="yyyy-MM-dd"
+                maxDate={new Date()}
+                minDate={startDate}
+              />
+            </div>
+          </div>
+        )}
       </div>
       {!isLoading ? (
         <div className="bg-green-20 thin-scrollbar felx container mx-auto h-[30rem] w-full items-center justify-center overflow-auto bg-gray-50 shadow-md">

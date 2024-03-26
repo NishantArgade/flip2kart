@@ -53,8 +53,7 @@ const OrderSchema = new mongoose.Schema({
     transaction_id: String,
     status: {
       type: String,
-      enum: ["Pending", "Success", "Failed"],
-      default: "Pending",
+      enum: ["captured", "failed"],
     },
     method: String,
     date: { type: Date, default: Date.now },
@@ -85,6 +84,8 @@ const OrderSchema = new mongoose.Schema({
                 "Shipped",
                 "Out for delivery",
                 "Delivered",
+                "Cancelled",
+                "Returned",
               ],
             },
             date: {
@@ -110,6 +111,8 @@ const OrderSchema = new mongoose.Schema({
               "Shipped",
               "Out for delivery",
               "Delivered",
+              "Cancelled",
+              "Returned",
             ],
           },
           date: {
@@ -132,6 +135,7 @@ const OrderSchema = new mongoose.Schema({
   shipping_charges: Number,
   packing_charges: Number,
   total_price: Number,
+  totalQuantity: Number,
   order_through: String,
   created_at: { type: Date, default: Date.now, required: true },
 });

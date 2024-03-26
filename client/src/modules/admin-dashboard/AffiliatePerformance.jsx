@@ -9,45 +9,6 @@ import { useQuery } from "@tanstack/react-query"
 import { getAffiliatePerformanceData } from "../../api/userApi"
 import Spinner from "../../components/Spinner"
 
-const data2 = [
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    firstName: "Aniket",
-    lastName: "Argade",
-    userId: "65a63a404e9ce490acd0c3a6",
-    status: "Processing",
-    quantity: 30000,
-    amount: 20000000,
-    address:
-      "pune, maharashtra, chakan pin 410501, near ganesh temple pune india",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    firstName: "Aniket",
-    lastName: "Argade",
-    userId: "65a63a404e9ce490acd0c3a6",
-    status: "Delivered",
-    quantity: 30000,
-    amount: 20000000,
-    address:
-      "pune, maharashtra, chakan pin 410501, near ganesh temple pune india",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    firstName: "Aniket",
-    lastName: "Argade",
-    userId: "65a63a404e9ce490acd0c3a6",
-    status: "Failed",
-    quantity: 30000,
-    amount: 20000000,
-    address:
-      "pune, maharashtra, chakan pin 410501, near ganesh temple pune india",
-    createdAt: new Date(),
-  },
-]
-
 const colHelper = createColumnHelper()
 const columns = [
   colHelper.accessor("_id", {

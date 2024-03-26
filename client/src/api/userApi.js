@@ -46,3 +46,7 @@ export const deleteUser = async (user) => {
 export const getAffiliatePerformanceData = async () => {
   return await axiosCall("get", `/api/affiliate-performance`)
 }
+
+export const getUserLocationGeoData = async () => {
+  return await axiosCall("get", `/api/user-location-geo-data`)
+}

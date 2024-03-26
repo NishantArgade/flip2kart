@@ -5,7 +5,6 @@ const TableSection = ({
   heading,
   subHeading,
   tableSummaryText,
-  growthInfoText,
   tableHeader,
   tableBody,
   breakPage = undefined,
@@ -99,7 +98,6 @@ const TableSection = ({
         ))}
       </View>
       <Text style={styles.tatalCountText}>{tableSummaryText}</Text>
-      <Text style={styles.infoText}>{growthInfoText}</Text>
     </View>
   )
 }

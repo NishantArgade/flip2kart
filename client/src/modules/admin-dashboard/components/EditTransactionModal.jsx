@@ -13,6 +13,16 @@ import { useMutation } from "@tanstack/react-query"
 import { changeStatusOfDelivery } from "../../../api/orderApi"
 import { queryClient } from "../../../main"
 import { toast } from "../../../utils/toast"
+import {
+  CANCELLED,
+  DELIVERED,
+  ORDER_CONFIRMED,
+  OUT_FOR_DELIVERY,
+  RETURNED,
+  SHIPPED,
+} from "../../../utils/constants"
+import { IoIosCloseCircle } from "react-icons/io"
+import { TbArrowBackUp } from "react-icons/tb"
 
 function getLastDeliveryStatus(order_status) {
   let latest_status = order_status[0]
@@ -34,40 +44,40 @@ function EditTransactionModal({ data }) {
   console.log(data)
 
   const getStatus = useMemo(() => {
-    if (status === "Order Confirmed")
+    if (status === ORDER_CONFIRMED)
       return (
         <>
           <div className="flex items-center justify-center">
             <IoMdDoneAll size={17} className="text-green-500" />
           </div>
-          <p>Order Confirmed</p>
+          <p>{ORDER_CONFIRMED}</p>
         </>
       )
-    else if (status === "Shipped")
+    else if (status === SHIPPED)
       return (
         <>
           <div className="flex items-center justify-center">
             <FaBuildingCircleArrowRight className="text-blue-500" size={17} />
           </div>
-          <p>Shipped</p>
+          <p>{SHIPPED}</p>
         </>
       )
-    else if (status === "Out for delivery")
+    else if (status === OUT_FOR_DELIVERY)
       return (
         <>
           <div className="flex items-center justify-center">
             <TbTruckDelivery className="text-gray-500" size={17} />
           </div>
-          <p>Out for delivery</p>
+          <p>{OUT_FOR_DELIVERY}</p>
         </>
       )
-    else if (status === "Delivered")
+    else if (status === DELIVERED)
       return (
         <>
           <div className="flex items-center justify-center">
             <GiConfirmed className="text-green-500" size={17} />
           </div>
-          <p>Delivered</p>
+          <p>{DELIVERED}</p>
         </>
       )
     else return null
@@ -242,34 +252,34 @@ function EditTransactionModal({ data }) {
                     <Menu.Item
                       className="hover:bg-[#F5FAFF]"
                       leftSection={<IoMdDoneAll className="text-green-500" />}
-                      onClick={() => onStatusChange("Order Confirmed")}
+                      onClick={() => onStatusChange(ORDER_CONFIRMED)}
                     >
-                      Order Confirmed
+                      {ORDER_CONFIRMED}
                     </Menu.Item>
                     <Menu.Item
                       className="hover:bg-[#F5FAFF]"
                       leftSection={
                         <FaBuildingCircleArrowRight className="text-blue-500" />
                       }
-                      onClick={() => onStatusChange("Shipped")}
+                      onClick={() => onStatusChange(SHIPPED)}
                     >
-                      Shipped
+                      {SHIPPED}
                     </Menu.Item>
                     <Menu.Item
                       className="hover:bg-[#F5FAFF]"
                       leftSection={
                         <TbTruckDelivery className="text-gray-500" />
                       }
-                      onClick={() => onStatusChange("Out for delivery")}
+                      onClick={() => onStatusChange(OUT_FOR_DELIVERY)}
                     >
-                      Out for delivery
+                      {OUT_FOR_DELIVERY}
                     </Menu.Item>
                     <Menu.Item
                       className="hover:bg-[#F5FAFF]"
                       leftSection={<GiConfirmed className="text-green-500" />}
-                      onClick={() => onStatusChange("Delivered")}
+                      onClick={() => onStatusChange(DELIVERED)}
                     >
-                      Delivered
+                      {DELIVERED}
                     </Menu.Item>
                   </Menu.Dropdown>
                 </Menu>

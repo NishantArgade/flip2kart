@@ -6,6 +6,8 @@ import { cookiesOption, generateOTP, generateToken } from "../utils/helper.js";
 import jwt from "jsonwebtoken";
 import { Order } from "../models/orderModel.js";
 import { ObjectId } from "mongoose";
+import { Address } from "../models/addressModel.js";
+import { Product } from "../models/productModel.js";
 
 export const loginUser = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
@@ -220,6 +222,32 @@ export const getAllAdmins = asyncHandler(async (req, res, next) => {
   });
 });
 
+export const getUserLocationGeoData = asyncHandler(async (req, res, next) => {
+  const locations = await Address.aggregate([
+    {
+      $match: { is_active: true },
+    },
+    {
+      $group: {
+        _id: "$country",
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        country: "$_id",
+        count: 1,
+      },
+    },
+  ]);
+  res.status(200).json({
+    status: "success",
+    message: "Fetched all Admins successfully",
+    locations,
+  });
+});
+
 export const checkAuth = asyncHandler(async (req, res, next) => {
   const access_token = req.cookies.access_token;
   const refresh_token = req.cookies.refresh_token;
@@ -278,5 +306,86 @@ export const getAffiliatePerformance = asyncHandler(async (req, res, next) => {
     status: "success",
     message: "Fetched all Users successfully",
     orders,
+  });
+});
+export const getDashboardData = asyncHandler(async (req, res, next) => {
+  // get order data like total count of deliverd,out for delivery,shipped, failed,cancel,Order Confirmed as pending
+
+  const ordersData = await Order.aggregate([
+    {
+      $facet: {
+        totalOrderCount: [{ $count: "count" }],
+        data: [
+          { $unwind: "$products" },
+          {
+            $group: {
+              _id: "$products.latest_order_status.status",
+              count: { $sum: 1 },
+              totalPrice: { $sum: "$products.afterDiscountTotalPrice" },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalOrderPrice: { $sum: "$totalPrice" },
+              orders: {
+                $push: {
+                  status: "$_id",
+                  count: "$count",
+                  totalPrice: "$totalPrice",
+                },
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $project: {
+        totalOrderCount: { $arrayElemAt: ["$totalOrderCount.count", 0] },
+        data: { $arrayElemAt: ["$data", 0] },
+      },
+    },
+  ]);
+
+  const productsWithCount = await Product.aggregate([
+    { $group: { _id: "$category", count: { $sum: 1 } } },
+  ]);
+
+  const totalProductsCount = productsWithCount.reduce(
+    (total, category) => total + category.count,
+    0
+  );
+  const productData = { productsWithCount, totalProductsCount };
+
+  const usersWithCount = await User.aggregate([
+    { $group: { _id: "$role", count: { $sum: 1 } } },
+  ]);
+
+  const totalUsersCount = usersWithCount.reduce(
+    (total, p) => total + p.count,
+    0
+  );
+  const userData = { usersWithCount, totalUsersCount };
+
+  const totalRevenue = await Order.aggregate([
+    { $match: { "payment.status": "captured" } },
+    { $group: { _id: null, totalRevenue: { $sum: "$total_price" } } },
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    message: "Fetched all Users successfully",
+    result: {
+      ordersData: ordersData[0],
+      productData,
+      userData,
+      totalRevenue: totalRevenue[0],
+    },
   });
 });

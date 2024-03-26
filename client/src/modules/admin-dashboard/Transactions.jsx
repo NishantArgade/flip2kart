@@ -13,6 +13,14 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { deleteOrder, getAllOrders } from "../../api/orderApi"
 import Spinner from "../../components/Spinner"
 import { queryClient } from "../../main"
+import {
+  CANCELLED,
+  DELIVERED,
+  ORDER_CONFIRMED,
+  OUT_FOR_DELIVERY,
+  RETURNED,
+  SHIPPED,
+} from "../../utils/constants"
 
 const colHelper = createColumnHelper()
 
@@ -20,6 +28,7 @@ const Transactions = () => {
   const [globalFilter, setGlobalFilter] = useState("")
   const [columnFilters, setColumnFilters] = useState([
     { id: "latest_order_status", value: "" },
+    { id: "payment_status", value: "" },
   ])
 
   const { mutate, isPending } = useMutation({
@@ -40,17 +49,40 @@ const Transactions = () => {
     }),
 
     colHelper.accessor("latest_order_status", {
-      header: (header) => <TableHeader header={header} name={"Status"} />,
+      header: (header) => <TableHeader header={header} name={"Order Status"} />,
       cell: (props) => (
         <p
           className={`${
-            props.getValue() === "Order Confirmed"
+            props.getValue() === ORDER_CONFIRMED
               ? "text-pink-600"
-              : props.getValue() === "Shipped"
+              : props.getValue() === SHIPPED
                 ? "text-blue-600"
-                : props.getValue() === "Out for delivery"
-                  ? "text-orange-600"
-                  : "text-green-600"
+                : props.getValue() === OUT_FOR_DELIVERY
+                  ? "text-yellow-600"
+                  : props.getValue() === CANCELLED
+                    ? "text-red-600"
+                    : props.getValue() === RETURNED
+                      ? "text-orange-500"
+                      : "text-green-600"
+          }  mr-2`}
+        >
+          {props.getValue()}
+        </p>
+      ),
+    }),
+
+    colHelper.accessor("payment_status", {
+      header: (header) => (
+        <TableHeader header={header} name={"Payment Status"} />
+      ),
+      cell: (props) => (
+        <p
+          className={`${
+            props.getValue() === "captured"
+              ? "text-green-600"
+              : props.getValue() === "failed"
+                ? "text-red-600"
+                : ""
           }  mr-2`}
         >
           {props.getValue()}
@@ -127,6 +159,11 @@ const Transactions = () => {
 
   const isSelectedOrderStatus = (role) => role === filteredOrderStatusValue
 
+  const filteredPaymentStatusValue =
+    columnFilters.find((f) => f.id === "payment_status").value || ""
+
+  const isSelectedPaymentStatus = (role) => role === filteredPaymentStatusValue
+
   const { data, isLoading } = useQuery({
     queryKey: ["allOrders"],
     queryFn: getAllOrders,
@@ -146,6 +183,7 @@ const Transactions = () => {
           address: order.shipping_address,
           createdAt: order.created_at,
           product: p,
+          payment_status: order.payment.status,
         })
       })
     })
@@ -191,10 +229,12 @@ const Transactions = () => {
                 </Menu.Target>
 
                 <Menu.Dropdown defaultValue="All">
-                  <Menu.Label>Payment Status</Menu.Label>
+                  <Menu.Label>Order Status</Menu.Label>
                   <Menu.Item
                     className={`${
-                      isSelectedOrderStatus("") && "bg-[#F5FAFF] text-gray-700"
+                      isSelectedOrderStatus("")
+                        ? "bg-[#F5FAFF] text-gray-700"
+                        : ""
                     }  hover:bg-[#F5FAFF] hover:text-gray-700`}
                     onClick={() =>
                       onColumnFilterChange("latest_order_status", "")
@@ -206,53 +246,142 @@ const Transactions = () => {
 
                   <Menu.Item
                     className={`${
-                      isSelectedOrderStatus("Order Confirmed") &&
-                      "bg-[#F5FAFF] text-blue-500"
+                      isSelectedOrderStatus(ORDER_CONFIRMED)
+                        ? "bg-[#F5FAFF] text-pink-500"
+                        : ""
                     }  hover:bg-[#F5FAFF] hover:text-pink-500`}
                     onClick={() =>
                       onColumnFilterChange(
                         "latest_order_status",
-                        "Order Confirmed"
+                        ORDER_CONFIRMED
                       )
                     }
                   >
-                    Order Confirmed
+                    {ORDER_CONFIRMED}
                   </Menu.Item>
                   <Menu.Item
                     className={`${
-                      isSelectedOrderStatus("Shipped") &&
-                      "bg-[#F5FAFF] text-green-500"
+                      isSelectedOrderStatus(SHIPPED)
+                        ? "bg-[#F5FAFF] text-blue-500"
+                        : ""
                     }  hover:bg-[#F5FAFF] hover:text-blue-500`}
                     onClick={() =>
-                      onColumnFilterChange("latest_order_status", "Shipped")
+                      onColumnFilterChange("latest_order_status", SHIPPED)
                     }
                   >
-                    Shipped
+                    {SHIPPED}
                   </Menu.Item>
                   <Menu.Item
                     className={`${
-                      isSelectedOrderStatus("Out for delivery") &&
-                      "bg-[#F5FAFF] text-green-500"
-                    }  hover:bg-[#F5FAFF] hover:text-orange-500`}
+                      isSelectedOrderStatus(OUT_FOR_DELIVERY)
+                        ? "bg-[#F5FAFF] text-yellow-500"
+                        : ""
+                    }  hover:bg-[#F5FAFF] hover:text-yellow-500`}
                     onClick={() =>
                       onColumnFilterChange(
                         "latest_order_status",
-                        "Out for delivery"
+                        OUT_FOR_DELIVERY
                       )
                     }
                   >
-                    Out for delivery
+                    {OUT_FOR_DELIVERY}
                   </Menu.Item>
                   <Menu.Item
                     className={`${
-                      isSelectedOrderStatus("Delivered") &&
-                      "bg-[#F5FAFF] text-red-500"
+                      isSelectedOrderStatus(DELIVERED)
+                        ? "bg-[#F5FAFF] text-green-500"
+                        : ""
                     }  hover:bg-[#F5FAFF] hover:text-green-500`}
                     onClick={() =>
-                      onColumnFilterChange("latest_order_status", "Delivered")
+                      onColumnFilterChange("latest_order_status", DELIVERED)
                     }
                   >
-                    Delivered
+                    {DELIVERED}
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedOrderStatus(CANCELLED)
+                        ? "bg-[#F5FAFF] text-red-500"
+                        : ""
+                    }  hover:bg-[#F5FAFF] hover:text-red-500`}
+                    onClick={() =>
+                      onColumnFilterChange("latest_order_status", CANCELLED)
+                    }
+                  >
+                    {CANCELLED}
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedOrderStatus(RETURNED)
+                        ? "bg-[#F5FAFF] text-orange-500"
+                        : ""
+                    }  hover:bg-[#F5FAFF] hover:text-orange-500`}
+                    onClick={() =>
+                      onColumnFilterChange("latest_order_status", RETURNED)
+                    }
+                  >
+                    {RETURNED}
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+
+              <Menu
+                shadow="md"
+                position="top-start"
+                withArrow
+                arrowSize={12}
+                width={200}
+                value="All"
+              >
+                <Menu.Target>
+                  <button className="flex items-center gap-x-2 text-xs text-blue-500">
+                    <div className="relative">
+                      <div
+                        className={`${isSelectedPaymentStatus("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
+                      ></div>
+                      <FiFilter />
+                    </div>
+                    <p>Filter By Payment Status</p>
+                  </button>
+                </Menu.Target>
+
+                <Menu.Dropdown defaultValue="All">
+                  <Menu.Label>Payment Status</Menu.Label>
+                  <Menu.Item
+                    className={`${
+                      isSelectedPaymentStatus("")
+                        ? "bg-[#F5FAFF] text-gray-700"
+                        : ""
+                    }  hover:bg-[#F5FAFF] hover:text-gray-700`}
+                    onClick={() => onColumnFilterChange("payment_status", "")}
+                    value={"All"}
+                  >
+                    All
+                  </Menu.Item>
+
+                  <Menu.Item
+                    className={`${
+                      isSelectedPaymentStatus("captured")
+                        ? "bg-[#F5FAFF] text-green-500"
+                        : ""
+                    }  hover:bg-[#F5FAFF] hover:text-green-500`}
+                    onClick={() =>
+                      onColumnFilterChange("payment_status", "captured")
+                    }
+                  >
+                    captured
+                  </Menu.Item>
+                  <Menu.Item
+                    className={`${
+                      isSelectedPaymentStatus("failed")
+                        ? "bg-[#F5FAFF] text-red-500"
+                        : ""
+                    }  hover:bg-[#F5FAFF] hover:text-red-500`}
+                    onClick={() =>
+                      onColumnFilterChange("payment_status", "failed")
+                    }
+                  >
+                    failed
                   </Menu.Item>
                 </Menu.Dropdown>
               </Menu>

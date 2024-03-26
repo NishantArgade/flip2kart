@@ -11,6 +11,8 @@ import {
   getUserByID,
   getAllAdmins,
   getAffiliatePerformance,
+  getUserLocationGeoData,
+  getDashboardData,
 } from "../controllers/userController.js";
 import { protect, restrict } from "../middlewares/auth.js";
 
@@ -43,6 +45,14 @@ router
 router
   .route("/all-admins")
   .get(protect, restrict("admin", "operator"), getAllAdmins);
+
+router
+  .route("/user-location-geo-data")
+  .get(protect, restrict("admin", "operator"), getUserLocationGeoData);
+
+router
+  .route("/dashboard-data")
+  .get(protect, restrict("admin", "operator"), getDashboardData);
 
 router.route("/auth/check").get(checkAuth);
 

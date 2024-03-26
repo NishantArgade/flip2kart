@@ -1,9 +1,12 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 import moment from "moment"
 import TableSection from "./TableSection"
+import { useMemo } from "react"
 
-const DashboardReportPDF = () => {
+const DashboardReportPDF = ({ data, revenueInfo }) => {
   /** PDF Document Styling */
+  console.log(revenueInfo)
+
   const style = StyleSheet.create({
     pageHeadingContainer: {
       display: "flex",
@@ -39,6 +42,21 @@ const DashboardReportPDF = () => {
     },
   })
 
+  // const productData = data?.productData?.productsWithCount.map((item) => ({
+  //   category: item._id,
+  //   count: item.count,
+  // }))
+  // const userData = data?.userData?.usersWithCount.map((item) => ({
+  //   category: item._id,
+  //   count: item.count,
+  // }))
+  // console.log(userData)
+
+  const unitSold = useMemo(
+    () => revenueInfo?.reduce((acc, item) => acc + item.totalQty, 0),
+    [revenueInfo]
+  )
+  console.log(unitSold)
   return (
     <Document>
       <Page
@@ -58,113 +76,47 @@ const DashboardReportPDF = () => {
         <Text style={style.hLine}></Text>
         {/* Sections */}
         <TableSection
-          heading={"Product Information"}
-          subHeading={"Product By Categories"}
+          heading={"PRODUCT INFORMATION"}
+          subHeading={"Products by category"}
           tableHeader={[
-            { label: "Category", value: "category" },
-            { label: "Count", value: "count" },
+            { label: "Product Category", value: "_id" },
+            { label: "No. of Products", value: "count" },
           ]}
-          tableBody={[
-            {
-              category: "Electronics",
-              count: 10000,
-            },
-            {
-              category: "Food",
-              count: 1200,
-            },
-            {
-              category: "Clothes",
-              count: 3000,
-            },
-          ]}
-          tableSummaryText={"Total Amount: 1000"}
-          growthInfoText={"8% increase since last month"}
+          tableBody={data?.productData?.productsWithCount}
+          tableSummaryText={`Total number of products: ${data?.productData?.totalProductsCount}`}
         />
         <TableSection
-          heading={"Customer Information"}
-          subHeading={"Customers by Role"}
+          heading={"CUSTOMER INFORMATION"}
+          subHeading={"Customers by role"}
           tableHeader={[
-            { label: "Role", value: "role" },
-            { label: "Count", value: "count" },
+            { label: "Customer Role", value: "_id" },
+            { label: "Customer Count", value: "count" },
           ]}
-          tableBody={[
-            {
-              role: "User",
-              count: 100,
-            },
-            {
-              role: "Admin",
-              count: 5,
-            },
-            {
-              role: "Operator",
-              count: 3,
-            },
-            {
-              role: "Manager",
-              count: 2,
-            },
-          ]}
-          tableSummaryText={"Total Customers: 18,000"}
-          growthInfoText={"1% increase since last month"}
+          tableBody={data?.userData?.usersWithCount}
+          tableSummaryText={`Total number of customers: ${data?.userData?.totalUsersCount}`}
         />
         <TableSection
-          heading={"Transaction Information"}
-          subHeading={"Transaction by Status"}
+          heading={"TRANSACTION INFORMATION"}
+          subHeading={"Transactions by status"}
           tableHeader={[
-            { label: "Status", value: "status" },
-            { label: "Count", value: "count" },
+            { label: "Transaction Status", value: "status" },
+            { label: "No. of Transaction", value: "count" },
+            { label: "Amount", value: "totalPrice" },
           ]}
-          tableBody={[
-            {
-              status: "Delivered",
-              count: 10,
-            },
-            {
-              status: "Processing",
-              count: 40,
-            },
-            {
-              status: "Failed",
-              count: 3,
-            },
-            {
-              status: "Returned",
-              count: 1,
-            },
-          ]}
-          tableSummaryText={"Total Transactions: 230"}
-          growthInfoText={"2% increase since last month"}
+          tableBody={data?.ordersData?.data?.orders}
+          tableSummaryText={`Total number of transactions: ${data?.ordersData?.totalOrderCount} and total amount: $${data?.ordersData?.data?.totalOrderPrice.toLocaleString("en-In")}`}
           breakPage={true}
         />
         <TableSection
-          heading={"Revenue Information"}
-          subHeading={"Month wise Revenue"}
+          heading={"REVENUE INFORMATION"}
+          subHeading={"Current year month wise revenue"}
           tableHeader={[
             { label: "Month", value: "month" },
-            { label: "Unit Sale", value: "unitSale" },
-            { label: "Revenue", value: "revenue" },
+            { label: "Revenue", value: "totalPrice" },
+            { label: "No. of unit Sold", value: "totalQty" },
           ]}
-          tableBody={[
-            {
-              month: "Jan",
-              unitSale: 12,
-              revenue: 10,
-            },
-            {
-              month: "Feb",
-              unitSale: 23,
-              revenue: 22,
-            },
-            {
-              month: "Mar",
-              unitSale: 34,
-              revenue: 34,
-            },
-          ]}
-          tableSummaryText={"Total Revenue: $1040000, Total Unit Sale: 440"}
-          growthInfoText={"5% increase since last month"}
+          tableBody={revenueInfo}
+          tableSummaryText={`Total revenue: $${data?.totalRevenue?.totalRevenue.toLocaleString("en-In")} and total number of unit sold: ${unitSold}`}
         />
       </Page>
     </Document>

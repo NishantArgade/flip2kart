@@ -1,8 +1,7 @@
 import { IoMdArrowRoundBack } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
-import Chatboat from "./Chatboat"
 
-const ChatSupport = () => {
+const ChatBot = () => {
   const navigate = useNavigate()
 
   return (
@@ -26,14 +25,9 @@ const ChatSupport = () => {
           />
           <span>Flip2kart Support</span>
         </div>
-
-        {/** Chatboat */}
-        <section className="bg-green-40 h-96 bg-green-200 p-2">
-          <Chatboat />
-        </section>
       </div>
     </div>
   )
 }
 
-export default ChatSupport
+export default ChatBot

@@ -12,3 +12,7 @@ export const editOffer = async ({ id, payload }) => {
 export const deleteOffer = async (product) => {
   return await axiosCall("delete", `/api/delete-offer/${product._id}`)
 }
+
+export const getDashboardData = async () => {
+  return await axiosCall("get", `/api/dashboard-data`)
+}

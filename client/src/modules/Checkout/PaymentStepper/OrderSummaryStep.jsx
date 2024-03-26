@@ -50,11 +50,13 @@ const OrderSummaryStep = ({
   console.log(cart)
 
   function handleClickContinue() {
+    let totalQuantity = 0
     const products = cart.map((c) => {
       const discount = calculateDiscountAmount(
         c.product.price,
         c.product.discount
       )
+      totalQuantity += c.quantity
       return {
         product_id: c.product._id,
         name: c.product.name,
@@ -74,6 +76,7 @@ const OrderSummaryStep = ({
     setPaymentData((prev) => ({
       ...prev,
       products,
+      totalQuantity,
     }))
     nextStep()
   }

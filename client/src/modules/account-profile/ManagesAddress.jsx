@@ -24,9 +24,9 @@ export default function ManagesAddress() {
             onChange={setActiveItem}
           >
             <AddAddressAccordionItem setActiveItem={setActiveItem} />
-            {data?.addresses?.map((item) => (
+            {data?.addresses?.map((item, i) => (
               <AccordionItem
-                key={item._id}
+                key={i}
                 item={item}
                 setActiveItem={setActiveItem}
               />

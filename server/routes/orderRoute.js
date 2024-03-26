@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {
-  myOrders,
   orderDetail,
   editOrder,
   deleteOrder,
@@ -10,6 +9,8 @@ import {
   saveOrder,
   changeStatusOfDelivery,
   filterOrders,
+  cancelOrder,
+  getPaymentDataByPaymentID,
 } from "../controllers/orderController.js";
 import { protect, restrict } from "../middlewares/auth.js";
 
@@ -25,11 +26,13 @@ router.route("/order-detail").get(protect, orderDetail);
 
 router.route("/change-delivery-status").post(protect, changeStatusOfDelivery);
 
-router.route("/my-orders").get(protect, myOrders);
+// router.route("/my-orders").get(protect, myOrders);
 
 router
   .route("/edit-order/:orderID")
   .get(protect, restrict("admin", "operator"), editOrder);
+
+router.route("/cancel-order").post(protect, cancelOrder);
 
 router
   .route("/delete-order/:orderID")
@@ -40,5 +43,9 @@ router
   .get(protect, restrict("admin", "operator"), allOrders);
 
 router.route("/filter-orders").post(protect, filterOrders);
+
+router
+  .route("/payment-data/:paymentId")
+  .get(protect, getPaymentDataByPaymentID);
 
 export default router;

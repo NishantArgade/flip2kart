@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom"
 import FilterSection from "./FilterSection"
 import OrderList from "./OrderList"
 import { useQuery } from "@tanstack/react-query"
-import { getAllMyOrders, getFilteredOrders } from "../../api/orderApi"
+import { getFilteredOrders } from "../../api/orderApi"
 
 const MyOrders = ({ isAdmin }) => {
   const navigate = useNavigate()

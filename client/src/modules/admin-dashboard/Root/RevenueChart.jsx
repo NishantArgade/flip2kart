@@ -1,142 +1,160 @@
 import { ResponsiveLine } from "@nivo/line"
+import { getMonthlySalesData } from "../../../api/salesApi"
+import { useQuery } from "@tanstack/react-query"
+import Skeleton from "react-loading-skeleton"
 
-const data = [
-  {
-    id: "japan",
-    color: "hsl(161, 70%, 50%)",
-    data: [
-      {
-        x: "product1",
-        y: 10,
-      },
-      {
-        x: "product2",
-        y: 50,
-      },
-      {
-        x: "boat",
-        y: 70,
-      },
-      {
-        x: "train",
-        y: 80,
-      },
-      {
-        x: "subway",
-        y: 70,
-      },
-      {
-        x: "bus",
-        y: 75,
-      },
-      {
-        x: "car",
-        y: 90,
-      },
-      {
-        x: "moto",
-        y: 120,
-      },
-      {
-        x: "bicycle",
-        y: 150,
-      },
-      {
-        x: "horse",
-        y: 180,
-      },
-      {
-        x: "skateboard",
-        y: 200,
-      },
-      {
-        x: "others",
-        y: 250,
-      },
-    ],
-  },
-]
-const RevenueChart = () => {
+const RevenueChart = ({ data, isLoading }) => {
   let isDashboard = true
+
+  const result = [
+    {
+      id: "Revenue",
+      color: "hsl(161, 70%, 50%)",
+      data: [],
+    },
+  ]
+  result[0].data = data?.result?.map((item) => ({
+    x: item?.month,
+    y: item?.totalPrice,
+  }))
+
+  console.log(data)
   return (
-    <div className=" col-span-1 h-[15rem] rounded-md bg-gray-50 p-3 text-sm text-gray-700 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-7">
+    <div className="col-span-1 h-[15rem] rounded-md bg-gray-50 p-3 text-sm text-gray-700 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-7">
       <div className="pb-2 text-sm font-semibold tracking-wide text-slate-500">
         Revenue
       </div>
-      <ResponsiveLine
-        colors={"#93e0deec"}
-        data={data}
-        theme={{
-          axis: {
-            domain: {
-              line: {
-                stroke: "#4e4e4e",
+      {!isLoading ? (
+        <ResponsiveLine
+          colors={"#93e0deec"}
+          data={result}
+          theme={{
+            axis: {
+              domain: {
+                line: {
+                  stroke: "#4e4e4e",
+                },
+              },
+              legend: {
+                text: {
+                  fill: "#4e4e4e",
+                },
+              },
+              ticks: {
+                line: {
+                  stroke: "#4e4e4e",
+                  strokeWidth: 1,
+                },
+                text: {
+                  fill: "#4e4e4e",
+                },
               },
             },
-            legend: {
+            legends: {
               text: {
-                fill: "#4e4e4e",
+                fill: "red",
               },
             },
-            ticks: {
-              line: {
-                stroke: "#4e4e4e",
-                strokeWidth: 1,
-              },
-              text: {
-                fill: "#4e4e4e",
+            tooltip: {
+              container: {
+                color: "#4e4e4e",
+                fontSize: "0.70rem",
               },
             },
-          },
-          legends: {
-            text: {
-              fill: "red",
+          }}
+          margin={{ top: 15, right: 10, bottom: 72, left: 70 }}
+          yFormat=" >-.2f"
+          curve="catmullRom"
+          enableArea={isDashboard}
+          axisTop={null}
+          axisRight={null}
+          axisBottom={{
+            format: (v) => {
+              if (isDashboard) return v.slice(0, 3)
+              return v
             },
-          },
-          tooltip: {
-            container: {
-              color: "#4e4e4e",
-              fontSize: "0.70rem",
+            orient: "bottom",
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "Month",
+            legendOffset: 30,
+            legendPosition: "middle",
+          }}
+          axisLeft={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: "Revenue",
+            legendOffset: -60,
+            tickValues: 5,
+            legendPosition: "middle",
+          }}
+          enableGridX={false}
+          enableGridY={false}
+          pointSize={10}
+          pointColor={{ theme: "background" }}
+          pointBorderWidth={2}
+          pointBorderColor={{ from: "serieColor" }}
+          pointLabelYOffset={-12}
+          useMesh={true}
+          tooltip={({ point }) => {
+            return (
+              <div className="flex  w-fit items-center justify-center gap-2 rounded-sm border-[0.8px] border-gray-300  bg-white px-2 py-1 text-[0.70rem]  shadow-sm">
+                <div
+                  style={{
+                    width: "12px",
+                    height: "12px",
+                    backgroundColor: point.borderColor,
+                  }}
+                ></div>
+                <span className="text-[#4e4e4e]">
+                  <span className="mr-1 font-normal">
+                    x: <span className="font-bold">{point.data.x},</span>
+                  </span>
+                  <span className="font-normal">
+                    y:{" "}
+                    <span className="font-bold">
+                      {`₹${point.data.y.toLocaleString("en-IN")}`}
+                    </span>
+                  </span>
+                </span>
+              </div>
+            )
+          }}
+          legends={[
+            {
+              anchor: "top-right",
+              direction: "column",
+              justify: false,
+              translateX: 10,
+              translateY: -10,
+              itemsSpacing: 0,
+              itemDirection: "left-to-right",
+              itemWidth: 80,
+              itemHeight: 20,
+              itemOpacity: 0.75,
+              symbolSize: 12,
+              symbolShape: "circle",
+              itemTextColor: "#4e4e4e",
+              symbolBorderColor: "rgba(0, 0, 0, .5)",
+              effects: [
+                {
+                  on: "hover",
+                  style: {
+                    itemBackground: "rgba(0, 0, 0, .03)",
+                    itemOpacity: 1,
+                  },
+                },
+              ],
             },
-          },
-        }}
-        margin={{ top: 15, right: 10, bottom: 72, left: 50 }}
-        yFormat=" >-.2f"
-        curve="catmullRom"
-        enableArea={isDashboard}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          format: (v) => {
-            if (isDashboard) return v.slice(0, 3)
-            return v
-          },
-          orient: "bottom",
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: "Month",
-          legendOffset: 30,
-          legendPosition: "middle",
-        }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: "count",
-          legendOffset: -40,
-          tickValues: 5,
-          legendPosition: "middle",
-        }}
-        enableGridX={false}
-        enableGridY={false}
-        pointSize={10}
-        pointColor={{ theme: "background" }}
-        pointBorderWidth={2}
-        pointBorderColor={{ from: "serieColor" }}
-        pointLabelYOffset={-12}
-        useMesh={true}
-      />
+          ]}
+        />
+      ) : (
+        <div className="h-full w-full pb-8">
+          <Skeleton width="100%" height="100%" />
+        </div>
+      )}
     </div>
   )
 }

@@ -1,9 +1,15 @@
 import { Accordion, Avatar, Group, Text } from "@mantine/core"
 import Spinner from "../../../components/Spinner"
-import { createOrder, saveOrder, validateOrder } from "../../../api/orderApi"
+import {
+  createOrder,
+  getPaymentData,
+  saveOrder,
+  validateOrder,
+} from "../../../api/orderApi"
 import { toast } from "../../../utils/toast"
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import moment from "moment"
 
 export default function PaymentStep({
   nextStep,
@@ -37,14 +43,15 @@ export default function PaymentStep({
       handler: async function (response) {
         console.log(response)
         try {
-          const data = await validateOrder({ ...response, cartData })
+          await validateOrder({ ...response, cartData })
+          const res = await getPaymentData(response.razorpay_payment_id)
 
           const payload = {
             payment: {
-              transaction_id: data.paymentId,
-              status: "Success",
-              method: data.method,
-              date: new Date(),
+              transaction_id: res.data.id,
+              status: res.data.status,
+              method: res.data.method,
+              date: moment.unix(res.data.created_at).toDate(),
             },
             shipping_charges: cartData?.isDeliveryFree
               ? 0
@@ -62,7 +69,7 @@ export default function PaymentStep({
 
           nextStep()
         } catch (error) {
-          toast.error(error)
+          toast.error("error")
         } finally {
           setLoading(false)
         }
@@ -80,14 +87,37 @@ export default function PaymentStep({
       },
     }
     const rzp1 = new window.Razorpay(options)
-    rzp1.on("payment.failed", function (response) {
+    rzp1.on("payment.failed", async function (response) {
+      const paymentId = response.error.metadata.payment_id
+      const res = await getPaymentData(paymentId)
+
+      const payload = {
+        payment: {
+          transaction_id: res.data.id,
+          status: res.data.status,
+          method: res.data.method,
+          date: moment.unix(res.data.created_at).toDate(),
+        },
+        shipping_charges: cartData?.isDeliveryFree
+          ? 0
+          : cartData?.totalDeliveryCharges,
+        packing_charges: cartData?.packagingFee,
+        total_price: cartData?.finalTotalAmount,
+      }
+
+      setPaymentData((prev) => ({
+        ...prev,
+        ...payload,
+      }))
+
+      await saveOrder({ ...paymentData, ...payload })
+
+      nextStep()
       setLoading(false)
-      toast.error(response.error.description)
     })
 
     rzp1.open()
     e.preventDefault()
-    setLoading(false)
   }
 
   return (

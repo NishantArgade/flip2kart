@@ -8,7 +8,7 @@ export const getMonthlySalesData = asyncHandler(async (req, res, next) => {
   const end = new Date(currentYear + 1, 0, 1); // January 1 of the next year
 
   const data = await Order.find({
-    "payment.status": "Success",
+    "payment.status": "captured",
     created_at: {
       $gte: start,
       $lt: end,
@@ -66,20 +66,24 @@ export const getMonthlySalesData = asyncHandler(async (req, res, next) => {
     .value();
 
   let isEmpty = true;
+  let totalRevenue = 0;
+  let totalUnitSold = 0;
   // Merge the initialResult with the result
   result.forEach((item) => {
     let index = initialResult.findIndex((i) => i.month === item.month);
     if (index !== -1) {
       isEmpty = false;
+      totalRevenue += item.totalPrice;
+      totalUnitSold += item.totalQty;
       initialResult[index] = item;
     }
   });
 
-  res.json({ result: initialResult, isEmpty });
+  res.json({ result: initialResult, isEmpty, totalRevenue, totalUnitSold });
 });
 
 export const getDailySalesData = asyncHandler(async (req, res, next) => {
-  const data = await Order.find({ "payment.status": "Success" }).select(
+  const data = await Order.find({ "payment.status": "captured" }).select(
     "products created_at -_id"
   );
 
@@ -109,7 +113,7 @@ export const getDailySalesData = asyncHandler(async (req, res, next) => {
 });
 
 export const getSalesBreakdownData = asyncHandler(async (req, res, next) => {
-  const data = await Order.find({ "payment.status": "Success" }).select(
+  const data = await Order.find({ "payment.status": "captured" }).select(
     "products created_at -_id"
   );
 

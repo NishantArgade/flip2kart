@@ -7,23 +7,6 @@ import { useQuery } from "@tanstack/react-query"
 import { useMemo } from "react"
 
 const Map = () => {
-  const officeLocations = [
-    {
-      country: "IN",
-      state: "MH",
-      city: ["Mumbai", "Pune", "Nagpur", "Nashik"],
-    },
-    {
-      country: "US",
-      state: "CA",
-      city: ["San Francisco", "Los Angeles", "San Diego", "San Jose"],
-    },
-    {
-      country: "UK",
-      state: "ENG",
-      city: ["London", "Manchester", "Birmingham", "Liverpool"],
-    },
-  ]
   const { data, isLoading } = useQuery({
     queryKey: ["allOffices"],
     queryFn: getAllOffices,

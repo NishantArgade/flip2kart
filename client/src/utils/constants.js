@@ -1,0 +1,6 @@
+export const ORDER_CONFIRMED = "Order Confirmed"
+export const SHIPPED = "Shipped"
+export const OUT_FOR_DELIVERY = "Out for delivery"
+export const DELIVERED = "Delivered"
+export const CANCELLED = "Cancelled"
+export const RETURNED = "Returned"

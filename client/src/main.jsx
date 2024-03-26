@@ -3,7 +3,6 @@ import "@mantine/carousel/styles.css"
 import "@mantine/notifications/styles.css"
 import "react-datepicker/dist/react-datepicker.css"
 import "react-loading-skeleton/dist/skeleton.css"
-
 import { MantineProvider } from "@mantine/core"
 import "@mantine/core/styles.css"
 import { Font } from "@react-pdf/renderer"

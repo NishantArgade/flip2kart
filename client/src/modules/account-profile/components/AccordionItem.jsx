@@ -6,9 +6,8 @@ import {
   TextInput,
   Textarea,
 } from "@mantine/core"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { getAddressString } from "../../../utils/helper"
-import { useForm } from "@mantine/form"
 import { useMutation } from "@tanstack/react-query"
 import { deleteAddress, updateAddress } from "../../../api/addressApi"
 import { queryClient } from "../../../main"
@@ -31,53 +30,17 @@ function AccordionLabel({ user_name, phone, address }) {
 
 const AccordionItem = ({ item, setActiveItem }) => {
   const [isEdit, setIsEdit] = useState(true)
-
-  const form = useForm({
-    initialValues: {
-      user_name: item?.user_name,
-      phone: item?.phone,
-      alternate_phone: item?.alternate_phone,
-      country: item?.country,
-      city: item?.city,
-      state: item?.state,
-      landmark: item?.landmark,
-      pincode: item?.pincode,
-      street: item?.street,
-    },
-    validate: {
-      user_name: (value) => {
-        if (!value) return "name is required"
-        return value.length < 2 ? "Name must have at least 2 letters" : null
-      },
-      phone: (value) => {
-        if (!value) return "Mobile number is required"
-        return value.toString().length === 10 || value.toString().length === 12
-          ? null
-          : "Invalid mobile number"
-      },
-      city: (value) => {
-        if (!value) return "field is required"
-        return value.length < 2 ? "Wrong city" : null
-      },
-      state: (value) => {
-        if (!value) return "field is required"
-        return value.length < 2 ? "Wrong state" : null
-      },
-      pincode: (value) => {
-        if (!value) return "field is required"
-        return value.toString().length === 6 ? null : "Wrong pincode"
-      },
-    },
-  })
+  const [inputs, setInputs] = useState({})
+  const [errors, setErrors] = useState({})
 
   const { mutate: updateAddressMutate, isPending: updateAddressIsPending } =
     useMutation({
       mutationKey: "updateAddress",
       mutationFn: updateAddress,
       onSuccess: () => {
+        queryClient.invalidateQueries("allMyAddresses")
         setActiveItem(null)
         setIsEdit(true)
-        queryClient.invalidateQueries("allMyAddresses")
       },
     })
 
@@ -90,98 +53,213 @@ const AccordionItem = ({ item, setActiveItem }) => {
       },
     })
 
-  const handleUpdateAddress = (addressID, values) => {
-    updateAddressMutate({ addressID, payload: values })
+  function validate() {
+    const validateField = (field, message) => (field ? null : message)
+
+    const validatePhone = (phone) => {
+      if (!phone) return "Mobile number is required"
+
+      phone = String(phone)
+      if (phone.length === 10 || phone.length === 12) return null
+      return "Invalid mobile number"
+    }
+
+    const validateAlternatePhone = (phone) => {
+      if (!phone) return null
+
+      phone = String(phone)
+      if (phone.length === 10 || phone.length === 12) return null
+      return "Invalid mobile number"
+    }
+
+    const validatePincode = (pincode) => {
+      if (!pincode) return "Pincode is required"
+
+      pincode = String(pincode)
+      if (pincode.length === 6) return null
+      else return "Invalid pincode"
+    }
+
+    const errors = {
+      user_name: validateField(inputs?.user_name, "Name is required"),
+      phone: validatePhone(inputs?.phone),
+      alternate_phone: validateAlternatePhone(inputs?.alternate_phone),
+      city: validateField(inputs?.city, "City is required"),
+      state: validateField(inputs?.state, "State is required"),
+      pincode: validatePincode(inputs?.pincode),
+    }
+
+    const hasErrors = Object.values(errors).some((error) => error !== null)
+
+    if (hasErrors) setErrors(errors)
+    else setErrors({})
+
+    return hasErrors
+  }
+
+  const handleUpdateAddress = (e, addressID) => {
+    e.preventDefault()
+
+    if (validate()) return
+
+    updateAddressMutate({ addressID, payload: inputs })
   }
   const handleDeleteAddress = (addressID) => {
     deleteAddressMutate(addressID)
   }
 
   function handleCancelEdit() {
-    form.reset()
+    // setInputs({})
     setIsEdit(true)
   }
+
+  function handleInputChange(e, name = null, value = null) {
+    name = name ? name : e?.target?.name
+    value = value ? value : e?.target?.value
+
+    setInputs((state) => ({
+      ...state,
+      [name]: value,
+    }))
+
+    if (errors[name]) {
+      setErrors((state) => ({
+        ...state,
+        [name]: null,
+      }))
+    }
+  }
+
+  useEffect(() => {
+    setInputs({ ...item })
+  }, [item])
+
   return (
-    <Accordion.Item value={item._id} key={item._id}>
+    <Accordion.Item value={item._id}>
       <Accordion.Control onClick={handleCancelEdit}>
         <AccordionLabel {...item} address={getAddressString(item)} />
       </Accordion.Control>
       <Accordion.Panel>
         <div className="md:px-4">
-          <form
-            onSubmit={form.onSubmit((values) =>
-              handleUpdateAddress(item._id, values)
-            )}
-          >
+          <form onSubmit={(e) => handleUpdateAddress(e, item._id)}>
             <div className="grid grid-cols-2 gap-3">
-              <TextInput
-                label="Name"
-                placeholder="john"
-                {...form.getInputProps("user_name")}
-                disabled={isEdit}
-              />
-
-              <NumberInput
-                hideControls
-                label="Mobile Number"
-                placeholder="Mobile Number"
-                {...form.getInputProps("phone")}
-                disabled={isEdit}
-              />
-              <TextInput
-                label="Country"
-                placeholder="Country"
-                {...form.getInputProps("country")}
-                disabled={isEdit}
-              />
-              <TextInput
-                label="State"
-                placeholder="State"
-                {...form.getInputProps("state")}
-                disabled={isEdit}
-              />
-              <TextInput
-                label="City"
-                placeholder="City"
-                {...form.getInputProps("city")}
-                disabled={isEdit}
-              />
-              <TextInput
-                label="Landmark"
-                placeholder="Landmark (Optional)"
-                {...form.getInputProps("landmark")}
-                disabled={isEdit}
-              />
-              <NumberInput
-                hideControls
-                label="Pincode"
-                placeholder="Pincode"
-                {...form.getInputProps("pincode")}
-                disabled={isEdit}
-              />
-              <NumberInput
-                hideControls
-                label="Alternate Phone (Optional)"
-                placeholder="Alternate Mobile Number"
-                {...form.getInputProps("alternate_phone")}
-                disabled={isEdit}
-              />
+              <div className="flex flex-col gap-1">
+                <TextInput
+                  label="Name"
+                  placeholder="john"
+                  disabled={isEdit}
+                  value={inputs?.user_name}
+                  name="user_name"
+                  onChange={(e) => handleInputChange(e)}
+                />
+                <p className="text-xs text-red-500">{errors.user_name}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <NumberInput
+                  hideControls
+                  label="Mobile Number"
+                  placeholder="Mobile Number"
+                  disabled={isEdit}
+                  value={inputs?.phone}
+                  name="phone"
+                  onChange={(value) => handleInputChange(null, "phone", value)}
+                />
+                <p className="text-xs text-red-500">{errors.phone}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <TextInput
+                  label="Country"
+                  placeholder="Country"
+                  disabled={isEdit}
+                  value={inputs?.country}
+                  name="country"
+                  onChange={(e) => handleInputChange(e)}
+                />
+                <p className="text-xs text-red-500">{errors.country}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <TextInput
+                  label="State"
+                  placeholder="State"
+                  disabled={isEdit}
+                  value={inputs?.state}
+                  name="state"
+                  onChange={(e) => handleInputChange(e)}
+                />
+                <p className="text-xs text-red-500">{errors.state}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <TextInput
+                  label="City"
+                  placeholder="City"
+                  disabled={isEdit}
+                  value={inputs?.city}
+                  name="city"
+                  onChange={(e) => handleInputChange(e)}
+                />
+                <p className="text-xs text-red-500">{errors.city}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <TextInput
+                  label="Landmark"
+                  placeholder="Landmark (Optional)"
+                  disabled={isEdit}
+                  value={inputs?.landmark}
+                  name="landmark"
+                  onChange={(e) => handleInputChange(e)}
+                />
+                <p className="text-xs text-red-500">{errors.landmark}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <NumberInput
+                  hideControls
+                  label="Pincode"
+                  placeholder="Pincode"
+                  disabled={isEdit}
+                  value={inputs?.pincode}
+                  name="pincode"
+                  onChange={(value) =>
+                    handleInputChange(null, "pincode", value)
+                  }
+                />
+                <p className="text-xs text-red-500">{errors.pincode}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <NumberInput
+                  hideControls
+                  label="Alternate Phone (Optional)"
+                  placeholder="Alternate Mobile Number"
+                  disabled={isEdit}
+                  value={inputs?.alternate_phone}
+                  name="alternate_phone"
+                  onChange={(value) =>
+                    handleInputChange(null, "alternate_phone", value)
+                  }
+                />
+                <p className="text-xs text-red-500">{errors.alternate_phone}</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <Textarea
+                  label="Area or Street"
+                  placeholder="Area or Street"
+                  autosize
+                  minRows={2}
+                  maxRows={4}
+                  mt={12}
+                  disabled={isEdit}
+                  value={inputs?.street}
+                  name="street"
+                  onChange={(e) => handleInputChange(e)}
+                />
+                <p className="text-xs text-red-500">{errors.street}</p>
+              </div>
             </div>
-            <Textarea
-              label="Area or Street"
-              placeholder="Area or Street"
-              {...form.getInputProps("street")}
-              autosize
-              minRows={2}
-              maxRows={4}
-              mt={12}
-              disabled={isEdit}
-            />
 
             <div className="mt-5">
               {isEdit ? (
                 <div className="flex items-center justify-start gap-x-2">
                   <button
+                    type="button"
                     className=" rounded-sm bg-[#2874F0] px-6 py-3 text-xs font-medium uppercase text-white shadow-md "
                     disabled={updateAddressIsPending}
                     onClick={(e) => {

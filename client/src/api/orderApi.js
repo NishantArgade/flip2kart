@@ -1,3 +1,4 @@
+import axios from "axios"
 import { axiosCall } from "./helper"
 
 export const createOrder = async (payload) => {
@@ -10,9 +11,9 @@ export const validateOrder = async (payload) => {
 export const saveOrder = async (payload) => {
   return await axiosCall("post", `/api/save-order`, payload)
 }
-export const getAllMyOrders = async () => {
-  return await axiosCall("get", `/api/my-orders`)
-}
+// export const getAllMyOrders = async () => {
+//   return await axiosCall("get", `/api/my-orders`)
+// }
 export const getOrderByOrderIDAndProductID = async (search) => {
   return await axiosCall("get", `/api/order-detail${search}`)
 }
@@ -29,4 +30,7 @@ export const getFilteredOrders = async (search) => {
 }
 export const deleteOrder = async (item) => {
   return await axiosCall("delete", `/api/delete-order/${item._id}`)
+}
+export const getPaymentData = async (paymentId) => {
+  return await axiosCall("get", `/api/payment-data/${paymentId}`)
 }

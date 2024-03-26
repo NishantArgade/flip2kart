@@ -1,18 +1,47 @@
 /* eslint-disable react/prop-types */
 import moment from "moment"
+import { IoMdStar } from "react-icons/io"
 import { Link } from "react-router-dom"
+import {
+  CANCELLED,
+  DELIVERED,
+  ORDER_CONFIRMED,
+  OUT_FOR_DELIVERY,
+  RETURNED,
+  SHIPPED,
+} from "../../../utils/constants"
 
 const ProductCard = ({ product, orderID }) => {
-  function getDeliveryStatusMessage(status) {
-    switch (status) {
-      case "Order Confirmed":
-        return "Your order for this item has been confirmed"
-      case "Shipped":
-        return "Your item has been shipped"
-      case "Out for delivery":
-        return "Your item has been Out for delivery"
-      case "Delivered":
-        return "Your item has been deliverd"
+  function getOrderStatusConfig() {
+    switch (product?.latest_order_status?.status) {
+      case ORDER_CONFIRMED:
+        return {
+          color: "bg-green-600",
+          title: "Your order for this item has been confirmed",
+        }
+      case SHIPPED:
+        return { color: "bg-green-600", title: "Your item has been shipped" }
+      case OUT_FOR_DELIVERY:
+        return {
+          color: "bg-green-600",
+          title: "Your item has been Out for delivery",
+        }
+      case DELIVERED:
+        return { color: "bg-green-600", title: "Your item has been deliverd" }
+
+      case CANCELLED:
+        return {
+          color: "bg-red-400",
+          title:
+            "You requested a cancellation because you changed your mind about this product.",
+        }
+
+      case RETURNED:
+        return {
+          color: "bg-orange-400",
+          title:
+            "You returned this order because you were not satisfied with the product.",
+        }
     }
   }
 
@@ -45,12 +74,27 @@ const ProductCard = ({ product, orderID }) => {
       </div>
       <div className="col-span-4 ">
         <div className="flex items-center  justify-start gap-x-2">
-          <div className="h-2 w-2 rounded-full bg-green-600"> </div>
+          <div
+            className={`${getOrderStatusConfig()?.color} h-2 w-2 rounded-full`}
+          >
+            {" "}
+          </div>
           <p className="text-sm">{`${product?.latest_order_status?.status} on ${moment(product?.latest_order_status?.date).format("MMM DD, YYYY")}`}</p>
         </div>
-        <p className="text-xs text-gray-700">
-          {getDeliveryStatusMessage(product?.latest_order_status?.status)}
+        <p className="text-[0.67rem] text-gray-700">
+          {getOrderStatusConfig()?.title}
         </p>
+        {[DELIVERED, RETURNED].includes(
+          product?.latest_order_status?.status
+        ) && (
+          <Link
+            to={`/rate-product/${product?.product_id}`}
+            className="mt-3 flex gap-x-1 text-blue-500"
+          >
+            <IoMdStar size={20} />
+            <p className="text-xs">Rate & Review Product</p>
+          </Link>
+        )}
       </div>
     </Link>
   )
