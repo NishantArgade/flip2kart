@@ -5,7 +5,7 @@ import { useMemo } from "react"
 
 const DashboardReportPDF = ({ data, revenueInfo }) => {
   /** PDF Document Styling */
-  console.log(revenueInfo)
+  console.log(data)
 
   const style = StyleSheet.create({
     pageHeadingContainer: {
@@ -53,10 +53,10 @@ const DashboardReportPDF = ({ data, revenueInfo }) => {
   // console.log(userData)
 
   const unitSold = useMemo(
-    () => revenueInfo?.reduce((acc, item) => acc + item.totalQty, 0),
+    () => revenueInfo?.result?.reduce((acc, item) => acc + item.totalQty, 0),
     [revenueInfo]
   )
-  console.log(unitSold)
+
   return (
     <Document>
       <Page
@@ -85,6 +85,7 @@ const DashboardReportPDF = ({ data, revenueInfo }) => {
           tableBody={data?.productData?.productsWithCount}
           tableSummaryText={`Total number of products: ${data?.productData?.totalProductsCount}`}
         />
+
         <TableSection
           heading={"CUSTOMER INFORMATION"}
           subHeading={"Customers by role"}
@@ -95,29 +96,50 @@ const DashboardReportPDF = ({ data, revenueInfo }) => {
           tableBody={data?.userData?.usersWithCount}
           tableSummaryText={`Total number of customers: ${data?.userData?.totalUsersCount}`}
         />
+
         <TableSection
           heading={"TRANSACTION INFORMATION"}
           subHeading={"Transactions by status"}
           tableHeader={[
-            { label: "Transaction Status", value: "status" },
+            { label: "Transaction Status", value: "_id" },
             { label: "No. of Transaction", value: "count" },
-            { label: "Amount", value: "totalPrice" },
+            { label: "Amount", value: "totalAmount" },
           ]}
-          tableBody={data?.ordersData?.data?.orders}
-          tableSummaryText={`Total number of transactions: ${data?.ordersData?.totalOrderCount} and total amount: $${data?.ordersData?.data?.totalOrderPrice.toLocaleString("en-In")}`}
+          tableBody={data?.transactionData}
+          tableSummaryText={`Total number of transaction: ${data?.transactionData.reduce((acc, curr) => curr.count + acc, 0)} and total transaction amount: $${data?.transactionData.reduce((acc, curr) => curr.totalAmount + acc, 0)}`}
           breakPage={true}
         />
+
         <TableSection
-          heading={"REVENUE INFORMATION"}
-          subHeading={"Current year month wise revenue"}
+          heading={"ORDER INFORMATION"}
+          subHeading={"Orders by status"}
           tableHeader={[
-            { label: "Month", value: "month" },
-            { label: "Revenue", value: "totalPrice" },
-            { label: "No. of unit Sold", value: "totalQty" },
+            { label: "Order Status", value: "_id" },
+            { label: "No. of Orders", value: "count" },
+            { label: "Amount", value: "amount" },
           ]}
-          tableBody={revenueInfo}
-          tableSummaryText={`Total revenue: $${data?.totalRevenue?.totalRevenue.toLocaleString("en-In")} and total number of unit sold: ${unitSold}`}
+          tableBody={data?.ordersData?.orders}
+          tableSummaryText={`Total number of orders: ${data?.ordersData?.orders.reduce((acc, curr) => curr.count + acc, 0)} and total amount: $${data?.ordersData?.orders.reduce((acc, curr) => curr.amount + acc, 0)}`}
         />
+
+        {!revenueInfo?.isEmpty && (
+          <TableSection
+            heading={"REVENUE INFORMATION"}
+            subHeading={"Current year month wise revenue"}
+            tableHeader={[
+              { label: "Month", value: "month" },
+              { label: "Revenue", value: "totalPrice" },
+              { label: "No. of unit Sold", value: "totalQty" },
+            ]}
+            tableBody={revenueInfo?.result}
+            tableSummaryText={`Total revenue: $${
+              data?.ordersData?.totalAmount
+                ? data?.ordersData?.totalAmount?.toLocaleString("en-In")
+                : 0
+            } and total number of unit sold: ${unitSold}`}
+            breakPage={true}
+          />
+        )}
       </Page>
     </Document>
   )

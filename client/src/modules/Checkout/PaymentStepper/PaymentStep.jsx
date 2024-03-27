@@ -115,8 +115,14 @@ export default function PaymentStep({
       nextStep()
       setLoading(false)
     })
-
+    rzp1.on("modal.dismiss", function (response) {
+      console.log(response)
+      setLoading(false)
+    })
     rzp1.open()
+    setTimeout(() => {
+      setLoading(false)
+    }, 5000)
     e.preventDefault()
   }
 

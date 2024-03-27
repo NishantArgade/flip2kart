@@ -7,13 +7,42 @@ export const getMonthlySalesData = asyncHandler(async (req, res, next) => {
   const start = new Date(currentYear, 0, 1); // January 1 of the current year
   const end = new Date(currentYear + 1, 0, 1); // January 1 of the next year
 
-  const data = await Order.find({
-    "payment.status": "captured",
-    created_at: {
-      $gte: start,
-      $lt: end,
+  const data = await Order.aggregate([
+    {
+      $match: {
+        "payment.status": "captured",
+        created_at: {
+          $gte: start,
+          $lt: end,
+        },
+      },
     },
-  }).select("products created_at -_id");
+    {
+      $addFields: {
+        products: {
+          $filter: {
+            input: "$products",
+            as: "product",
+            cond: {
+              $not: {
+                $in: [
+                  "$$product.latest_order_status.status",
+                  ["Cancelled", "Returned"],
+                ],
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        products: 1,
+        created_at: 1,
+        _id: 0,
+      },
+    },
+  ]);
 
   let result = data.map((order) => {
     return order.products.map((product) => {
@@ -83,9 +112,41 @@ export const getMonthlySalesData = asyncHandler(async (req, res, next) => {
 });
 
 export const getDailySalesData = asyncHandler(async (req, res, next) => {
-  const data = await Order.find({ "payment.status": "captured" }).select(
-    "products created_at -_id"
-  );
+  // const data = await Order.find({ "payment.status": "captured" }).select(
+  //   "products created_at -_id"
+  // );
+  const data = await Order.aggregate([
+    {
+      $match: {
+        "payment.status": "captured",
+      },
+    },
+    {
+      $addFields: {
+        products: {
+          $filter: {
+            input: "$products",
+            as: "product",
+            cond: {
+              $not: {
+                $in: [
+                  "$$product.latest_order_status.status",
+                  ["Cancelled", "Returned"],
+                ],
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        products: 1,
+        created_at: 1,
+        _id: 0,
+      },
+    },
+  ]);
 
   let result = data.map((order) => {
     return order.products.map((product) => {
@@ -113,9 +174,38 @@ export const getDailySalesData = asyncHandler(async (req, res, next) => {
 });
 
 export const getSalesBreakdownData = asyncHandler(async (req, res, next) => {
-  const data = await Order.find({ "payment.status": "captured" }).select(
-    "products created_at -_id"
-  );
+  const data = await Order.aggregate([
+    {
+      $match: {
+        "payment.status": "captured",
+      },
+    },
+    {
+      $addFields: {
+        products: {
+          $filter: {
+            input: "$products",
+            as: "product",
+            cond: {
+              $not: {
+                $in: [
+                  "$$product.latest_order_status.status",
+                  ["Cancelled", "Returned"],
+                ],
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        products: 1,
+        created_at: 1,
+        _id: 0,
+      },
+    },
+  ]);
 
   let result = data.flatMap((order) =>
     order.products.map((product) => ({

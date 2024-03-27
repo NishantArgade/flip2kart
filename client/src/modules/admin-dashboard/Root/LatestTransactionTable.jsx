@@ -108,10 +108,9 @@ import Skeleton from "react-loading-skeleton"
 const columnHelper = createColumnHelper()
 const columns = [
   columnHelper.accessor("_id", {
-    header: (header) => <TableHeader header={header} name={"UserID"} />,
-    cell: (props) => (
-      <p className="mr-2 py-2 text-[0.7rem]">{props.getValue()}</p>
-    ),
+    header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+    cell: ({ row }) => <div>{row.index + 1}</div>,
+    maxSize: 20,
   }),
 
   columnHelper.accessor("billing_user", {
@@ -138,8 +137,23 @@ const columns = [
     // size: 120,
   }),
   columnHelper.accessor("total_price", {
-    header: (header) => <TableHeader header={header} name={"Cost"} />,
-    cell: (props) => <p className="py-2 text-[0.7rem]">{props.getValue()}</p>,
+    header: (header) => <TableHeader header={header} name={"Amount"} />,
+    cell: (props) => (
+      <p className="py-2 text-[0.7rem]">
+        ₹{props.getValue().toLocaleString("en-In")}
+      </p>
+    ),
+    // size: 120,
+  }),
+  columnHelper.accessor("payment.status", {
+    header: (header) => <TableHeader header={header} name={"Status"} />,
+    cell: (props) => (
+      <p
+        className={`${props.getValue() === "captured" ? "text-green-600" : props.getValue() === "failed" ? "text-red-500" : ""} py-2 text-[0.7rem]`}
+      >
+        {props.getValue()}
+      </p>
+    ),
     // size: 120,
   }),
 
@@ -186,61 +200,67 @@ const LatestTransactionTable = ({ data, isLoading }) => {
         Latest Transactions
       </div>
       {!isLoading ? (
-        <div className=" h-full w-full ">
-          <table width={table.getTotalSize()} id="latestTransactionTable">
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => {
-                return (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <th
-                          width={header.column.getSize()}
-                          key={header.id}
-                          id={header.id}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                        </th>
-                      )
-                    })}
-                  </tr>
-                )
-              })}
-            </thead>
-            <tbody className="text-xs">
-              {table.getRowModel().rows.map((row) => {
-                return (
-                  <tr key={row.id} className="border-b-2">
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <td
-                          key={cell.id}
-                          width={cell.column.getSize()}
-                          className=""
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
-                      )
-                    })}
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+        data?.length > 0 ? (
+          <div className=" h-full w-full ">
+            <table width={table.getTotalSize()} id="latestTransactionTable">
+              <thead>
+                {table.getHeaderGroups().map((headerGroup) => {
+                  return (
+                    <tr key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => {
+                        return (
+                          <th
+                            width={header.column.getSize()}
+                            key={header.id}
+                            id={header.id}
+                          >
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                          </th>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+              </thead>
+              <tbody className="text-xs">
+                {table.getRowModel().rows.map((row) => {
+                  return (
+                    <tr key={row.id} className="border-b-2">
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <td
+                            key={cell.id}
+                            width={cell.column.getSize()}
+                            className=""
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="flex h-80 w-full items-center justify-center">
+            <p className="text-sm text-gray-400">No transactions found</p>
+          </div>
+        )
       ) : (
         <div className="min-h-56 w-full lg:min-h-[22rem]">
           <Skeleton width="100%" height="100%" />
         </div>
       )}
       {!isLoading ? (
-        <TablePagination table={table} />
+        data?.length > 0 && <TablePagination table={table} />
       ) : (
         <div className="mt-4 w-full">
           <Skeleton width="100%" height={30} />

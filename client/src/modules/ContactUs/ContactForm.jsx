@@ -1,9 +1,16 @@
 import { TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import React from "react"
+import { useMutation } from "@tanstack/react-query"
+import React, { useEffect } from "react"
+import { toast } from "../../utils/toast"
+import { sendContactMail } from "../../api/officeApi"
+import Spinner from "../../components/Spinner"
+import { useSelector } from "react-redux"
 
 const ContactForm = () => {
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+  const user = useSelector((state) => state.user.data)
+  console.log(user)
 
   const form = useForm({
     initialValues: {
@@ -27,6 +34,35 @@ const ContactForm = () => {
     },
   })
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: "contactUs",
+    mutationFn: sendContactMail,
+    onSuccess: () => {
+      toast.success("Message sent successfully")
+      form.reset()
+      form.setValues({
+        name:
+          (user?.first_name ? user.first_name : "") +
+          " " +
+          (user?.last_name ? user?.last_name : ""),
+        email: user?.email,
+      })
+    },
+  })
+  function handleFormSubmit(values) {
+    mutate(values)
+  }
+
+  useEffect(() => {
+    form.setValues({
+      name:
+        (user?.first_name ? user.first_name : "") +
+        " " +
+        (user?.last_name ? user?.last_name : ""),
+      email: user?.email,
+    })
+  }, [user])
+
   return (
     <div className=" w-full pb-6">
       <div className="flex items-center justify-center py-2">
@@ -34,7 +70,7 @@ const ContactForm = () => {
           <p className="mb-8 mt-4 text-center text-xl font-semibold text-gray-500">
             Contact Form
           </p>
-          <form onSubmit={form.onSubmit(console.log)}>
+          <form onSubmit={form.onSubmit(handleFormSubmit)}>
             <div className="grid grid-cols-2 gap-3">
               <TextInput
                 withAsterisk
@@ -77,10 +113,18 @@ const ContactForm = () => {
               </div>
             </div>
             <button
-              className="float-end mt-4 w-full rounded-md bg-[#2874F0] px-4 py-2 text-sm font-semibold text-white shadow-md"
+              className="float-end mt-4 flex w-full justify-center gap-x-2 rounded-md bg-[#2874F0] px-4 py-2 text-sm font-semibold text-white shadow-md"
               type="submit"
+              disabled={isPending}
             >
-              Send
+              {isPending ? (
+                <>
+                  <Spinner size={20} color="green" />
+                  <span> Sending</span>
+                </>
+              ) : (
+                <span> Send</span>
+              )}
             </button>
           </form>
         </div>

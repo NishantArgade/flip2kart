@@ -39,6 +39,11 @@ const Transactions = () => {
 
   const columns = [
     colHelper.accessor("_id", {
+      header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+      cell: ({ row }) => <div>{row.index + 1}</div>,
+      maxSize: 90,
+    }),
+    colHelper.accessor("_id", {
       header: (header) => <TableHeader header={header} name={"OrderID"} />,
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
@@ -100,20 +105,20 @@ const Transactions = () => {
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
       // size: 50,
     }),
-    colHelper.accessor("address", {
-      header: (header) => <TableHeader header={header} name={"Address"} />,
-      cell: (props) => (
-        <Tooltip
-          label={props.getValue()}
-          arrowOffset={12}
-          arrowSize={6}
-          withArrow
-          className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
-        >
-          <p className="mr-2 w-28 truncate">{props.getValue()}</p>
-        </Tooltip>
-      ),
-    }),
+    // colHelper.accessor("address", {
+    //   header: (header) => <TableHeader header={header} name={"Address"} />,
+    //   cell: (props) => (
+    //     <Tooltip
+    //       label={props.getValue()}
+    //       arrowOffset={12}
+    //       arrowSize={6}
+    //       withArrow
+    //       className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
+    //     >
+    //       <p className="mr-2 w-28 truncate">{props.getValue()}</p>
+    //     </Tooltip>
+    //   ),
+    // }),
 
     colHelper.accessor("createdAt", {
       header: (header) => <TableHeader header={header} name={"CreatedAt"} />,
@@ -133,9 +138,9 @@ const Transactions = () => {
     }),
 
     colHelper.accessor("action", {
-      header: () => null,
+      header: () => <p className="py-1 pb-5 text-xs text-gray-500">Action</p>,
       cell: ({ row }) => (
-        <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
+        <p className="flex  items-center justify-center gap-x-3 px-0 text-gray-500">
           <EditTransactionModal data={row.original} />
           <DeletePopover
             size={18}
@@ -180,7 +185,6 @@ const Transactions = () => {
           latest_order_status: p.latest_order_status.status,
           quantity: p.quantity,
           amount: p.price - p.discount,
-          address: order.shipping_address,
           createdAt: order.created_at,
           product: p,
           payment_status: order.payment.status,

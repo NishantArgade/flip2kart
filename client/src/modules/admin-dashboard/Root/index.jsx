@@ -24,6 +24,7 @@ const AdminDashboardRoot = () => {
       queryFn: getMonthlySalesData,
     }
   )
+  console.log(data)
 
   const { data: orderData, isLoading: isLoadingOrder } = useQuery({
     queryKey: ["allOrders"],
@@ -37,6 +38,9 @@ const AdminDashboardRoot = () => {
     })
 
   console.log(data)
+
+  // if (true) return null
+
   return (
     <div className=" flex flex-col gap-y-4 py-4 md:p-4">
       <div className="flex items-center justify-between border-b-[1.8px] pb-3">
@@ -48,24 +52,21 @@ const AdminDashboardRoot = () => {
           document={
             <DashboardReportPDF
               data={data?.result}
-              revenueInfo={RevenueGraphData?.result}
+              revenueInfo={RevenueGraphData}
             />
           }
           fileName="Dashboard Report.pdf"
         >
           {({ loading, error }) => (
-            <div className=" rounded-sm bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow-md hover:text-gray-700">
-              <p className="flex items-center justify-center gap-2">
+            <button
+              disabled={loading}
+              className={`${loading ? "opacity-50" : ""} rounded-sm bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow-md hover:text-gray-700`}
+            >
+              <div className={`flex items-center justify-center gap-2`}>
                 <FaDownload />
-                <span>
-                  {error
-                    ? "Try again"
-                    : loading
-                      ? "Loading Report"
-                      : "Download Report"}
-                </span>
-              </p>
-            </div>
+                <span>{error ? "Try again" : "Download Report"}</span>
+              </div>
+            </button>
           )}
         </PDFDownloadLink>
       </div>

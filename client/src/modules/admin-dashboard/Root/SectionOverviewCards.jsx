@@ -19,14 +19,20 @@ const SectionOverviewCards = ({ data, isLoading }) => {
     {
       title: "Total Orders",
       icon: <FaShoppingCart size={21} className="text-gray-500" />,
-      count: data?.ordersData?.totalOrderCount,
+      count: data?.ordersData?.orders.reduce(
+        (acc, curr) => curr.count + acc,
+        0
+      ),
     },
     {
       title: "Total Revenue",
       icon: <HiCurrencyRupee size={24} className="text-gray-500" />,
-      count: "₹" + data?.totalRevenue?.totalRevenue?.toLocaleString("en-IN"),
+      count: data?.ordersData?.totalAmount
+        ? "₹" + data?.ordersData?.totalAmount?.toLocaleString("en-In")
+        : "₹" + 0,
     },
   ]
+  console.log(data?.ordersData)
 
   return (
     <div className="bg-slate-white col-span-1 grid  h-full  grid-cols-1 gap-4 text-sm text-gray-700 md:grid-cols-2 lg:col-span-5">

@@ -1,5 +1,4 @@
 import { PDFDownloadLink } from "@react-pdf/renderer"
-import { BsQuestionSquareFill } from "react-icons/bs"
 import { IoMdArrowRoundBack } from "react-icons/io"
 import { IoDocumentText } from "react-icons/io5"
 import { Link, useLocation, useNavigate } from "react-router-dom"
@@ -17,7 +16,6 @@ import { IoIosCloseCircle } from "react-icons/io"
 import { TbArrowBackUp } from "react-icons/tb"
 import { IoMdStar } from "react-icons/io"
 import ModalComponent from "./components/Modal"
-import { toast } from "../../utils/toast"
 import { useDisclosure } from "@mantine/hooks"
 import { queryClient } from "../../main"
 import { HiQuestionMarkCircle } from "react-icons/hi2"
@@ -74,17 +72,23 @@ const OrderedProductDetail = () => {
     [RETURNED]: 5,
   }
 
-  let lastStatusIndex = 0
+  let lastStatusIndex =
+    statusToStepIndex[data?.product?.latest_order_status?.status] || 0
+
   const p = data?.product?.order_status_history || []
   p.forEach((o) => {
     const stepIndex = statusToStepIndex[o.status]
     if (stepIndex !== undefined) {
       steps[stepIndex].bottomLabel = moment(o.date).format("ddd, Do MMM")
-      lastStatusIndex = Math.max(lastStatusIndex, stepIndex)
+      // lastStatusIndex = Math.max(lastStatusIndex, stepIndex)
     }
   })
 
-  if (lastStatusIndex <= 3) {
+  if (
+    [ORDER_CONFIRMED, SHIPPED, OUT_FOR_DELIVERY, DELIVERED].includes(
+      data?.product?.latest_order_status?.status
+    )
+  ) {
     steps = steps.slice(0, 4)
   } else {
     steps = [steps[0], steps[lastStatusIndex]]
@@ -130,7 +134,7 @@ const OrderedProductDetail = () => {
         close()
       },
     })
-  // console.log(data?.product?.latest_order_status?.status)
+  console.log(data?.product?.quantity)
   return (
     <>
       <div className="container mx-auto min-h-screen">
@@ -165,9 +169,13 @@ const OrderedProductDetail = () => {
             </div>
           )}
           {!isLoading ? (
-            [SHIPPED, OUT_FOR_DELIVERY, DELIVERED, RETURNED].includes(
-              data?.product?.latest_order_status?.status
-            ) && (
+            [
+              ORDER_CONFIRMED,
+              SHIPPED,
+              OUT_FOR_DELIVERY,
+              DELIVERED,
+              RETURNED,
+            ].includes(data?.product?.latest_order_status?.status) && (
               <div className="col-span-1 flex flex-col gap-y-2 border-l-[1px]  p-4 md:col-span-5">
                 <p className="text-sm">More Action</p>
                 <div className="flex items-center justify-between">
@@ -237,9 +245,14 @@ const OrderedProductDetail = () => {
                   <span>Seller: </span>
                   <span> {data?.product?.seller}</span>
                 </p>
-                <p className="mb-6 mt-2 text-sm font-semibold text-gray-800 md:mb-0">
-                  ₹{data?.product?.price - data?.product?.discount}
-                </p>
+                <div className="flex items-center gap-2">
+                  <p className="mb-6 mt-2 text-sm font-semibold text-gray-800 md:mb-0">
+                    ₹{data?.product?.price - data?.product?.discount}
+                  </p>
+                  <p className="mb-6 mt-2 text-xs  text-gray-500 md:mb-0">
+                    quantity: {data?.product?.quantity}
+                  </p>
+                </div>
               </div>
             </div>
             <div>

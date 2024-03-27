@@ -12,3 +12,7 @@ export const editOffice = async ({ id, payload }) => {
 export const deleteOffice = async (product) => {
   return await axiosCall("delete", `/api/delete-office/${product._id}`)
 }
+
+export const sendContactMail = async (payload) => {
+  return await axiosCall("post", `/api/send-contact-mail`, payload)
+}

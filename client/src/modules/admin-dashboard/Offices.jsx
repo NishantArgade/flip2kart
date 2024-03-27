@@ -72,6 +72,11 @@ const Offices = () => {
 
   const columns = [
     colHelper.accessor("_id", {
+      header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+      cell: ({ row }) => <div>{row.index + 1}</div>,
+    }),
+
+    colHelper.accessor("_id", {
       header: (header) => <TableHeader header={header} name={"ID"} />,
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
@@ -123,9 +128,9 @@ const Offices = () => {
     }),
 
     colHelper.accessor("action", {
-      header: () => null,
+      header: () => <p className="py-1 pb-5 text-xs text-gray-500">Action</p>,
       cell: ({ row }) => (
-        <p className="flex items-center  justify-start gap-x-3 px-0 text-gray-500">
+        <p className="flex items-center  justify-center gap-x-3 px-0 text-gray-500">
           <FaEdit onClick={() => handleEdit(row.original)} />
           <DeletePopover
             size={18}

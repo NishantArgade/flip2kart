@@ -12,6 +12,12 @@ import Spinner from "../../components/Spinner"
 const colHelper = createColumnHelper()
 const columns = [
   colHelper.accessor("_id", {
+    header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+    cell: ({ row }) => <div>{row.index + 1}</div>,
+    maxSize: 80,
+  }),
+
+  colHelper.accessor("_id", {
     header: (header) => <TableHeader header={header} name={"UserID"} />,
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
@@ -22,11 +28,13 @@ const columns = [
   }),
 
   colHelper.accessor("count", {
-    header: (header) => <TableHeader header={header} name={"# of Orders"} />,
+    header: (header) => (
+      <TableHeader header={header} name={"No. of Transactions"} />
+    ),
     cell: (props) => <p className="mr-2">{props.getValue()}</p>,
   }),
 
-  colHelper.accessor("total_price", {
+  colHelper.accessor("total_amount", {
     header: (header) => <TableHeader header={header} name={"Total Amount"} />,
     cell: (props) => (
       <p className="mr-2">₹{props.getValue().toLocaleString("en-In")}</p>

@@ -5,6 +5,7 @@ import {
   addOffice,
   editOffice,
   deleteOffice,
+  sendContactMail,
 } from "../controllers/officeController.js";
 
 const router = Router();
@@ -22,5 +23,7 @@ router
 router
   .route("/delete-office/:officeID")
   .delete(protect, restrict("admin", "operator"), deleteOffice);
+
+router.route("/send-contact-mail").post(protect, sendContactMail);
 
 export default router;

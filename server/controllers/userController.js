@@ -41,7 +41,7 @@ export const loginUser = asyncHandler(async (req, res, next) => {
   await user.save();
 
   try {
-    await sendMail(email, subject, html);
+    await sendMail(process.env.NODEMAILER_EMAIL, email, subject, html, null);
 
     res.status(200).json({
       status: "success",
@@ -92,7 +92,7 @@ export const regiserUser = asyncHandler(async (req, res, next) => {
   });
 
   try {
-    await sendMail(email, subject, html);
+    await sendMail(process.env.NODEMAILER_EMAIL, email, subject, html, null);
 
     res.status(200).json({
       status: "success",
@@ -291,13 +291,58 @@ export const checkAuth = asyncHandler(async (req, res, next) => {
 });
 
 export const getAffiliatePerformance = asyncHandler(async (req, res, next) => {
+  // const orders = await Order.aggregate([
+  //   {
+  //     $group: {
+  //       _id: "$billing_user_id",
+  //       user_name: { $first: "$billing_user" },
+  //       total_price: { $sum: "$total_price" },
+  //       count: { $sum: 1 },
+  //     },
+  //   },
+  // ]);
+
   const orders = await Order.aggregate([
+    {
+      $match: {
+        "payment.status": "captured",
+      },
+    },
+    {
+      $addFields: {
+        products: {
+          $filter: {
+            input: "$products",
+            as: "product",
+            cond: {
+              $not: {
+                $in: [
+                  "$$product.latest_order_status.status",
+                  ["Cancelled", "Returned"],
+                ],
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      $unwind: "$products",
+    },
     {
       $group: {
         _id: "$billing_user_id",
         user_name: { $first: "$billing_user" },
-        total_price: { $sum: "$total_price" },
         count: { $sum: 1 },
+        total_amount: { $sum: "$products.afterDiscountTotalPrice" },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        user_name: 1,
+        count: 1,
+        total_amount: 1,
       },
     },
   ]);
@@ -311,35 +356,89 @@ export const getAffiliatePerformance = asyncHandler(async (req, res, next) => {
 export const getDashboardData = asyncHandler(async (req, res, next) => {
   // get order data like total count of deliverd,out for delivery,shipped, failed,cancel,Order Confirmed as pending
 
+  // const ordersData = await Order.aggregate([
+  //   {
+  //     $facet: {
+  //       totalOrderCount: [{ $count: "count" }],
+  //       data: [
+  //         { $unwind: "$products" },
+  //         {
+  //           $group: {
+  //             _id: "$products.latest_order_status.status",
+  //             count: { $sum: 1 },
+  //             totalPrice: { $sum: "$products.afterDiscountTotalPrice" },
+  //           },
+  //         },
+  //         {
+  //           $group: {
+  //             _id: null,
+  //             totalOrderPrice: { $sum: "$totalPrice" },
+  //             orders: {
+  //               $push: {
+  //                 status: "$_id",
+  //                 count: "$count",
+  //                 totalPrice: "$totalPrice",
+  //               },
+  //             },
+  //           },
+  //         },
+  //         {
+  //           $project: {
+  //             _id: 0,
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   },
+  //   {
+  //     $project: {
+  //       totalOrderCount: { $arrayElemAt: ["$totalOrderCount.count", 0] },
+  //       data: { $arrayElemAt: ["$data", 0] },
+  //     },
+  //   },
+  // ]);
+
+  // group  by payment.status
+  const transactionData = await Order.aggregate([
+    {
+      $group: {
+        _id: "$payment.status",
+        count: { $sum: 1 },
+        totalAmount: { $sum: "$total_price" },
+      },
+    },
+  ]);
+
   const ordersData = await Order.aggregate([
     {
+      $match: {
+        "payment.status": "captured",
+      },
+    },
+    { $unwind: "$products" },
+    {
       $facet: {
-        totalOrderCount: [{ $count: "count" }],
-        data: [
-          { $unwind: "$products" },
+        totalAmount: [
           {
-            $group: {
-              _id: "$products.latest_order_status.status",
-              count: { $sum: 1 },
-              totalPrice: { $sum: "$products.afterDiscountTotalPrice" },
+            $match: {
+              "products.latest_order_status.status": {
+                $nin: ["Cancelled", "Returned"],
+              },
             },
           },
           {
             $group: {
               _id: null,
-              totalOrderPrice: { $sum: "$totalPrice" },
-              orders: {
-                $push: {
-                  status: "$_id",
-                  count: "$count",
-                  totalPrice: "$totalPrice",
-                },
-              },
+              totalAfterDiscount: { $sum: "$products.afterDiscountTotalPrice" },
             },
           },
+        ],
+        orders: [
           {
-            $project: {
-              _id: 0,
+            $group: {
+              _id: "$products.latest_order_status.status",
+              count: { $sum: 1 },
+              amount: { $sum: "$products.afterDiscountTotalPrice" },
             },
           },
         ],
@@ -347,8 +446,9 @@ export const getDashboardData = asyncHandler(async (req, res, next) => {
     },
     {
       $project: {
-        totalOrderCount: { $arrayElemAt: ["$totalOrderCount.count", 0] },
-        data: { $arrayElemAt: ["$data", 0] },
+        totalAmount: { $arrayElemAt: ["$totalAmount.totalAfterDiscount", 0] },
+        orders: 1,
+        _id: 0,
       },
     },
   ]);
@@ -374,14 +474,27 @@ export const getDashboardData = asyncHandler(async (req, res, next) => {
   const userData = { usersWithCount, totalUsersCount };
 
   const totalRevenue = await Order.aggregate([
-    { $match: { "payment.status": "captured" } },
-    { $group: { _id: null, totalRevenue: { $sum: "$total_price" } } },
+    {
+      $match: {
+        "payment.status": "captured",
+        "products.latest_order_status.status": {
+          $nin: ["Cancelled", "Returned"],
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalRevenue: { $sum: "$total_price" },
+      },
+    },
   ]);
 
   res.status(200).json({
     status: "success",
     message: "Fetched all Users successfully",
     result: {
+      transactionData,
       ordersData: ordersData[0],
       productData,
       userData,
