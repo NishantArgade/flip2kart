@@ -1,4 +1,3 @@
-/* eslint-disable no-dupe-else-if */
 import { Avatar, Drawer } from "@mantine/core"
 import { Link } from "react-router-dom"
 import {

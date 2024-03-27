@@ -16,13 +16,6 @@ const MultiAccordionMenu = ({ name, icon, subMenu }) => {
             key={i}
             to={item?.link}
             end
-            onClick={() => {
-              window.scroll({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-              })
-            }}
             className={({ isActive, isPending }) =>
               isPending
                 ? "pending"

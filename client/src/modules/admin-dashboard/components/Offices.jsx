@@ -1,11 +1,9 @@
-import { Modal, Tooltip } from "@mantine/core"
+import { Tooltip } from "@mantine/core"
 import { createColumnHelper } from "@tanstack/react-table"
 import moment from "moment"
 import { useState } from "react"
 import { IoMdAddCircle } from "react-icons/io"
-import { Link } from "react-router-dom"
 import DeletePopover from "../../components/DeletePopover.jsx"
-import EditUser from "../../components/EditUserModal.jsx"
 import ClientFacingHeader from "./components/ClientFacingHeader.jsx"
 import Table from "./components/Table.jsx"
 import TableHeader from "./components/TableHeader.jsx"
@@ -13,36 +11,8 @@ import TableSearchBar from "./components/TableSearchBar.jsx"
 import { useDisclosure } from "@mantine/hooks"
 import OfficeModal from "./components/OfficeModal.jsx"
 import { FaEdit } from "react-icons/fa"
-
-const data = [
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    manager: "Nishant Argade",
-    country: "India",
-    state: "Maharashtra",
-    city: ["Pune", "Mumbai", "Goa", "Nashik", "Channai"],
-    phone: "1234567890",
-    establishedAt: new Date("2023/01/10"),
-  },
-  {
-    id: "65a63a404e9ce490acd0c31a6",
-    manager: "Omkar Khandagle",
-    country: "United State",
-    state: "CA",
-    city: ["San Francisco", "Los Angeles"],
-    phone: "1234567890",
-    establishedAt: new Date("2023/01/11"),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    manager: "Aniket Argade",
-    country: "UK",
-    state: "ENG",
-    city: ["London", "Manchester"],
-    phone: "1234567890",
-    establishedAt: new Date("2023/01/12"),
-  },
-]
+import { useQuery } from "@tanstack/react-query"
+import { getAllOffices } from "../../../api/officeApi.js"
 
 const colHelper = createColumnHelper()
 
@@ -55,10 +25,16 @@ const Offices = () => {
     setIsEdit(true)
     open()
   }
+
   function handleAddOffice() {
     setIsEdit(false)
     open()
   }
+  const { data, isLoading } = useQuery({
+    queryKey: ["allOffices"],
+    queryFn: getAllOffices,
+  })
+
   const columns = [
     colHelper.accessor("id", {
       header: (header) => <TableHeader header={header} name={"ID"} />,
@@ -121,6 +97,9 @@ const Offices = () => {
       ),
     }),
   ]
+
+  if (isLoading) return null
+
   return (
     <>
       <OfficeModal opened={opened} close={close} isEdit={isEdit} />
@@ -147,7 +126,7 @@ const Offices = () => {
 
         {/** Table */}
         <Table
-          data={data}
+          data={data?.offices}
           columns={columns}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}

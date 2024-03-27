@@ -17,8 +17,6 @@ const Login = () => {
   const [OTP, setOTP] = useState("")
   const [emailError, setEmailError] = useState("")
 
-  const dispatch = useDispatch()
-
   const { isPending: sendOTPIsPending, mutate: sendOTPMutate } = useMutation({
     mutationKey: ["sendOTP"],
     mutationFn: async () => await login(email),

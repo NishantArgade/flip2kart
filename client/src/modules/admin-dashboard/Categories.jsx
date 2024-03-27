@@ -18,7 +18,6 @@ import {
 } from "../../api/categoryApi.js"
 import { queryClient } from "../../main.jsx"
 import Spinner from "../../components/Spinner.jsx"
-import { set } from "lodash"
 import { useForm } from "@mantine/form"
 
 const colHelper = createColumnHelper()
@@ -65,10 +64,12 @@ const Categories = () => {
     setIsEdit(true)
     open()
   }
+
   function handleAddOffice() {
     setIsEdit(false)
     open()
   }
+
   const { data, isLoading } = useQuery({
     queryKey: ["allCategories"],
     queryFn: getAllCategoriesAndBrands,

@@ -31,11 +31,52 @@ const Transactions = () => {
     { id: "payment_status", value: "" },
   ])
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["allOrders"],
+    queryFn: getAllOrders,
+  })
+
   const { mutate, isPending } = useMutation({
     mutationKey: "deleteOrder",
     mutationFn: deleteOrder,
     onSuccess: () => queryClient.invalidateQueries("allOrders"),
   })
+
+  const onColumnFilterChange = (status, value) => {
+    setColumnFilters((state) =>
+      state.filter((f) => f.id !== status).concat({ id: status, value })
+    )
+  }
+
+  const filteredOrderStatusValue =
+    columnFilters.find((f) => f.id === "latest_order_status").value || ""
+
+  const isSelectedOrderStatus = (role) => role === filteredOrderStatusValue
+
+  const filteredPaymentStatusValue =
+    columnFilters.find((f) => f.id === "payment_status").value || ""
+
+  const isSelectedPaymentStatus = (role) => role === filteredPaymentStatusValue
+
+  const finalData = useMemo(() => {
+    const result = []
+    data?.allOrders?.forEach((order) => {
+      order.products.forEach((p) => {
+        result.push({
+          ...order,
+          _id: order._id,
+          billing_user_id: order.billing_user_id,
+          latest_order_status: p.latest_order_status.status,
+          quantity: p.quantity,
+          amount: p.price - p.discount,
+          createdAt: order.created_at,
+          product: p,
+          payment_status: order.payment.status,
+        })
+      })
+    })
+    return result
+  }, [data?.allOrders])
 
   const columns = [
     colHelper.accessor("_id", {
@@ -44,6 +85,7 @@ const Transactions = () => {
       cell: ({ row }) => <div>{row.index + 1}</div>,
       maxSize: 90,
     }),
+
     colHelper.accessor("_id", {
       header: (header) => <TableHeader header={header} name={"OrderID"} />,
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
@@ -140,46 +182,6 @@ const Transactions = () => {
       ),
     }),
   ]
-  const onColumnFilterChange = (status, value) => {
-    setColumnFilters((state) =>
-      state.filter((f) => f.id !== status).concat({ id: status, value })
-    )
-  }
-
-  const filteredOrderStatusValue =
-    columnFilters.find((f) => f.id === "latest_order_status").value || ""
-
-  const isSelectedOrderStatus = (role) => role === filteredOrderStatusValue
-
-  const filteredPaymentStatusValue =
-    columnFilters.find((f) => f.id === "payment_status").value || ""
-
-  const isSelectedPaymentStatus = (role) => role === filteredPaymentStatusValue
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["allOrders"],
-    queryFn: getAllOrders,
-  })
-
-  const finalData = useMemo(() => {
-    const result = []
-    data?.allOrders?.forEach((order) => {
-      order.products.forEach((p) => {
-        result.push({
-          ...order,
-          _id: order._id,
-          billing_user_id: order.billing_user_id,
-          latest_order_status: p.latest_order_status.status,
-          quantity: p.quantity,
-          amount: p.price - p.discount,
-          createdAt: order.created_at,
-          product: p,
-          payment_status: order.payment.status,
-        })
-      })
-    })
-    return result
-  }, [data?.allOrders])
 
   return (
     <>

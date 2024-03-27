@@ -1,4 +1,4 @@
-import { Drawer, Radio, darken } from "@mantine/core"
+import { Drawer, Radio } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { GoSortDesc } from "react-icons/go"
 import { LuSettings2 } from "react-icons/lu"
@@ -40,6 +40,7 @@ const ProductCard = ({ product }) => {
 
     return formattedDate
   }
+
   return (
     <div className="relative z-0 flex   w-full cursor-pointer flex-col items-start justify-start rounded-sm border-2 border-gray-100 px-1 py-2 hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] md:px-2">
       <Link to={`/product-detail/${product?._id}`}>

@@ -28,13 +28,7 @@ const Home = () => {
         showDiscount={false}
         category={"Clothes"}
       />
-      {/* <HorizontalProductCarousel
-        title="Top Deals On Appliances"
-        showRating={false}
-        showStrikePrice={true}
-        showDiscount={false}
-        category={"Clothes"}
-      /> */}
+
       <HorizontalProductCarousel
         title="Recommanded Items"
         showRating={false}

@@ -1,6 +1,4 @@
 import { ResponsiveLine } from "@nivo/line"
-import { getMonthlySalesData } from "../../../api/salesApi"
-import { useQuery } from "@tanstack/react-query"
 import Skeleton from "react-loading-skeleton"
 
 const RevenueChart = ({ data, isLoading }) => {
@@ -13,6 +11,7 @@ const RevenueChart = ({ data, isLoading }) => {
       data: [],
     },
   ]
+
   result[0].data = data?.result?.map((item) => ({
     x: item?.month,
     y: item?.totalPrice,

@@ -6,7 +6,6 @@ import { isValidEmail } from "../../utils/helper"
 import { toast } from "../../utils/toast"
 import { login, register, verifyOTP } from "../../api/userApi"
 import { useMutation } from "@tanstack/react-query"
-import { useDispatch } from "react-redux"
 import { queryClient } from "../../main"
 
 const Register = () => {
@@ -16,8 +15,6 @@ const Register = () => {
   const [OTP, setOTP] = useState("")
   const [email, setEmail] = useState(location.state?.email || "")
   const [emailError, setEmailError] = useState("")
-
-  const dispatch = useDispatch()
 
   const { isPending: registerIsPending, mutate: registerMutate } = useMutation({
     mutationKey: ["register"],

@@ -1,6 +1,6 @@
 import { ResponsiveLine } from "@nivo/line"
 import moment from "moment"
-import React, { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import DatePicker from "react-datepicker"
 import { IoCalendarOutline } from "react-icons/io5"
 import { getDailySalesData } from "../../api/salesApi"

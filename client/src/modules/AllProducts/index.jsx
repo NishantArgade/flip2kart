@@ -8,7 +8,6 @@ import { useQuery } from "@tanstack/react-query"
 const AllProducts = () => {
   const location = useLocation()
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
-
   const [selectedBrands, setSelectedBrands] = useState([])
   const [selectedRatings, setSelectedRatings] = useState([])
   const [selectedDiscount, setSelectedDiscount] = useState([])
@@ -16,13 +15,12 @@ const AllProducts = () => {
   const [selectedSort, setSelectedSort] = useState("")
   const [selectedDelivery, setSelectedDelivery] = useState("")
   const [filterPriceRange, setFilterPriceRange] = useState([0, 0])
-
   const [activePage, setActivePage] = useState(1)
 
   const searchParams = new URLSearchParams(location.search)
-  const category = searchParams.get("category") // gets the value of the 'category' query parameter
-  const brand = searchParams.get("brand") // gets the value of the 'category' query parameter
-  const name = searchParams.get("name") // gets the value of the 'category' query parameter
+  const category = searchParams.get("category")
+  const brand = searchParams.get("brand")
+  const name = searchParams.get("name")
 
   const { data, isLoading } = useQuery({
     queryKey: [

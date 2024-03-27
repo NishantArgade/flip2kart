@@ -1,7 +1,7 @@
 import { TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useMutation } from "@tanstack/react-query"
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import { toast } from "../../utils/toast"
 import { sendContactMail } from "../../api/officeApi"
 import Spinner from "../../components/Spinner"
@@ -48,6 +48,7 @@ const ContactForm = () => {
       })
     },
   })
+
   function handleFormSubmit(values) {
     mutate(values)
   }

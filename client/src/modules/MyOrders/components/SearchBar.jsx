@@ -16,11 +16,6 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
     window.history.pushState({}, "", newUrl)
     queryClient.invalidateQueries("filteredOrders")
   }
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const search = urlParams.get("search") || ""
-    setSearchTerm(search)
-  }, [])
 
   function handleRemoveSearchClick() {
     const urlParams = new URLSearchParams(window.location.search)
@@ -33,6 +28,13 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
     setSearchTerm("")
     queryClient.invalidateQueries("filteredOrders")
   }
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const search = urlParams.get("search") || ""
+    setSearchTerm(search)
+  }, [])
+
   return (
     <div className="flex w-[45rem] items-center rounded-sm  bg-[#F0F5FF] text-sm hover:shadow-md  ">
       <input

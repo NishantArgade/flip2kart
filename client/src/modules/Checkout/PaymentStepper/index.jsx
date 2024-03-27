@@ -36,6 +36,7 @@ const PaymentStepper = ({ cartData, active, setActive, hasSearchParam }) => {
       height: 3,
     },
   }
+
   useEffect(() => {
     window.onbeforeunload = () => {
       return ""

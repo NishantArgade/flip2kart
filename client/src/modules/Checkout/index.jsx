@@ -5,7 +5,6 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { getCartProducts, getSingleProductBillData } from "../../api/cartApi"
 import { useLocation } from "react-router-dom"
-import SingleProductAmountInfo from "./SingleProductAmountInfo"
 
 const Checkout = () => {
   const [active, setActive] = useState(1)

@@ -23,6 +23,7 @@ const ProductImgCarousel = ({
   function handleAddToWishlist() {
     mutate(product)
   }
+
   return (
     <div className="relative z-0">
       <LargeDeviceIMGCarousel

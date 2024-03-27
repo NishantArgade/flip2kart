@@ -1,5 +1,4 @@
 import { Table, TextInput } from "@mantine/core"
-import { useForm } from "@mantine/form"
 import { useState } from "react"
 import { IoMdAddCircle } from "react-icons/io"
 import { MdDelete } from "react-icons/md"
@@ -20,26 +19,6 @@ const SpecificationStep = ({
   const [category, setCategory] = useState("")
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
-
-  const form = useForm({
-    initialValues: {
-      specificationCategory: "",
-      specificationTitle: "",
-      specificationDescription: "",
-    },
-
-    validate: {
-      specificationCategory: (value) => {
-        if (!value) return "this field is required"
-      },
-      specificationTitle: (value) => {
-        if (!value) return "this field is required"
-      },
-      specificationDescription: (value) => {
-        if (!value) return "this field is required"
-      },
-    },
-  })
 
   function handleAddService() {
     const formatedCategory = getPascalCaseString(category)
@@ -103,10 +82,7 @@ const SpecificationStep = ({
   }
 
   return (
-    <form
-      // onSubmit={form.onSubmit(console.log)}
-      className="mt-3 flex flex-col text-sm"
-    >
+    <form className="mt-3 flex flex-col text-sm">
       <div className="grid grid-cols-2 gap-5">
         <TextInput
           withAsterisk

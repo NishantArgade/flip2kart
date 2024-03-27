@@ -31,6 +31,7 @@ export const getUserData = async (userID) => {
 export const getAllUsers = async () => {
   return await axiosCall("get", `/api/all-users`)
 }
+
 export const getAdmins = async () => {
   return await axiosCall("get", `/api/all-admins`)
 }

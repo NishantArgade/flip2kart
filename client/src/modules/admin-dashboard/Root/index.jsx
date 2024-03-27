@@ -18,6 +18,7 @@ const AdminDashboardRoot = () => {
     queryKey: ["dashboardData"],
     queryFn: getDashboardData,
   })
+
   const { data: RevenueGraphData, isLoading: isLoadingRevenueGraph } = useQuery(
     {
       queryKey: ["getMonthlySalesData"],
@@ -43,27 +44,32 @@ const AdminDashboardRoot = () => {
           <p className="text-lg uppercase text-gray-500">Dashboard</p>
           <p className="text-xs text-gray-400">Welcome to admin dashboard</p>
         </div>
-        <PDFDownloadLink
-          document={
-            <DashboardReportPDF
-              data={data?.result}
-              revenueInfo={RevenueGraphData}
-            />
-          }
-          fileName="Dashboard Report.pdf"
-        >
-          {({ loading, error }) => (
-            <button
-              disabled={loading}
-              className={`${loading ? "opacity-50" : ""} rounded-sm bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow-md hover:text-gray-700`}
-            >
-              <div className={`flex items-center justify-center gap-2`}>
-                <FaDownload />
-                <span>{error ? "Try again" : "Download Report"}</span>
-              </div>
-            </button>
-          )}
-        </PDFDownloadLink>
+        {!isLoading && (
+          <PDFDownloadLink
+            document={
+              <DashboardReportPDF
+                data={data?.result}
+                revenueInfo={RevenueGraphData}
+                isLoading={isLoading}
+              />
+            }
+            fileName="Dashboard Report.pdf"
+          >
+            {({ loading, error }) => (
+              <button
+                disabled={loading}
+                className={`${loading ? "opacity-50" : ""} rounded-sm bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow-md hover:text-gray-700`}
+              >
+                <div
+                  className={`${loading || error ? "opacity-50" : ""} flex items-center justify-center gap-2`}
+                >
+                  <FaDownload />
+                  <span>Download Report</span>
+                </div>
+              </button>
+            )}
+          </PDFDownloadLink>
+        )}
       </div>
       {/* 1st Grid */}
       <section className=" grid grid-cols-1 gap-4  lg:grid-cols-12">

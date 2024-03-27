@@ -12,6 +12,7 @@ const ProductAllDetailSection = ({ data }) => {
     queryKey: ["productRatingAndReviewDetails" + data?._id],
     queryFn: async () => await getProductReviewDetails(data?._id),
   })
+
   return (
     <>
       <BasicInfo data={data} reviewData={response?.data} />

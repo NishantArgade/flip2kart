@@ -11,7 +11,6 @@ import {
   uploadReviewImgs,
 } from "../../api/ratingAndReviewApi"
 import { queryClient } from "../../main"
-import axios from "axios"
 import { toast } from "../../utils/toast"
 
 const RateProduct = () => {
@@ -44,7 +43,6 @@ const RateProduct = () => {
     queryFn: async () => await getMyReviewAndRating(productID),
   })
 
-  // const isBoughtProduct = data?.product?.is_bought
   const isBoughtProduct = true
 
   const { mutate: addRatingAndReviewMutate } = useMutation({
@@ -60,7 +58,6 @@ const RateProduct = () => {
   const handleImageChange = (e) => {
     setSelectedImages((prev) => [...prev, ...e.target.files])
 
-    // Create object URLs for preview
     const fileArray = Array.from(e.target.files).map((file) => ({
       url: URL.createObjectURL(file),
     }))
@@ -112,17 +109,6 @@ const RateProduct = () => {
     })
   }
 
-  useEffect(() => {
-    form.setValues({
-      review_description: data?.myReviewData?.review_description || "",
-      review_title: data?.myReviewData?.review_title || "",
-    })
-    setRateValue(data?.myReviewData?.rating || 0)
-
-    setSelectedImages(data?.myReviewData?.images?.map((item) => item.url) || [])
-    setPreviewImages(data?.myReviewData?.images || [])
-  }, [data])
-
   function handleRatingChange(rate) {
     setRateValue(rate)
     let review_title = ""
@@ -145,6 +131,17 @@ const RateProduct = () => {
     }
     form.setValues({ review_title })
   }
+
+  useEffect(() => {
+    form.setValues({
+      review_description: data?.myReviewData?.review_description || "",
+      review_title: data?.myReviewData?.review_title || "",
+    })
+    setRateValue(data?.myReviewData?.rating || 0)
+
+    setSelectedImages(data?.myReviewData?.images?.map((item) => item.url) || [])
+    setPreviewImages(data?.myReviewData?.images || [])
+  }, [data])
 
   return (
     <div className="min-h-screen">

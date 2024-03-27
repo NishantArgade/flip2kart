@@ -8,7 +8,6 @@ import { useSelector } from "react-redux"
 
 const ProfileInfo = () => {
   const user = useSelector((state) => state.user.data)
-
   const [personalInfoEdit, setPersonalInfoEdit] = useState(false)
   const [emailEdit, setEmailEdit] = useState(false)
   const [mobileEdit, setMobileEdit] = useState(false)
@@ -28,6 +27,7 @@ const ProfileInfo = () => {
   })
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+
   const emailForm = useForm({
     initialValues: { email: "" },
 
@@ -57,25 +57,6 @@ const ProfileInfo = () => {
     queryFn: () => getUserData(user._id),
   })
 
-  useEffect(() => {
-    if (!isLoading && !isError && data?.user) {
-      const { first_name, last_name, gender, email, phone } = data.user
-
-      personalInfoForm.setFieldValue("first_name", first_name)
-      personalInfoForm.setFieldValue("last_name", last_name)
-      emailForm.setFieldValue("email", email)
-      mobileForm.setFieldValue("phone", phone)
-      setGender(gender)
-    }
-  }, [isLoading, isError, data])
-
-  function handleEmailEdit() {
-    setEmailEdit((state) => !state)
-  }
-  function handleMobileEdit() {
-    setMobileEdit((state) => !state)
-  }
-
   const { mutate } = useMutation({
     mutationKey: "updateProfile",
     mutationFn: updateProfile,
@@ -87,9 +68,29 @@ const ProfileInfo = () => {
     },
   })
 
+  function handleEmailEdit() {
+    setEmailEdit((state) => !state)
+  }
+
+  function handleMobileEdit() {
+    setMobileEdit((state) => !state)
+  }
+
   function handleProfileUpdate(values) {
     mutate({ userID: user._id, payload: values })
   }
+
+  useEffect(() => {
+    if (!isLoading && !isError && data?.user) {
+      const { first_name, last_name, gender, email, phone } = data.user
+
+      personalInfoForm.setFieldValue("first_name", first_name)
+      personalInfoForm.setFieldValue("last_name", last_name)
+      emailForm.setFieldValue("email", email)
+      mobileForm.setFieldValue("phone", phone)
+      setGender(gender)
+    }
+  }, [isLoading, isError, data])
 
   return (
     <>

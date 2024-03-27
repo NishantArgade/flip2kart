@@ -1,5 +1,5 @@
 import { ResponsiveChoropleth } from "@nivo/geo"
-import React, { useEffect, useMemo, useState } from "react"
+import { useMemo } from "react"
 import ClientFacingHeader from "./components/ClientFacingHeader"
 import { geoData } from "./utils/geoData"
 import { useQuery } from "@tanstack/react-query"

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Stepper } from "@mantine/core"
 import { useState } from "react"
 import BasicInfoStep from "./BasicInfoStep.jsx"
@@ -6,7 +5,6 @@ import CompleteStep from "./CompleteStep.jsx"
 import OfferStep from "./OfferStep.jsx"
 import SpecificationStep from "./SpecificationStep.jsx"
 import SpotlightStep from "./SpotlightStep.jsx"
-import axios from "axios"
 import { useMutation } from "@tanstack/react-query"
 import {
   addProduct,
@@ -23,12 +21,10 @@ const ManageProductStepper = ({ isEditProduct, product }) => {
   const [active, setActive] = useState(0)
   const [loading, setLoading] = useState(false)
   const [brand, setBrand] = useState(product?.brand || "")
+  const [previewImages, setPreviewImages] = useState(product?.images || [])
   const [selectedImages, setSelectedImages] = useState(
     product?.images?.map((item) => item?.url) || []
   )
-
-  const [previewImages, setPreviewImages] = useState(product?.images || [])
-
   const [basicInfoStepInitialData, setBasicInfoStepInitialData] = useState({
     name: product?.name || "",
     description: product?.description || "",
@@ -111,12 +107,10 @@ const ManageProductStepper = ({ isEditProduct, product }) => {
   const handleImageChange = (e) => {
     setSelectedImages((prev) => [...prev, ...e.target.files])
 
-    // Create object URLs for preview
     const fileArray = Array.from(e.target.files).map((file) => ({
       url: URL.createObjectURL(file),
     }))
 
-    // Store all selected file object urls to the previewImages state variable
     setPreviewImages((prevImages) => prevImages.concat(fileArray))
   }
 

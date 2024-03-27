@@ -26,6 +26,7 @@ function OfferModal({ opened, close, isEdit = false, offerData }) {
       form.reset()
     },
   })
+
   const { mutate: editOfferMutate, isPending: editOfferIsPending } =
     useMutation({
       mutationKey: "editOffer",

@@ -13,6 +13,7 @@ import {
 
 const ProductCard = ({ product, orderID }) => {
   const navigate = useNavigate()
+
   function getOrderStatusConfig() {
     switch (product?.latest_order_status?.status) {
       case ORDER_CONFIRMED:

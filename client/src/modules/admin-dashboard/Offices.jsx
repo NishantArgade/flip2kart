@@ -16,36 +16,6 @@ import { deleteOffice, getAllOffices } from "../../api/officeApi.js"
 import Spinner from "../../components/Spinner.jsx"
 import { queryClient } from "../../main.jsx"
 
-const data2 = [
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    manager: "Nishant Argade",
-    country: "India",
-    state: "Maharashtra",
-    city: ["Pune", "Mumbai", "Goa", "Nashik", "Channai"],
-    phone: "1234567890",
-    establishedAt: new Date("2023/01/10"),
-  },
-  {
-    id: "65a63a404e9ce490acd0c31a6",
-    manager: "Omkar Khandagle",
-    country: "United State",
-    state: "CA",
-    city: ["San Francisco", "Los Angeles"],
-    phone: "1234567890",
-    establishedAt: new Date("2023/01/11"),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    manager: "Aniket Argade",
-    country: "UK",
-    state: "ENG",
-    city: ["London", "Manchester"],
-    phone: "1234567890",
-    establishedAt: new Date("2023/01/12"),
-  },
-]
-
 const colHelper = createColumnHelper()
 
 const Offices = () => {
@@ -54,21 +24,27 @@ const Offices = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [officeData, setOfficeData] = useState({})
 
-  function handleEdit(data) {
-    setOfficeData(data)
-    setIsEdit(true)
-    open()
-  }
-  function handleAddOffice() {
-    setIsEdit(false)
-    open()
-  }
+  const { data, isLoading } = useQuery({
+    queryKey: ["allOffices"],
+    queryFn: getAllOffices,
+  })
 
   const { mutate, isPending } = useMutation({
     mutationKey: "deleteOffice",
     mutationFn: deleteOffice,
     onSuccess: () => queryClient.invalidateQueries("allOffices"),
   })
+
+  function handleEdit(data) {
+    setOfficeData(data)
+    setIsEdit(true)
+    open()
+  }
+
+  function handleAddOffice() {
+    setIsEdit(false)
+    open()
+  }
 
   const columns = [
     colHelper.accessor("_id", {
@@ -144,10 +120,7 @@ const Offices = () => {
       ),
     }),
   ]
-  const { data, isLoading } = useQuery({
-    queryKey: ["allOffices"],
-    queryFn: getAllOffices,
-  })
+
   return (
     <>
       <OfficeModal

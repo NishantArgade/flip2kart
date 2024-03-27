@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom"
 import ManageProductStepper from "./ManageProductStepper"
 
 const ManageProduct = ({ isEditProduct = false }) => {
-  const navigate = useNavigate()
   const location = useLocation()
 
   return (

@@ -13,6 +13,7 @@ const Highlight = ({ spotlight, product }) => {
 
     return formattedDate
   }
+
   return (
     <div className="flex flex-col items-start justify-start gap-y-4 text-xs">
       {product?.stock !== 0 && (

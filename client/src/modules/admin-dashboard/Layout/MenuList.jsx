@@ -1,15 +1,42 @@
 import { Accordion, Avatar } from "@mantine/core"
-import { BsBoxSeam } from "react-icons/bs"
 import { ImProfile } from "react-icons/im"
-import { MdManageAccounts, MdOutlineDashboard } from "react-icons/md"
+import {
+  MdManageAccounts,
+  MdOutlineDashboard,
+  MdOutlineNavigateNext,
+} from "react-icons/md"
 import { RiLogoutCircleRLine } from "react-icons/ri"
 import { RxCrossCircled } from "react-icons/rx"
 import MultiAccordionMenu from "../../../components/MultiAccordionMenu"
 import SingleAccordionMenu from "../../../components/SingleAccordionMenu"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { logout } from "../../../api/userApi"
+import { queryClient } from "../../../main"
+import { resetUserData } from "../../../slices/userSlice"
+import { persistor } from "../../../store"
+import { useNavigate } from "react-router-dom"
+import { toast } from "../../../utils/toast"
 
 const MenuList = ({ isOpenSidebar, setIsOpenSidebar }) => {
   const user = useSelector((state) => state.user.data)
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      const response = await logout()
+
+      queryClient.invalidateQueries("checkAuth")
+      dispatch(resetUserData())
+      persistor.purge()
+      navigate("/")
+
+      toast.success(response.message)
+    } catch (error) {
+      toast.error(error?.response?.data?.message)
+    }
+  }
 
   return (
     <div
@@ -91,13 +118,30 @@ const MenuList = ({ isOpenSidebar, setIsOpenSidebar }) => {
           ]}
         />
 
-        <SingleAccordionMenu
-          name={"LOGOUT"}
-          icon={
-            <RiLogoutCircleRLine className="mr-1 -rotate-90 text-lg text-blue-500" />
-          }
-          link={"/login"}
-        />
+        <Accordion.Item value={"LOGOUT"}>
+          <Accordion.Control
+            icon={
+              <RiLogoutCircleRLine className="mr-1 -rotate-90 text-lg text-blue-500" />
+            }
+            className="text-xs font-semibold text-gray-800"
+            chevron={
+              <MdOutlineNavigateNext
+                className="font-extralight text-gray-500 "
+                size={26}
+              />
+            }
+            translate="no"
+            styles={{
+              chevron: {
+                transform: "none",
+                width: "1rem",
+              },
+            }}
+            onClick={handleLogout}
+          >
+            LOGOUT
+          </Accordion.Control>
+        </Accordion.Item>
       </Accordion>
     </div>
   )

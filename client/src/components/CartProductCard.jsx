@@ -3,11 +3,9 @@ import DeleteConfirmModal from "./DeleteConfirmModal"
 import { calculateDiscountedPrice } from "../utils/helper"
 import moment from "moment"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { useMutation } from "@tanstack/react-query"
-import { updateAddToCartProduct } from "../api/cartApi"
 import { queryClient } from "../main"
 import { toast } from "../utils/toast"
-import _, { debounce, set } from "lodash"
+import _ from "lodash"
 
 const CartProductCard = ({
   product,

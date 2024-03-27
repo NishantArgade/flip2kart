@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-// import { useHi } from "react-router-dom"
 
 function Pagination({ totalPages, activePage, setActivePage }) {
   const [startPage, setStartPage] = useState(1)

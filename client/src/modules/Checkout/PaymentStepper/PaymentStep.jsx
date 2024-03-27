@@ -32,13 +32,13 @@ export default function PaymentStep({
       receipt,
     })
     const options = {
-      key: import.meta.env.VITE_APP_RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
-      amount: amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      key: import.meta.env.VITE_APP_RAZORPAY_KEY_ID,
+      amount: amount,
       currency: currency,
       name: user?.first_name + " " + user?.last_name,
       description: "Test Transaction",
       image: "/avatar-placeholder.png",
-      order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      order_id: order.id,
       handler: async function (response) {
         try {
           await validateOrder({ ...response, cartData })

@@ -9,7 +9,6 @@ import ClientFacingHeader from "./components/ClientFacingHeader"
 import Table from "./components/Table"
 import TableHeader from "./components/TableHeader"
 import TableSearchBar from "./components/TableSearchBar"
-import { getAddressString } from "../../utils/helper"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { deleteUser, getAllUsers } from "../../api/userApi"
 import { useDisclosure } from "@mantine/hooks"
@@ -58,6 +57,7 @@ const Users = () => {
       header: (header) => <TableHeader header={header} name={"Sr. No"} />,
       cell: ({ row }) => <div>{row.index + 1}</div>,
     }),
+
     colHelper.accessor("_id", {
       header: (header) => <TableHeader header={header} name={"UserID"} />,
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
@@ -109,7 +109,6 @@ const Users = () => {
       cell: (props) => (
         <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
       ),
-      // size: 500,
     }),
 
     colHelper.accessor("role", {

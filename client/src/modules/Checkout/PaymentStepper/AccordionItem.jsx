@@ -75,9 +75,9 @@ const AccordionItem = ({ item, nextStep, activeItem, setPaymentData }) => {
   })
 
   function handleCancelEdit() {
-    // form.reset()
     setIsEdit(true)
   }
+
   const { mutate: updateAddressMutate, isPending: updateAddressIsPending } =
     useMutation({
       mutationKey: "updateAddress",
@@ -112,6 +112,7 @@ const AccordionItem = ({ item, nextStep, activeItem, setPaymentData }) => {
 
     nextStep()
   }
+
   return (
     <Accordion.Item value={item._id}>
       <Accordion.Control onClick={handleCancelEdit}>

@@ -1,7 +1,7 @@
 import { Modal, Radio } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { getAllMyAddresses, updateActiveAddress } from "../../../api/addressApi"
+import { useMutation } from "@tanstack/react-query"
+import { updateActiveAddress } from "../../../api/addressApi"
 import { getAddressString } from "../../../utils/helper"
 import { queryClient } from "../../../main"
 

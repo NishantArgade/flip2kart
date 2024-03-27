@@ -37,17 +37,21 @@ const Footer = () => {
             </div>
             <p>© 2007-2024 Flipkart.com</p>
           </div>
-          <p>
+          <div>
             Need help? Visit the{" "}
-            <Link to="/chatboat-support" className="text-blue-600">
+            <Link
+              to="https://mediafiles.botpress.cloud/6700e9bb-e1ed-41b3-a6ce-38e6bbaedc8d/webchat/bot.html"
+              target="_blank"
+              className="text-blue-600"
+            >
               Help Center{" "}
             </Link>
             or
-            <Link to="/" className="text-blue-600">
+            <Link to="/contact" className="text-blue-600">
               {" "}
               Contact Us
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     )
@@ -78,19 +82,25 @@ const Footer = () => {
             <div className="flex flex-col items-start justify-start">
               <p className="text-[0.68rem] font-bold text-gray-300">Payment</p>
               <p className="text-[0.68rem] font-bold text-gray-300">Shipping</p>
-              <p className="text-[0.68rem] font-bold text-gray-300">
+              <Link
+                to="/my-orders"
+                className="text-[0.68rem] font-bold text-gray-300"
+              >
                 Cancellation & Returns
-              </p>
+              </Link>
               <p className="text-[0.68rem] font-bold text-gray-300">FAQ</p>
             </div>
           </div>
           <div>
             <p className="mb-2 text-xs text-gray-400">CONSUMER POLICY</p>
             <div className="flex flex-col items-start justify-start">
-              <p className="text-[0.68rem] font-bold text-gray-300">
+              <Link
+                to="/my-orders"
+                className="text-[0.68rem] font-bold text-gray-300"
+              >
                 {" "}
                 Cancellation & Returns
-              </p>
+              </Link>
               <p className="text-[0.68rem] font-bold text-gray-300">
                 Terms of Use
               </p>

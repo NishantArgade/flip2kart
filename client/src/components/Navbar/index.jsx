@@ -1,13 +1,12 @@
 import { Avatar } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { BsCart3 } from "react-icons/bs"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import AvatarButton from "../AvatarButton/index.jsx"
 import MobileSideDrawer from "../MobileSideDrawer.jsx"
 import SearchInput from "./SearchInput.jsx"
-import { useSelector } from "react-redux"
 
 const Navbar = ({ authData }) => {
   const location = useLocation()

@@ -1,5 +1,5 @@
 import { PinInput } from "@mantine/core"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 const VerifyOTP = ({
   OTP,
@@ -13,18 +13,6 @@ const VerifyOTP = ({
   const [count, setCount] = useState(0)
   const [isActive, setIsActive] = useState(false)
 
-  useEffect(() => {
-    let interval = null
-    if (isActive && count > 0) {
-      interval = setInterval(() => {
-        setCount((count) => count - 1)
-      }, 1000)
-    } else if (!isActive && count !== 0) {
-      clearInterval(interval)
-    }
-    return () => clearInterval(interval)
-  }, [isActive, count])
-
   function handleResendOTP() {
     sendOTPMutate()
     setOTP("")
@@ -36,6 +24,18 @@ const VerifyOTP = ({
     setOTP("")
     setShowReqOtpField(true)
   }
+
+  useEffect(() => {
+    let interval = null
+    if (isActive && count > 0) {
+      interval = setInterval(() => {
+        setCount((count) => count - 1)
+      }, 1000)
+    } else if (!isActive && count !== 0) {
+      clearInterval(interval)
+    }
+    return () => clearInterval(interval)
+  }, [isActive, count])
 
   return (
     <div className="flex w-full flex-col items-center justify-start gap-y-7">

@@ -1,4 +1,3 @@
-import React from "react"
 import { FaUsers } from "react-icons/fa"
 import Skeleton from "react-loading-skeleton"
 import { FaBox, FaShoppingCart } from "react-icons/fa"

@@ -1,7 +1,7 @@
 import { ResponsiveLine } from "@nivo/line"
 import { useQuery } from "@tanstack/react-query"
 import { getMonthlySalesData } from "../../api/salesApi"
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 import Spinner from "../../components/Spinner"
 
 const MonthlySales = () => {

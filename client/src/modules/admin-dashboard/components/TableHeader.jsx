@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { TbArrowsSort } from "react-icons/tb"
 
 const TableHeader = ({ header, name }) => {

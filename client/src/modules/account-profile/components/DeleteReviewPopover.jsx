@@ -1,6 +1,5 @@
 import { Popover, Text } from "@mantine/core"
 import { useState } from "react"
-import { IoMdTrash } from "react-icons/io"
 
 const DeleteReviewPopover = ({
   deleteItemName = null,

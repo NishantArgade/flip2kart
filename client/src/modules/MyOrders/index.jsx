@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MdOutlineNavigateNext } from "react-icons/md"
 import { Link, NavLink, useNavigate } from "react-router-dom"
 import FilterSection from "./FilterSection"
@@ -17,6 +17,16 @@ const MyOrders = ({ isAdmin }) => {
     queryKey: ["filteredOrders", selectedOrderStatus, selectedOrderTime],
     queryFn: async () => await getFilteredOrders(window.location.search),
   })
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      })
+    }
+  }, [data, isLoading])
 
   if (data?.showEmptyPage)
     return (

@@ -24,6 +24,7 @@ const colHelper = createColumnHelper()
 const Products = () => {
   const navigate = useNavigate()
   const [globalFilter, setGlobalFilter] = useState("")
+
   const { data, isLoading } = useQuery({
     queryKey: ["allProducts"],
     queryFn: getAllProducts,
@@ -117,6 +118,7 @@ const Products = () => {
       ),
     }),
   ]
+
   return (
     <>
       <ClientFacingHeader

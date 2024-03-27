@@ -14,6 +14,8 @@ import { deleteUser, getAdmins } from "../../api/userApi"
 import { queryClient } from "../../main"
 import Spinner from "../../components/Spinner"
 
+const colHelper = createColumnHelper()
+
 const ManageAdmin = () => {
   const [globalFilter, setGlobalFilter] = useState("")
   const [columnFilters, setColumnFilters] = useState([
@@ -45,7 +47,6 @@ const ManageAdmin = () => {
     onError: (error) => console.log(error),
   })
 
-  const colHelper = createColumnHelper()
   const columns = [
     colHelper.accessor("_id", {
       id: "srNo",

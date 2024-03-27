@@ -14,7 +14,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { PersistGate } from "redux-persist/integration/react"
 import { Provider } from "react-redux"
 import { persistor, store } from "./store.js"
-// Register font for react-pdf
+
 Font.register({
   family: "Open Sans",
   fonts: [

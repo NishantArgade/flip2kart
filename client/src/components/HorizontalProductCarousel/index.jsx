@@ -1,7 +1,7 @@
 import { Carousel } from "@mantine/carousel"
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md"
 import ProductCard from "./ProductCard"
-import { getAllProducts, getProductsByCategory } from "../../api/productApi"
+import { getProductsByCategory } from "../../api/productApi"
 import { useQuery } from "@tanstack/react-query"
 import { useMemo } from "react"
 

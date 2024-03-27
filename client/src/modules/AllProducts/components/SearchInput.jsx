@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { debounce } from "lodash"
 import { IoSearch } from "react-icons/io5"
 
@@ -18,10 +18,7 @@ const SearchInput = ({
 
     debouncedSearch()
 
-    // Cleanup function to cancel the debounce on component unmount
-    return () => {
-      debouncedSearch.cancel()
-    }
+    return () => debouncedSearch.cancel()
   }, [searchBrandValue, brandsList])
 
   return (

@@ -1,5 +1,4 @@
 import { Modal } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
 
 export default function ModalComponent({
   children,

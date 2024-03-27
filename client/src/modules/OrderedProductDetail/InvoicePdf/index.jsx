@@ -9,7 +9,6 @@ import {
 import InvoicePdfTableSection from "./InvoicePdfTableSection"
 import moment from "moment"
 import { getDescriptionFromName } from "../../../utils/helper"
-// import PaymentDetails from "./InvoicePdfSection"
 
 /** PDF Document Styling */
 const style = StyleSheet.create({

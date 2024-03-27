@@ -11,99 +11,7 @@ import { useState } from "react"
 import TableHeader from "../components/TableHeader.jsx"
 import TablePagination from "../components/TablePagination.jsx"
 import moment from "moment"
-import Spinner from "../../../components/Spinner.jsx"
 import Skeleton from "react-loading-skeleton"
-
-// const data = [
-//   {
-//     id: "adfasdfsdasdassdfdfdfsdffasfasdfsdfsafsd",
-//     firstName: "Nishant",
-//     lastName: "Argade",
-//     createAt: "2023-02-1 01:03:12",
-//     quantity: 40000000,
-//     cost: "150000000",
-//   },
-//   {
-//     id: "asfasddfsdfafs2",
-//     firstName: "Nishant2",
-//     lastName: "Argade",
-//     createAt: "2023-02-1 01:03:12",
-//     quantity: 4,
-//     cost: "2000",
-//   },
-//   {
-//     id: "2",
-//     firstName: "Nishant3",
-//     lastName: "Argade",
-//     createAt: "2023-02-1 01:03:12",
-//     quantity: 4,
-//     cost: "2000",
-//   },
-//   {
-//     id: "assdfsafs4",
-//     firstName: "Nishant4",
-//     lastName: "Argade",
-//     createAt: "2023-02-1 01:03:15",
-//     quantity: 4,
-//     cost: "2000",
-//   },
-//   {
-//     id: "asfasdfss5",
-//     firstName: "Nishant5",
-//     lastName: "Argade",
-//     createAt: "2023-02-2 01:03:12",
-//     quantity: 4,
-//     cost: "2000",
-//   },
-//   {
-//     id: "asfasdfsaasdsfasdfsdfsafs7",
-//     firstName: "Nishant6",
-//     lastName: "Argade32",
-//     createAt: "2023-02-3 01:03:12",
-//     quantity: 2,
-//     cost: "4000",
-//   },
-//   {
-//     id: "asdfsdfffsafs8",
-//     firstName: "Nishant6",
-//     lastName: "Argade32",
-//     createAt: "2023-02-3 01:03:12",
-//     quantity: 2,
-//     cost: "4000",
-//   },
-//   {
-//     id: "asdsfffasdfsafs8f",
-//     firstName: "Nishant6",
-//     lastName: "Argade32",
-//     createAt: "2023-02-3 01:03:12",
-//     quantity: 2,
-//     cost: "4000",
-//   },
-//   {
-//     id: "asfdfasdfsdffsafs8",
-//     firstName: "Nishant6",
-//     lastName: "Argade32",
-//     createAt: "2023-02-3 01:03:12",
-//     quantity: 2,
-//     cost: "4000",
-//   },
-//   {
-//     id: "asfasdfsfdffsafs8",
-//     firstName: "Nishant6",
-//     lastName: "Argade32",
-//     createAt: "2023-02-3 01:03:12",
-//     quantity: 2,
-//     cost: "4000",
-//   },
-//   {
-//     id: "asfasasddfsdffsafs8",
-//     firstName: "Nishant6",
-//     lastName: "Argade32",
-//     createAt: "2023-02-3 01:03:12",
-//     quantity: 2,
-//     cost: "4000",
-//   },
-// ]
 
 const columnHelper = createColumnHelper()
 const columns = [
@@ -127,7 +35,6 @@ const columns = [
         <p className="mr-2   truncate">{props.getValue()}</p>
       </Tooltip>
     ),
-    // minSize: 200,
   }),
 
   columnHelper.accessor("totalQuantity", {
@@ -135,8 +42,8 @@ const columns = [
     cell: (props) => (
       <p className="mr-2 py-2 text-[0.7rem]">{props.getValue()}</p>
     ),
-    // size: 120,
   }),
+
   columnHelper.accessor("total_price", {
     header: (header) => <TableHeader header={header} name={"Amount"} />,
     cell: (props) => (
@@ -144,8 +51,8 @@ const columns = [
         ₹{props.getValue().toLocaleString("en-In")}
       </p>
     ),
-    // size: 120,
   }),
+
   columnHelper.accessor("payment.status", {
     header: (header) => <TableHeader header={header} name={"Status"} />,
     cell: (props) => (
@@ -155,7 +62,6 @@ const columns = [
         {props.getValue()}
       </p>
     ),
-    // size: 120,
   }),
 
   columnHelper.accessor("create_at", {
@@ -173,7 +79,6 @@ const columns = [
         </p>
       </Tooltip>
     ),
-    // minSize: 180,
   }),
 ]
 
@@ -194,6 +99,7 @@ const LatestTransactionTable = ({ data, isLoading }) => {
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
   })
+
   return (
     <div className="col-span-1 flex flex-col overflow-auto rounded-md  bg-gray-50 p-3 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-8">
       <div className="pb-4 text-sm font-semibold tracking-wide text-slate-500">

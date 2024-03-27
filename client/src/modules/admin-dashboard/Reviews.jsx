@@ -5,7 +5,6 @@ import { useState } from "react"
 import { FiFilter } from "react-icons/fi"
 import DeletePopover from "../../components/DeletePopover"
 import ClientFacingHeader from "./components/ClientFacingHeader"
-import ViewReviewModal from "./components/ViewReviewModal"
 import Table from "./components/Table"
 import TableHeader from "./components/TableHeader"
 import TableSearchBar from "./components/TableSearchBar"
@@ -16,130 +15,6 @@ import { allReviewAndRatings, deleteReview } from "../../api/ratingAndReviewApi"
 import { queryClient } from "../../main"
 import Spinner from "../../components/Spinner"
 
-const data2 = [
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "4",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "5",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "3",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "2",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "1",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce4d90acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "1",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "5",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "3",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "2",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce490acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant2 Argade",
-    rating: "1",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-  {
-    id: "65a63a404e9ce4d90acd0c3a6",
-    productId: "65a63a404e9ce490acd0c3a6",
-    productName: "Iphone",
-    userId: "65a63a404e9ce490acd0c3a6",
-    userName: "Nishant Argade",
-    rating: "1",
-    comment:
-      "Elitr ea sed stet sed et amet duo aliquyam sed, dolor eos ipsum sanctus rebum invidunt. Diam ut dolor vero.",
-    createdAt: new Date(),
-  },
-]
-
 const getRatingColor = (rating) => {
   if (rating === "1") return "red"
   else if (rating === "2" || rating === "3") return "orange"
@@ -148,13 +23,23 @@ const getRatingColor = (rating) => {
 const colHelper = createColumnHelper()
 
 const Reviews = () => {
-  const [globalFilter, setGlobalFilter] = useState("")
   const [opened, { open, close }] = useDisclosure(false)
+  const [globalFilter, setGlobalFilter] = useState("")
   const [userReview, setUserReview] = useState({})
-
   const [columnFilters, setColumnFilters] = useState([
     { id: "rating", value: "" },
   ])
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["allReviews"],
+    queryFn: allReviewAndRatings,
+  })
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: "deleteReview",
+    mutationFn: deleteReview,
+    onSuccess: () => queryClient.invalidateQueries("allReviews"),
+  })
 
   const onColumnFilterChange = (rating, value) => {
     setColumnFilters((state) =>
@@ -171,12 +56,6 @@ const Reviews = () => {
     setUserReview(data)
     open()
   }
-
-  const { mutate, isPending } = useMutation({
-    mutationKey: "deleteReview",
-    mutationFn: deleteReview,
-    onSuccess: () => queryClient.invalidateQueries("allReviews"),
-  })
 
   const columns = [
     colHelper.accessor("_id", {
@@ -299,10 +178,6 @@ const Reviews = () => {
     }),
   ]
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["allReviews"],
-    queryFn: allReviewAndRatings,
-  })
   return (
     <>
       <Modal

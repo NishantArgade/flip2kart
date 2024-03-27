@@ -5,10 +5,8 @@ import Skeleton from "react-loading-skeleton"
 import {
   CANCELLED,
   DELIVERED,
-  ORDER_CONFIRMED,
   OUT_FOR_DELIVERY,
   RETURNED,
-  SHIPPED,
 } from "../../utils/constants"
 
 const FilterSection = ({

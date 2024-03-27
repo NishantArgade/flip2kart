@@ -47,7 +47,6 @@
 .leaflet-bottom {
   z-index: 0 !important;
 }
-
 .react-datepicker__input-container input {
   display: block;
   width: 100%;
@@ -59,7 +58,6 @@
   outline: 0.0001px solid rgb(50, 154, 239);
   outline-width: 0.01px;
 }
-
 .react-datepicker-wrapper,
 .react-datepicker__input-container {
   width: 100%;
@@ -67,15 +65,12 @@
 .react-datepicker {
   font-size: 0.7rem;
 }
-
 .react-datepicker__header {
   padding-top: 0.7rem;
 }
-
 .react-datepicker__current-month {
   font-size: 0.8rem;
 }
-
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker__time-name {

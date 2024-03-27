@@ -1,17 +1,14 @@
-import { Modal, Tooltip } from "@mantine/core"
+import { Tooltip } from "@mantine/core"
 import { createColumnHelper } from "@tanstack/react-table"
 import moment from "moment"
 import { useState } from "react"
 import { IoMdAddCircle } from "react-icons/io"
-import { Link } from "react-router-dom"
 import DeletePopover from "../../components/DeletePopover.jsx"
-import EditUser from "../../components/EditUserModal.jsx"
 import ClientFacingHeader from "./components/ClientFacingHeader.jsx"
 import Table from "./components/Table.jsx"
 import TableHeader from "./components/TableHeader.jsx"
 import TableSearchBar from "./components/TableSearchBar.jsx"
 import { useDisclosure } from "@mantine/hooks"
-import OfficeModal from "./components/OfficeModal.jsx"
 import { FaEdit } from "react-icons/fa"
 import OfferModal from "./components/OfferModal.jsx"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -27,20 +24,28 @@ const Offers = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [selectedOffer, setSelectedOffer] = useState({})
 
-  function handleEdit(data) {
-    setSelectedOffer(data)
-    setIsEdit(true)
-    open()
-  }
-  function handleAddOffice() {
-    setIsEdit(false)
-    open()
-  }
+  const { data, isLoading } = useQuery({
+    queryKey: ["getAllOffers"],
+    queryFn: getAllOffers,
+  })
+
   const { mutate, isPending } = useMutation({
     mutationKey: "deleteOffer",
     mutationFn: deleteOffer,
     onSuccess: () => queryClient.invalidateQueries("getAllOffers"),
   })
+
+  function handleEdit(data) {
+    setSelectedOffer(data)
+    setIsEdit(true)
+    open()
+  }
+
+  function handleAddOffice() {
+    setIsEdit(false)
+    open()
+  }
+
   const columns = [
     colHelper.accessor("_id", {
       id: "srNo",
@@ -92,10 +97,6 @@ const Offers = () => {
     }),
   ]
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["getAllOffers"],
-    queryFn: getAllOffers,
-  })
   return (
     <>
       <OfferModal

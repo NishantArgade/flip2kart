@@ -1,6 +1,5 @@
 import Carousel, { Dots } from "@brainhubeu/react-carousel"
 import "@brainhubeu/react-carousel/lib/style.css"
-import { useEffect, useState } from "react"
 
 export default function ProductIMGCarousel({
   images,

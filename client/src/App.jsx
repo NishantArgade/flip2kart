@@ -21,10 +21,8 @@ import SalesOverview from "./modules/admin-dashboard/SalesOverview"
 import Transactions from "./modules/admin-dashboard/Transactions"
 import Users from "./modules/admin-dashboard/Users"
 import AllProducts from "./modules/AllProducts"
-import ChatBot from "./modules/ChatBot"
 import Checkout from "./modules/Checkout"
 import ContactUs from "./modules/ContactUs"
-// import Home from "./modules/Home"
 import Login from "./modules/Login"
 import MyCart from "./modules/MyCart"
 import MyOrders from "./modules/MyOrders"
@@ -106,7 +104,6 @@ function App() {
           <Route path="my-orders" element={<MyOrders isAdmin={false} />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="order-detail" element={<OrderedProductDetail />} />
-          <Route path="chatboat-support" element={<ChatBot />} />
           <Route path="rate-product/:productID" element={<RateProduct />} />
         </Route>
 

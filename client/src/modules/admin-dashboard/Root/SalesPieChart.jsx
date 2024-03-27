@@ -1,39 +1,6 @@
 import { ResponsivePie } from "@nivo/pie"
 import Skeleton from "react-loading-skeleton"
 
-const data = [
-  {
-    id: "c",
-    label: "c",
-    value: 94,
-    color: "hsl(143, 70%, 50%)",
-  },
-  {
-    id: "make",
-    label: "make",
-    value: 257,
-    color: "hsl(58, 70%, 50%)",
-  },
-  {
-    id: "css",
-    label: "css",
-    value: 359,
-    color: "hsl(96, 70%, 50%)",
-  },
-  {
-    id: "rust",
-    label: "rust",
-    value: 165,
-    color: "hsl(83, 70%, 50%)",
-  },
-  {
-    id: "lisp",
-    label: "lisp",
-    value: 110,
-    color: "hsl(40, 70%, 50%)",
-  },
-]
-
 const SalesPieChart = ({ data, isLoading }) => {
   const result = data?.result.map((item) => ({
     id: item.category,

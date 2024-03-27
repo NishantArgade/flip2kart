@@ -1,7 +1,5 @@
 import { Modal } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { useMutation } from "@tanstack/react-query"
-import { removeProductFromCart } from "../api/cartApi"
 
 export default function DeleteConfirmModal({
   children,

@@ -1,14 +1,12 @@
-/* eslint-disable react/prop-types */
 import { Modal, NumberInput, TextInput } from "@mantine/core"
 import "react-datepicker/dist/react-datepicker.css"
-import _, { set } from "lodash"
+import _ from "lodash"
 import { getPascalCaseString } from "../../../utils/helper"
 import { useMutation } from "@tanstack/react-query"
 import { addCategory, updateCategory } from "../../../api/categoryApi"
 import { queryClient } from "../../../main"
 import { IoMdTrash } from "react-icons/io"
 import { useState } from "react"
-import { deleteUploadedImg } from "../../../api/productApi"
 
 function CategoryModal({
   opened,

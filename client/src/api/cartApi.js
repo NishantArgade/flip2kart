@@ -11,9 +11,11 @@ export const removeProductFromCart = async (productID) => {
 export const getCartProducts = async () => {
   return await axiosCall("get", `/api/cart-products`)
 }
+
 export const getSingleProductBillData = async (search) => {
   return await axiosCall("get", `/api/single-product-bill${search}`)
 }
+
 export const updateAddToCartProduct = async (payload) => {
   return await axiosCall("post", `/api/update-cart-product`, payload)
 }

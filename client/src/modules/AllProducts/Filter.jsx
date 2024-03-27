@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react"
 import { IoArrowBack } from "react-icons/io5"
 import Skeleton from "react-loading-skeleton"
 import { getBrandsByCategory } from "../../api/categoryApi"
-import { IoSearch } from "react-icons/io5"
 import SearchInput from "./components/SearchInput"
 
 const Filter = ({
@@ -233,24 +232,28 @@ const Filter = ({
     setSelectedBrands([])
     setSearchBrandValue("")
   }
+
   function handleClearRatingFilter() {
     const urlParams = new URLSearchParams(window.location.search)
     urlParams.delete("rating")
     window.history.pushState({}, "", "?" + urlParams.toString())
     setSelectedRatings([])
   }
+
   function handleClearDiscountFilter() {
     const urlParams = new URLSearchParams(window.location.search)
     urlParams.delete("discount")
     window.history.pushState({}, "", "?" + urlParams.toString())
     setSelectedDiscount([])
   }
+
   function handleClearAvailabilityFilter() {
     const urlParams = new URLSearchParams(window.location.search)
     urlParams.delete("availability")
     window.history.pushState({}, "", "?" + urlParams.toString())
     setSelectedAvailability("")
   }
+
   function handleClearPriceRange() {
     setPriceRange([data?.priceRange?.min, data?.priceRange?.max])
     setFilterPriceRange([
@@ -263,6 +266,7 @@ const Filter = ({
     urlParams.delete("maxPrice")
     window.history.pushState({}, "", "?" + urlParams.toString())
   }
+
   function handleClearAllFilters() {
     setAccordionValue([])
     const urlParams = new URLSearchParams(window.location.search)

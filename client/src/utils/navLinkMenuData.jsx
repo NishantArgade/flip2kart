@@ -1,10 +1,6 @@
 import { BsBoxSeam, BsBoxes } from "react-icons/bs"
 import { FaArrowTrendUp } from "react-icons/fa6"
-import {
-  MdFavoriteBorder,
-  MdOutlineDashboard,
-  MdOutlineLogout,
-} from "react-icons/md"
+import { MdFavoriteBorder, MdOutlineDashboard } from "react-icons/md"
 import { RxAvatar } from "react-icons/rx"
 
 export const adminNavLinks = () => [
@@ -24,6 +20,7 @@ export const adminNavLinks = () => [
     link: "/admin-dashboard/transactions",
   },
 ]
+
 export const userNavLinks = () => [
   {
     icon: <RxAvatar size={24} />,
@@ -41,6 +38,7 @@ export const userNavLinks = () => [
     link: "account/wishlist",
   },
 ]
+
 export const unAuthUserNavLinks = () => [
   {
     icon: <BsBoxes size={24} />,

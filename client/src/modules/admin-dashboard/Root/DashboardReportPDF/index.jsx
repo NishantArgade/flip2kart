@@ -3,9 +3,8 @@ import moment from "moment"
 import TableSection from "./TableSection"
 import { useMemo } from "react"
 
-const DashboardReportPDF = ({ data, revenueInfo }) => {
+const DashboardReportPDF = ({ data, revenueInfo, isLoading }) => {
   /** PDF Document Styling */
-
   const style = StyleSheet.create({
     pageHeadingContainer: {
       display: "flex",
@@ -45,6 +44,8 @@ const DashboardReportPDF = ({ data, revenueInfo }) => {
     () => revenueInfo?.result?.reduce((acc, item) => acc + item.totalQty, 0),
     [revenueInfo]
   )
+
+  if (isLoading) return null
 
   return (
     <Document>

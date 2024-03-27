@@ -1,10 +1,8 @@
 import { Menu, Modal } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { FaEdit } from "react-icons/fa"
-import { FcProcess } from "react-icons/fc"
 import { TbTruckDelivery } from "react-icons/tb"
-import { VscError } from "react-icons/vsc"
 import { GiConfirmed } from "react-icons/gi"
 import { FaBuildingCircleArrowRight } from "react-icons/fa6"
 import { IoMdDoneAll } from "react-icons/io"
@@ -14,15 +12,11 @@ import { changeStatusOfDelivery } from "../../../api/orderApi"
 import { queryClient } from "../../../main"
 import { toast } from "../../../utils/toast"
 import {
-  CANCELLED,
   DELIVERED,
   ORDER_CONFIRMED,
   OUT_FOR_DELIVERY,
-  RETURNED,
   SHIPPED,
 } from "../../../utils/constants"
-import { IoIosCloseCircle } from "react-icons/io"
-import { TbArrowBackUp } from "react-icons/tb"
 
 function getLastDeliveryStatus(order_status) {
   let latest_status = order_status[0]
@@ -33,6 +27,7 @@ function getLastDeliveryStatus(order_status) {
   })
   return latest_status
 }
+
 function EditTransactionModal({ data }) {
   const [opened, { open, close }] = useDisclosure(false)
   const [status, setStatus] = useState("")

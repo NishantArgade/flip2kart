@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
 
 const TableSection = ({
@@ -72,7 +71,7 @@ const TableSection = ({
     },
   })
 
-  if (tableBody?.length === 0) return null
+  if (tableBody.length === 0) return null
 
   return (
     <View style={styles.section} break={breakPage}>
