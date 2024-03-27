@@ -91,7 +91,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
 
     const hasErrors = Object.values(errors).some((error) => error !== null)
 
-    if (hasErrors) setErrors(errors)
+    if (hasErrors) setErrors(errors || {})
     else setErrors({})
 
     return hasErrors
@@ -114,8 +114,8 @@ const AccordionItem = ({ item, setActiveItem }) => {
   }
 
   function handleInputChange(e, name = null, value = null) {
-    name = name ? name : e?.target?.name
-    value = value ? value : e?.target?.value
+    name = name ? name : e?.target?.name || ""
+    value = value ? value : e?.target?.value || ""
 
     setInputs((state) => ({
       ...state,
@@ -148,7 +148,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
                   label="Name"
                   placeholder="john"
                   disabled={isEdit}
-                  value={inputs?.user_name}
+                  value={inputs?.user_name || ""}
                   name="user_name"
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -160,7 +160,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
                   label="Mobile Number"
                   placeholder="Mobile Number"
                   disabled={isEdit}
-                  value={inputs?.phone}
+                  value={inputs?.phone || ""}
                   name="phone"
                   onChange={(value) => handleInputChange(null, "phone", value)}
                 />
@@ -171,7 +171,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
                   label="Country"
                   placeholder="Country"
                   disabled={isEdit}
-                  value={inputs?.country}
+                  value={inputs?.country || ""}
                   name="country"
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -182,7 +182,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
                   label="State"
                   placeholder="State"
                   disabled={isEdit}
-                  value={inputs?.state}
+                  value={inputs?.state || ""}
                   name="state"
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -193,7 +193,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
                   label="City"
                   placeholder="City"
                   disabled={isEdit}
-                  value={inputs?.city}
+                  value={inputs?.city || ""}
                   name="city"
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -204,7 +204,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
                   label="Landmark"
                   placeholder="Landmark (Optional)"
                   disabled={isEdit}
-                  value={inputs?.landmark}
+                  value={inputs?.landmark || ""}
                   name="landmark"
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -216,7 +216,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
                   label="Pincode"
                   placeholder="Pincode"
                   disabled={isEdit}
-                  value={inputs?.pincode}
+                  value={inputs?.pincode || ""}
                   name="pincode"
                   onChange={(value) =>
                     handleInputChange(null, "pincode", value)
@@ -230,7 +230,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
                   label="Alternate Phone (Optional)"
                   placeholder="Alternate Mobile Number"
                   disabled={isEdit}
-                  value={inputs?.alternate_phone}
+                  value={inputs?.alternate_phone || ""}
                   name="alternate_phone"
                   onChange={(value) =>
                     handleInputChange(null, "alternate_phone", value)
@@ -247,7 +247,7 @@ const AccordionItem = ({ item, setActiveItem }) => {
                   maxRows={4}
                   mt={12}
                   disabled={isEdit}
-                  value={inputs?.street}
+                  value={inputs?.street || ""}
                   name="street"
                   onChange={(e) => handleInputChange(e)}
                 />

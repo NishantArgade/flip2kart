@@ -10,7 +10,6 @@ import { useSelector } from "react-redux"
 const ContactForm = () => {
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
   const user = useSelector((state) => state.user.data)
-  console.log(user)
 
   const form = useForm({
     initialValues: {

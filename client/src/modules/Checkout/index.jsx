@@ -12,12 +12,6 @@ const Checkout = () => {
   const location = useLocation()
   const hasSearchParam = !!location.search
 
-  // const [cartData, setCartData] = useState({})
-
-  // let singleProductCheckout = location?.state?.product
-
-  console.log(hasSearchParam)
-
   const { data: cartData, isLoading } = useQuery({
     queryKey: ["cartProducts"],
     queryFn: getCartProducts,
@@ -25,8 +19,6 @@ const Checkout = () => {
     staleTime: 0,
     refetchOnMount: true,
   })
-
-  console.log(cartData)
 
   const { data: singleProductCartData, isLoading: isProductIsLoading } =
     useQuery({
@@ -38,7 +30,6 @@ const Checkout = () => {
       refetchOnMount: true,
     })
 
-  console.log(singleProductCartData)
   if (isLoading || isProductIsLoading) {
     return (
       <div className="container m-2 mx-auto mb-14 grid min-h-screen grid-cols-12 gap-x-3 ">

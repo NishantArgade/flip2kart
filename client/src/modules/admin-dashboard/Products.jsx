@@ -41,6 +41,7 @@ const Products = () => {
 
   const columns = [
     colHelper.accessor("_id", {
+      id: "srNo",
       header: (header) => <TableHeader header={header} name={"Sr. No"} />,
       cell: ({ row }) => <div>{row.index + 1}</div>,
       maxSize: 90,
@@ -79,21 +80,6 @@ const Products = () => {
       header: (header) => <TableHeader header={header} name={"Category"} />,
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
-
-    // colHelper.accessor("description", {
-    //   header: (header) => <TableHeader header={header} name={"Description"} />,
-    //   cell: (props) => (
-    //     <Tooltip
-    //       label={props.getValue()}
-    //       arrowOffset={12}
-    //       arrowSize={6}
-    //       withArrow
-    //       className="max-h-auto max-w-80  text-wrap bg-gray-600  text-xs text-white"
-    //     >
-    //       <p className="mr-2 w-32 truncate">{props.getValue()}</p>
-    //     </Tooltip>
-    //   ),
-    // }),
 
     colHelper.accessor("created_at", {
       header: (header) => <TableHeader header={header} name={"CreatedAt"} />,

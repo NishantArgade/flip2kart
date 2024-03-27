@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { checkAuth } from "../api/userApi"
 import { useDispatch } from "react-redux"
 import { setUserData } from "../slices/userSlice"
+import { useEffect } from "react"
 
 export const useAuth = () => {
   const dispatch = useDispatch()
@@ -13,8 +14,10 @@ export const useAuth = () => {
     refetchOnWindowFocus: false,
   })
 
-  if (!isLoading && !isError && data?.isLoggedIn)
-    dispatch(setUserData(data?.user))
+  useEffect(() => {
+    if (!isLoading && !isError && data?.isLoggedIn)
+      dispatch(setUserData(data?.user))
+  }, [data, dispatch, isError, isLoading])
 
   let isLoggedIn = data?.isLoggedIn
   if (isError) isLoggedIn = false

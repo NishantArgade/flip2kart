@@ -15,7 +15,7 @@ import { getAllOrders } from "../../../api/orderApi.js"
 
 const AdminDashboardRoot = () => {
   const { data, isLoading } = useQuery({
-    queryKey: "dashboardData",
+    queryKey: ["dashboardData"],
     queryFn: getDashboardData,
   })
   const { data: RevenueGraphData, isLoading: isLoadingRevenueGraph } = useQuery(
@@ -24,7 +24,6 @@ const AdminDashboardRoot = () => {
       queryFn: getMonthlySalesData,
     }
   )
-  console.log(data)
 
   const { data: orderData, isLoading: isLoadingOrder } = useQuery({
     queryKey: ["allOrders"],
@@ -36,10 +35,6 @@ const AdminDashboardRoot = () => {
       queryKey: ["getSalesBreakdownData"],
       queryFn: getSalesBreakdownData,
     })
-
-  console.log(data)
-
-  // if (true) return null
 
   return (
     <div className=" flex flex-col gap-y-4 py-4 md:p-4">

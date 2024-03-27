@@ -39,9 +39,6 @@ const OrderedProductDetail = () => {
     queryFn: async () => await getOrderByOrderIDAndProductID(location.search),
   })
 
-  console.log(data?.order)
-  console.log(data?.product?.latest_order_status?.status)
-
   let steps = [
     {
       topLabel: ORDER_CONFIRMED,
@@ -123,7 +120,6 @@ const OrderedProductDetail = () => {
 
     return { formattedDate, hasCrossedPriviousExpectedDate }
   }, [data])
-  console.log(getDeliveryStatus)
 
   const { mutate: mutateCancelOrder, isPending: isPendingCancelOrder } =
     useMutation({
@@ -134,7 +130,6 @@ const OrderedProductDetail = () => {
         close()
       },
     })
-  console.log(data?.product?.quantity)
   return (
     <>
       <div className="container mx-auto min-h-screen">

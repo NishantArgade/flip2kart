@@ -18,7 +18,7 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
   }
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
-    const search = urlParams.get("search")
+    const search = urlParams.get("search") || ""
     setSearchTerm(search)
   }, [])
 

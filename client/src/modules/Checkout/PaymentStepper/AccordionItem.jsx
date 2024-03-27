@@ -36,7 +36,6 @@ function AccordionLabel({ user_name, phone, activeItem, address }) {
 const AccordionItem = ({ item, nextStep, activeItem, setPaymentData }) => {
   const [isEdit, setIsEdit] = useState(true)
 
-  // console.log(activeItem)
   const form = useForm({
     initialValues: {
       user_name: item?.user_name,

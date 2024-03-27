@@ -23,7 +23,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (user?.wishlist?.includes(productId)) setIsFav(true)
     else setIsFav(false)
-  }, [user?.wishlist, productId])
+  }, [user, productId])
 
   useEffect(() => {
     setSelectedImgIndex(0)

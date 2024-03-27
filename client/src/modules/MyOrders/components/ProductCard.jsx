@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import moment from "moment"
 import { IoMdStar } from "react-icons/io"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import {
   CANCELLED,
   DELIVERED,
@@ -12,6 +12,7 @@ import {
 } from "../../../utils/constants"
 
 const ProductCard = ({ product, orderID }) => {
+  const navigate = useNavigate()
   function getOrderStatusConfig() {
     switch (product?.latest_order_status?.status) {
       case ORDER_CONFIRMED:
@@ -87,13 +88,17 @@ const ProductCard = ({ product, orderID }) => {
         {[DELIVERED, RETURNED].includes(
           product?.latest_order_status?.status
         ) && (
-          <Link
-            to={`/rate-product/${product?.product_id}`}
+          <div
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              navigate(`/rate-product/${product?.product_id}`)
+            }}
             className="mt-3 flex gap-x-1 text-blue-500"
           >
             <IoMdStar size={20} />
             <p className="text-xs">Rate & Review Product</p>
-          </Link>
+          </div>
         )}
       </div>
     </Link>

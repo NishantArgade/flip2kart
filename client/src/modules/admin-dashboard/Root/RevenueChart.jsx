@@ -18,7 +18,6 @@ const RevenueChart = ({ data, isLoading }) => {
     y: item?.totalPrice,
   }))
 
-  console.log(data)
   return (
     <div className="col-span-1 h-[15rem] rounded-md bg-gray-50 p-3 text-sm text-gray-700 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-7">
       <div className="pb-2 text-sm font-semibold tracking-wide text-slate-500">

@@ -27,7 +27,6 @@ const Map = () => {
     })
   }, [data])
 
-  console.log(result)
   return (
     <MapContainer
       center={[18.52043, 73.856743]}

@@ -303,7 +303,10 @@ export const filterOrders = expressAsyncHandler(async (req, res, next) => {
   }
 
   if (!order_status && !order_time && !search) {
-    filteredOrders = await Order.find({ "payment.status": "captured" }).sort({
+    filteredOrders = await Order.find({
+      billing_user_id: req.user._id,
+      "payment.status": "captured",
+    }).sort({
       created_at: -1,
     });
     if (filteredOrders.length === 0) showEmptyPage = true;
@@ -317,7 +320,11 @@ export const filterOrders = expressAsyncHandler(async (req, res, next) => {
       { $unwind: "$products" },
       {
         $match: {
-          $and: conditions,
+          $and: [
+            ...conditions,
+            { billing_user_id: req.user._id },
+            { "payment.status": "captured" },
+          ],
         },
       },
       {

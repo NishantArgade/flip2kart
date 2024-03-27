@@ -46,8 +46,6 @@ const PaymentStepper = ({ cartData, active, setActive, hasSearchParam }) => {
     }
   }, [])
 
-  console.log(user)
-
   useEffect(() => {
     setPaymentData((prev) => ({
       ...prev,

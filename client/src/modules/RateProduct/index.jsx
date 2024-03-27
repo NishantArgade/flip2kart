@@ -40,7 +40,7 @@ const RateProduct = () => {
   })
 
   const { data, isLoading } = useQuery({
-    queryKey: ["myReviewAndRating" + productID],
+    queryKey: ["myReviewAndRating", productID],
     queryFn: async () => await getMyReviewAndRating(productID),
   })
 
@@ -114,14 +114,14 @@ const RateProduct = () => {
 
   useEffect(() => {
     form.setValues({
-      review_description: data?.reviewData?.review_description,
-      review_title: data?.reviewData?.review_title,
+      review_description: data?.myReviewData?.review_description || "",
+      review_title: data?.myReviewData?.review_title || "",
     })
-    setRateValue(data?.reviewData?.rating)
+    setRateValue(data?.myReviewData?.rating || 0)
 
-    setSelectedImages(data?.reviewData?.images?.map((item) => item.url) || [])
-    setPreviewImages(data?.reviewData?.images || [])
-  }, [data?.reviewData])
+    setSelectedImages(data?.myReviewData?.images?.map((item) => item.url) || [])
+    setPreviewImages(data?.myReviewData?.images || [])
+  }, [data])
 
   function handleRatingChange(rate) {
     setRateValue(rate)
@@ -161,18 +161,18 @@ const RateProduct = () => {
               <div className="flex flex-col items-end  gap-y-1">
                 <div className="flex w-56 justify-end">
                   <p className="truncate text-gray-800">
-                    {data?.reviewData?.product_id?.name}
+                    {data?.productData?.name}
                   </p>
                 </div>
-                {data?.reviewData?.product_id?.overall_rating > 0 ? (
+                {data?.productData?.overall_rating > 0 ? (
                   <div className="flex items-center gap-x-2 text-xs text-gray-700">
                     <p
-                      className={`${data?.reviewData?.product_id?.overall_rating == 1 ? "bg-red-400" : data?.reviewData?.product_id?.overall_rating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
+                      className={`${data?.productData?.overall_rating == 1 ? "bg-red-400" : data?.productData?.overall_rating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
                     >
-                      {data?.reviewData?.product_id?.overall_rating}★
+                      {data?.productData?.overall_rating}★
                     </p>
                     <p className="mr-4 font-medium text-gray-500">
-                      ({data?.reviewData?.product_id?.rating_count})
+                      ({data?.productData?.rating_count})
                     </p>
                   </div>
                 ) : (
@@ -182,8 +182,8 @@ const RateProduct = () => {
               <div className="flex h-12 w-12 flex-col items-center justify-center rounded-sm border-[1.5px] p-1">
                 <img
                   src={
-                    data?.reviewData?.product_id?.images.length > 0
-                      ? data?.reviewData?.product_id?.images[0].url
+                    data?.productData?.images.length > 0
+                      ? data?.productData?.images[0].url
                       : "/photoPlaceholder.png"
                   }
                   className="h-full w-full object-contain"

@@ -26,8 +26,8 @@ function EditUserModal({ opened, close, userId, selectedUser }) {
       queryClient.invalidateQueries("allUsers")
     },
     onError: () => {
-      close()
       console.log("Error")
+      close()
       form.reset()
     },
   })

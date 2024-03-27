@@ -104,7 +104,7 @@ const SpecificationStep = ({
 
   return (
     <form
-      onSubmit={form.onSubmit(console.log)}
+      // onSubmit={form.onSubmit(console.log)}
       className="mt-3 flex flex-col text-sm"
     >
       <div className="grid grid-cols-2 gap-5">

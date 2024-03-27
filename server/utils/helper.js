@@ -33,6 +33,8 @@ export const generateOTP = (digit = 4) => {
 export function calculateAverageRating(ratings) {
   if (ratings.length === 0) return 0;
 
+  ratings = ratings.map((r) => Number(r));
+
   const sum = ratings.reduce((a, b) => a + b, 0);
   const average = sum / ratings.length;
   return average.toFixed(1);

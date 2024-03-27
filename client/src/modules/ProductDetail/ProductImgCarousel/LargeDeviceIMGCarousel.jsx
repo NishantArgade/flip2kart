@@ -46,7 +46,6 @@ export default function ProductIMGCarousel({
       <Carousel
         value={selectedImgIndex}
         slides={slides}
-        onChange={onchange}
         draggable={false}
         className="relative border-[1px] border-gray-200 bg-white p-1"
       />

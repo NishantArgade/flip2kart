@@ -10,7 +10,7 @@ const VerifyOTP = ({
   handleVerifyOTP,
   verifyOTPIsPending,
 }) => {
-  const [count, setCount] = useState(null)
+  const [count, setCount] = useState(0)
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {

@@ -29,8 +29,6 @@ const Geography = () => {
     return { data: result, maxCount }
   }, [data])
 
-  console.log(result)
-
   return (
     <>
       <ClientFacingHeader

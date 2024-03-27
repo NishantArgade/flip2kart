@@ -108,6 +108,7 @@ import Skeleton from "react-loading-skeleton"
 const columnHelper = createColumnHelper()
 const columns = [
   columnHelper.accessor("_id", {
+    id: "srNo",
     header: (header) => <TableHeader header={header} name={"Sr. No"} />,
     cell: ({ row }) => <div>{row.index + 1}</div>,
     maxSize: 20,
@@ -178,7 +179,6 @@ const columns = [
 
 const LatestTransactionTable = ({ data, isLoading }) => {
   const [sorting, setSorting] = useState([])
-  console.log(data)
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 })
 
   const table = useReactTable({
@@ -195,7 +195,7 @@ const LatestTransactionTable = ({ data, isLoading }) => {
     onSortingChange: setSorting,
   })
   return (
-    <div className=" col-span-1 flex flex-col rounded-md  bg-gray-50 p-3 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-8">
+    <div className="col-span-1 flex flex-col overflow-auto rounded-md  bg-gray-50 p-3 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-8">
       <div className="pb-4 text-sm font-semibold tracking-wide text-slate-500">
         Latest Transactions
       </div>

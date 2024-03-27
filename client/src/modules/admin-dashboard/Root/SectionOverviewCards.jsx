@@ -32,7 +32,6 @@ const SectionOverviewCards = ({ data, isLoading }) => {
         : "₹" + 0,
     },
   ]
-  console.log(data?.ordersData)
 
   return (
     <div className="bg-slate-white col-span-1 grid  h-full  grid-cols-1 gap-4 text-sm text-gray-700 md:grid-cols-2 lg:col-span-5">

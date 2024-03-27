@@ -41,8 +41,6 @@ function EditTransactionModal({ data }) {
     setStatus(statusValue)
   }
 
-  console.log(data)
-
   const getStatus = useMemo(() => {
     if (status === ORDER_CONFIRMED)
       return (
@@ -228,7 +226,7 @@ function EditTransactionModal({ data }) {
             <p className="mb-2 text-sm font-semibold text-gray-800">
               Status Info
             </p>
-            <p className="mb-1 flex items-center gap-x-4">
+            <div className="mb-1 flex items-center gap-x-4">
               <div className="flex items-center gap-2">
                 <p>Status: </p>
                 <div className="flex items-center justify-start gap-1">
@@ -284,7 +282,7 @@ function EditTransactionModal({ data }) {
                   </Menu.Dropdown>
                 </Menu>
               </div>
-            </p>
+            </div>
           </div>
 
           <div className="col-span-2 flex justify-end gap-x-5">
@@ -308,7 +306,13 @@ function EditTransactionModal({ data }) {
         </div>
       </Modal>
 
-      <FaEdit onClick={open} size={16} className="cursor-pointer" />
+      <button
+        disabled={data?.payment_status === "failed"}
+        className={`${data?.payment_status === "failed" ? "opacity-50" : ""}`}
+        onClick={open}
+      >
+        <FaEdit size={16} />
+      </button>
     </>
   )
 }

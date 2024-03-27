@@ -200,9 +200,7 @@ const Filter = ({
     window.history.pushState({}, "", "?" + urlParams.toString())
   }
 
-  function onDeliveryCheckboxClick() {
-    let value = "a",
-      isChecked = false
+  function onDeliveryCheckboxClick(value, isChecked) {
     setSelectedDelivery(isChecked ? value : "")
 
     const urlParams = new URLSearchParams(window.location.search)
@@ -530,10 +528,11 @@ const Filter = ({
               <Checkbox
                 size="xs"
                 label={"Delivery in 1 day"}
-                onChange={onDeliveryCheckboxClick}
-                className="py-1 text-xs  tracking-wide text-gray-800"
                 checked={selectedDelivery === "one_day"}
-                readOnly
+                onChange={(e) =>
+                  onDeliveryCheckboxClick("one_day", e.currentTarget.checked)
+                }
+                className="py-1 text-xs  tracking-wide text-gray-800"
               />
             </div>
 

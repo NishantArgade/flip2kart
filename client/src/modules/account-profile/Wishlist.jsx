@@ -8,10 +8,6 @@ import {
 } from "../../api/productApi"
 import { queryClient } from "../../main"
 
-function handleRemoveProduct() {
-  console.log("Product deleted")
-}
-
 const Wishlist = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["myWishlistProduct"],
@@ -80,7 +76,6 @@ const Wishlist = () => {
                   </Link>
                   <div className="text-gray-500">
                     <DeletePopover
-                      handleDelete={handleRemoveProduct}
                       deleteItemName="product"
                       mutate={mutate}
                       item={item}

@@ -79,9 +79,6 @@ const ProfileInfo = () => {
   const { mutate } = useMutation({
     mutationKey: "updateProfile",
     mutationFn: updateProfile,
-    onError: (error) => {
-      console.log(error)
-    },
     onSuccess: () => {
       queryClient.invalidateQueries("userData")
       setPersonalInfoEdit(false)

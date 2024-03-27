@@ -47,7 +47,6 @@ const OrderSummaryStep = ({
       )
     },
   })
-  console.log(cart)
 
   function handleClickContinue() {
     let totalQuantity = 0

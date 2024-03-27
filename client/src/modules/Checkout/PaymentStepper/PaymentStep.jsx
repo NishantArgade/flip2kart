@@ -18,7 +18,6 @@ export default function PaymentStep({
   setPaymentData,
 }) {
   const [loading, setLoading] = useState(false)
-  console.log(cartData)
   const user = useSelector((state) => state.user.data)
 
   async function handleCreateOrder(e) {
@@ -41,7 +40,6 @@ export default function PaymentStep({
       image: "/avatar-placeholder.png",
       order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       handler: async function (response) {
-        console.log(response)
         try {
           await validateOrder({ ...response, cartData })
           const res = await getPaymentData(response.razorpay_payment_id)
@@ -115,10 +113,7 @@ export default function PaymentStep({
       nextStep()
       setLoading(false)
     })
-    rzp1.on("modal.dismiss", function (response) {
-      console.log(response)
-      setLoading(false)
-    })
+
     rzp1.open()
     setTimeout(() => {
       setLoading(false)

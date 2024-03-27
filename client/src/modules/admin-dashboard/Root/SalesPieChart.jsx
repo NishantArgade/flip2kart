@@ -41,7 +41,6 @@ const SalesPieChart = ({ data, isLoading }) => {
     value: item.totalSales,
     color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`,
   }))
-  console.log(data)
 
   return (
     <div className="col-span-1 flex flex-col justify-between gap-y-12 rounded-md bg-gray-50 p-3 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-4">

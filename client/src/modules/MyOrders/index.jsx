@@ -18,8 +18,6 @@ const MyOrders = ({ isAdmin }) => {
     queryFn: async () => await getFilteredOrders(window.location.search),
   })
 
-  console.log(data)
-
   if (data?.showEmptyPage)
     return (
       <div className="container mx-auto mb-5 rounded-sm py-2 shadow-md">
@@ -27,12 +25,12 @@ const MyOrders = ({ isAdmin }) => {
           <img src="/searchNotFound.png" alt="" />
           <p className="mt-3 text-xl font-medium">No Orders</p>
           <p className="text-gray-500">There is no order</p>
-          <bitton
+          <button
             onClick={() => navigate("/")}
             className="mt-4 cursor-pointer rounded-sm bg-blue-500 px-5 py-2 text-sm text-white shadow-sm"
           >
             <span> Continue shopping</span>
-          </bitton>
+          </button>
         </div>
       </div>
     )

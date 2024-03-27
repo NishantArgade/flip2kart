@@ -39,6 +39,7 @@ const Transactions = () => {
 
   const columns = [
     colHelper.accessor("_id", {
+      id: "srNo",
       header: (header) => <TableHeader header={header} name={"Sr. No"} />,
       cell: ({ row }) => <div>{row.index + 1}</div>,
       maxSize: 90,
@@ -105,20 +106,6 @@ const Transactions = () => {
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
       // size: 50,
     }),
-    // colHelper.accessor("address", {
-    //   header: (header) => <TableHeader header={header} name={"Address"} />,
-    //   cell: (props) => (
-    //     <Tooltip
-    //       label={props.getValue()}
-    //       arrowOffset={12}
-    //       arrowSize={6}
-    //       withArrow
-    //       className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
-    //     >
-    //       <p className="mr-2 w-28 truncate">{props.getValue()}</p>
-    //     </Tooltip>
-    //   ),
-    // }),
 
     colHelper.accessor("createdAt", {
       header: (header) => <TableHeader header={header} name={"CreatedAt"} />,

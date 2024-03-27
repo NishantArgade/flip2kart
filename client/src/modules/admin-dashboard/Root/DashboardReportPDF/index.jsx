@@ -5,7 +5,6 @@ import { useMemo } from "react"
 
 const DashboardReportPDF = ({ data, revenueInfo }) => {
   /** PDF Document Styling */
-  console.log(data)
 
   const style = StyleSheet.create({
     pageHeadingContainer: {
@@ -41,16 +40,6 @@ const DashboardReportPDF = ({ data, revenueInfo }) => {
       margin: "10px 0 20px 0",
     },
   })
-
-  // const productData = data?.productData?.productsWithCount.map((item) => ({
-  //   category: item._id,
-  //   count: item.count,
-  // }))
-  // const userData = data?.userData?.usersWithCount.map((item) => ({
-  //   category: item._id,
-  //   count: item.count,
-  // }))
-  // console.log(userData)
 
   const unitSold = useMemo(
     () => revenueInfo?.result?.reduce((acc, item) => acc + item.totalQty, 0),

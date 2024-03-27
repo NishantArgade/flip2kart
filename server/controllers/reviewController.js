@@ -50,7 +50,11 @@ export const getAllReviewsRatings = expressAsyncHandler(
 
 export const getMyReviewAndRating = expressAsyncHandler(
   async (req, res, next) => {
-    const reviewData = await Review.findOne({
+    const productData = await Product.findById(req.params.productID).select(
+      "name images overall_rating rating_count"
+    );
+
+    const myReviewData = await Review.findOne({
       user_id: req.user._id,
       product_id: req.params.productID,
     }).populate({
@@ -61,7 +65,8 @@ export const getMyReviewAndRating = expressAsyncHandler(
     res.status(200).json({
       status: "success",
       message: "Fetched all reviews successfully",
-      reviewData,
+      productData,
+      myReviewData: myReviewData || {},
     });
   }
 );

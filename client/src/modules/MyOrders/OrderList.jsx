@@ -34,12 +34,12 @@ const OrderList = ({
         <p className="text-gray-500">
           Edit search or go back to My Orders Page
         </p>
-        <bitton
+        <button
           onClick={handleGoToOrdersClick}
           className="mt-4 cursor-pointer rounded-sm bg-blue-500 px-5 py-1 text-sm text-white shadow-sm"
         >
           <span>Go to My Orders</span>
-        </bitton>
+        </button>
       </div>
     )
 
