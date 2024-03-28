@@ -35,16 +35,6 @@ export const deleteProduct = expressAsyncHandler(async (req, res, next) => {
   });
 });
 
-// _id, name, description, category
-// _id
-// name
-// price
-// stock
-// category
-// created_at
-// updated_at
-// action
-
 export const allProducts = expressAsyncHandler(async (req, res, next) => {
   const products = await Product.find().select(
     "-images -seller -seller_address -spotlight -offers -specifications -rating_review -delivery_estimate_days"

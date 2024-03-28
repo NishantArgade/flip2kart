@@ -110,8 +110,6 @@ export const getPaymentDataByPaymentID = expressAsyncHandler(
     const paymentId = req.params.paymentId;
     const data = await instance.payments.fetch(paymentId);
 
-    console.log(data);
-
     res.status(200).json({
       status: "success",
       message: "Order updated successfully",

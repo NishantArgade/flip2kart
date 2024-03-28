@@ -20,9 +20,6 @@ const categorySchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  updated_at: {
-    type: Date,
-  },
 });
 
 export const Category =

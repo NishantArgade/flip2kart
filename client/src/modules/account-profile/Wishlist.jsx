@@ -19,7 +19,6 @@ const Wishlist = () => {
     mutationFn: toggleProductFromWishlist,
     onSuccess: () => queryClient.invalidateQueries("myWishlistProduct"),
   })
-  console.log(data)
   return (
     <>
       {!isLoading ? (

@@ -22,7 +22,6 @@ const addressSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  updated_at: Date,
 });
 
 export const Address =

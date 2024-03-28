@@ -1,11 +1,5 @@
 import mongoose from "mongoose";
 
-const PaymentStatusSchema = new mongoose.Schema({
-  status: String,
-  date: { type: Date, default: Date.now },
-  content: String,
-});
-
 const OrderSchema = new mongoose.Schema({
   billing_user: String,
   billing_user_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },

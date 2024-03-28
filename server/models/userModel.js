@@ -17,10 +17,6 @@ const userSchema = new mongoose.Schema({
   },
   otp: String,
   otp_expiry: Date,
-  created_at: {
-    type: Date,
-    default: new Date(),
-  },
   wishlist: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -37,6 +33,10 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  created_at: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 // Middleware to delete addresses when a user is deleted
