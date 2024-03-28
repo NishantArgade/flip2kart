@@ -66,3 +66,18 @@ export function getDescriptionFromName(name) {
   if (result.length === 0) return null
   else return result.join(", ")
 }
+
+export function getFullUserName(user, defaultName) {
+  const relName = defaultName
+    ? defaultName
+    : user?.role[0].toUpperCase() + user?.role.slice(1)
+
+  let user_name =
+    user?.first_name || user?.last_name
+      ? `${user?.first_name ? user?.first_name : ""} ${user?.last_name ? user?.last_name : ""}`
+      : relName
+
+  user_name = user_name.trim()
+
+  return user_name
+}

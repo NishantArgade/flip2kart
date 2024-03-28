@@ -54,23 +54,23 @@ const HorizontalProductCarouselCard = ({
           {product?.name}
         </Link>
         {showRating &&
-          (product?.overall_rating !== 0 ? (
-            <div className="text-[0.5rem] text-gray-700 md:text-xs ">
+          (product?.rating_review?.overall_rating !== 0 ? (
+            <div className="text-xs text-gray-700 md:text-xs ">
               <span className="mr-2 rounded-sm bg-green-600 px-1 py-[2px] text-white">
-                {product?.overall_rating}★
+                {product?.rating_review?.overall_rating}★
               </span>
 
               <span className="font-medium text-gray-500">
-                ({product?.rating_count})
+                ({product?.rating_review?.rating_count})
               </span>
             </div>
           ) : (
-            <div className="text-[0.5rem] text-gray-500 md:text-xs ">
+            <div className="text-xs text-gray-500 md:text-xs ">
               No ratings yet
             </div>
           ))}
-        <p className="mt-1 flex flex-col items-center  justify-start text-[0.8rem] md:flex-row md:text-[0.9rem]">
-          <span className=" mr-2 font-bold">
+        <p className="mt-1 flex flex-row flex-wrap items-center justify-start  gap-2 text-[0.8rem] md:flex-row md:text-[0.9rem]">
+          <span className="font-bold">
             ₹
             {calculateDiscountedPrice(
               product?.price,
@@ -78,7 +78,7 @@ const HorizontalProductCarouselCard = ({
             ).toLocaleString("en-IN")}
           </span>
           {showStrikePrice && (
-            <strike className="mr-2  text-xs text-gray-700">
+            <strike className=" text-xs text-gray-700">
               ₹{product?.price}
             </strike>
           )}

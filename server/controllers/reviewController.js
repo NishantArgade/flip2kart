@@ -4,6 +4,7 @@ import { Product } from "../models/productModel.js";
 import { calculateAverageRating } from "../utils/helper.js";
 import { User } from "../models/userModel.js";
 import _ from "lodash";
+import { Order } from "../models/orderModel.js";
 
 export const allReviews = expressAsyncHandler(async (req, res, next) => {
   const reviews = await Review.find();
@@ -19,7 +20,10 @@ export const getMyAllReviewsRatings = expressAsyncHandler(
   async (req, res, next) => {
     const myAllRviewsAndRatings = await Review.find({
       user_id: req.user._id,
-    }).populate("product_id user_id");
+    }).populate([
+      { path: "product_id", select: "name images" },
+      { path: "user_id", select: "first_name last_name" },
+    ]);
 
     res.status(200).json({
       status: "success",
@@ -48,15 +52,41 @@ export const getAllReviewsRatings = expressAsyncHandler(
   }
 );
 
+export const getReviewsByProductId = expressAsyncHandler(
+  async (req, res, next) => {
+    const reviews = await Review.find({ product_id: req.params.productID });
+
+    res.status(200).json({
+      status: "success",
+      message: "Fetched all reviews by product id successfully",
+      reviews,
+    });
+  }
+);
+
 export const getMyReviewAndRating = expressAsyncHandler(
   async (req, res, next) => {
-    const productData = await Product.findById(req.params.productID).select(
-      "name images overall_rating rating_count"
+    const userId = req.user._id;
+    const productId = req.params.productID;
+
+    const order = await Order.findOne({
+      billing_user_id: userId,
+      products: {
+        $elemMatch: {
+          product_id: productId,
+        },
+      },
+    });
+
+    const isBoughtProduct = order != null;
+
+    const productData = await Product.findById(productId).select(
+      "name images rating_review"
     );
 
     const myReviewData = await Review.findOne({
-      user_id: req.user._id,
-      product_id: req.params.productID,
+      user_id: userId,
+      product_id: productId,
     }).populate({
       path: "product_id",
       select: "name images overall_rating rating_count",
@@ -65,60 +95,38 @@ export const getMyReviewAndRating = expressAsyncHandler(
     res.status(200).json({
       status: "success",
       message: "Fetched all reviews successfully",
+      isBoughtProduct,
       productData,
       myReviewData: myReviewData || {},
     });
   }
 );
 
-export const getRatingAndReviewByProductID = expressAsyncHandler(
-  async (req, res, next) => {
-    const productID = req.params.productID;
+export async function updateProductReviewRating(productID) {
+  const ratings = await Review.find({
+    product_id: productID,
+    rating: { $ne: 0 },
+  }).select("rating");
 
-    const [ratings, reviews] = await Promise.all([
-      Review.find({
-        product_id: productID,
-        rating: { $ne: 0 },
-      }).select("rating"),
-      Review.find({
-        product_id: productID,
-        rating: { $ne: 0 },
-        review_description: { $nin: [undefined, null, ""] },
-      }).populate("user_id"),
-    ]);
+  const all_ratings = ratings.map((item) => item.rating);
+  const ratingsWithCount = _.countBy(all_ratings);
+  const overall_rating = calculateAverageRating(all_ratings);
 
-    // Review.findOne({
-    //   user_id: req.user._id,
-    //   product_id: productID,
-    // }),
-    // User.findById(req.user._id).populate("orders").select("orders").exec(),
+  const review_count = await Review.find({
+    product_id: productID,
+    rating: { $ne: 0 },
+    review_description: { $nin: [undefined, null, ""] },
+  }).countDocuments();
 
-    const all_ratings = ratings.map((item) => item.rating);
-    const ratingsWithCount = _.countBy(all_ratings);
-    const overallRating = calculateAverageRating(all_ratings);
-    // let is_bought = false;
-    // for (let order of user.orders) {
-    //   for (let product of order.products) {
-    //     if (product.product_id == productID) {
-    //       is_bought = true;
-    //       break;
-    //     }
-    //   }
-    //   if (is_bought) break;
-    // }
-
-    res.status(200).json({
-      status: "success",
-      message: "Fetched all reviews successfully",
-      data: {
-        totalRatingsCount: all_ratings.length,
-        ratingsWithCount,
-        overallRating,
-        reviews,
-      },
-    });
-  }
-);
+  await Product.findByIdAndUpdate(productID, {
+    rating_review: {
+      overall_rating: overall_rating,
+      rating_count: all_ratings.length,
+      review_count: review_count,
+      classify_ratings: ratingsWithCount,
+    },
+  });
+}
 
 export const addReview = expressAsyncHandler(async (req, res, next) => {
   const userID = req.user._id;
@@ -131,18 +139,7 @@ export const addReview = expressAsyncHandler(async (req, res, next) => {
     { new: true, upsert: true }
   );
 
-  const ratings = await Review.find({
-    product_id: productID,
-    rating: { $ne: 0 },
-  }).select("rating");
-
-  const all_ratings = ratings.map((item) => item.rating);
-  const overall_rating = calculateAverageRating(all_ratings);
-
-  await Product.findByIdAndUpdate(productID, {
-    rating_count: all_ratings.length,
-    overall_rating,
-  });
+  await updateProductReviewRating(productID);
 
   res.status(200).json({
     status: "success",
@@ -150,21 +147,13 @@ export const addReview = expressAsyncHandler(async (req, res, next) => {
   });
 });
 
-export const editReview = expressAsyncHandler(async (req, res, next) => {
-  const id = req.params.reviewID;
-  const body = req.body;
-  await Review.findByIdAndUpdate(id, body);
-
-  res.status(200).json({
-    status: "success",
-    message: "Review updated successfully",
-  });
-});
-
 export const deleteReview = expressAsyncHandler(async (req, res, next) => {
-  const id = req.params.reviewID;
+  const { reviewId, productId } = req.body;
 
-  await Review.findByIdAndDelete(id);
+  await Review.findByIdAndDelete(reviewId);
+
+  //update product review rating
+  await updateProductReviewRating(productId);
 
   res.status(200).json({
     status: "success",

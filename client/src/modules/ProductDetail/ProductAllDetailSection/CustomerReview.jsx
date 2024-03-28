@@ -1,12 +1,13 @@
-/* eslint-disable react/prop-types */
 import { Modal, Progress } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDisclosure } from "@mantine/hooks"
 import moment from "moment"
 import { Carousel } from "@mantine/carousel"
+import { useQuery } from "@tanstack/react-query"
+import { getReviewsByProductId } from "../../../api/ratingAndReviewApi"
 
-const CustomerReview = ({ reviews, product, data }) => {
+const CustomerReview = ({ product }) => {
   const navigate = useNavigate()
   const [opened, { open, close }] = useDisclosure(false)
   const [selectedImgIndex, setSelectedImgIndex] = useState(0)
@@ -18,10 +19,14 @@ const CustomerReview = ({ reviews, product, data }) => {
     setSelectedReview(review)
     open()
   }
+  const { data } = useQuery({
+    queryKey: ["getReviewsByProductId"],
+    queryFn: async () => await getReviewsByProductId(product?._id),
+  })
 
   useEffect(() => {
-    if (data?.product?.reviews?.length > 3) setShowMoreReviewsBtn(true)
-  }, [data?.product?.reviews?.length])
+    if (data?.reviews?.length > 3) setShowMoreReviewsBtn(true)
+  }, [data])
 
   return (
     <>
@@ -97,49 +102,44 @@ const CustomerReview = ({ reviews, product, data }) => {
         </div>
 
         {/* Review Info */}
-        {data?.overallRating > 0 ? (
+        {product?.rating_review?.overall_rating > 0 ? (
           <div>
             <div className="grid w-full grid-cols-1 gap-2 border-b-[1.5px] px-2 pb-4 lg:grid-cols-12">
               <div className="flex grid-cols-1 flex-col items-start justify-center lg:col-span-2 lg:items-center">
-                <p className="text-center text-xl">{data?.overallRating}★</p>
+                <p className="text-center text-xl">
+                  {product?.rating_review?.overall_rating}★
+                </p>
                 <p className="text-center text-xs text-gray-500">
-                  {data?.totalRatingsCount} Ratings & {data?.reviews.length}{" "}
-                  Reviews
+                  {product?.rating_review?.rating_count} Ratings &{" "}
+                  {product?.rating_review?.review_count} Reviews
                 </p>
               </div>
               <div className="flex grid-cols-1 flex-col gap-y-1 text-xs lg:col-span-10">
-                {Array.from({ length: 5 })
-                  .map((_, index) => index)
-                  .reverse()
-                  .map((rate) => (
+                {Object.entries(product?.rating_review?.classify_ratings).map(
+                  ([index, rate], i) => (
                     <div
-                      key={rate}
+                      key={i}
                       className="flex items-center justify-start gap-x-2"
                     >
-                      <span className="text-[13px] font-medium">
-                        {rate + 1} ★
-                      </span>
+                      <span className="text-[13px] font-medium">{index} ★</span>
                       <Progress
                         value={
-                          (data?.ratingsWithCount[rate + 1] /
-                            data?.totalRatingsCount) *
-                          100
+                          (rate / product?.rating_review?.rating_count) * 100
                         }
                         className="w-44"
                         size={4}
                         color={
-                          rate + 1 == 1
+                          index == 1
                             ? "#F87171"
-                            : rate + 1 == 2
+                            : index == 2
                               ? "#FB923C"
                               : "#16A34A"
                         }
                       />
-                      <span className="text-[13px] text-gray-500">
-                        {data?.ratingsWithCount[rate + 1] || 0}
-                      </span>
+                      <span className="text-[13px] text-gray-500">{rate}</span>
                     </div>
-                  ))}
+                  )
+                )}
               </div>
             </div>
 

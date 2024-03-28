@@ -8,6 +8,7 @@ import { resetUserData } from "../../../slices/userSlice"
 import { persistor } from "../../../store"
 import { toast } from "../../../utils/toast"
 import { logout } from "../../../api/userApi"
+import { getFullUserName } from "../../../utils/helper"
 
 const LoginInfoStep = ({ nextStep, user }) => {
   const dispatch = useDispatch()
@@ -39,9 +40,7 @@ const LoginInfoStep = ({ nextStep, user }) => {
             {true && (
               <div className="flex items-center justify-start gap-x-3">
                 <p className="text-gray-500">Name</p>
-                <p>
-                  {user?.first_name} {user?.last_name}
-                </p>
+                <p>{getFullUserName(user)}</p>
               </div>
             )}
             <div className="flex items-center justify-start gap-x-3">
@@ -78,7 +77,7 @@ const LoginInfoStep = ({ nextStep, user }) => {
         </div>
         <p className="mt-7 text-gray-500">
           Please note that upon clicking "Logout" you will lose all items in
-          cart and will be redirected to Flipkart home page.
+          cart and will be redirected to Flip2kart home page.
         </p>
       </div>
     </div>

@@ -1,20 +1,20 @@
 import { calculateDiscountedPrice } from "../../../utils/helper"
 
-const BasicInfo = ({ data, reviewData }) => {
+const BasicInfo = ({ data }) => {
   return (
     <div className="flex flex-col items-start justify-start gap-y-2  pt-10 md:pt-0">
       <p className="text-md">{data?.name}</p>
       <p className="text-xs text-gray-800">{data?.description}</p>
-      {reviewData?.overallRating > 0 ? (
+      {data?.rating_review?.overall_rating > 0 ? (
         <div className="flex items-center gap-2 text-xs text-gray-700">
           <p
-            className={`${reviewData?.overallRating == 1 ? "bg-red-400" : reviewData?.overallRating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
+            className={`${data?.rating_review?.overall_rating == 1 ? "bg-red-400" : data?.rating_review?.overall_rating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
           >
-            {reviewData?.overallRating}★
+            {data?.rating_review?.overall_rating}★
           </p>
           <p>
-            {reviewData?.totalRatingsCount} Ratings &{" "}
-            {reviewData?.reviews.length} Reviews
+            {data?.rating_review?.rating_count} Ratings &{" "}
+            {data?.rating_review?.review_count} Reviews
           </p>
         </div>
       ) : (

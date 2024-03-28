@@ -4,10 +4,8 @@ import { Address } from "../models/addressModel.js";
 export const addAddress = expressAsyncHandler(async (req, res, next) => {
   const body = req.body;
 
-  // Check if there are any addresses in the Address model
   const existingAddresses = await Address.find({ user_id: req.user._id });
 
-  // If there are no addresses, set is_active to true. Otherwise, set it to false
   const isActive = existingAddresses.length === 0;
 
   const address = await Address.create({

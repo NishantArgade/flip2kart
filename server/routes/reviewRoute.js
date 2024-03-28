@@ -1,16 +1,15 @@
 import { Router } from "express";
-import { protect, restrict } from "../middlewares/auth.js";
+import { protect } from "../middlewares/auth.js";
 import {
   addReview,
-  getRatingAndReviewByProductID,
   allReviews,
   deleteReview,
-  editReview,
   getMyReviewAndRating,
   uploadReviewImages,
   deleteReviewImages,
   getMyAllReviewsRatings,
   getAllReviewsRatings,
+  getReviewsByProductId,
 } from "../controllers/reviewController.js";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
@@ -35,15 +34,13 @@ router.route("/my-all-reviews-ratings").get(protect, getMyAllReviewsRatings);
 
 router.route("/all-reviews-ratings").get(protect, getAllReviewsRatings);
 
-router.route("/rating-review/:productID").get(getRatingAndReviewByProductID);
+router.route("/reviews/:productID").get(protect, getReviewsByProductId);
 
 router.route("/my-review-rating/:productID").get(protect, getMyReviewAndRating);
 
 router.route("/add-review/:productID").post(protect, addReview);
 
-// router.route("/edit-review/:reviewID").patch(protect, editReview);
-
-router.route("/delete-review/:reviewID").delete(protect, deleteReview);
+router.route("/delete-review").post(protect, deleteReview);
 
 router
   .route("/upload-review-imgs")

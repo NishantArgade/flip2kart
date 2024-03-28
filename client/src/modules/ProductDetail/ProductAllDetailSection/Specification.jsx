@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import { useState } from "react"
 
 const Specification = ({ specifications }) => {
   const [showMore, setShowMore] = useState(false)
 
-  if (specifications.length === 0) return null
+  if (specifications?.length === 0) return null
 
   return (
     <div className="w-full border-[1.5px]">

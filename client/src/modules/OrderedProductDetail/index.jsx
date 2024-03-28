@@ -150,7 +150,9 @@ const OrderedProductDetail = () => {
               <p className="font-semibold">{data?.order?.shipping_to_user}</p>
               <p className="font-light">{data?.order?.shipping_address}</p>
               <span className="flex items-center justify-start gap-2">
-                <p className="font-semibold">Phone Number</p>
+                {data?.order?.shipping_user_phone && (
+                  <p className="font-semibold">Phone Number</p>
+                )}
                 <p>{data?.order?.shipping_user_phone}</p>
               </span>
             </div>

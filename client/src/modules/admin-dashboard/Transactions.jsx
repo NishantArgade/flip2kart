@@ -195,7 +195,7 @@ const Transactions = () => {
         finalData?.length > 0 ? (
           <div className="p-4">
             {/* Search Bar */}
-            <section className="mb-6 flex flex-wrap  justify-end gap-8 md:justify-start">
+            <section className="my-2 mb-6 flex flex-wrap justify-end gap-2 md:justify-start">
               <TableSearchBar
                 globalFilter={globalFilter}
                 setGlobalFilter={setGlobalFilter}
@@ -210,7 +210,7 @@ const Transactions = () => {
                 value="All"
               >
                 <Menu.Target>
-                  <button className="flex items-center gap-x-2 text-xs text-blue-500">
+                  <button className="mb-1 mt-3 flex items-center gap-x-2 text-xs text-blue-500">
                     <div className="relative">
                       <div
                         className={`${isSelectedOrderStatus("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
@@ -395,7 +395,7 @@ const Transactions = () => {
           </div>
         )
       ) : (
-        <div className="flex h-[70vh] w-full items-center justify-center bg-white px-4">
+        <div className="flex min-h-[40rem] w-full items-center justify-center bg-white px-4">
           <Spinner />
         </div>
       )}

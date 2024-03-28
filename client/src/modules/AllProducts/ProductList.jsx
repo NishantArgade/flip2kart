@@ -56,15 +56,15 @@ const ProductCard = ({ product }) => {
         <div className="mt-2 flex flex-col justify-between gap-y-1">
           <p className="line-clamp-2 text-xs">{product?.name}</p>
           <div className="flex items-center gap-x-2 text-xs text-gray-700">
-            {product?.overall_rating > 0 ? (
+            {product?.rating_review?.overall_rating > 0 ? (
               <>
                 <p
-                  className={`${product?.overall_rating == 1 ? "bg-red-400" : product?.overall_rating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
+                  className={`${product?.rating_review?.overall_rating == 1 ? "bg-red-400" : product?.rating_review?.overall_rating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
                 >
-                  {product?.overall_rating}★
+                  {product?.rating_review?.overall_rating}★
                 </p>
                 <p className=" font-medium text-gray-500">
-                  ({product?.rating_count})
+                  ({product?.rating_review?.rating_count})
                 </p>
               </>
             ) : (
@@ -230,23 +230,21 @@ const ProductList = ({
 
           {/* Sort and Filter Heading for Small Devices */}
           <div className="fixed left-0 top-[6.2rem] z-10 flex w-full border-b-4 bg-white px-2 pb-2 pt-3 md:hidden">
-            <div className="flex w-full  items-center justify-center gap-2 border-r-2 ">
-              <GoSortDesc
-                className="cursor-pointer text-gray-500 "
-                onClick={() => setIsAcitveSortByMobileDrawer(true)}
-                size={24}
-              />
+            <button
+              onClick={() => setIsAcitveSortByMobileDrawer(true)}
+              className="flex w-full  items-center justify-center gap-2 border-r-2 "
+            >
+              <GoSortDesc className="cursor-pointer text-gray-500 " size={24} />
               <p>Sort</p>
-            </div>
+            </button>
 
-            <div className="flex w-full  items-center justify-center gap-2">
-              <LuSettings2
-                className="cursor-pointer text-gray-500"
-                onClick={() => setIsOpenSidebar(true)}
-                size={24}
-              />
+            <button
+              onClick={() => setIsOpenSidebar(true)}
+              className="flex w-full  items-center justify-center gap-2"
+            >
+              <LuSettings2 className="cursor-pointer text-gray-500" size={24} />
               <p>Filter</p>
-            </div>
+            </button>
           </div>
 
           {/* Sort By Options Heading For Large Screens*/}

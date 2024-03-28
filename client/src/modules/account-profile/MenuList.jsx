@@ -12,6 +12,7 @@ import { resetUserData } from "../../slices/userSlice"
 import { persistor } from "../../store"
 import { useNavigate } from "react-router-dom"
 import { toast } from "../../utils/toast"
+import { getFullUserName } from "../../utils/helper"
 
 const MenuList = ({ isOpenSidebar, setIsOpenSidebar }) => {
   const user = useSelector((state) => state.user.data)
@@ -45,9 +46,7 @@ const MenuList = ({ isOpenSidebar, setIsOpenSidebar }) => {
           <Avatar src="/avatar-placeholder.png" alt="it's me" size={38} />
           <div>
             <p className="text-xs">Hello,</p>
-            <p className="text-sm font-semibold">
-              {user?.first_name} {user?.last_name}
-            </p>
+            <p className="text-sm font-semibold">{getFullUserName(user)}</p>
           </div>
         </div>
         <button

@@ -12,6 +12,7 @@ import {
 } from "../../api/ratingAndReviewApi"
 import { queryClient } from "../../main"
 import { toast } from "../../utils/toast"
+import Skeleton from "react-loading-skeleton"
 
 const RateProduct = () => {
   const { productID } = useParams()
@@ -19,6 +20,7 @@ const RateProduct = () => {
   const [previewImages, setPreviewImages] = useState([])
   const [selectedImages, setSelectedImages] = useState([])
   const [loading, setLoading] = useState(false)
+  const [isBoughtProduct, setIsBoughtProduct] = useState(false)
 
   const rateValueOptimize = useMemo(() => {
     if (rateValue === 1) {
@@ -42,8 +44,6 @@ const RateProduct = () => {
     queryKey: ["myReviewAndRating", productID],
     queryFn: async () => await getMyReviewAndRating(productID),
   })
-
-  const isBoughtProduct = true
 
   const { mutate: addRatingAndReviewMutate } = useMutation({
     mutationKey: "addReview",
@@ -133,6 +133,7 @@ const RateProduct = () => {
   }
 
   useEffect(() => {
+    setIsBoughtProduct(data?.isBoughtProduct || false)
     form.setValues({
       review_description: data?.myReviewData?.review_description || "",
       review_title: data?.myReviewData?.review_title || "",
@@ -150,7 +151,7 @@ const RateProduct = () => {
         <div className="flex flex-wrap items-center justify-between gap-x-2 px-2">
           <p className="font-semibold text-gray-800">Ratings & Reviews</p>
 
-          {!isLoading && (
+          {!isLoading ? (
             <Link
               to={`/product-detail/${productID}`}
               className="bg-red-20 flex w-full items-center  justify-end gap-x-3 text-xs md:w-fit"
@@ -161,15 +162,15 @@ const RateProduct = () => {
                     {data?.productData?.name}
                   </p>
                 </div>
-                {data?.productData?.overall_rating > 0 ? (
-                  <div className="flex items-center gap-x-2 text-xs text-gray-700">
+                {data?.productData?.rating_review?.overall_rating > 0 ? (
+                  <div className="flex items-center justify-end gap-x-2 text-xs text-gray-700">
                     <p
-                      className={`${data?.productData?.overall_rating == 1 ? "bg-red-400" : data?.productData?.overall_rating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
+                      className={`${data?.productData?.rating_review?.overall_rating == 1 ? "bg-red-400" : data?.productData?.rating_review?.overall_rating == 2 ? "bg-orange-400" : "bg-green-600"}  rounded-sm px-[6px]  text-[0.65rem] text-white`}
                     >
-                      {data?.productData?.overall_rating}★
+                      {data?.productData?.rating_review?.overall_rating}★
                     </p>
-                    <p className="mr-4 font-medium text-gray-500">
-                      ({data?.productData?.rating_count})
+                    <p className="font-medium text-gray-500">
+                      ({data?.productData?.rating_review?.rating_count})
                     </p>
                   </div>
                 ) : (
@@ -188,6 +189,14 @@ const RateProduct = () => {
                 />
               </div>
             </Link>
+          ) : (
+            <div className="flex w-full items-center justify-end gap-2  md:w-auto">
+              <div className="flex flex-col items-end ">
+                <Skeleton width={180} height={12} />
+                <Skeleton width={80} height={12} />
+              </div>
+              <Skeleton width={55} height={55} />
+            </div>
           )}
         </div>
       </div>
@@ -226,8 +235,8 @@ const RateProduct = () => {
 
         {/* Right Section */}
         <div className="row-end-2 grid-cols-1 bg-white shadow-md md:col-span-7   md:row-auto  lg:col-span-9">
-          {isBoughtProduct ? (
-            !isLoading && !loading ? (
+          {!isLoading && !loading ? (
+            isBoughtProduct ? (
               <div className="flex flex-col gap-y-1">
                 <div className="border-b-2 p-4">
                   <p className="text-sm font-semibold">Rate this product</p>
@@ -332,21 +341,21 @@ const RateProduct = () => {
               </div>
             ) : (
               <div className="flex h-full items-center justify-center">
-                <Spinner />
+                <div className="flex flex-col items-center justify-center gap-y-4  px-3 py-8">
+                  <img src="/cycleMan.png" alt="notPurchased" />
+                  <p className="mt-2 font-medium text-gray-800 md:text-xl">
+                    Haven't purchased this product?
+                  </p>
+                  <p className="text-center text-xs text-gray-500 md:text-sm">
+                    Sorry! You are not allowed to review this product since you
+                    haven't bought it on Flip2kart.
+                  </p>
+                </div>
               </div>
             )
           ) : (
             <div className="flex h-full items-center justify-center">
-              <div className="flex flex-col items-center justify-center gap-y-4">
-                <img src="/cycleMan.png" alt="notPurchased" />
-                <p className="mt-2 text-xl font-medium text-gray-800">
-                  Haven't purchased this product?
-                </p>
-                <p className="text-gray-500">
-                  Sorry! You are not allowed to review this product since you
-                  haven't bought it on Flip2kart.
-                </p>
-              </div>
+              <Spinner />
             </div>
           )}
         </div>

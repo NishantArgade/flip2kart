@@ -15,6 +15,9 @@ export const getProductReviewDetails = async (productID) => {
 export const getMyReviewAndRating = async (productID) => {
   return await axiosCall("get", `/api/my-review-rating/${productID}`)
 }
+export const getReviewsByProductId = async (productID) => {
+  return await axiosCall("get", `/api/reviews/${productID}`)
+}
 
 export const myAllReviewAndRatings = async () => {
   return await axiosCall("get", `/api/my-all-reviews-ratings`)
@@ -29,5 +32,8 @@ export const uploadReviewImgs = async (formData) => {
 }
 
 export const deleteReview = async (review) => {
-  return await axiosCall("delete", `/api/delete-review/${review?._id}`)
+  return await axiosCall("post", `/api/delete-review`, {
+    reviewId: review?._id,
+    productId: review?.product_id._id,
+  })
 }

@@ -70,7 +70,7 @@ const Login = () => {
 
   return (
     <div className="container mx-auto  grid place-items-center  py-4">
-      <div className="flex min-h-[25rem] w-full flex-col  bg-white shadow-md md:w-[40rem] md:flex-row ">
+      <div className="flex min-h-[25rem] w-full  flex-col bg-white px-2 shadow-md  md:w-[40rem] md:flex-row md:px-0">
         {/* info */}
         <div className="flex w-full flex-col items-center justify-between bg-[#2874F0] px-4 py-4 md:w-[47rem] md:items-start md:p-6">
           <div className="text-center md:text-start">
@@ -114,7 +114,7 @@ const Login = () => {
             to="/register"
             className="mt-8 self-center text-xs font-bold text-blue-500 md:mt-4"
           >
-            New to Flipkart? Create an account
+            New to Flip2kart? Create an account
           </Link>
         </div>
       </div>

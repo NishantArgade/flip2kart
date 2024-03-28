@@ -32,7 +32,7 @@ export const getBrandsByCategory = expressAsyncHandler(
         ],
       };
 
-      const products = await Product.find(searchObj);
+      const products = await Product.find(searchObj).select("brand category");
 
       if (
         products.every((product) => product.category === products[0].category)
@@ -51,7 +51,7 @@ export const getBrandsByCategory = expressAsyncHandler(
         name: category,
       });
 
-      const products = await Product.find({ category });
+      const products = await Product.find({ category }).select("brand");
       brands = products.map((product) => product.brand);
       brands = [...new Set(brands)];
 

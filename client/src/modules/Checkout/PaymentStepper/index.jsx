@@ -6,6 +6,7 @@ import LoginInfoStep from "./LoginInfoStep.jsx"
 import OrderSummaryStep from "./OrderSummaryStep.jsx"
 import PaymentStep from "./PaymentStep.jsx"
 import { useSelector } from "react-redux"
+import { getFullUserName } from "../../../utils/helper.js"
 
 const PaymentStepper = ({ cartData, active, setActive, hasSearchParam }) => {
   const [paymentData, setPaymentData] = useState({})
@@ -48,9 +49,11 @@ const PaymentStepper = ({ cartData, active, setActive, hasSearchParam }) => {
   }, [])
 
   useEffect(() => {
+    let billing_user = getFullUserName(user, "Undefined")
+
     setPaymentData((prev) => ({
       ...prev,
-      billing_user: user?.first_name + " " + user?.last_name,
+      billing_user,
       billing_user_id: user?._id,
     }))
   }, [user])

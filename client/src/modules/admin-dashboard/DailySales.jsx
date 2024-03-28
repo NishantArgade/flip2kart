@@ -66,7 +66,7 @@ const DailySales = () => {
 
   return (
     <>
-      <div className="flex flex-row items-center justify-between  bg-gray-50  px-3 py-2 text-sm font-medium text-gray-600 ">
+      <div className="flex flex-row flex-wrap items-center justify-between gap-y-4  bg-gray-50  px-3 py-2 text-sm font-medium text-gray-600 ">
         <div>
           <p className="text-lg uppercase text-gray-500">Daily Sales</p>
           <p className="text-xs text-gray-400">Chart of daily sales</p>

@@ -73,9 +73,16 @@ const OrderList = ({
               ))
             )
           : Array.from({ length: 3 }).map((_, i) => (
-              <div className="shadow-m  my-8 h-24 border-2 p-4" key={i}>
-                <Skeleton className="my-2" height={16} />
-                <Skeleton className="my-2" width={800} height={16} />
+              <div className="shadow-m   border-2 p-4" key={i}>
+                <div className="flex w-full items-center gap-2">
+                  <div>
+                    <Skeleton className="my-2" height={80} width={80} />
+                  </div>
+                  <div className="w-full">
+                    <Skeleton className="my-2" height={16} width="40%" />
+                    <Skeleton className="my-2" width="100%" height={16} />
+                  </div>
+                </div>
               </div>
             ))}
       </div>

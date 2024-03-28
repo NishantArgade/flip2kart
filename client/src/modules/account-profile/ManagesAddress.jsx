@@ -16,7 +16,7 @@ export default function ManagesAddress() {
   return (
     <>
       {!isLoading ? (
-        <div className="p-6">
+        <div className="p-0">
           <Accordion
             chevronPosition="right"
             variant="contained"
@@ -34,7 +34,7 @@ export default function ManagesAddress() {
           </Accordion>
         </div>
       ) : (
-        <div className="flex h-3/4 items-center justify-center ">
+        <div className="flex h-full items-center justify-center ">
           <Spinner />
         </div>
       )}

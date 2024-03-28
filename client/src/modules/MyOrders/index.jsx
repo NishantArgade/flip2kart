@@ -46,7 +46,7 @@ const MyOrders = ({ isAdmin }) => {
     )
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       {/** Navigation path */}
       <div className="container mx-auto flex items-center justify-start gap-x-2 px-2 text-xs text-gray-500">
         <Link to="/" className="hover:text-blue-600">
@@ -71,7 +71,7 @@ const MyOrders = ({ isAdmin }) => {
       </div>
 
       {/** Main Component*/}
-      <div className="container mx-auto grid min-h-[30rem] grid-cols-12 gap-x-2 gap-y-2 p-2">
+      <div className="container mx-auto grid  grid-cols-12 gap-x-2 gap-y-2 p-2">
         {/* Filter Section */}
         <section className="md:col-span-4 lg:col-span-2">
           <FilterSection
@@ -88,7 +88,7 @@ const MyOrders = ({ isAdmin }) => {
         </section>
 
         {/* Order Listing Section */}
-        <section className="col-span-12    md:col-span-8  lg:col-span-10">
+        <section className="col-span-12 min-h-[30rem]    md:col-span-8  lg:col-span-10">
           <div className="bg-white  shadow-md">
             <OrderList
               setIsOpenSidebar={setIsOpenSidebar}

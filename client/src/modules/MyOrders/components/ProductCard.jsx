@@ -51,9 +51,9 @@ const ProductCard = ({ product, orderID }) => {
     <Link
       to={`/order-detail?order=${orderID}&product=${product?.product_id}`}
       key={product?.product_id}
-      className="grid grid-cols-12 border-b-[1.5px] px-4 py-5  hover:shadow-md "
+      className="grid grid-cols-12 gap-y-2 border-b-[1.5px] px-4 py-5  hover:shadow-md "
     >
-      <div className="col-span-6 flex w-full gap-4">
+      <div className="col-span-12 flex w-full gap-4 md:col-span-6">
         <div className="h-24 w-24 cursor-pointer rounded-sm border border-gray-200 p-1">
           <img
             src={product?.images[0].url}
@@ -71,17 +71,17 @@ const ProductCard = ({ product, orderID }) => {
           </p>
         </div>
       </div>
-      <div className="col-span-2 mb-2  text-center text-sm md:mb-0">
+      <div className="col-span-2 mb-2 text-center  text-sm md:col-span-2 md:mb-0">
         ₹{product?.price - product?.discount}
       </div>
-      <div className="col-span-4 ">
+      <div className="col-span-12 md:col-span-4 ">
         <div className="flex items-center  justify-start gap-x-2">
           <div
             className={`${getOrderStatusConfig()?.color} h-2 w-2 rounded-full`}
           >
             {" "}
           </div>
-          <p className="text-sm">{`${product?.latest_order_status?.status} on ${moment(product?.latest_order_status?.date).format("MMM DD, YYYY")}`}</p>
+          <p className="text-xs md:text-sm">{`${product?.latest_order_status?.status} on ${moment(product?.latest_order_status?.date).format("MMM DD, YYYY")}`}</p>
         </div>
         <p className="text-[0.67rem] text-gray-700">
           {getOrderStatusConfig()?.title}

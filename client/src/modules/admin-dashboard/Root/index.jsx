@@ -40,7 +40,7 @@ const AdminDashboardRoot = () => {
   return (
     <div className=" flex flex-col gap-y-4 py-4 md:p-4">
       <div className="flex items-center justify-between border-b-[1.8px] pb-3">
-        <div>
+        <div className="p-2">
           <p className="text-lg uppercase text-gray-500">Dashboard</p>
           <p className="text-xs text-gray-400">Welcome to admin dashboard</p>
         </div>
@@ -58,7 +58,7 @@ const AdminDashboardRoot = () => {
             {({ loading, error }) => (
               <button
                 disabled={loading}
-                className={`${loading ? "opacity-50" : ""} rounded-sm bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow-md hover:text-gray-700`}
+                className={`${loading ? "opacity-50" : ""} mx-4 rounded-sm bg-gray-100 px-4 py-2 text-sm text-gray-600 shadow-md hover:text-gray-700`}
               >
                 <div
                   className={`${loading || error ? "opacity-50" : ""} flex items-center justify-center gap-2`}

@@ -17,6 +17,7 @@ import {
   removeProductFromCart,
   updateAddToCartProduct,
   singleProductBillData,
+  topOfferProducts,
 } from "../controllers/productController.js";
 import { protect, restrict } from "../middlewares/auth.js";
 import multer from "multer";
@@ -51,6 +52,8 @@ router
   .delete(protect, restrict("admin", "operator"), deleteProduct);
 
 router.route("/all-products").get(allProducts);
+
+router.route("/top-offer-products").get(topOfferProducts);
 
 router.route("/filter-products").get(filteredProducts);
 

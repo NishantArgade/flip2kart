@@ -12,6 +12,10 @@ export const getAllProducts = async () => {
   return await axiosCall("get", `/api/all-products`)
 }
 
+export const getTopOfferProducts = async () => {
+  return await axiosCall("get", `/api/top-offer-products`)
+}
+
 export const getFilteredProducts = async (query) => {
   return await axiosCall("get", `/api/filter-products${query}`)
 }

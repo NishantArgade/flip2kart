@@ -9,7 +9,7 @@ const reviewSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Products",
   },
-  rating: { type: String, default: "0" },
+  rating: { type: Number, default: 0 },
   review_description: String,
   review_title: String,
   images: [

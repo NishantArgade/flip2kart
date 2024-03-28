@@ -96,7 +96,7 @@ const MyReviewAndRatings = () => {
           </div>
         </div>
       ) : (
-        <div className="flex h-4/6 items-center justify-center">
+        <div className="flex h-full items-center justify-center">
           <div className="flex flex-col items-center gap-2">
             <img src="/notFound.png" alt="" />
             <p className="mt-5 text-lg font-normal">No Reviews & Ratings</p>

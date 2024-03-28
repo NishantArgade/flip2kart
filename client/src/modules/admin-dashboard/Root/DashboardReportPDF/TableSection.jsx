@@ -71,7 +71,7 @@ const TableSection = ({
     },
   })
 
-  if (tableBody.length === 0) return null
+  if (tableBody?.length === 0) return null
 
   return (
     <View style={styles.section} break={breakPage}>

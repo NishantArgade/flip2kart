@@ -16,7 +16,7 @@ const Layout = () => {
       />
 
       <div
-        className="container mx-auto mb-5 grid min-h-screen grid-cols-12
+        className="container mx-auto mb-5 grid  grid-cols-12 content-start
       gap-x-2 gap-y-2 px-2  py-1"
       >
         {/* Left sidebar Section */}
@@ -30,7 +30,7 @@ const Layout = () => {
         {/* Right Section */}
         <section
           id="DashboardLayoutRightSection"
-          className="col-span-12 bg-white  shadow-md md:col-span-8  lg:col-span-10"
+          className="col-span-12 min-h-[30rem] bg-white  shadow-md md:col-span-8  lg:col-span-10"
         >
           <Outlet />
         </section>

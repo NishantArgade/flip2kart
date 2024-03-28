@@ -14,14 +14,6 @@ import path from "path";
 
 const router = Router();
 
-const conditionalUpload = (req, res, next) => {
-  if (req.body.image instanceof File) {
-    upload.single("image")(req, res, next);
-  } else {
-    next();
-  }
-};
-
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {

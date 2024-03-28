@@ -101,13 +101,13 @@ const LatestTransactionTable = ({ data, isLoading }) => {
   })
 
   return (
-    <div className="col-span-1 flex flex-col overflow-auto rounded-md  bg-gray-50 p-3 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-8">
+    <div className="col-span-1 flex flex-col rounded-md  bg-gray-50  p-3  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:col-span-8">
       <div className="pb-4 text-sm font-semibold tracking-wide text-slate-500">
         Latest Transactions
       </div>
       {!isLoading ? (
         data?.length > 0 ? (
-          <div className=" h-full w-full ">
+          <div className="h-full w-full overflow-auto ">
             <table width={table.getTotalSize()} id="latestTransactionTable">
               <thead>
                 {table.getHeaderGroups().map((headerGroup) => {

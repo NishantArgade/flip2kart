@@ -65,7 +65,7 @@ const ContactForm = () => {
 
   return (
     <div className=" w-full pb-6">
-      <div className="flex items-center justify-center py-2">
+      <div className="flex items-center justify-center px-4 py-2">
         <div>
           <p className="mb-8 mt-4 text-center text-xl font-semibold text-gray-500">
             Contact Form

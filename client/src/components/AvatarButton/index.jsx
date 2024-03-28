@@ -32,7 +32,11 @@ export default function AvatarButton({ isLoggedIn, isAdmin, user }) {
         <div className="flex cursor-pointer items-center justify-center gap-x-1  rounded-md px-2 py-1 hover:bg-gray-100">
           <Avatar src="avatar.png" alt="it's me" size={26} />
           <span className="text-sm md:hidden lg:inline-block ">
-            {user?.first_name}
+            {user?.first_name
+              ? user?.first_name
+              : user?.last_name
+                ? user?.last_name
+                : user?.role[0].toUpperCase() + user?.role.slice(1)}
           </span>
         </div>
       )

@@ -19,7 +19,7 @@ const Wishlist = () => {
     mutationFn: toggleProductFromWishlist,
     onSuccess: () => queryClient.invalidateQueries("myWishlistProduct"),
   })
-
+  console.log(data)
   return (
     <>
       {!isLoading ? (
@@ -50,19 +50,27 @@ const Wishlist = () => {
                           {item?.name}
                         </p>
                         <div className="mt-2 text-xs text-gray-700">
-                          <div className="flex items-center justify-start gap-x-2 text-xs text-gray-700">
-                            <span className="rounded-sm bg-green-600 px-1 py-[2px]  text-white">
-                              4.5★
-                            </span>
-                            <span className="font-medium text-gray-500">
-                              (460)
-                            </span>
-                            <div>
-                              <img src="/assured.png" className="w-14" alt="" />
+                          {item?.rating_review?.overall_rating > 0 ? (
+                            <div className="flex items-center justify-start gap-x-2 text-xs text-gray-700">
+                              <span className="rounded-sm bg-green-600 px-1 py-[2px]  text-white">
+                                {item?.rating_review?.overall_rating}★
+                              </span>
+                              <span className="font-medium text-gray-500">
+                                ({item?.rating_review?.rating_count})
+                              </span>
+                              <div>
+                                <img
+                                  src="/assured.png"
+                                  className="w-14"
+                                  alt=""
+                                />
+                              </div>
                             </div>
-                          </div>
+                          ) : (
+                            <div className="text-gray-500">No ratings yet</div>
+                          )}
                         </div>
-                        <p className="mt-4 text-xs">
+                        <p className="mt-2 text-xs">
                           <span className="mr-2 text-[1.2rem] text-sm font-bold">
                             ₹{item?.price.toLocaleString("en-IN")}
                           </span>
@@ -87,13 +95,13 @@ const Wishlist = () => {
             </div>
           </div>
         ) : (
-          <div className="mt-2 flex h-[30rem] flex-col items-center justify-center gap-2 ">
+          <div className="flex h-full flex-col items-center justify-center gap-2 pb-10 ">
             <img src="/missing-cart.png" className="w-52 " alt="" />
             <p className="mt-4 text-sm">Wishlist is Empty</p>
           </div>
         )
       ) : (
-        <div className="flex h-3/4 items-center justify-center ">
+        <div className="flex h-full items-center justify-center pb-10 ">
           <Spinner />
         </div>
       )}

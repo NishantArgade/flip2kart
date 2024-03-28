@@ -46,7 +46,7 @@ const SectionOverviewCards = ({ data, isLoading }) => {
                   <div>{section.icon}</div>
                 </div>
                 <div className="flex h-full items-center justify-center">
-                  <p className="text-xl font-semibold">{section.count}</p>
+                  <p className="mt-3 text-xl font-semibold">{section.count}</p>
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@ const SectionOverviewCards = ({ data, isLoading }) => {
                   <div>{section.icon} </div>
                 </div>
                 <div className="flex h-full items-center justify-center">
-                  <p className="text-xl font-semibold">
+                  <p className="mt-3 text-xl font-semibold">
                     <Skeleton width={100} height={30} />
                   </p>
                 </div>

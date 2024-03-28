@@ -61,7 +61,7 @@ const Navbar = ({ authData }) => {
               ) : (
                 <Link
                   to={"/login"}
-                  className="rounded-sm bg-gray-100 px-2 py-[0.1rem] text-xs font-semibold text-gray-500 shadow-md hover:bg-blue-500 hover:text-white"
+                  className="rounded-sm bg-gray-50 px-3 py-[0.1rem] text-xs font-medium text-gray-500 shadow-sm hover:bg-blue-500 hover:text-white"
                 >
                   Login
                 </Link>

@@ -33,7 +33,7 @@ const RequestOTP = ({
       <div className="flex w-full flex-col gap-3">
         <div className="mt-5 w-full md:mt-0">
           <p className="mb-3 text-[0.60rem] text-gray-400">
-            By continuing, you agree to Flipkart's{" "}
+            By continuing, you agree to Flip2kart's{" "}
             <span className="text-blue-500"> Terms of Use </span> and
             <span className="text-blue-500"> Privacy Policy. </span>
           </p>

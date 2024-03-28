@@ -26,7 +26,7 @@ export const editProduct = expressAsyncHandler(async (req, res, next) => {
 export const deleteProduct = expressAsyncHandler(async (req, res, next) => {
   const productID = req.params.productID;
 
-  const product = await Product.findByIdAndDelete(productID);
+  const product = await Product.findByIdAndDelete(productID).select("images");
 
   res.status(200).json({
     status: "success",
@@ -35,8 +35,31 @@ export const deleteProduct = expressAsyncHandler(async (req, res, next) => {
   });
 });
 
+// _id, name, description, category
+// _id
+// name
+// price
+// stock
+// category
+// created_at
+// updated_at
+// action
+
 export const allProducts = expressAsyncHandler(async (req, res, next) => {
-  const products = await Product.find();
+  const products = await Product.find().select(
+    "-images -seller -seller_address -spotlight -offers -specifications -rating_review -delivery_estimate_days"
+  );
+  res.status(200).json({
+    status: "success",
+    message: "Fetched all products",
+    products,
+  });
+});
+
+export const topOfferProducts = expressAsyncHandler(async (req, res, next) => {
+  const products = await Product.find({ discount: { $gte: 50 } }).select(
+    "name description images price discount"
+  );
   res.status(200).json({
     status: "success",
     message: "Fetched all products",
@@ -112,7 +135,10 @@ export const filteredProducts = expressAsyncHandler(async (req, res, next) => {
   let products = await Product.find(searchObj)
     .sort(sortObj)
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .select(
+      "-description -seller -seller_address -spotlight -offers -specifications"
+    );
 
   const totalProductsCount = await Product.find(searchObj).countDocuments();
 
@@ -136,7 +162,10 @@ export const getProductsByCategory = expressAsyncHandler(
   async (req, res, next) => {
     const category = req.params.category;
 
-    const products = await Product.find({ category });
+    const products = await Product.find({ category }).select(
+      "-spotlight -offers -specifications"
+    );
+
     res.status(200).json({
       status: "success",
       message: "Fetched all products",
@@ -147,7 +176,7 @@ export const getProductsByCategory = expressAsyncHandler(
 
 export const getMyWishlist = expressAsyncHandler(async (req, res, next) => {
   const products = await User.findOne({ _id: req.user._id })
-    .populate("wishlist")
+    .populate("wishlist", "name images price discount rating_review")
     .select("wishlist");
 
   res.status(200).json({
@@ -310,10 +339,12 @@ function calculateDiscountedPrice(originalPrice, discountRate) {
 
 export const getCartProducts = expressAsyncHandler(async (req, res, next) => {
   const data = await User.findById(req.user._id)
-    .populate("cart.product")
+    .populate(
+      "cart.product",
+      "-spotlight -offers -specifications -rating_review"
+    )
     .select("cart");
 
-  //calculate totalPrice,totalDiscount,totalDeliveryCharges,PackagingFee,finalTotalAmount
   let totalPrice = 0;
   let totalDiscount = 0;
   let totalDeliveryCharges = 0;
@@ -357,17 +388,17 @@ export const getCartProducts = expressAsyncHandler(async (req, res, next) => {
 
 export const singleProductBillData = expressAsyncHandler(
   async (req, res, next) => {
-    const product = await Product.findById(req.query.product);
+    const product = await Product.findById(req.query.product).select(
+      "-spotlight -offers -specifications"
+    );
     const qty = Number(req.query.qty);
 
-    //calculate totalPrice,totalDiscount,totalDeliveryCharges,PackagingFee,finalTotalAmount
     let totalPrice = 0;
     let totalDiscount = 0;
     let totalDeliveryCharges = 0;
     let packagingFee = 0;
     let finalTotalAmount = 0;
 
-    // data?.cart?.forEach((item) => {
     totalPrice += product.price * qty;
     totalDiscount +=
       calculateDiscountAmount(product.price, product.discount) * qty;
@@ -378,7 +409,6 @@ export const singleProductBillData = expressAsyncHandler(
     );
 
     totalDeliveryCharges += (discountPrice <= 2000 ? 40 : 70) * qty;
-    // });
 
     finalTotalAmount = totalPrice - totalDiscount;
     const isDeliveryFree = finalTotalAmount > 200;

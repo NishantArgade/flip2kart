@@ -21,21 +21,6 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
-  updated_at: {
-    type: Date,
-  },
-  addresses: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Addresses",
-    },
-  ],
-  orders: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Orders",
-    },
-  ],
   wishlist: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -52,12 +37,6 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
-  reviews: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Reviews",
-    },
-  ],
 });
 
 // Middleware to delete addresses when a user is deleted
@@ -65,7 +44,7 @@ userSchema.pre(
   "deleteOne",
   { document: true, query: false },
   async function (next) {
-    await Address.deleteMany({ _id: { $in: this.addresses } });
+    await Address.deleteMany({ user_id: this._id });
     next();
   }
 );

@@ -1,4 +1,3 @@
-import { Accordion, Avatar, Group, Text } from "@mantine/core"
 import Spinner from "../../../components/Spinner"
 import {
   createOrder,
@@ -10,6 +9,7 @@ import { toast } from "../../../utils/toast"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import moment from "moment"
+import { getFullUserName } from "../../../utils/helper"
 
 export default function PaymentStep({
   nextStep,
@@ -21,35 +21,37 @@ export default function PaymentStep({
   const user = useSelector((state) => state.user.data)
 
   async function handleCreateOrder(e) {
-    const amount = cartData?.finalTotalAmount * 10
+    const amount = cartData?.finalTotalAmount * 100
     const currency = "INR"
     const receipt = "TXN" + Date.now()
+    const user_name = getFullUserName(user, "Undefined")
 
     setLoading(true)
+
     const order = await createOrder({
       amount,
       currency,
       receipt,
     })
+
     const options = {
       key: import.meta.env.VITE_APP_RAZORPAY_KEY_ID,
       amount: amount,
       currency: currency,
-      name: user?.first_name + " " + user?.last_name,
+      name: user_name,
       description: "Test Transaction",
       image: "/avatar-placeholder.png",
       order_id: order.id,
       handler: async function (response) {
         try {
-          await validateOrder({ ...response, cartData })
-          const res = await getPaymentData(response.razorpay_payment_id)
+          const res = await validateOrder({ ...response, cartData })
 
           const payload = {
             payment: {
-              transaction_id: res.data.id,
-              status: res.data.status,
-              method: res.data.method,
-              date: moment.unix(res.data.created_at).toDate(),
+              transaction_id: res?.data?.id,
+              status: res?.data?.status,
+              method: res?.data?.method,
+              date: moment.unix(res?.data?.created_at).toDate(),
             },
             shipping_charges: cartData?.isDeliveryFree
               ? 0
@@ -73,7 +75,7 @@ export default function PaymentStep({
         }
       },
       prefill: {
-        name: user?.first_name + " " + user?.last_name,
+        name: user_name,
         email: user?.email,
         contact: user?.mobile,
       },
@@ -84,6 +86,7 @@ export default function PaymentStep({
         color: "#3399cc",
       },
     }
+
     const rzp1 = new window.Razorpay(options)
     rzp1.on("payment.failed", async function (response) {
       const paymentId = response.error.metadata.payment_id
@@ -91,10 +94,10 @@ export default function PaymentStep({
 
       const payload = {
         payment: {
-          transaction_id: res.data.id,
-          status: res.data.status,
-          method: res.data.method,
-          date: moment.unix(res.data.created_at).toDate(),
+          transaction_id: res?.data?.id,
+          status: res?.data?.status,
+          method: res?.data?.method,
+          date: moment.unix(res?.data?.created_at).toDate(),
         },
         shipping_charges: cartData?.isDeliveryFree
           ? 0
@@ -115,9 +118,6 @@ export default function PaymentStep({
     })
 
     rzp1.open()
-    setTimeout(() => {
-      setLoading(false)
-    }, 5000)
     e.preventDefault()
   }
 
@@ -135,8 +135,14 @@ export default function PaymentStep({
           </div>
         </div>
       ) : (
-        <div className="flex h-[25rem] items-center justify-center">
+        <div className="flex  h-[25rem] flex-col items-center justify-center gap-y-6">
           <Spinner />
+          <button
+            className=" px-8 py-2 text-base  text-red-400  hover:text-red-500"
+            onClick={() => setLoading(false)}
+          >
+            Cancel Payment
+          </button>
         </div>
       )}
     </>
