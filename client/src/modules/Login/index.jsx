@@ -5,7 +5,6 @@ import VerifyOTP from "./VerifyOTP"
 import { login, verifyOTP } from "../../api/userApi"
 import { isValidEmail } from "../../utils/helper"
 import { useMutation } from "@tanstack/react-query"
-import { useDispatch } from "react-redux"
 import { toast } from "../../utils/toast"
 import { queryClient } from "../../main"
 

@@ -54,7 +54,6 @@ export const getMonthlySalesData = asyncHandler(async (req, res, next) => {
     });
   });
 
-  // Flatten the array of arrays into a single array
   result = _.flatten(result);
 
   let initialResult = [
@@ -97,7 +96,7 @@ export const getMonthlySalesData = asyncHandler(async (req, res, next) => {
   let isEmpty = true;
   let totalRevenue = 0;
   let totalUnitSold = 0;
-  // Merge the initialResult with the result
+
   result.forEach((item) => {
     let index = initialResult.findIndex((i) => i.month === item.month);
     if (index !== -1) {
@@ -112,9 +111,6 @@ export const getMonthlySalesData = asyncHandler(async (req, res, next) => {
 });
 
 export const getDailySalesData = asyncHandler(async (req, res, next) => {
-  // const data = await Order.find({ "payment.status": "captured" }).select(
-  //   "products created_at -_id"
-  // );
   const data = await Order.aggregate([
     {
       $match: {
@@ -158,7 +154,6 @@ export const getDailySalesData = asyncHandler(async (req, res, next) => {
     });
   });
 
-  // Flatten the array of arrays into a single array
   result = _.flatten(result);
 
   result = _(result)

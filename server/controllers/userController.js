@@ -5,7 +5,6 @@ import { sendMail } from "../utils/sendMail.js";
 import { cookiesOption, generateOTP, generateToken } from "../utils/helper.js";
 import jwt from "jsonwebtoken";
 import { Order } from "../models/orderModel.js";
-import { ObjectId } from "mongoose";
 import { Address } from "../models/addressModel.js";
 import { Product } from "../models/productModel.js";
 
@@ -18,7 +17,6 @@ export const loginUser = asyncHandler(async (req, res, next) => {
       new CustomError("You are not registered with us. Please sign up.", 404)
     );
 
-  //send otp to mail
   const otp = generateOTP(6); // Generate a 6-digit OTP
   const otpExpiry = process.env.OTP_EXPIRY;
 
@@ -35,7 +33,6 @@ export const loginUser = asyncHandler(async (req, res, next) => {
   <p style="font-size: 16px; line-height: 1.5; margin-top: 0;">Flip2Kart Team</p>
   </div>`;
 
-  //save otp in db
   user.otp = otp;
   user.otp_expiry = Date.now() + otpExpiry * 60 * 1000;
   await user.save();
@@ -67,7 +64,6 @@ export const regiserUser = asyncHandler(async (req, res, next) => {
       new CustomError("You are already registered. Please log in.", 400)
     );
 
-  //send otp to mail
   const otp = generateOTP(6); // Generate a 6-digit OTP
   const otpExpiry = process.env.OTP_EXPIRY;
 
@@ -84,7 +80,6 @@ export const regiserUser = asyncHandler(async (req, res, next) => {
   <p style="font-size: 16px; line-height: 1.5; margin-top: 0;">Flip2Kart Team</p>
   </div>`;
 
-  //save otp in db
   const user = await User.create({
     email,
     otp,
@@ -291,17 +286,6 @@ export const checkAuth = asyncHandler(async (req, res, next) => {
 });
 
 export const getAffiliatePerformance = asyncHandler(async (req, res, next) => {
-  // const orders = await Order.aggregate([
-  //   {
-  //     $group: {
-  //       _id: "$billing_user_id",
-  //       user_name: { $first: "$billing_user" },
-  //       total_price: { $sum: "$total_price" },
-  //       count: { $sum: 1 },
-  //     },
-  //   },
-  // ]);
-
   const orders = await Order.aggregate([
     {
       $match: {
@@ -353,52 +337,8 @@ export const getAffiliatePerformance = asyncHandler(async (req, res, next) => {
     orders,
   });
 });
+
 export const getDashboardData = asyncHandler(async (req, res, next) => {
-  // get order data like total count of deliverd,out for delivery,shipped, failed,cancel,Order Confirmed as pending
-
-  // const ordersData = await Order.aggregate([
-  //   {
-  //     $facet: {
-  //       totalOrderCount: [{ $count: "count" }],
-  //       data: [
-  //         { $unwind: "$products" },
-  //         {
-  //           $group: {
-  //             _id: "$products.latest_order_status.status",
-  //             count: { $sum: 1 },
-  //             totalPrice: { $sum: "$products.afterDiscountTotalPrice" },
-  //           },
-  //         },
-  //         {
-  //           $group: {
-  //             _id: null,
-  //             totalOrderPrice: { $sum: "$totalPrice" },
-  //             orders: {
-  //               $push: {
-  //                 status: "$_id",
-  //                 count: "$count",
-  //                 totalPrice: "$totalPrice",
-  //               },
-  //             },
-  //           },
-  //         },
-  //         {
-  //           $project: {
-  //             _id: 0,
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     $project: {
-  //       totalOrderCount: { $arrayElemAt: ["$totalOrderCount.count", 0] },
-  //       data: { $arrayElemAt: ["$data", 0] },
-  //     },
-  //   },
-  // ]);
-
-  // group  by payment.status
   const transactionData = await Order.aggregate([
     {
       $group: {

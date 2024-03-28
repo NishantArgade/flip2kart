@@ -2,7 +2,6 @@ import expressAsyncHandler from "express-async-handler";
 import { Review } from "../models/reviewModel.js";
 import { Product } from "../models/productModel.js";
 import { calculateAverageRating } from "../utils/helper.js";
-import { User } from "../models/userModel.js";
 import _ from "lodash";
 import { Order } from "../models/orderModel.js";
 
@@ -32,6 +31,7 @@ export const getMyAllReviewsRatings = expressAsyncHandler(
     });
   }
 );
+
 export const getAllReviewsRatings = expressAsyncHandler(
   async (req, res, next) => {
     const allRviewsAndRatings = await Review.find()
@@ -152,7 +152,6 @@ export const deleteReview = expressAsyncHandler(async (req, res, next) => {
 
   await Review.findByIdAndDelete(reviewId);
 
-  //update product review rating
   await updateProductReviewRating(productId);
 
   res.status(200).json({
