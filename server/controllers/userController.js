@@ -43,7 +43,6 @@ export const loginUser = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       status: "success",
       message: "OTP sent to your email!",
-      otp,
     });
   } catch (error) {
     //reset otp and otp_expiry
@@ -92,7 +91,6 @@ export const regiserUser = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       status: "success",
       message: "OTP sent to your email!",
-      otp,
     });
   } catch (error) {
     //reset otp and otp_expiry
