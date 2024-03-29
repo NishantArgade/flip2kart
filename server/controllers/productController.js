@@ -185,13 +185,15 @@ export const getProductsByCategory = expressAsyncHandler(
       },
     ]);
 
-    const result = productsByCategory.reduce((acc, { category, products }) => {
-      acc[category] = {
-        title: getTitleByCategory[category] || category,
-        products: products,
-      };
-      return acc;
-    }, {});
+    const result = productsByCategory
+      .slice(0, 5)
+      .reduce((acc, { category, products }) => {
+        acc[category] = {
+          title: getTitleByCategory[category] || category,
+          products: products,
+        };
+        return acc;
+      }, {});
 
     res.status(200).json({
       status: "success",
