@@ -26,7 +26,7 @@ const ProductList = ({ cartData, isFreeDelivery }) => {
       onSuccess: (data) => {
         queryClient.invalidateQueries("cartProducts")
         toast.success(
-          `Successfully removed '${data.removedProduct.length > 65 ? data.removedProduct.slice(0, 65) + " ..." : data.removedProduct}' from your cart`
+          `Successfully removed '${data.removedProduct.name.length > 65 ? data.removedProduct.name.slice(0, 65) + " ..." : data.removedProduct.name}' from your cart`
         )
       },
 

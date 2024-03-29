@@ -11,14 +11,14 @@ const CartEmptyPage = () => {
           color="red"
           alt=""
         />
-        <p className="flex w-full flex-col items-center justify-center">
+        <div className="flex w-full flex-col items-center justify-center">
           <p className="text-2xl font-semibold text-gray-500">
             Your cart is empty.
           </p>
           <Link to="/" className="ml-1 text-blue-500">
             Continue shopping
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   )

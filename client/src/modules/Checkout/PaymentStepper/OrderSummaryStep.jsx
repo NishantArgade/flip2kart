@@ -4,13 +4,10 @@ import {
   updateAddToCartProduct,
 } from "../../../api/cartApi"
 import CartProductCard from "../../../components/CartProductCard"
-import Spinner from "../../../components/Spinner"
 import { queryClient } from "../../../main"
 import { toast } from "../../../utils/toast"
-import {
-  calculateDiscountedPrice,
-  calculateDiscountAmount,
-} from "../../../utils/helper"
+import { calculateDiscountAmount } from "../../../utils/helper"
+import { Navigate } from "react-router-dom"
 
 const OrderSummaryStep = ({
   nextStep,
@@ -23,9 +20,10 @@ const OrderSummaryStep = ({
       mutationKey: "removeProductFromCart",
       mutationFn: removeProductFromCart,
       onSuccess: (data) => {
+        console.log(data)
         queryClient.invalidateQueries("cartProducts")
         toast.success(
-          `Successfully removed '${data.removedProduct.length > 65 ? data.removedProduct.slice(0, 65) + " ..." : data.removedProduct}' from your cart`
+          `Successfully removed '${data.removedProduct.name.length > 65 ? data.removedProduct.name.slice(0, 65) + " ..." : data.removedProduct.name}' from your cart`
         )
       },
 
@@ -79,6 +77,9 @@ const OrderSummaryStep = ({
     }))
     nextStep()
   }
+
+  if (cart?.length === 0) return <Navigate to="/" />
+
   return (
     <div>
       <div className="border-t-[1px]">

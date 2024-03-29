@@ -291,7 +291,9 @@ export const removeProductFromCart = expressAsyncHandler(
     user.cart = user.cart.filter((item) => item.product != productID);
     await user.save();
 
-    const removedProduct = await Product.findById(productID).select("name");
+    const removedProduct = await Product.findById(productID).select(
+      "name -_id"
+    );
 
     res.status(200).json({
       status: "success",

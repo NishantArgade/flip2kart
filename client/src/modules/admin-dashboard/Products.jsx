@@ -43,14 +43,16 @@ const Products = () => {
   const columns = [
     colHelper.accessor("_id", {
       id: "srNo",
-      header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+      header: (header) => <TableHeader header={header} name={"Sr._No"} />,
       cell: ({ row }) => <div>{row.index + 1}</div>,
       maxSize: 90,
     }),
+
     colHelper.accessor("_id", {
       header: (header) => <TableHeader header={header} name={"ProductID"} />,
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
+
     colHelper.accessor("name", {
       header: (header) => <TableHeader header={header} name={"Name"} />,
       cell: (props) => (
@@ -59,12 +61,21 @@ const Products = () => {
           arrowOffset={12}
           arrowSize={6}
           withArrow
-          className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
+          className="max-h-32 max-w-96 text-wrap bg-gray-600  text-xs text-white"
         >
-          <p className="mr-2  w-32 truncate">{props.getValue()}</p>
+          <p className="mr-2  w-60 truncate">{props.getValue()}</p>
         </Tooltip>
       ),
-      // size: 1000,
+    }),
+
+    colHelper.accessor("category", {
+      header: (header) => <TableHeader header={header} name={"Category"} />,
+      cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+    }),
+
+    colHelper.accessor("brand", {
+      header: (header) => <TableHeader header={header} name={"Brand"} />,
+      cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
 
     colHelper.accessor("price", {
@@ -77,20 +88,8 @@ const Products = () => {
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
 
-    colHelper.accessor("category", {
-      header: (header) => <TableHeader header={header} name={"Category"} />,
-      cell: (props) => <p className="mr-2">{props.getValue()}</p>,
-    }),
-
     colHelper.accessor("created_at", {
       header: (header) => <TableHeader header={header} name={"CreatedAt"} />,
-      cell: (props) => (
-        <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
-      ),
-    }),
-
-    colHelper.accessor("updated_at", {
-      header: (header) => <TableHeader header={header} name={"UpdatedAt"} />,
       cell: (props) => (
         <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
       ),

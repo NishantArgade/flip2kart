@@ -81,7 +81,7 @@ const Transactions = () => {
   const columns = [
     colHelper.accessor("_id", {
       id: "srNo",
-      header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+      header: (header) => <TableHeader header={header} name={"Sr._No"} />,
       cell: ({ row }) => <div>{row.index + 1}</div>,
       maxSize: 90,
     }),
@@ -97,7 +97,7 @@ const Transactions = () => {
     }),
 
     colHelper.accessor("latest_order_status", {
-      header: (header) => <TableHeader header={header} name={"Order Status"} />,
+      header: (header) => <TableHeader header={header} name={"Order_Status"} />,
       cell: (props) => (
         <p
           className={`${
@@ -121,7 +121,7 @@ const Transactions = () => {
 
     colHelper.accessor("payment_status", {
       header: (header) => (
-        <TableHeader header={header} name={"Payment Status"} />
+        <TableHeader header={header} name={"Payment_Status"} />
       ),
       cell: (props) => (
         <p
@@ -210,7 +210,7 @@ const Transactions = () => {
                 value="All"
               >
                 <Menu.Target>
-                  <button className="mb-1 mt-3 flex items-center gap-x-2 text-xs text-blue-500">
+                  <button className="ml-3 flex items-center gap-x-2 text-xs text-blue-500">
                     <div className="relative">
                       <div
                         className={`${isSelectedOrderStatus("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}
@@ -327,7 +327,7 @@ const Transactions = () => {
                 value="All"
               >
                 <Menu.Target>
-                  <button className="flex items-center gap-x-2 text-xs text-blue-500">
+                  <button className="ml-3 flex items-center gap-x-2 text-xs text-blue-500">
                     <div className="relative">
                       <div
                         className={`${isSelectedPaymentStatus("") ? "hidden" : ""} absolute -left-0 -top-1 h-1 w-1 rounded-full bg-blue-500`}

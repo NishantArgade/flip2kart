@@ -84,7 +84,7 @@ const Categories = () => {
   const columns = [
     colHelper.accessor("_id", {
       id: "srNo",
-      header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+      header: (header) => <TableHeader header={header} name={"Sr._No"} />,
       cell: ({ row }) => <div>{row.index + 1}</div>,
       maxSize: 20,
     }),

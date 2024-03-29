@@ -24,7 +24,11 @@ const columns = [
 
   colHelper.accessor("user_name", {
     header: (header) => <TableHeader header={header} name={"Name"} />,
-    cell: (props) => <p className="mr-2">{props.getValue()}</p>,
+    cell: (props) => (
+      <p className="mr-2">
+        {props.getValue() == "Undefined" ? "-" : props.getValue()}
+      </p>
+    ),
   }),
 
   colHelper.accessor("count", {

@@ -54,7 +54,7 @@ const Users = () => {
   const columns = [
     colHelper.accessor("_id", {
       id: "srNo",
-      header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+      header: (header) => <TableHeader header={header} name={"Sr._No"} />,
       cell: ({ row }) => <div>{row.index + 1}</div>,
     }),
 
@@ -104,13 +104,6 @@ const Users = () => {
       ),
     }),
 
-    colHelper.accessor("created_at", {
-      header: (header) => <TableHeader header={header} name={"CreatedAt"} />,
-      cell: (props) => (
-        <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
-      ),
-    }),
-
     colHelper.accessor("role", {
       header: (header) => <TableHeader header={header} name={"Role"} />,
       cell: (props) => (
@@ -121,6 +114,13 @@ const Users = () => {
         >
           {props.getValue()?.toLocaleString("en-IN")}
         </p>
+      ),
+    }),
+
+    colHelper.accessor("created_at", {
+      header: (header) => <TableHeader header={header} name={"CreatedAt"} />,
+      cell: (props) => (
+        <p className="mr-2">{moment(props.getValue()).format("YYYY-MM-DD")}</p>
       ),
     }),
 

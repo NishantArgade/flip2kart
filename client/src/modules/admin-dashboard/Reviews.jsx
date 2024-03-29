@@ -60,7 +60,7 @@ const Reviews = () => {
   const columns = [
     colHelper.accessor("_id", {
       id: "srNo",
-      header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+      header: (header) => <TableHeader header={header} name={"Sr._No"} />,
       cell: ({ row }) => <div>{row.index + 1}</div>,
       maxSize: 90,
     }),
@@ -69,21 +69,22 @@ const Reviews = () => {
       cell: (props) => <p className="mr-2">{props.getValue()}</p>,
     }),
     colHelper.accessor("product_id", {
-      header: (header) => <TableHeader header={header} name={"ProductName"} />,
+      header: (header) => <TableHeader header={header} name={"Product_Name"} />,
       cell: (props) => (
         <Tooltip
           label={props.getValue().name}
           arrowOffset={12}
           arrowSize={6}
           withArrow
-          className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
+          className="max-h-32 max-w-96 text-wrap bg-gray-600  text-xs text-white"
         >
-          <p className="mr-2 w-32 truncate">{props.getValue().name}</p>
+          <p className="mr-2 w-60 truncate">{props.getValue().name}</p>
         </Tooltip>
       ),
     }),
+
     colHelper.accessor("user_id", {
-      header: (header) => <TableHeader header={header} name={"UserName"} />,
+      header: (header) => <TableHeader header={header} name={"User_Name"} />,
       cell: (props) =>
         props.getValue()?.first_name || props.getValue()?.last_name ? (
           <Tooltip
@@ -107,6 +108,7 @@ const Reviews = () => {
           "-"
         ),
     }),
+
     colHelper.accessor("rating", {
       header: (header) => <TableHeader header={header} name={"Rating"} />,
       cell: (props) => (

@@ -50,7 +50,7 @@ const ManageAdmin = () => {
   const columns = [
     colHelper.accessor("_id", {
       id: "srNo",
-      header: (header) => <TableHeader header={header} name={"Sr. No"} />,
+      header: (header) => <TableHeader header={header} name={"Sr._No"} />,
       cell: ({ row }) => <div>{row.index + 1}</div>,
     }),
 
@@ -61,12 +61,29 @@ const ManageAdmin = () => {
 
     colHelper.accessor((row) => row, {
       id: "fullName",
-      header: (header) => <TableHeader header={header} name={"Name"} />,
-      cell: (props) => (
-        <p className="mr-2">
-          {props.getValue().first_name} {props.getValue().last_name}
-        </p>
-      ),
+      header: (header) => <TableHeader header={header} name={"User_Name"} />,
+      cell: (props) =>
+        props.getValue()?.first_name || props.getValue()?.last_name ? (
+          <Tooltip
+            label={
+              (props.getValue()?.first_name
+                ? props.getValue()?.first_name
+                : "") +
+              " " +
+              (props.getValue()?.last_name ? props.getValue()?.last_name : "")
+            }
+            arrowOffset={12}
+            arrowSize={6}
+            withArrow
+            className="max-h-32 max-w-80 text-wrap bg-gray-600  text-xs text-white"
+          >
+            <p className="mr-2 w-32 truncate">
+              {props.getValue()?.first_name} {props.getValue()?.last_name}
+            </p>
+          </Tooltip>
+        ) : (
+          "-"
+        ),
     }),
 
     colHelper.accessor("created_at", {
