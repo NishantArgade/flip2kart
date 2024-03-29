@@ -32,9 +32,9 @@ const CustomerReview = ({ product }) => {
     <>
       <Modal size={850} opened={opened} onClose={close} centered>
         <div className="grid grid-cols-12">
-          <div className="col-span-7 flex items-center justify-center bg-black">
+          <div className="col-span-12 flex items-center justify-center bg-black md:col-span-7">
             <Carousel
-              height={380}
+              height={300}
               slideGap="md"
               initialSlide={selectedImgIndex}
               withIndicators
@@ -64,16 +64,18 @@ const CustomerReview = ({ product }) => {
               ))}
             </Carousel>
           </div>
-          <div className="bg-white-200 thin-scrollbar col-span-5 h-[25rem] overflow-y-auto  p-2 ">
-            <div className="flex items-center gap-2">
-              <div
+          <div className="bg-white-200 thin-scrollbar col-span-12 h-fit overflow-y-auto p-2  md:col-span-5 ">
+            <div className="mb-2 flex items-center gap-2">
+              <p
                 className={`${selectedReview?.rating == 1 ? "bg-red-400" : selectedReview?.rating == 2 ? "bg-orange-400" : "bg-green-600"} rounded-sm px-[6px] text-[0.65rem] text-white`}
               >
                 {selectedReview?.rating}★
-              </div>
+              </p>
               <p className="text-sm">{selectedReview?.review_title}</p>
             </div>
-            <p className="py-1 text-xs">{selectedReview?.review_description}</p>
+            <p className="mb-2 py-1 text-xs">
+              {selectedReview?.review_description}
+            </p>
             <div className="flex items-center gap-2 text-xs text-gray-500">
               {(selectedReview?.user_id?.first_name ||
                 selectedReview?.user_id?.last_name) && (

@@ -181,7 +181,12 @@ function App() {
       </Route>
     )
   )
-  return <RouterProvider router={router} />
+  return (
+    <div>
+      <div className="offline-overlay"></div>
+      <RouterProvider router={router} />{" "}
+    </div>
+  )
 }
 
 export default App

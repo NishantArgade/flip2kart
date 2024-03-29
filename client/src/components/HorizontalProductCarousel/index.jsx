@@ -18,11 +18,16 @@ const HorizontalProductCarousel = ({
       <Carousel
         withIndicators
         height={300}
-        slideSize="16.66%"
-        slideGap="xs"
+        slideSize={{
+          base: "50%", // 2 slides on mobile
+          sm: "50%", // 2 slides on small screens
+          md: "25%", // 4 slides on tablet
+          lg: "16.666666%", // 6 slides on desktop
+        }}
+        slideGap={{ base: "xs", sm: "xs", md: "md", lg: "md" }} // responsive slide gap
         loop={false}
         align="start"
-        slidesToScroll={6}
+        slidesToScroll={1} // default to 1 slide on mobile
         previousControlIcon={
           <MdOutlineNavigateBefore
             size={20}

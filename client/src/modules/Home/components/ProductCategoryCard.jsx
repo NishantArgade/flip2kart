@@ -5,7 +5,7 @@ const ProductCategoryCard = ({ category }) => {
   return (
     <Group justify="center" mx={14}>
       <HoverCard
-        width={120}
+        width={160}
         shadow="md"
         position="bottom-start"
         styles={{
@@ -13,6 +13,7 @@ const ProductCategoryCard = ({ category }) => {
             padding: "0rem",
           },
         }}
+        // withArrow
       >
         <HoverCard.Target>
           <Link
@@ -30,7 +31,7 @@ const ProductCategoryCard = ({ category }) => {
           </Link>
         </HoverCard.Target>
         <HoverCard.Dropdown>
-          <div className="thin-scrollbar flex max-h-64 flex-col items-start justify-start overflow-auto text-xs text-gray-700 shadow-md">
+          <div className="thin-scrollbar hidden max-h-60 flex-col items-start justify-start overflow-auto text-xs text-gray-700 shadow-md md:flex">
             {category?.brands?.map((brand, index) => (
               <Link
                 key={index}

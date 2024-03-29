@@ -3,10 +3,12 @@ import ProductCategoryCard from "./components/ProductCategoryCard"
 import { getAllCategoriesAndBrands } from "../../api/categoryApi"
 
 const ProductCategories = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["allCategories"],
     queryFn: getAllCategoriesAndBrands,
   })
+
+  if (isLoading) return null
 
   return (
     <div className="bg-white  shadow-md">

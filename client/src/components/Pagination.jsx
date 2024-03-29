@@ -43,8 +43,8 @@ function Pagination({ totalPages, activePage, setActivePage }) {
   if (totalPages === 1) return null
 
   return (
-    <div className="relative mt-5 flex items-center justify-center ">
-      <div className="absolute left-0 px-2 text-xs text-gray-700">
+    <div className="mt-5 flex flex-col items-center justify-center gap-y-3 md:relative md:flex-row ">
+      <div className="left-0 px-2 text-xs text-gray-700 md:absolute">
         Page {activePage} of {totalPages}
       </div>
       <div className="flex flex-grow items-center justify-center gap-2">

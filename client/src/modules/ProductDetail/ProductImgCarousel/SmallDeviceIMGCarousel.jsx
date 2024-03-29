@@ -28,9 +28,9 @@ const SmallDeviceIMGCarousel = ({ images }) => {
         {images?.map((item, index) => (
           <Carousel.Slide
             key={index}
-            className="flex items-center justify-center p-1"
+            className="flex h-64 w-full items-center justify-center px-4 pt-4"
           >
-            <img src={item?.url} />
+            <img src={item?.url} className="h-full w-full object-contain" />
           </Carousel.Slide>
         ))}
       </Carousel>
