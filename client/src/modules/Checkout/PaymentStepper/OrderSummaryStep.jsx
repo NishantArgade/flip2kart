@@ -20,7 +20,6 @@ const OrderSummaryStep = ({
       mutationKey: "removeProductFromCart",
       mutationFn: removeProductFromCart,
       onSuccess: (data) => {
-        console.log(data)
         queryClient.invalidateQueries("cartProducts")
         toast.success(
           `Successfully removed '${data.removedProduct.name.length > 65 ? data.removedProduct.name.slice(0, 65) + " ..." : data.removedProduct.name}' from your cart`

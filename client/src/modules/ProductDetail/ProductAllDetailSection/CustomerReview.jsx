@@ -20,7 +20,7 @@ const CustomerReview = ({ product }) => {
     open()
   }
   const { data } = useQuery({
-    queryKey: ["getReviewsByProductId"],
+    queryKey: ["getReviewsByProductId", product?._id],
     queryFn: async () => await getReviewsByProductId(product?._id),
   })
 

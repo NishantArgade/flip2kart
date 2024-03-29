@@ -62,8 +62,7 @@ const ProductDetail = () => {
       <section>
         <HorizontalProductCarousel
           title="Similar products"
-          category={data?.product?.category}
-          productID={productId}
+          products={data?.similarProducts}
         />
       </section>
     </>

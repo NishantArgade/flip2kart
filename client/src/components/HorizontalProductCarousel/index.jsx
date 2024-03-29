@@ -1,34 +1,20 @@
 import { Carousel } from "@mantine/carousel"
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md"
 import ProductCard from "./ProductCard"
-import { getProductsByCategory } from "../../api/productApi"
-import { useQuery } from "@tanstack/react-query"
-import { useMemo } from "react"
 
 const HorizontalProductCarousel = ({
   title = "",
+  products = [],
   showRating = true,
   showStrikePrice = true,
   showDiscount = true,
-  category = "",
-  productID = "",
 }) => {
-  const { data } = useQuery({
-    queryKey: ["productsByCategory" + category],
-    queryFn: () => getProductsByCategory(category),
-  })
-
-  const products = useMemo(() => {
-    return data?.products?.filter((product) => product._id != productID)
-  }, [data?.products, productID])
-
-  if (products?.length === 0) return null
-
   return (
     <div className="container mx-auto my-2  bg-white p-2 shadow-md">
       <p className="pb-4 pl-2 pt-3 text-sm font-semibold text-gray-700 md:text-lg">
         {title}
       </p>
+
       <Carousel
         withIndicators
         height={300}

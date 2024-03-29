@@ -59,7 +59,7 @@ router.route("/filter-products").get(filteredProducts);
 
 router.route("/product-detail/:productID").get(getSingleProductDetail);
 
-router.route("/category-products/:category").get(getProductsByCategory);
+router.route("/category-products").get(getProductsByCategory);
 
 router
   .route("/upload-product-imgs")

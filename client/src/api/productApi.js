@@ -24,8 +24,8 @@ export const getProductDetailByID = async (productID) => {
   return await axiosCall("get", `/api/product-detail/${productID}`)
 }
 
-export const getProductsByCategory = async (category) => {
-  return await axiosCall("get", `/api/category-products/${category}`)
+export const getProductsByCategory = async () => {
+  return await axiosCall("get", `/api/category-products`)
 }
 
 export const deleteProduct = async (product) => {

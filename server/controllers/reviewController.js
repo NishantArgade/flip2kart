@@ -54,7 +54,9 @@ export const getAllReviewsRatings = expressAsyncHandler(
 
 export const getReviewsByProductId = expressAsyncHandler(
   async (req, res, next) => {
-    const reviews = await Review.find({ product_id: req.params.productID });
+    const reviews = await Review.find({
+      product_id: req.params.productID,
+    }).populate("user_id", "first_name last_name");
 
     res.status(200).json({
       status: "success",

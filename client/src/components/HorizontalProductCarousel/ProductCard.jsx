@@ -31,7 +31,9 @@ const HorizontalProductCarouselCard = ({
         <Link to={`/product-detail/${product?._id}`} className="h-full w-32">
           <img
             src={
-              isImageLoaded ? product?.images[0]?.url : "/photoPlaceholder.png"
+              isImageLoaded
+                ? product?.image?.url ?? product?.images[0]?.url
+                : "/photoPlaceholder.png"
             }
             onLoad={() => setImageLoaded(true)}
             className="m-1 h-full w-full object-contain p-2 hover:scale-105  "

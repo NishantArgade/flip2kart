@@ -149,16 +149,54 @@ export const filteredProducts = expressAsyncHandler(async (req, res, next) => {
 
 export const getProductsByCategory = expressAsyncHandler(
   async (req, res, next) => {
-    const category = req.params.category;
+    const getTitleByCategory = {
+      Mobiles: "Trending Mobiles",
+      Headphones: "Headphones & Earphones",
+      Clothes: "Super Hit Deals on Fashion",
+      Laptops: "Recommanded Items",
+      Books: "Book & Stationery",
+    };
 
-    const products = await Product.find({ category }).select(
-      "-spotlight -offers -specifications"
-    );
+    const productsByCategory = await Product.aggregate([
+      {
+        $group: {
+          _id: "$category",
+          products: {
+            $push: {
+              _id: "$_id",
+              name: "$name",
+              image: { $first: "$images" },
+              price: "$price",
+              discount: "$discount",
+              rating_review: "$rating_review",
+            },
+          },
+        },
+      },
+      {
+        $sort: { _id: -1 },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: "$_id",
+          products: 1,
+        },
+      },
+    ]);
+
+    const result = productsByCategory.reduce((acc, { category, products }) => {
+      acc[category] = {
+        title: getTitleByCategory[category] || category,
+        products: products,
+      };
+      return acc;
+    }, {});
 
     res.status(200).json({
       status: "success",
       message: "Fetched all products",
-      products,
+      products: result,
     });
   }
 );
@@ -178,11 +216,16 @@ export const getMyWishlist = expressAsyncHandler(async (req, res, next) => {
 export const getSingleProductDetail = expressAsyncHandler(
   async (req, res, next) => {
     const product = await Product.findById(req.params.productID);
+    const similarProducts = await Product.find({
+      category: product.category,
+      _id: { $ne: product._id },
+    }).select("name images price discount rating_review");
 
     res.status(200).json({
       status: "success",
       message: "Fetched product detail",
       product,
+      similarProducts: similarProducts || [],
     });
   }
 );
