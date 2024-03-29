@@ -21,7 +21,7 @@ export const cookiesOption = (tokenExpire) => ({
   maxAge: tokenExpire,
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "noon" : "Strict",
+  sameSite: process.env.NODE_ENV === "production" ? "Noon" : "Strict",
 });
 
 export const generateOTP = (digit = 4) => {
