@@ -6,7 +6,7 @@ const SmallDeviceIMGCarousel = ({ images }) => {
     <div className="md:hidden">
       <Carousel
         withIndicators
-        loop
+        loop={false}
         styles={{
           indicator: {
             backgroundColor: "gray",
