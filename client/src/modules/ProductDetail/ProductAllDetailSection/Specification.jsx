@@ -1,7 +1,9 @@
 import { useState } from "react"
 
 const Specification = ({ specifications }) => {
-  const [showMore, setShowMore] = useState(false)
+  const [showMore, setShowMore] = useState(
+    specifications?.length > 1 ? false : true
+  )
 
   if (specifications?.length === 0) return null
 

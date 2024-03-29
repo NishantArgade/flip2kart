@@ -36,9 +36,8 @@ export const deleteProduct = expressAsyncHandler(async (req, res, next) => {
 });
 
 export const allProducts = expressAsyncHandler(async (req, res, next) => {
-  const products = await Product.find().select(
-    "-images -seller -seller_address -spotlight -offers -specifications -rating_review -delivery_estimate_days"
-  );
+  const products = await Product.find();
+
   res.status(200).json({
     status: "success",
     message: "Fetched all products",
@@ -62,7 +61,7 @@ export const filteredProducts = expressAsyncHandler(async (req, res, next) => {
   let sortObj = {};
 
   let page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 5;
+  const limit = Number(req.query.limit) || 8;
   let skip = (page - 1) * limit;
 
   if (req.query?.category) searchObj.category = req.query.category;

@@ -220,8 +220,8 @@ const OrderedProductDetail = () => {
               >
                 <img
                   src={
-                    data?.product.images.length > 0 &&
-                    data?.product.images[0].url
+                    data?.product?.images?.length > 0 &&
+                    data?.product?.images[0]?.url
                   }
                   alt=""
                   className="h-full w-full object-contain"

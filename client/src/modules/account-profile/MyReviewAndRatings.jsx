@@ -47,7 +47,7 @@ const MyReviewAndRatings = () => {
                 <div className="flex items-start justify-start gap-x-3">
                   <div className="h-20 w-20 p-1">
                     <img
-                      src={review?.product_id?.images[0].url}
+                      src={review?.product_id?.images[0]?.url}
                       alt=""
                       className="h-full w-full object-contain"
                     />

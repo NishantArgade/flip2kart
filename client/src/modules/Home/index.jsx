@@ -12,14 +12,14 @@ const Home = () => {
         showRating={false}
         showStrikePrice={true}
         showDiscount={false}
-        category={"Mobile"}
+        category={"Mobiles"}
       />
       <HorizontalProductCarousel
         title="Fashipn Best Sellers"
         showRating={false}
         showStrikePrice={true}
         showDiscount={false}
-        category={"headphones"}
+        category={"Headphones"}
       />
       <HorizontalProductCarousel
         title="Super Hit Deals on Fashion"
@@ -34,7 +34,14 @@ const Home = () => {
         showRating={false}
         showStrikePrice={false}
         showDiscount={true}
-        category={"Laptop"}
+        category={"Laptops"}
+      />
+      <HorizontalProductCarousel
+        title="Book & Stationery"
+        showRating={false}
+        showStrikePrice={false}
+        showDiscount={true}
+        category={"Books"}
       />
     </div>
   )

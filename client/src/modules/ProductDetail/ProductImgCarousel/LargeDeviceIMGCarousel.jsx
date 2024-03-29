@@ -9,9 +9,9 @@ export default function ProductIMGCarousel({
   const slides = images.map((item, i) => (
     <div
       key={i}
-      className=" relative flex h-full w-full flex-col items-center justify-center p-2"
+      className=" relative flex h-80 w-full flex-col items-center justify-center p-2"
     >
-      <img src={item?.url} />
+      <img src={item?.url} className="h-full w-full object-contain" />
     </div>
   ))
 

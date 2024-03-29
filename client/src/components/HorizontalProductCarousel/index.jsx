@@ -34,7 +34,7 @@ const HorizontalProductCarousel = ({
         height={300}
         slideSize="16.66%"
         slideGap="xs"
-        loop
+        loop={false}
         align="start"
         slidesToScroll={6}
         previousControlIcon={

@@ -80,7 +80,7 @@ const RateProduct = () => {
 
     try {
       const remaining = previewImages.filter(
-        (item) => !item.url.includes("blob")
+        (item) => !item?.url.includes("blob")
       )
       if (formData.entries().next().value) {
         const response = await uploadReviewImgs(formData)
@@ -140,7 +140,9 @@ const RateProduct = () => {
     })
     setRateValue(data?.myReviewData?.rating || 0)
 
-    setSelectedImages(data?.myReviewData?.images?.map((item) => item.url) || [])
+    setSelectedImages(
+      data?.myReviewData?.images?.map((item) => item?.url) || []
+    )
     setPreviewImages(data?.myReviewData?.images || [])
   }, [data])
 

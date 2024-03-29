@@ -110,7 +110,7 @@ const SingleProductBuyCard = ({
             className="h-24 w-24 cursor-pointer p-1 "
           >
             <img
-              src={product?.images?.length > 0 && product?.images[0].url}
+              src={product?.images?.length > 0 && product?.images[0]?.url}
               alt=""
               className="h-full w-full object-contain"
             />

@@ -56,7 +56,7 @@ const ProductCard = ({ product, orderID }) => {
       <div className="col-span-12 flex w-full gap-4 md:col-span-6">
         <div className="h-24 w-24 cursor-pointer rounded-sm border border-gray-200 p-1">
           <img
-            src={product?.images[0].url}
+            src={product?.images[0]?.url}
             alt=""
             className="h-full w-full object-contain"
           />

@@ -171,7 +171,7 @@ const CustomerReview = ({ product }) => {
                         <div key={i} className="h-14 w-14">
                           <img
                             className="h-full w-full cursor-pointer object-contain"
-                            src={img.url}
+                            src={img?.url}
                             alt=""
                             onClick={() => handleOpenModal(i, review)}
                           />

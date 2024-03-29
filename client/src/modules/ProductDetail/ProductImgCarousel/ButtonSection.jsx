@@ -18,7 +18,7 @@ const ButtonSection = ({ isInStock, productID, product }) => {
   }
 
   return (
-    <div className="mt-4 flex flex-col gap-3 p-2 md:flex-col  lg:flex-row">
+    <div className="mt-2 flex flex-col gap-3 p-3 md:flex-col  lg:flex-row">
       <button
         disabled={!isInStock || isPending}
         className={`${isInStock ? "bg-[#FF9F00] text-white" : "cursor-not-allowed border-[1.5px] bg-gray-50 text-gray-500 "} px-auto flex w-full items-center justify-center gap-x-1  py-3   shadow-md`}

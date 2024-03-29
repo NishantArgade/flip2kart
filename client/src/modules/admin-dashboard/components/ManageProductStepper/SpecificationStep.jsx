@@ -110,6 +110,7 @@ const SpecificationStep = ({
 
       <div className="self-end ">
         <button
+          type="button"
           onClick={handleAddService}
           className="mt-4 w-fit cursor-pointer rounded-md bg-blue-500  p-2 text-white shadow-md"
         >

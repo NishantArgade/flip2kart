@@ -17,6 +17,12 @@ const userSchema = new mongoose.Schema({
   },
   otp: String,
   otp_expiry: Date,
+  addresses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Addresses",
+    },
+  ],
   wishlist: [
     {
       type: mongoose.Schema.Types.ObjectId,

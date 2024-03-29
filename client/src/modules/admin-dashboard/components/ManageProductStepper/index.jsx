@@ -43,7 +43,6 @@ const ManageProductStepper = ({ isEditProduct, product }) => {
   const [specificationStepData, setSpecificationStepData] = useState(
     product?.specifications || []
   )
-
   const { mutate: updateProductMutate, isPending: updateProductIsPending } =
     useMutation({
       mutationKey: ["updateProduct"],
