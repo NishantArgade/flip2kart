@@ -207,13 +207,15 @@ const CartProductCard = ({
           </button>
         </div>
         {/** Remove Button */}
-        <DeleteConfirmModal
-          removeProductIsPending={removeProductIsPending}
-          removeProductMutate={removeProductMutate}
-          productID={product?._id}
-        >
-          <span>REMOVE</span>
-        </DeleteConfirmModal>
+        {!hasSearchParam && (
+          <DeleteConfirmModal
+            removeProductIsPending={removeProductIsPending}
+            removeProductMutate={removeProductMutate}
+            productID={product?._id}
+          >
+            <span>REMOVE</span>
+          </DeleteConfirmModal>
+        )}
       </div>
     </div>
   )
